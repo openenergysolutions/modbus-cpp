@@ -17,9 +17,9 @@ TEST_CASE("The test always succeeds")
     }
 }
 
-TEST_CASE("The test always fails")
+TEST_CASE("The test now succeeds")
 {
-    REQUIRE(1 == 0);
+    REQUIRE(0 == 0);
 }
 
 TEST_CASE("Private headers")

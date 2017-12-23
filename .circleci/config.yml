@@ -1,0 +1,24 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: emgre/circleci-gcc:0.0.1
+    steps:
+      - checkout
+      - run:
+          name: Initialize submodules
+          command: git submodule update --init
+      - run:
+          name: Configure
+          command: cmake ..
+          working_directory: build
+      - run:
+          name: Build
+          command: cmake --build . -- -j2
+          working_directory: build
+      - run:
+          name: Test
+          command: mkdir TestResults && lib/tests/modbus_tests -r junit -o TestResults/modbus_tests.xml
+          working_directory: build
+      - store_test_results:
+          path: build/TestResults
