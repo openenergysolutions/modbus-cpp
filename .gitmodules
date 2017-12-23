@@ -1,0 +1,9 @@
+[submodule "deps/asio/asio"]
+	path = deps/asio/asio
+	url = https://github.com/chriskohlhoff/asio
+[submodule "deps/catch2/catch2"]
+	path = deps/catch2/catch2
+	url = https://github.com/catchorg/Catch2
+[submodule "deps/openpal"]
+	path = deps/openpal
+	url = https://github.com/emgre/openpal
