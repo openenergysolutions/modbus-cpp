@@ -18,8 +18,7 @@ ModbusManagerImpl::ModbusManagerImpl()
 }
 
 ModbusManagerImpl::ModbusManagerImpl(std::shared_ptr<logging::ILoggerSink> loggerSink)
-    :m_customLoggerSink(std::make_shared<CustomLoggerSink>(loggerSink)),
-    m_logger(std::make_shared<spdlog::logger>("ModbusManagerImpl", m_customLoggerSink))
+    :m_logger(std::make_shared<spdlog::logger>("ModbusManagerImpl", std::make_shared<CustomLoggerSink>(loggerSink)))
 {
 
 }

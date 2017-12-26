@@ -19,7 +19,6 @@ public:
     void run() override;
 
 private:
-    std::shared_ptr<logging::CustomLoggerSink> m_customLoggerSink;
     logging::Logger m_logger;
 };
 
