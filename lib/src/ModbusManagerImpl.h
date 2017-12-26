@@ -3,7 +3,6 @@
 
 #include "modbus/IModbusManager.h"
 
-#include "logging/CustomLoggerSink.h"
 #include "logging/Logger.h"
 
 namespace modbus
@@ -12,14 +11,13 @@ namespace modbus
 class ModbusManagerImpl : public IModbusManager
 {
 public:
-    ModbusManagerImpl();
-    ModbusManagerImpl(std::shared_ptr<logging::ILoggerSink> loggerSink);
+    ModbusManagerImpl(std::shared_ptr<logging::Logger> logger);
     virtual ~ModbusManagerImpl() = default;
 
     void run() override;
 
 private:
-    logging::Logger m_logger;
+    std::shared_ptr<logging::Logger> m_logger;
 };
 
 } // namespace modbus

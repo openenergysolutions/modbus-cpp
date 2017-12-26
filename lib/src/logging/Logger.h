@@ -2,6 +2,7 @@
 #define MODBUS_LOGGER_H
 
 #include <memory>
+#include <string>
 
 #include "spdlog/spdlog.h"
 
@@ -52,6 +53,11 @@ public:
     template <typename T> void warn(const T& msg) { m_loggerImpl->warn(msg); }
     template <typename T> void error(const T& msg) { m_loggerImpl->error(msg); }
     template <typename T> void critical(const T& msg) { m_loggerImpl->critical(msg); }
+
+    /*std::shared_ptr<Logger> clone(const std::string& name)
+    {
+        std::make_shared<Logger>()
+    }*/
 
 private:
     std::shared_ptr<spdlog::logger> m_loggerImpl;

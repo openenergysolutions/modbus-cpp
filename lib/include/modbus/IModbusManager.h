@@ -3,15 +3,19 @@
 
 #include <memory>
 
-#include "modbus/logging/ILoggerSink.h"
-
 namespace modbus
 {
+
+namespace logging
+{
+    class Logger;
+}
 
 class IModbusManager
 {
 public:
-    static std::unique_ptr<IModbusManager> Create(std::shared_ptr<logging::ILoggerSink> loggerSink = nullptr);
+    static std::unique_ptr<IModbusManager> Create();
+    static std::unique_ptr<IModbusManager> Create(std::shared_ptr<logging::Logger> logger);
 
 public:
     IModbusManager() = default;

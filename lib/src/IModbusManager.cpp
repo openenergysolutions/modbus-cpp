@@ -1,18 +1,19 @@
 #include "modbus/IModbusManager.h"
 
 #include "ModbusManagerImpl.h"
+#include "logging/Logger.h"
 
 namespace modbus
 {
 
-std::unique_ptr<IModbusManager> IModbusManager::Create(std::shared_ptr<logging::ILoggerSink> loggerSink)
+std::unique_ptr<IModbusManager> IModbusManager::Create()
 {
-    if (loggerSink == nullptr)
-    {
-        return std::make_unique<ModbusManagerImpl>();
-    }
+    return std::make_unique<ModbusManagerImpl>(nullptr);
+}
 
-    return std::make_unique<ModbusManagerImpl>(loggerSink);
+std::unique_ptr<IModbusManager> IModbusManager::Create(std::shared_ptr<logging::Logger> logger)
+{
+    return std::make_unique<ModbusManagerImpl>(logger);
 }
 
 } // namespace modbus
