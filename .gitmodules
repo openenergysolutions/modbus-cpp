@@ -7,3 +7,6 @@
 [submodule "deps/openpal"]
 	path = deps/openpal
 	url = https://github.com/emgre/openpal
+[submodule "deps/spdlog"]
+	path = deps/spdlog
+	url = https://github.com/gabime/spdlog

@@ -5,4 +5,6 @@ set(modbus_example_src
 )
 
 add_executable(modbus_example ${modbus_example_src})
-target_link_libraries(modbus_example PRIVATE modbus)
+target_link_libraries(modbus_example
+    PRIVATE modbus
+)

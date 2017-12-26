@@ -15,6 +15,6 @@ Modbus TCP master library in modern C++.
 
 4. Build the project with `cmake --build .`
 
-5. Run the tests with `ctest .`
+5. Run the tests with `ctest -E openpal_tests .`
 
 6. Execute the example with `./example/modbus_example`
