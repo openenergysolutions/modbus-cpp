@@ -3,6 +3,8 @@
 
 #include <memory>
 
+#include "IChannel.h"
+
 namespace modbus
 {
 
@@ -20,6 +22,7 @@ public:
     IModbusManager() = default;
     virtual ~IModbusManager() = default;
 
+    virtual std::unique_ptr<IChannel> CreateTcpChannel() = 0;
     virtual void run() = 0;
 };
 

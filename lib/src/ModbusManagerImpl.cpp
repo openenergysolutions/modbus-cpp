@@ -13,6 +13,11 @@ ModbusManagerImpl::ModbusManagerImpl(std::shared_ptr<logging::Logger> logger)
 
 }
 
+std::unique_ptr<IChannel> ModbusManagerImpl::CreateTcpChannel()
+{
+    return nullptr;
+}
+
 void ModbusManagerImpl::run()
 {
     asio::io_service io;

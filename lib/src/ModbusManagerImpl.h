@@ -1,7 +1,10 @@
 #ifndef MODBUS_MODBUSMANAGERIMPL_H
 #define MODBUS_MODBUSMANAGERIMPL_H
 
+#include <memory>
+
 #include "modbus/IModbusManager.h"
+#include "modbus/IChannel.h"
 
 #include "logging/Logger.h"
 
@@ -14,6 +17,7 @@ public:
     ModbusManagerImpl(std::shared_ptr<logging::Logger> logger);
     virtual ~ModbusManagerImpl() = default;
 
+    std::unique_ptr<IChannel> CreateTcpChannel() override;
     void run() override;
 
 private:
