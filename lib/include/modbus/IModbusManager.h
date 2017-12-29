@@ -14,7 +14,6 @@ namespace logging
 class IModbusManager
 {
 public:
-    static std::unique_ptr<IModbusManager> Create();
     static std::unique_ptr<IModbusManager> Create(std::shared_ptr<logging::Logger> logger);
 
 public:

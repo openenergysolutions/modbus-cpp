@@ -54,10 +54,11 @@ public:
     template <typename T> void error(const T& msg) { m_loggerImpl->error(msg); }
     template <typename T> void critical(const T& msg) { m_loggerImpl->critical(msg); }
 
-    /*std::shared_ptr<Logger> clone(const std::string& name)
+    std::shared_ptr<Logger> clone(const std::string& name)
     {
-        std::make_shared<Logger>()
-    }*/
+        auto spdLogger = std::make_shared<spdlog::logger>(name, m_loggerImpl->sinks().begin(), m_loggerImpl->sinks().end());
+        return std::make_shared<Logger>(spdLogger);
+    }
 
 private:
     std::shared_ptr<spdlog::logger> m_loggerImpl;
