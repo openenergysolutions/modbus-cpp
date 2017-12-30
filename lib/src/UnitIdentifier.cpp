@@ -19,5 +19,10 @@ bool UnitIdentifier::operator==(const UnitIdentifier& other) const
     return m_value == other.m_value;
 }
 
+bool UnitIdentifier::operator!=(const UnitIdentifier& other) const
+{
+    return m_value != other.m_value;
+}
+
 
 } // namespace modbus

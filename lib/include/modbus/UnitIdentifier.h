@@ -21,6 +21,7 @@ public:
 
     uint8_t GetValue() const;
     bool operator==(const UnitIdentifier& other) const;
+    bool operator!=(const UnitIdentifier& other) const;
 
 private:
     uint8_t m_value;
