@@ -8,8 +8,6 @@
 
 namespace modbus
 {
-namespace logging
-{
 
 class Logger
 {
@@ -64,7 +62,6 @@ private:
     std::shared_ptr<spdlog::logger> m_loggerImpl;
 };
 
-} // namespace logging
 } // namespace modbus
 
 #endif // MODBUS_LOGGER_H

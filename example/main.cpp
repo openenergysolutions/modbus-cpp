@@ -2,15 +2,23 @@
 #include <memory>
 
 #include "modbus/IModbusManager.h"
-#include "modbus/logging/LoggerFactory.h"
+#include "modbus/IChannel.h"
+#include "modbus/ISchedule.h"
+#include "modbus/ISession.h"
 #include "modbus/ISessionResponseHandler.h"
+
+#include "modbus/logging/LoggerFactory.h"
+
+#include "modbus/messages/Exception.h"
+#include "modbus/messages/ReadHoldingRegistersRequest.h"
+#include "modbus/messages/ReadHoldingRegistersResponse.h"
 
 using namespace modbus;
 
 class MySessionResponseHandler : public ISessionResponseHandler
 {
 public:
-    void OnResponse(const messages::ReadHoldingRegistersResponse& response)
+    void OnResponse(const ReadHoldingRegistersResponse& response)
     {
         // A scheduled response was received
         for(auto& value : response.GetValues())
@@ -19,7 +27,7 @@ public:
         }
     }
 
-    void OnException(const messages::Exception& exception)
+    void OnException(const Exception& exception)
     {
         // A scheduled request produced an exception
         std::cout << "Error: " << exception.GetExceptionType() << " received." << std::endl;
@@ -29,7 +37,7 @@ public:
 int main(int argc, char* argv[])
 {
     // Create a console logger
-    auto logger = modbus::logging::LoggerFactory().CreateConsoleLogger("Hello");
+    auto logger = modbus::LoggerFactory().CreateConsoleLogger("Hello");
 
     // Create the modbus manager
     // This will create the necessary background threads, initialize Asio io_services
@@ -46,8 +54,8 @@ int main(int argc, char* argv[])
                                                                std::make_shared<MySessionResponseHandler>());
 
     // Send a request and print the result
-    messages::ReadHoldingRegistersRequest req(0x0024, 3);
-    session->SendRequest(req, [](messages::ReadHoldingRegistersResponse res, messages::Exception e) {
+    ReadHoldingRegistersRequest req(0x0024, 3);
+    session->SendRequest(req, [](ReadHoldingRegistersResponse res, Exception e) {
         // If the exception is set, then an error occured (similar to Asio)
         if(e)
         {

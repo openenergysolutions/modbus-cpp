@@ -6,8 +6,6 @@
 
 namespace modbus
 {
-namespace logging
-{
 
 std::shared_ptr<Logger> LoggerFactory::CreateConsoleLogger(const std::string& name)
 {
@@ -20,5 +18,4 @@ std::shared_ptr<Logger> LoggerFactory::CreateCustomLogger(const std::string& nam
     return std::make_shared<Logger>(customLogger);
 }
 
-} // namespace logging
 } // namespace modbus

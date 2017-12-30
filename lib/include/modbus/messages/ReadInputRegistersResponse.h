@@ -3,8 +3,6 @@
 
 namespace modbus
 {
-namespace messages
-{
 
 class ReadInputRegistersResponse
 {
@@ -12,7 +10,6 @@ public:
     ReadInputRegistersResponse();
 };
 
-} // namespace messages
 } // namespace modbus
 
 #endif //MODBUS_READINPUTREGISTERSRESPONSE_H

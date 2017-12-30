@@ -2,8 +2,6 @@
 
 namespace modbus
 {
-namespace messages
-{
 
 std::ostream& operator<<(std::ostream& stream, const ExceptionType& exceptionType)
 {
@@ -32,5 +30,4 @@ std::ostream& operator<<(std::ostream& stream, const ExceptionType& exceptionTyp
     }
 }
 
-} // namespace messages
 } // namespace modbus

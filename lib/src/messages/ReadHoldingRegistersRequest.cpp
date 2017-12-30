@@ -2,8 +2,6 @@
 
 namespace modbus
 {
-namespace messages
-{
 
 ReadHoldingRegistersRequest::ReadHoldingRegistersRequest(Address startingAddress, uint16_t qtyOfRegisters)
 :m_startingAddress(startingAddress),
@@ -17,5 +15,4 @@ void ReadHoldingRegistersRequest::BuildRequest(openpal::Buffer &buffer)
 
 }
 
-} // namespace messages
 } // namespace modbus

@@ -5,12 +5,13 @@
 
 #include "openpal/executor/TimeDuration.h"
 
-#include "modbus/ISessionResponseHandler.h"
-#include "modbus/ISession.h"
 #include "modbus/UnitIdentifier.h"
 
 namespace modbus
 {
+
+class ISession;
+class ISessionResponseHandler;
 
 class IChannel
 {

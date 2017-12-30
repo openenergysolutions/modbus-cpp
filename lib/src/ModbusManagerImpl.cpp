@@ -2,12 +2,13 @@
 
 #include "asio.hpp"
 
+#include "modbus/IChannel.h"
+#include "logging/Logger.h"
+
 namespace modbus
 {
 
-using namespace logging;
-
-ModbusManagerImpl::ModbusManagerImpl(std::shared_ptr<logging::Logger> logger)
+ModbusManagerImpl::ModbusManagerImpl(std::shared_ptr<Logger> logger)
     :m_logger(logger)
 {
 

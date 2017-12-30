@@ -7,8 +7,6 @@
 
 namespace modbus
 {
-namespace messages
-{
 
 class Exception
 {
@@ -25,7 +23,6 @@ private:
     std::pair<ExceptionType, bool> m_exceptionType;
 };
 
-} // namespace messages
 } // namespace modbus
 
 #endif //MODBUS_EXCEPTION_H

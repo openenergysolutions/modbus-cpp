@@ -11,8 +11,6 @@ namespace spdlog
 
 namespace modbus
 {
-namespace logging
-{
 
 class Logger;
 
@@ -23,7 +21,6 @@ public:
     std::shared_ptr<Logger> CreateCustomLogger(const std::string& name, std::shared_ptr<spdlog::logger> customLogger);
 };
 
-} // namespace logging
 } // namespace modbus
 
 #endif // define MODBUS_LOGGERFACTORY_H

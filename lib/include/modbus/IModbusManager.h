@@ -3,20 +3,16 @@
 
 #include <memory>
 
-#include "IChannel.h"
-
 namespace modbus
 {
 
-namespace logging
-{
-    class Logger;
-}
+class IChannel;
+class Logger;
 
 class IModbusManager
 {
 public:
-    static std::unique_ptr<IModbusManager> Create(std::shared_ptr<logging::Logger> logger);
+    static std::unique_ptr<IModbusManager> Create(std::shared_ptr<Logger> logger);
 
 public:
     IModbusManager() = default;

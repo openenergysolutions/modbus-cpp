@@ -2,8 +2,6 @@
 
 namespace modbus
 {
-namespace messages
-{
 
 Exception::Exception()
 :m_exceptionType(ExceptionType::IllegalFunction, false)
@@ -42,5 +40,4 @@ bool Exception::operator==(const ExceptionType& other) const
     return false;
 }
 
-} // namespace messages
 } // namespace modbus

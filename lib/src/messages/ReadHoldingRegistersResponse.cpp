@@ -2,8 +2,6 @@
 
 namespace modbus
 {
-namespace messages
-{
 
 ReadHoldingRegistersResponse::ReadHoldingRegistersResponse()
 {
@@ -20,5 +18,4 @@ const std::vector<RegisterValue>& ReadHoldingRegistersResponse::GetValues() cons
     return m_values;
 }
 
-} // namespace messages
 } // namespace modbus

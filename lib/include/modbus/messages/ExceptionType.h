@@ -5,8 +5,6 @@
 
 namespace modbus
 {
-namespace messages
-{
 
 enum class ExceptionType
 {
@@ -23,7 +21,6 @@ enum class ExceptionType
 
 std::ostream& operator<<(std::ostream& stream, const ExceptionType& exceptionType);
 
-} // namespace messages
 } // namespace modbus
 
 #endif //MODBUS_EXCEPTIONTYPE_H

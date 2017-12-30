@@ -7,8 +7,6 @@
 
 namespace modbus
 {
-namespace messages
-{
 
 class ReadHoldingRegistersResponse
 {
@@ -22,7 +20,6 @@ private:
     std::vector<RegisterValue> m_values;
 };
 
-} // namespace messages
 } // namespace modbus
 
 #endif //MODBUS_READHOLDINGREGISTERSRESPONSE_H

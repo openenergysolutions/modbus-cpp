@@ -6,8 +6,6 @@
 
 namespace modbus
 {
-namespace messages
-{
 
 class ReadInputRegistersRequest : public IRequest
 {
@@ -21,7 +19,6 @@ private:
     uint16_t qtyOfRegisters;
 };
 
-} // namespace messages
 } // namespace modbus
 
 #endif //MODBUS_READINPUTREGISTERSREQUEST_H

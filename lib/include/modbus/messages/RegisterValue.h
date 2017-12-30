@@ -5,8 +5,6 @@
 
 namespace modbus
 {
-namespace messages
-{
 
 struct RegisterValue
 {
@@ -14,7 +12,6 @@ struct RegisterValue
     uint16_t value;
 };
 
-} // namespace messages
 } // modbus
 
 #endif //MODBUS_REGISTERVALUE_H
