@@ -8,6 +8,7 @@ namespace modbus
 
 class IChannel;
 class Ipv4Endpoint;
+class ISchedule;
 class Logger;
 
 class IModbusManager
@@ -19,7 +20,8 @@ public:
     IModbusManager() = default;
     virtual ~IModbusManager() = default;
 
-    virtual std::unique_ptr<IChannel> CreateTcpChannel(const Ipv4Endpoint& endpoint) = 0;
+    virtual std::unique_ptr<IChannel> CreateTcpChannel(const Ipv4Endpoint& endpoint,
+                                                       std::unique_ptr<ISchedule> channelRetrySchedule) = 0;
     virtual void run() = 0;
 };
 

@@ -47,7 +47,8 @@ int main(int argc, char* argv[])
 
     // Create a TCP channel
     // Each channel has its own Executor with a strand to avoid many multithreading issues
-    std::unique_ptr<IChannel> channel = modbusManager->CreateTcpChannel(Ipv4Endpoint{"localhost", 502});
+    std::unique_ptr<IChannel> channel = modbusManager->CreateTcpChannel(Ipv4Endpoint{"localhost", 502},
+                                                                        ScheduleFactory::CreatePeriodicSchedule(openpal::TimeDuration::seconds(5)));
 
     // Create a session with a specific unit identifier
     // Users will mainly play with the session to obtain what they want
