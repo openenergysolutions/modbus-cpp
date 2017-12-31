@@ -8,15 +8,15 @@ TEST_CASE("UnitIdentifier")
 {
     SECTION("Constructor initialize with the right value")
     {
-        UnitIdentifier unitIdentifier(0x24);
+        UnitIdentifier unitIdentifier{0x24};
 
         REQUIRE(unitIdentifier.GetValue() == 0x24);
     }
 
-    SECTION("Equality operator checks if value are equal")
+    SECTION("Equality operator checks if value is equal")
     {
-        UnitIdentifier firstUnitIdentifier(0x24);
-        UnitIdentifier secondUnitIdentifier(0x42);
+        UnitIdentifier firstUnitIdentifier{0x24};
+        UnitIdentifier secondUnitIdentifier{0x42};
 
         REQUIRE(firstUnitIdentifier == firstUnitIdentifier);
         REQUIRE(firstUnitIdentifier != secondUnitIdentifier);

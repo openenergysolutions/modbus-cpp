@@ -3,6 +3,7 @@
 
 #include "modbus/IModbusManager.h"
 #include "modbus/IChannel.h"
+#include "modbus/Ipv4Endpoint.h"
 #include "modbus/ISchedule.h"
 #include "modbus/ISession.h"
 #include "modbus/ISessionResponseHandler.h"
@@ -45,7 +46,7 @@ int main(int argc, char* argv[])
 
     // Create a TCP channel
     // Each channel has its own Executor with a strand to avoid many multithreading issues
-    std::unique_ptr<IChannel> channel = modbusManager->CreateTcpChannel();
+    std::unique_ptr<IChannel> channel = modbusManager->CreateTcpChannel(Ipv4Endpoint{"localhost", 502});
 
     // Create a session with a specific unit identifier
     // Users will mainly play with the session to obtain what they want
@@ -54,7 +55,7 @@ int main(int argc, char* argv[])
                                                                std::make_shared<MySessionResponseHandler>());
 
     // Send a request and print the result
-    ReadHoldingRegistersRequest req(0x0024, 3);
+    ReadHoldingRegistersRequest req{0x0024, 3};
     session->SendRequest(req, [](ReadHoldingRegistersResponse res, Exception e) {
         // If the exception is set, then an error occured (similar to Asio)
         if(e)

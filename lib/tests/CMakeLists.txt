@@ -2,8 +2,10 @@ cmake_minimum_required (VERSION 3.8)
 
 set(modbus_tests_src
     ./main.cpp
+    ./Ipv4EndpointTest.cpp
     ./test.cpp
-    ./UnitIdentifierTest.cpp)
+    ./UnitIdentifierTest.cpp
+)
 
 add_executable(modbus_tests ${modbus_tests_src})
 target_link_libraries(modbus_tests

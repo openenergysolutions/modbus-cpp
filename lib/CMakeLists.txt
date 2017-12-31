@@ -3,6 +3,7 @@ cmake_minimum_required (VERSION 3.8)
 set(modbus_public_headers
     ./include/modbus/IChannel.h
     ./include/modbus/IModbusManager.h
+    ./include/modbus/Ipv4Endpoint.h
     ./include/modbus/ISession.h
     ./include/modbus/ISchedule.h
     ./include/modbus/ISessionResponseHandler.h
@@ -32,6 +33,7 @@ set(modbus_private_headers
 
 set(modbus_src
     ./src/IModbusManager.cpp
+    ./src/Ipv4Endpoint.cpp
     ./src/ModbusManagerImpl.cpp
     ./src/PrivateHeader.cpp
     ./src/UnitIdentifier.cpp

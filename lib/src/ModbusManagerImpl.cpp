@@ -3,6 +3,7 @@
 #include "asio.hpp"
 
 #include "modbus/IChannel.h"
+#include "modbus/Ipv4Endpoint.h"
 #include "logging/Logger.h"
 
 namespace modbus
@@ -14,7 +15,7 @@ ModbusManagerImpl::ModbusManagerImpl(std::shared_ptr<Logger> logger)
 
 }
 
-std::unique_ptr<IChannel> ModbusManagerImpl::CreateTcpChannel()
+std::unique_ptr<IChannel> ModbusManagerImpl::CreateTcpChannel(const Ipv4Endpoint& endpoint)
 {
     return nullptr;
 }
