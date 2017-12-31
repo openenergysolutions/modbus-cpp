@@ -9,7 +9,7 @@ namespace modbus
 class PeriodicSchedule : public ISchedule
 {
 public:
-    PeriodicSchedule(const openpal::TimeDuration& delay);
+    explicit PeriodicSchedule(const openpal::TimeDuration& delay);
 
     void Reset(const openpal::Timestamp& now) override;
     void OnSuccess(const openpal::Timestamp& now) override;

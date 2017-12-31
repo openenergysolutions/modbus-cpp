@@ -15,8 +15,7 @@ class Logger;
 class ModbusManagerImpl : public IModbusManager
 {
 public:
-    ModbusManagerImpl(std::shared_ptr<Logger> logger);
-    virtual ~ModbusManagerImpl() = default;
+    explicit ModbusManagerImpl(std::shared_ptr<Logger> logger);
 
     std::unique_ptr<IChannel> CreateTcpChannel(const Ipv4Endpoint& endpoint) override;
     void run() override;

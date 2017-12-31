@@ -11,7 +11,7 @@ namespace modbus
 class ReadHoldingRegistersResponse
 {
 public:
-    ReadHoldingRegistersResponse();
+    ReadHoldingRegistersResponse() = default;
 
     void AddValue(Address address, uint16_t value);
     const std::vector<RegisterValue>& GetValues() const;

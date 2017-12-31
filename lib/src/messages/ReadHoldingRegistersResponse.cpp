@@ -3,11 +3,6 @@
 namespace modbus
 {
 
-ReadHoldingRegistersResponse::ReadHoldingRegistersResponse()
-{
-
-}
-
 void ReadHoldingRegistersResponse::AddValue(Address address, uint16_t value)
 {
     m_values.push_back(RegisterValue{address = address, value = value});

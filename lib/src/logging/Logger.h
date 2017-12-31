@@ -12,7 +12,7 @@ namespace modbus
 class Logger
 {
 public:
-    Logger(std::shared_ptr<spdlog::logger> loggerImpl) : m_loggerImpl(loggerImpl) {}
+    explicit Logger(std::shared_ptr<spdlog::logger> loggerImpl) : m_loggerImpl(std::move(loggerImpl)) {}
     virtual ~Logger() = default;
 
     template <typename Arg1, typename... Args> void trace(const char* fmt, const Arg1& arg1, const Args&... args)

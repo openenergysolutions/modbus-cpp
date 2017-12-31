@@ -12,11 +12,11 @@ class Exception
 {
 public:
     Exception();
-    Exception(ExceptionType type);
+    explicit Exception(ExceptionType type);
 
     ExceptionType GetExceptionType() const;
 
-    operator bool() const;
+    explicit operator bool() const;
     bool operator==(const ExceptionType& other) const;
 
 private:
