@@ -8,6 +8,7 @@ set(modbus_public_headers
     ./include/modbus/ISchedule.h
     ./include/modbus/ISessionResponseHandler.h
     ./include/modbus/ResponseHandler.h
+    ./include/modbus/ScheduleFactory.h
     ./include/modbus/UnitIdentifier.h
 
     ./include/modbus/logging/LoggerFactory.h
@@ -26,6 +27,7 @@ set(modbus_public_headers
 
 set(modbus_private_headers
     ./src/ModbusManagerImpl.h
+    ./src/PeriodicSchedule.h
     ./src/PrivateHeader.h
 
     ./src/logging/Logger.h
@@ -35,7 +37,9 @@ set(modbus_src
     ./src/IModbusManager.cpp
     ./src/Ipv4Endpoint.cpp
     ./src/ModbusManagerImpl.cpp
+    ./src/PeriodicSchedule.cpp
     ./src/PrivateHeader.cpp
+    ./src/ScheduleFactory.cpp
     ./src/UnitIdentifier.cpp
 
     ./src/logging/LoggerFactory.cpp

@@ -4,8 +4,8 @@ namespace modbus
 {
 
 Ipv4Endpoint::Ipv4Endpoint(const std::string& hostname, uint32_t port)
-: m_hostname{hostname},
-  m_port{port}
+        : m_hostname{hostname},
+          m_port{port}
 {
 
 }

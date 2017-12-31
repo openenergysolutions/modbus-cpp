@@ -17,8 +17,8 @@ class Logger;
 class LoggerFactory
 {
 public:
-    std::shared_ptr<Logger> CreateConsoleLogger(const std::string& name);
-    std::shared_ptr<Logger> CreateCustomLogger(const std::string& name, std::shared_ptr<spdlog::logger> customLogger);
+    static std::shared_ptr<Logger> CreateConsoleLogger(const std::string& name);
+    static std::shared_ptr<Logger> CreateCustomLogger(const std::string& name, std::shared_ptr<spdlog::logger> customLogger);
 };
 
 } // namespace modbus

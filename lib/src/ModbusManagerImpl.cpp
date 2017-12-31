@@ -10,7 +10,7 @@ namespace modbus
 {
 
 ModbusManagerImpl::ModbusManagerImpl(std::shared_ptr<Logger> logger)
-    :m_logger(logger)
+    :m_logger{logger}
 {
 
 }

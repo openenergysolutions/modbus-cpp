@@ -4,9 +4,10 @@
 #include "modbus/IModbusManager.h"
 #include "modbus/IChannel.h"
 #include "modbus/Ipv4Endpoint.h"
-#include "modbus/ISchedule.h"
 #include "modbus/ISession.h"
 #include "modbus/ISessionResponseHandler.h"
+#include "modbus/ISchedule.h"
+#include "modbus/ScheduleFactory.h"
 
 #include "modbus/logging/LoggerFactory.h"
 
@@ -38,7 +39,7 @@ public:
 int main(int argc, char* argv[])
 {
     // Create a console logger
-    auto logger = modbus::LoggerFactory().CreateConsoleLogger("Hello");
+    auto logger = modbus::LoggerFactory::CreateConsoleLogger("Hello");
 
     // Create the modbus manager
     // This will create the necessary background threads, initialize Asio io_services
@@ -73,7 +74,7 @@ int main(int argc, char* argv[])
 
     // Schedule a recurring request
     // All the scheduled requests will be handled by the ISessionResponseHandler registered on session creation
-    session->ScheduleRequest(req, std::make_unique<PeriodicSchedule>(openpal::TimeDuration::seconds(5)));
+    session->ScheduleRequest(req, ScheduleFactory::CreatePeriodicSchedule(openpal::TimeDuration::seconds(5)));
 
     // Ignore this line, this is just a test
     modbusManager->run();
