@@ -3,13 +3,13 @@
 
 #include <functional>
 
+#include "modbus/Expected.h"
+
 namespace modbus
 {
 
-class Exception;
-
 template<typename TResponse>
-using ResponseHandler = std::function<void(const TResponse&, const Exception&)>;
+using ResponseHandler = std::function<void(const Expected<TResponse>&)>;
 
 } // namespace modbus
 

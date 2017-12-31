@@ -17,6 +17,7 @@ public:
     virtual void OnResponse(const ReadHoldingRegistersResponse& response) {};
 
     virtual void OnException(const Exception& exception) {};
+    virtual void OnTimeout() {};
 };
 
 } // namespace modbus

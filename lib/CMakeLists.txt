@@ -1,6 +1,7 @@
 cmake_minimum_required (VERSION 3.8)
 
 set(modbus_public_headers
+    ./include/modbus/Expected.h
     ./include/modbus/IChannel.h
     ./include/modbus/IModbusManager.h
     ./include/modbus/Ipv4Endpoint.h
@@ -9,6 +10,7 @@ set(modbus_public_headers
     ./include/modbus/ISessionResponseHandler.h
     ./include/modbus/ResponseHandler.h
     ./include/modbus/ScheduleFactory.h
+    ./include/modbus/TimeoutException.h
     ./include/modbus/UnitIdentifier.h
 
     ./include/modbus/logging/LoggerFactory.h

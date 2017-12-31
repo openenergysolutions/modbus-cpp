@@ -8,6 +8,7 @@
 #include "modbus/ISessionResponseHandler.h"
 #include "modbus/ISchedule.h"
 #include "modbus/ScheduleFactory.h"
+#include "modbus/TimeoutException.h"
 
 #include "modbus/logging/LoggerFactory.h"
 
@@ -20,7 +21,7 @@ using namespace modbus;
 class MySessionResponseHandler : public ISessionResponseHandler
 {
 public:
-    void OnResponse(const ReadHoldingRegistersResponse& response)
+    void OnResponse(const ReadHoldingRegistersResponse& response) override
     {
         // A scheduled response was received
         for(auto& value : response.GetValues())
@@ -29,10 +30,16 @@ public:
         }
     }
 
-    void OnException(const Exception& exception)
+    void OnException(const Exception& exception) override
     {
         // A scheduled request produced an exception
         std::cout << "Error: " << exception.GetExceptionType() << " received." << std::endl;
+    }
+
+    void OnTimeout() override
+    {
+        // A scheduled request timed-out
+        std::cout << "Timeout" << std::endl;
     }
 };
 
@@ -58,16 +65,25 @@ int main(int argc, char* argv[])
 
     // Send a request and print the result
     ReadHoldingRegistersRequest req{0x0024, 3};
-    session->SendRequest(req, [](ReadHoldingRegistersResponse res, Exception e) {
-        // If the exception is set, then an error occured (similar to Asio)
-        if(e)
+    session->SendRequest(req, [](const Expected<ReadHoldingRegistersResponse>& response) {
+        // If the exception is set, then an error occured
+        if(!response.IsValid())
         {
-            std::cout << "Error: " << e.GetExceptionType() << " plz help" << std::endl;
+            if(response.HasException<Exception>())
+            {
+                auto e = response.GetException<Exception>();
+                std::cout << "Modbus exception: " << e.GetExceptionType() << " plz help" << std::endl;
+            }
+            if(response.HasException<TimeoutException>())
+            {
+                std::cout << "Timeout was reached" << std::endl;
+            }
+
             return;
         }
 
         // Otherwise, everything went good and the response is available
-        for(auto& value : res.GetValues())
+        for(auto& value : response.Get().GetValues())
         {
             std::cout << value.address << ": " << value.value <<  std::endl;
         }
