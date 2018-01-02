@@ -5,7 +5,7 @@
 namespace modbus
 {
 
-std::unique_ptr<ISchedule> ScheduleFactory::CreatePeriodicSchedule(const openpal::TimeDuration& delay)
+std::unique_ptr<ISchedule> ScheduleFactory::CreatePeriodicSchedule(const openpal::duration_t& delay)
 {
     return std::make_unique<PeriodicSchedule>(delay);
 }

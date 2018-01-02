@@ -1,10 +1,7 @@
 #ifndef MODBUS_IREQUEST_H
 #define MODBUS_IREQUEST_H
 
-namespace openpal
-{
-    class Buffer;
-}
+#include "openpal/container/SequenceTypes.h"
 
 namespace modbus
 {
@@ -14,7 +11,7 @@ class IRequest
 public:
     virtual ~IRequest() = default;
 
-    virtual void BuildRequest(openpal::Buffer &buffer) = 0;
+    virtual void BuildRequest(openpal::wseq_t& buffer) = 0;
 };
 
 } // namespace modbus

@@ -55,12 +55,12 @@ int main(int argc, char* argv[])
     // Create a TCP channel
     // Each channel has its own Executor with a strand to avoid many multithreading issues
     std::unique_ptr<IChannel> channel = modbusManager->CreateTcpChannel(Ipv4Endpoint{"localhost", 502},
-                                                                        ScheduleFactory::CreatePeriodicSchedule(openpal::TimeDuration::seconds(5)));
+                                                                        ScheduleFactory::CreatePeriodicSchedule(std::chrono::seconds(5)));
 
     // Create a session with a specific unit identifier
     // Users will mainly play with the session to obtain what they want
     std::unique_ptr<ISession> session = channel->CreateSession(UnitIdentifier::Default(),
-                                                               openpal::TimeDuration::seconds(3),
+                                                               std::chrono::seconds(3),
                                                                std::make_shared<MySessionResponseHandler>());
 
     // Send a request and print the result
@@ -91,7 +91,7 @@ int main(int argc, char* argv[])
 
     // Schedule a recurring request
     // All the scheduled requests will be handled by the ISessionResponseHandler registered on session creation
-    session->ScheduleRequest(req, ScheduleFactory::CreatePeriodicSchedule(openpal::TimeDuration::seconds(5)));
+    session->ScheduleRequest(req, ScheduleFactory::CreatePeriodicSchedule(std::chrono::seconds(5)));
 
     // Ignore this line, this is just a test
     modbusManager->run();

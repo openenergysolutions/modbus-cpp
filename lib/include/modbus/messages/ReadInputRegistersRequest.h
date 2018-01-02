@@ -12,7 +12,7 @@ class ReadInputRegistersRequest : public IRequest
 public:
     ReadInputRegistersRequest(Address startingAddress, uint16_t qtyOfRegisters);
 
-    void BuildRequest(openpal::Buffer &buffer) override;
+    void BuildRequest(openpal::wseq_t& buffer) override;
 
 private:
     Address m_startingAddress;

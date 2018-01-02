@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "openpal/executor/TimeDuration.h"
+#include "openpal/executor/Typedefs.h"
 
 namespace modbus
 {
@@ -13,7 +13,7 @@ class ISchedule;
 class ScheduleFactory
 {
 public:
-    static std::unique_ptr<ISchedule> CreatePeriodicSchedule(const openpal::TimeDuration& delay);
+    static std::unique_ptr<ISchedule> CreatePeriodicSchedule(const openpal::duration_t& delay);
 };
 
 } // namespace modbus

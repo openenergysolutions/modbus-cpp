@@ -3,12 +3,13 @@
 
 #include <vector>
 
+#include "modbus/messages/IResponse.h"
 #include "modbus/messages/RegisterValue.h"
 
 namespace modbus
 {
 
-class ReadHoldingRegistersResponse
+class ReadHoldingRegistersResponse : public IResponse
 {
 public:
     ReadHoldingRegistersResponse() = default;

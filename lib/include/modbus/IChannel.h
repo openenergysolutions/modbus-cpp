@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "openpal/executor/TimeDuration.h"
+#include "openpal/executor/Typedefs.h"
 
 #include "modbus/UnitIdentifier.h"
 
@@ -19,7 +19,7 @@ public:
     virtual ~IChannel() = default;
 
     virtual std::unique_ptr<ISession> CreateSession(UnitIdentifier unitIdentifier,
-                                                    openpal::TimeDuration defaultTimeout,
+                                                    const openpal::duration_t& defaultTimeout,
                                                     std::shared_ptr<ISessionResponseHandler> sessionResponseHandler) = 0;
 };
 
