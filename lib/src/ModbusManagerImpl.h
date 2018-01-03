@@ -11,7 +11,7 @@ namespace modbus
 class ModbusManagerImpl : public IModbusManager
 {
 public:
-    explicit ModbusManagerImpl(std::shared_ptr<Logger> logger);
+    explicit ModbusManagerImpl(std::shared_ptr<Logger> logger, unsigned int number_of_threads);
 
     std::unique_ptr<IChannel> create_tcp_channel(const Ipv4Endpoint& endpoint,
                                                  std::unique_ptr<ISchedule> channel_retry_schedule) override;

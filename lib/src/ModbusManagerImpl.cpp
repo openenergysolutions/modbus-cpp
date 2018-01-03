@@ -10,7 +10,7 @@
 namespace modbus
 {
 
-ModbusManagerImpl::ModbusManagerImpl(std::shared_ptr<Logger> logger)
+ModbusManagerImpl::ModbusManagerImpl(std::shared_ptr<Logger> logger, unsigned int number_of_threads)
     :m_logger{std::move(logger)}
 {
 

@@ -15,6 +15,7 @@ class IModbusManager
 {
 public:
     static std::unique_ptr<IModbusManager> create(std::shared_ptr<Logger> logger);
+    static std::unique_ptr<IModbusManager> create(std::shared_ptr<Logger> logger, unsigned int number_of_threads);
 
 public:
     IModbusManager() = default;
