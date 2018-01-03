@@ -22,12 +22,28 @@ public:
     // One-time requests
     virtual void send_request(const ReadHoldingRegistersRequest& request,
                               ResponseHandler<ReadHoldingRegistersResponse> handler) = 0;
+    virtual void send_request(const ReadHoldingRegistersRequest& request,
+                              const openpal::duration_t& timeout,
+                              ResponseHandler<ReadHoldingRegistersResponse> handler) = 0;
+
     virtual void send_request(const ReadInputRegistersRequest& request,
+                              ResponseHandler<ReadInputRegistersResponse> handler) = 0;
+    virtual void send_request(const ReadInputRegistersRequest& request,
+                              const openpal::duration_t& timeout,
                               ResponseHandler<ReadInputRegistersResponse> handler) = 0;
 
     // Scheduled requests
-    virtual void schedule_request(const ReadHoldingRegistersRequest& request, std::unique_ptr<ISchedule> schedule) = 0;
-    virtual void schedule_request(const ReadInputRegistersRequest& request, std::unique_ptr<ISchedule> schedule) = 0;
+    virtual void schedule_request(const ReadHoldingRegistersRequest& request,
+                                  std::unique_ptr<ISchedule> schedule) = 0;
+    virtual void schedule_request(const ReadHoldingRegistersRequest& request,
+                                  const openpal::duration_t& timeout,
+                                  std::unique_ptr<ISchedule> schedule) = 0;
+
+    virtual void schedule_request(const ReadInputRegistersRequest& request,
+                                  std::unique_ptr<ISchedule> schedule) = 0;
+    virtual void schedule_request(const ReadInputRegistersRequest& request,
+                                  const openpal::duration_t& timeout,
+                                  std::unique_ptr<ISchedule> schedule) = 0;
 };
 
 } // namespace modbus

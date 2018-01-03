@@ -65,8 +65,9 @@ int main(int argc, char* argv[])
                                                                 std::make_shared<MySessionResponseHandler>());
 
     // Send a request and print the result
+    // You can override the default timeout value set when creating the session
     ReadHoldingRegistersRequest req{0x0024, 3};
-    session->send_request(req, [](const Expected<ReadHoldingRegistersResponse>& response) {
+    session->send_request(req, std::chrono::seconds(3), [](const Expected<ReadHoldingRegistersResponse>& response) {
         // If the exception is set, then an error occured
         if(!response.is_valid())
         {
