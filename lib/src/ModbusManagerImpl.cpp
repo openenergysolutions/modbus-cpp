@@ -16,8 +16,8 @@ ModbusManagerImpl::ModbusManagerImpl(std::shared_ptr<Logger> logger)
 
 }
 
-std::unique_ptr<IChannel> ModbusManagerImpl::CreateTcpChannel(const Ipv4Endpoint& endpoint,
-                                                              std::unique_ptr<ISchedule> channelRetrySchedule)
+std::unique_ptr<IChannel> ModbusManagerImpl::create_tcp_channel(const Ipv4Endpoint& endpoint,
+                                                                std::unique_ptr<ISchedule> channel_retry_schedule)
 {
     return nullptr;
 }

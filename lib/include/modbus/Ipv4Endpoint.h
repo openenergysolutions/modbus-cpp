@@ -12,8 +12,8 @@ class Ipv4Endpoint
 public:
     Ipv4Endpoint(const std::string& hostname, uint32_t port);
 
-    const std::string& GetHostname() const;
-    uint32_t GetPort() const;
+    const std::string& get_hostname() const;
+    uint32_t get_port() const;
 
     bool operator==(const Ipv4Endpoint& other) const;
     bool operator!=(const Ipv4Endpoint& other) const;

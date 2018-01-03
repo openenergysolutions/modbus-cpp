@@ -14,14 +14,14 @@ namespace modbus
 template<typename T> class Expected
 {
 public:
-    Expected(const T& value) : m_value{value}, m_hasValue{true} {}
+    Expected(const T& value) : m_value{value}, m_has_value{true} {}
 
-    Expected(T&& rhs) : m_value{std::move(rhs)}, m_hasValue{true} {}
+    Expected(T&& rhs) : m_value{std::move(rhs)}, m_has_value{true} {}
 
     Expected(const Expected& rhs)
         : m_value{rhs.m_value}
     {
-        if(m_hasValue)
+        if(m_has_value)
         {
             new(&m_value) T{rhs.m_value};
         }
@@ -34,7 +34,7 @@ public:
     Expected(Expected&& rhs)
         : m_value{rhs.m_value}
     {
-        if(m_hasValue)
+        if(m_has_value)
         {
             new(&m_value) T{std::move(rhs.m_value)};
         }
@@ -45,45 +45,45 @@ public:
     }
 
     template<typename E>
-    static Expected<T> FromException(const E& exception)
+    static Expected<T> from_exception(const E& exception)
     {
         if(typeid(exception) != typeid(E))
         {
             throw std::invalid_argument("slicing detected");
         }
-        return FromException(std::make_exception_ptr(exception));
+        return from_exception(std::make_exception_ptr(exception));
     }
 
-    static Expected<T> FromException(std::exception_ptr exception)
+    static Expected<T> from_exception(std::exception_ptr exception)
     {
         Expected<T> result;
-        result.m_hasValue = false;
+        result.m_has_value = false;
         new(&result.m_exception) std::exception_ptr(std::move(exception));
         return result;
     }
 
-    static Expected<T> FromException()
+    static Expected<T> from_exception()
     {
-        return FromException(std::current_exception());
+        return from_exception(std::current_exception());
     }
 
-    bool IsValid() const
+    bool is_valid() const
     {
-        return m_hasValue;
+        return m_has_value;
     }
 
-    T& Get()
+    T& get()
     {
-        if(!m_hasValue)
+        if(!m_has_value)
         {
             std::rethrow_exception(m_exception);
         }
         return m_value;
     }
 
-    const T& Get() const
+    const T& get() const
     {
-        if(!m_hasValue)
+        if(!m_has_value)
         {
             std::rethrow_exception(m_exception);
         }
@@ -91,11 +91,11 @@ public:
     }
 
     template<typename E>
-    bool HasException() const
+    bool has_exception() const
     {
         try
         {
-            if(!m_hasValue) std::rethrow_exception(m_exception);
+            if(!m_has_value) std::rethrow_exception(m_exception);
         }
         catch(const E& exception)
         {
@@ -106,11 +106,11 @@ public:
     }
 
     template<typename E>
-    E GetException() const
+    E get_exception() const
     {
         try
         {
-            if(!m_hasValue) std::rethrow_exception(m_exception);
+            if(!m_has_value) std::rethrow_exception(m_exception);
         }
         catch(const E& exception)
         {
@@ -126,7 +126,7 @@ private:
         T m_value;
         std::exception_ptr m_exception;
     };
-    bool m_hasValue;
+    bool m_has_value;
 };
 
 }

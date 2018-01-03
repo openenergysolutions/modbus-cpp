@@ -3,14 +3,14 @@
 namespace modbus
 {
 
-ReadHoldingRegistersRequest::ReadHoldingRegistersRequest(Address startingAddress, uint16_t qtyOfRegisters)
-:m_startingAddress{startingAddress},
- m_qtyOfRegisters{qtyOfRegisters}
+ReadHoldingRegistersRequest::ReadHoldingRegistersRequest(Address starting_address, uint16_t qty_of_registers)
+        : m_starting_address{starting_address},
+          m_qty_of_registers{qty_of_registers}
 {
 
 }
 
-void ReadHoldingRegistersRequest::BuildRequest(openpal::wseq_t& buffer)
+void ReadHoldingRegistersRequest::build_request(openpal::wseq_t& buffer)
 {
 
 }

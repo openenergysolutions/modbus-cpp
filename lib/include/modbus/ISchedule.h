@@ -13,11 +13,11 @@ class ISchedule
 public:
     virtual ~ISchedule() = default;
 
-    virtual void Reset(const openpal::steady_time_t& now) = 0;
-    virtual void OnSuccess(const openpal::steady_time_t& now) = 0;
-    virtual void OnTimeout(const openpal::steady_time_t& now) = 0;
-    virtual void OnFailure(const openpal::steady_time_t& now) = 0;
-    virtual openpal::steady_time_t GetNextExecution() const = 0;
+    virtual void reset(const openpal::steady_time_t& now) = 0;
+    virtual void on_success(const openpal::steady_time_t& now) = 0;
+    virtual void on_timeout(const openpal::steady_time_t& now) = 0;
+    virtual void on_failure(const openpal::steady_time_t& now) = 0;
+    virtual openpal::steady_time_t get_next_execution() const = 0;
 };
 
 } // namespace modbus

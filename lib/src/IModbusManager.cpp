@@ -6,7 +6,7 @@
 namespace modbus
 {
 
-std::unique_ptr<IModbusManager> IModbusManager::Create(std::shared_ptr<Logger> logger)
+std::unique_ptr<IModbusManager> IModbusManager::create(std::shared_ptr<Logger> logger)
 {
     return std::make_unique<ModbusManagerImpl>(logger);
 }

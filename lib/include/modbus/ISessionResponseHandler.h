@@ -13,11 +13,11 @@ class ISessionResponseHandler
 public:
     virtual ~ISessionResponseHandler() = default;
 
-    virtual void OnResponse(const ReadInputRegistersResponse& response) {};
-    virtual void OnResponse(const ReadHoldingRegistersResponse& response) {};
+    virtual void on_response(const ReadInputRegistersResponse& response) {};
+    virtual void on_response(const ReadHoldingRegistersResponse& response) {};
 
-    virtual void OnException(const Exception& exception) {};
-    virtual void OnTimeout() {};
+    virtual void on_exception(const Exception& exception) {};
+    virtual void on_timeout() {};
 };
 
 } // namespace modbus

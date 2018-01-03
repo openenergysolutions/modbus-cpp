@@ -10,12 +10,12 @@ Ipv4Endpoint::Ipv4Endpoint(const std::string& hostname, uint32_t port)
 
 }
 
-const std::string& Ipv4Endpoint::GetHostname() const
+const std::string& Ipv4Endpoint::get_hostname() const
 {
     return m_hostname;
 }
 
-uint32_t Ipv4Endpoint::GetPort() const
+uint32_t Ipv4Endpoint::get_port() const
 {
     return m_port;
 }

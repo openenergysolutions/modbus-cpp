@@ -8,18 +8,18 @@ namespace modbus
 
 class UnitIdentifier
 {
-    static constexpr uint8_t DEFAULT_UNIT_IDENTIFIER = 0xFF;
+    static constexpr uint8_t DefaultUnitIdentifier = 0xFF;
 
 public:
-    static UnitIdentifier Default()
+    static UnitIdentifier default_unit_identifier()
     {
-        return UnitIdentifier(DEFAULT_UNIT_IDENTIFIER);
+        return UnitIdentifier(DefaultUnitIdentifier);
     }
 
 public:
     UnitIdentifier(uint8_t value);
 
-    uint8_t GetValue() const;
+    uint8_t get_value() const;
     bool operator==(const UnitIdentifier& other) const;
     bool operator!=(const UnitIdentifier& other) const;
 

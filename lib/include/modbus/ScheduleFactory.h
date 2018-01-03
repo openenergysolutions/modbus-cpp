@@ -13,7 +13,7 @@ class ISchedule;
 class ScheduleFactory
 {
 public:
-    static std::unique_ptr<ISchedule> CreatePeriodicSchedule(const openpal::duration_t& delay);
+    static std::unique_ptr<ISchedule> create_periodic_schedule(const openpal::duration_t& delay);
 };
 
 } // namespace modbus

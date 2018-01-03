@@ -20,12 +20,14 @@ public:
     virtual ~ISession() = default;
 
     // One-time requests
-    virtual void SendRequest(const ReadHoldingRegistersRequest& request, ResponseHandler<ReadHoldingRegistersResponse> handler) = 0;
-    virtual void SendRequest(const ReadInputRegistersRequest& request, ResponseHandler<ReadInputRegistersResponse> handler) = 0;
+    virtual void send_request(const ReadHoldingRegistersRequest& request,
+                              ResponseHandler<ReadHoldingRegistersResponse> handler) = 0;
+    virtual void send_request(const ReadInputRegistersRequest& request,
+                              ResponseHandler<ReadInputRegistersResponse> handler) = 0;
 
-    // Periodic requests
-    virtual void ScheduleRequest(const ReadHoldingRegistersRequest& request, std::unique_ptr<ISchedule> schedule) = 0;
-    virtual void ScheduleRequest(const ReadInputRegistersRequest& request, std::unique_ptr<ISchedule> schedule) = 0;
+    // Scheduled requests
+    virtual void schedule_request(const ReadHoldingRegistersRequest& request, std::unique_ptr<ISchedule> schedule) = 0;
+    virtual void schedule_request(const ReadInputRegistersRequest& request, std::unique_ptr<ISchedule> schedule) = 0;
 };
 
 } // namespace modbus

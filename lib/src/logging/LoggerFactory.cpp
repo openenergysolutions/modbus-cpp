@@ -7,15 +7,16 @@
 namespace modbus
 {
 
-std::shared_ptr<Logger> LoggerFactory::CreateConsoleLogger(const std::string& name)
+std::shared_ptr<Logger> LoggerFactory::create_console_logger(const std::string& name)
 {
-    auto spdLogger = spdlog::stdout_color_mt(name);
-    return std::make_shared<Logger>(spdLogger);
+    auto spd_logger = spdlog::stdout_color_mt(name);
+    return std::make_shared<Logger>(spd_logger);
 }
 
-std::shared_ptr<Logger> LoggerFactory::CreateCustomLogger(const std::string& name, std::shared_ptr<spdlog::logger> customLogger)
+std::shared_ptr<Logger> LoggerFactory::create_custom_logger(const std::string& name,
+                                                            std::shared_ptr<spdlog::logger> custom_logger)
 {
-    return std::make_shared<Logger>(customLogger);
+    return std::make_shared<Logger>(custom_logger);
 }
 
 } // namespace modbus

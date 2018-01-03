@@ -9,29 +9,29 @@ PeriodicSchedule::PeriodicSchedule(const openpal::duration_t& delay)
 
 }
 
-void PeriodicSchedule::Reset(const openpal::steady_time_t& now)
+void PeriodicSchedule::reset(const openpal::steady_time_t& now)
 {
-    m_nextExecution = now + m_delay;
+    m_next_execution = now + m_delay;
 }
 
-void PeriodicSchedule::OnSuccess(const openpal::steady_time_t& now)
+void PeriodicSchedule::on_success(const openpal::steady_time_t& now)
 {
-    m_nextExecution = now + m_delay;
+    m_next_execution = now + m_delay;
 }
 
-void PeriodicSchedule::OnTimeout(const openpal::steady_time_t& now)
+void PeriodicSchedule::on_timeout(const openpal::steady_time_t& now)
 {
-    m_nextExecution = now + m_delay;
+    m_next_execution = now + m_delay;
 }
 
-void PeriodicSchedule::OnFailure(const openpal::steady_time_t& now)
+void PeriodicSchedule::on_failure(const openpal::steady_time_t& now)
 {
-    m_nextExecution = now + m_delay;
+    m_next_execution = now + m_delay;
 }
 
-openpal::steady_time_t PeriodicSchedule::GetNextExecution() const
+openpal::steady_time_t PeriodicSchedule::get_next_execution() const
 {
-    return m_nextExecution;
+    return m_next_execution;
 }
 
 } // namespace modbus

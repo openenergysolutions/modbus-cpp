@@ -3,12 +3,15 @@
 namespace modbus
 {
 
-void ReadHoldingRegistersResponse::AddValue(Address address, uint16_t value)
+void ReadHoldingRegistersResponse::add_value(Address address, uint16_t value)
 {
-    m_values.push_back(RegisterValue{address = address, value = value});
+    m_values.push_back(RegisterValue {
+            .address = address,
+            .value = value
+    });
 }
 
-const std::vector<RegisterValue>& ReadHoldingRegistersResponse::GetValues() const
+const std::vector<RegisterValue>& ReadHoldingRegistersResponse::get_values() const
 {
     return m_values;
 }

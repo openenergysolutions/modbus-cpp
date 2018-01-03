@@ -9,7 +9,7 @@ UnitIdentifier::UnitIdentifier(uint8_t value)
 
 }
 
-uint8_t UnitIdentifier::GetValue() const
+uint8_t UnitIdentifier::get_value() const
 {
     return m_value;
 }

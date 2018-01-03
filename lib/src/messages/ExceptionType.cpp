@@ -3,9 +3,9 @@
 namespace modbus
 {
 
-std::ostream& operator<<(std::ostream& stream, const ExceptionType& exceptionType)
+std::ostream& operator<<(std::ostream& stream, const ExceptionType& exception_type)
 {
-    switch(exceptionType)
+    switch(exception_type)
     {
         case ExceptionType::IllegalFunction:
             return stream << "Illegal function";

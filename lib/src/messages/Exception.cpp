@@ -4,22 +4,22 @@ namespace modbus
 {
 
 Exception::Exception()
-:m_exceptionType(ExceptionType::IllegalFunction, false)
+:m_exception_type(ExceptionType::IllegalFunction, false)
 {
 
 }
 
 Exception::Exception(ExceptionType type)
-:m_exceptionType(type, true)
+:m_exception_type(type, true)
 {
 
 }
 
-ExceptionType Exception::GetExceptionType() const
+ExceptionType Exception::get_type() const
 {
-    if(m_exceptionType.second)
+    if(m_exception_type.second)
     {
-        return m_exceptionType.first;
+        return m_exception_type.first;
     }
 
     throw std::logic_error("Exception type was not set.");
@@ -27,14 +27,14 @@ ExceptionType Exception::GetExceptionType() const
 
 Exception::operator bool() const
 {
-    return m_exceptionType.second;
+    return m_exception_type.second;
 }
 
 bool Exception::operator==(const ExceptionType& other) const
 {
-    if(m_exceptionType.second)
+    if(m_exception_type.second)
     {
-        return m_exceptionType.first == other;
+        return m_exception_type.first == other;
     }
 
     return false;

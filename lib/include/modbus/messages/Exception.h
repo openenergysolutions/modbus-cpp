@@ -14,13 +14,13 @@ public:
     Exception();
     explicit Exception(ExceptionType type);
 
-    ExceptionType GetExceptionType() const;
+    ExceptionType get_type() const;
 
     explicit operator bool() const;
     bool operator==(const ExceptionType& other) const;
 
 private:
-    std::pair<ExceptionType, bool> m_exceptionType;
+    std::pair<ExceptionType, bool> m_exception_type;
 };
 
 } // namespace modbus

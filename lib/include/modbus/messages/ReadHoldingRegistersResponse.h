@@ -14,8 +14,8 @@ class ReadHoldingRegistersResponse : public IResponse
 public:
     ReadHoldingRegistersResponse() = default;
 
-    void AddValue(Address address, uint16_t value);
-    const std::vector<RegisterValue>& GetValues() const;
+    void add_value(Address address, uint16_t value);
+    const std::vector<RegisterValue>& get_values() const;
 
 private:
     std::vector<RegisterValue> m_values;

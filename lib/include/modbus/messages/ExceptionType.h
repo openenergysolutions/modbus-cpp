@@ -19,7 +19,7 @@ enum class ExceptionType
     GatewayTargetDeviceFailedToRespond = 0x0B
 };
 
-std::ostream& operator<<(std::ostream& stream, const ExceptionType& exceptionType);
+std::ostream& operator<<(std::ostream& stream, const ExceptionType& exception_type);
 
 } // namespace modbus
 

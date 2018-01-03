@@ -10,13 +10,13 @@ namespace modbus
 class ReadHoldingRegistersRequest : public IRequest
 {
 public:
-    ReadHoldingRegistersRequest(Address startingAddress, uint16_t qtyOfRegisters);
+    ReadHoldingRegistersRequest(Address starting_address, uint16_t qty_of_registers);
 
-    void BuildRequest(openpal::wseq_t& buffer) override;
+    void build_request(openpal::wseq_t& buffer) override;
 
 private:
-    Address m_startingAddress;
-    uint16_t m_qtyOfRegisters;
+    Address m_starting_address;
+    uint16_t m_qty_of_registers;
 };
 
 } // namespace modbus

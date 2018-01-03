@@ -13,8 +13,8 @@ class ModbusManagerImpl : public IModbusManager
 public:
     explicit ModbusManagerImpl(std::shared_ptr<Logger> logger);
 
-    std::unique_ptr<IChannel> CreateTcpChannel(const Ipv4Endpoint& endpoint,
-                                               std::unique_ptr<ISchedule> channelRetrySchedule) override;
+    std::unique_ptr<IChannel> create_tcp_channel(const Ipv4Endpoint& endpoint,
+                                                 std::unique_ptr<ISchedule> channel_retry_schedule) override;
     void run() override;
 
 private:

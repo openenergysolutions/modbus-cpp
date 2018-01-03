@@ -8,23 +8,23 @@ TEST_CASE("UnitIdentifier")
 {
     SECTION("Constructor initialize with the right value")
     {
-        UnitIdentifier unitIdentifier{0x24};
+        UnitIdentifier unit_identifier{0x24};
 
-        REQUIRE(unitIdentifier.GetValue() == 0x24);
+        REQUIRE(unit_identifier.get_value() == 0x24);
     }
 
     SECTION("Equality operator checks if value is equal")
     {
-        UnitIdentifier firstUnitIdentifier{0x24};
-        UnitIdentifier secondUnitIdentifier{0x42};
+        UnitIdentifier first_unit_identifier{0x24};
+        UnitIdentifier second_unit_identifier{0x42};
 
-        REQUIRE(firstUnitIdentifier == firstUnitIdentifier);
-        REQUIRE(firstUnitIdentifier != secondUnitIdentifier);
+        REQUIRE(first_unit_identifier == first_unit_identifier);
+        REQUIRE(first_unit_identifier != second_unit_identifier);
     }
 
     SECTION("Default unit identifier is 0xFF")
     {
-        auto defaultUnitIdentifier = UnitIdentifier::Default();
-        REQUIRE(defaultUnitIdentifier == UnitIdentifier(0xFF));
+        auto default_unit_identifier = UnitIdentifier::default_unit_identifier();
+        REQUIRE(default_unit_identifier == UnitIdentifier(0xFF));
     }
 }

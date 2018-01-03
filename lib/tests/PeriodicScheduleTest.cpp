@@ -6,37 +6,37 @@ using namespace modbus;
 
 TEST_CASE("PeriodicSchedule")
 {
-    constexpr auto NOW = openpal::steady_time_t{std::chrono::milliseconds(500)};
-    constexpr auto DELAY = std::chrono::milliseconds(100);
+    constexpr auto Now = openpal::steady_time_t{std::chrono::milliseconds(500)};
+    constexpr auto Delay = std::chrono::milliseconds(100);
 
-    PeriodicSchedule schedule{DELAY};
+    PeriodicSchedule schedule{Delay};
 
     SECTION("On reset, then next execution is scheduled after delay")
     {
-        schedule.Reset(NOW);
+        schedule.reset(Now);
 
-        auto test = std::chrono::steady_clock::time_point{NOW + DELAY};
-        REQUIRE(schedule.GetNextExecution() == openpal::steady_time_t{NOW + DELAY});
+        auto test = std::chrono::steady_clock::time_point{Now + Delay};
+        REQUIRE(schedule.get_next_execution() == openpal::steady_time_t{Now + Delay});
     }
 
     SECTION("On success, then next execution is scheduled after delay")
     {
-        schedule.OnSuccess(NOW);
+        schedule.on_success(Now);
 
-        REQUIRE(schedule.GetNextExecution() == openpal::steady_time_t{NOW + DELAY});
+        REQUIRE(schedule.get_next_execution() == openpal::steady_time_t{Now + Delay});
     }
 
     SECTION("On timeout, then next execution is scheduled after delay")
     {
-        schedule.OnTimeout(NOW);
+        schedule.on_timeout(Now);
 
-        REQUIRE(schedule.GetNextExecution() == openpal::steady_time_t{NOW + DELAY});
+        REQUIRE(schedule.get_next_execution() == openpal::steady_time_t{Now + Delay});
     }
 
     SECTION("On failure, then next execution is scheduled after delay")
     {
-        schedule.OnFailure(NOW);
+        schedule.on_failure(Now);
 
-        REQUIRE(schedule.GetNextExecution() == openpal::steady_time_t{NOW + DELAY});
+        REQUIRE(schedule.get_next_execution() == openpal::steady_time_t{Now + Delay});
     }
 }

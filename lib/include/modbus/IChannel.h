@@ -18,9 +18,9 @@ class IChannel
 public:
     virtual ~IChannel() = default;
 
-    virtual std::unique_ptr<ISession> CreateSession(UnitIdentifier unitIdentifier,
-                                                    const openpal::duration_t& defaultTimeout,
-                                                    std::shared_ptr<ISessionResponseHandler> sessionResponseHandler) = 0;
+    virtual std::unique_ptr<ISession> create_session(UnitIdentifier unit_identifier,
+                                                     const openpal::duration_t& default_timeout,
+                                                     std::shared_ptr<ISessionResponseHandler> session_response_handler) = 0;
 };
 
 } // namespace modbus

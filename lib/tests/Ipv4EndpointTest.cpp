@@ -10,19 +10,19 @@ TEST_CASE("Ipv4Endpoint")
     {
         Ipv4Endpoint endpoint{"hostname", 502};
 
-        REQUIRE(endpoint.GetHostname() == "hostname");
-        REQUIRE(endpoint.GetPort() == 502);
+        REQUIRE(endpoint.get_hostname() == "hostname");
+        REQUIRE(endpoint.get_port() == 502);
     }
 
     SECTION("Equality operator checks if all values are equal")
     {
-        Ipv4Endpoint defaultEndpoint{"hostname", 502};
-        Ipv4Endpoint identicalEndpoint{"hostname", 502};
-        Ipv4Endpoint endpointWithDifferentHostname{"asdf", 502};
-        Ipv4Endpoint endpointWithDifferentPort{"hostname", 500};
+        Ipv4Endpoint default_endpoint{"hostname", 502};
+        Ipv4Endpoint identical_endpoint{"hostname", 502};
+        Ipv4Endpoint endpoint_with_different_hostname{"asdf", 502};
+        Ipv4Endpoint endpoint_with_different_port{"hostname", 500};
 
-        REQUIRE(defaultEndpoint == identicalEndpoint);
-        REQUIRE(defaultEndpoint != endpointWithDifferentHostname);
-        REQUIRE(defaultEndpoint != endpointWithDifferentPort);
+        REQUIRE(default_endpoint == identical_endpoint);
+        REQUIRE(default_endpoint != endpoint_with_different_hostname);
+        REQUIRE(default_endpoint != endpoint_with_different_port);
     }
 }

@@ -11,7 +11,7 @@ class IRequest
 public:
     virtual ~IRequest() = default;
 
-    virtual void BuildRequest(openpal::wseq_t& buffer) = 0;
+    virtual void build_request(openpal::wseq_t& buffer) = 0;
 };
 
 } // namespace modbus
