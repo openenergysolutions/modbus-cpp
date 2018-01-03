@@ -30,7 +30,6 @@ set(modbus_public_headers
 set(modbus_private_headers
     ./src/ModbusManagerImpl.h
     ./src/PeriodicSchedule.h
-    ./src/PrivateHeader.h
 
     ./src/logging/Logger.h
 )
@@ -40,7 +39,6 @@ set(modbus_src
     ./src/Ipv4Endpoint.cpp
     ./src/ModbusManagerImpl.cpp
     ./src/PeriodicSchedule.cpp
-    ./src/PrivateHeader.cpp
     ./src/ScheduleFactory.cpp
     ./src/UnitIdentifier.cpp
 

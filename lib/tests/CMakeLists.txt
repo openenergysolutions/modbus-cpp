@@ -4,7 +4,6 @@ set(modbus_tests_src
     ./main.cpp
     ./Ipv4EndpointTest.cpp
     ./PeriodicScheduleTest.cpp
-    ./test.cpp
     ./UnitIdentifierTest.cpp
 )
 
