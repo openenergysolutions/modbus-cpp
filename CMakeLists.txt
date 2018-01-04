@@ -2,6 +2,9 @@ cmake_minimum_required (VERSION 3.8)
 
 project (modbus)
 
+# Preserve folders for Visual Studio
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
 enable_testing()
 
 # Import dependencies

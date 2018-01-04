@@ -3,6 +3,8 @@
 
 #include <memory>
 
+#include "openpal/executor/Typedefs.h"
+
 #include "modbus/ResponseHandler.h"
 
 namespace modbus

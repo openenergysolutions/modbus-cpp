@@ -2,7 +2,7 @@
 
 #include "asio.hpp"
 
-#include "modbus/IChannel.h"
+#include "modbus/channel/IChannel.h"
 #include "modbus/Ipv4Endpoint.h"
 #include "modbus/ISchedule.h"
 #include "logging/Logger.h"

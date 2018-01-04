@@ -4,8 +4,14 @@ set(modbus_tests_src
     ./main.cpp
     ./Ipv4EndpointTest.cpp
     ./PeriodicScheduleTest.cpp
-    ./UnitIdentifierTest.cpp
+
+    ./channel/TransactionIdentifierTest.cpp
+    ./channel/UnitIdentifierTest.cpp
+
+    ./session/SessionImplTest.cpp
 )
+
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${modbus_tests_src})
 
 add_executable(modbus_tests ${modbus_tests_src})
 target_link_libraries(modbus_tests

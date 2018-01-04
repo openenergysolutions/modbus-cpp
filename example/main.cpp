@@ -2,9 +2,9 @@
 #include <memory>
 
 #include "modbus/IModbusManager.h"
-#include "modbus/IChannel.h"
+#include "modbus/channel/IChannel.h"
 #include "modbus/Ipv4Endpoint.h"
-#include "modbus/ISession.h"
+#include "modbus/session/ISession.h"
 #include "modbus/ISessionResponseHandler.h"
 #include "modbus/ISchedule.h"
 #include "modbus/ScheduleFactory.h"

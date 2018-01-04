@@ -1,6 +1,6 @@
 #include "catch.hpp"
 
-#include "modbus/UnitIdentifier.h"
+#include "modbus/channel/UnitIdentifier.h"
 
 using namespace modbus;
 

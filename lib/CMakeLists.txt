@@ -2,16 +2,16 @@ cmake_minimum_required (VERSION 3.8)
 
 set(modbus_public_headers
     ./include/modbus/Expected.h
-    ./include/modbus/IChannel.h
     ./include/modbus/IModbusManager.h
     ./include/modbus/Ipv4Endpoint.h
-    ./include/modbus/ISession.h
     ./include/modbus/ISchedule.h
     ./include/modbus/ISessionResponseHandler.h
     ./include/modbus/ResponseHandler.h
     ./include/modbus/ScheduleFactory.h
     ./include/modbus/TimeoutException.h
-    ./include/modbus/UnitIdentifier.h
+
+    ./include/modbus/channel/IChannel.h
+    ./include/modbus/channel/UnitIdentifier.h
 
     ./include/modbus/logging/LoggerFactory.h
 
@@ -25,13 +25,20 @@ set(modbus_public_headers
     ./include/modbus/messages/ReadInputRegistersRequest.h
     ./include/modbus/messages/ReadInputRegistersResponse.h
     ./include/modbus/messages/RegisterValue.h
+
+    ./include/modbus/session/ISession.h
 )
 
 set(modbus_private_headers
     ./src/ModbusManagerImpl.h
     ./src/PeriodicSchedule.h
 
+    ./src/channel/ChannelTcp.h
+    ./src/channel/TransactionIdentifier.h
+
     ./src/logging/Logger.h
+
+    ./src/session/SessionImpl.h
 )
 
 set(modbus_src
@@ -40,7 +47,10 @@ set(modbus_src
     ./src/ModbusManagerImpl.cpp
     ./src/PeriodicSchedule.cpp
     ./src/ScheduleFactory.cpp
-    ./src/UnitIdentifier.cpp
+
+    ./src/channel/ChannelTcp.cpp
+    ./src/channel/TransactionIdentifier.cpp
+    ./src/channel/UnitIdentifier.cpp
 
     ./src/logging/LoggerFactory.cpp
 
@@ -48,7 +58,11 @@ set(modbus_src
     ./src/messages/Exception.cpp
     ./src/messages/ReadHoldingRegistersRequest.cpp
     ./src/messages/ReadHoldingRegistersResponse.cpp
+
+    ./src/session/SessionImpl.cpp
 )
+
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${modbus_public_headers} ${modbus_private_headers} ${modbus_src})
 
 add_library(modbus ${modbus_public_headers} ${modbus_private_headers} ${modbus_src})
 target_compile_features(modbus PRIVATE cxx_std_14)
