@@ -54,7 +54,7 @@ add_library(modbus ${modbus_public_headers} ${modbus_private_headers} ${modbus_s
 target_compile_features(modbus PRIVATE cxx_std_14)
 target_link_libraries(modbus
     PUBLIC openpal
-    PRIVATE asio spdlog
+    PRIVATE asio asiopal spdlog
 )
 target_include_directories(modbus
     PUBLIC ./include

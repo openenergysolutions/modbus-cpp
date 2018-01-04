@@ -9,7 +9,7 @@ set(modbus_tests_src
 
 add_executable(modbus_tests ${modbus_tests_src})
 target_link_libraries(modbus_tests
-    PRIVATE catch2 modbus
+    PRIVATE catch2 fakeit modbus
 )
 target_include_directories(modbus_tests
     PRIVATE ./ ../src
