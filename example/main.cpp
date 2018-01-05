@@ -63,32 +63,56 @@ int main(int argc, char* argv[])
                                            std::chrono::seconds(3),
                                            std::make_shared<MySessionResponseHandler>());
 
-    // Send a request and print the result
-    // You can override the default timeout value set when creating the session
-    ReadHoldingRegistersRequest req{0x0024, 3};
-    session->send_request(req, std::chrono::seconds(3), [](const Expected<ReadHoldingRegistersResponse>& response) {
-        // If the exception is set, then an error occured
-        if(!response.is_valid())
-        {
-            if(response.has_exception<Exception>())
-            {
-                auto e = response.get_exception<Exception>();
-                std::cout << "Modbus exception: " << e.get_type() << " plz help" << std::endl;
-            }
-            if(response.has_exception<TimeoutException>())
-            {
-                std::cout << "Timeout was reached" << std::endl;
-            }
+    while(true)
+    {
+        char cmd;
+        std::cin >> cmd;
 
-            return;
+        switch(cmd)
+        {
+            case 'a':
+            {
+                // Send a request and print the result
+                // You can override the default timeout value set when creating the session
+                ReadHoldingRegistersRequest req{0x0024, 3};
+                session->send_request(req, std::chrono::seconds(3), [](const Expected<ReadHoldingRegistersResponse>& response) {
+                    // If the exception is set, then an error occured
+                    if(!response.is_valid())
+                    {
+                        if(response.has_exception<Exception>())
+                        {
+                            auto e = response.get_exception<Exception>();
+                            std::cout << "Modbus exception: " << e.get_type() << " plz help" << std::endl;
+                        }
+                        if(response.has_exception<TimeoutException>())
+                        {
+                            std::cout << "Timeout was reached" << std::endl;
+                        }
+                        else
+                        {
+                            std::cout << "Unknown exception" << std::endl;
+                        }
+
+                        return;
+                    }
+
+                    // Otherwise, everything went good and the response is available
+                    for(auto& value : response.get().get_values())
+                    {
+                        std::cout << value.address << ": " << value.value << std::endl;
+                    }
+                });
+                break;
+            }
+            case 'q':
+                // Quit
+                return 0;
+
+            default:
+                break;
         }
 
-        // Otherwise, everything went good and the response is available
-        for(auto& value : response.get().get_values())
-        {
-            std::cout << value.address << ": " << value.value << std::endl;
-        }
-    });
+    }
 
     // Schedule a recurring request
     // All the scheduled requests will be handled by the ISessionResponseHandler registered on session creation

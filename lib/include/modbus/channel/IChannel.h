@@ -29,6 +29,8 @@ public:
                               const IRequest& request,
                               const openpal::duration_t& timeout,
                               ResponseHandler<openpal::rseq_t> response_handler) = 0;
+
+    virtual void shutdown() = 0;
 };
 
 } // namespace modbus

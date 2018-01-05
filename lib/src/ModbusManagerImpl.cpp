@@ -20,31 +20,33 @@ ModbusManagerImpl::ModbusManagerImpl(std::shared_ptr<Logger> logger, unsigned in
 
 }
 
+ModbusManagerImpl::~ModbusManagerImpl()
+{
+    shutdown();
+}
+
 std::shared_ptr<IChannel> ModbusManagerImpl::create_tcp_channel(const Ipv4Endpoint& endpoint,
                                                                 std::unique_ptr<ISchedule> channel_retry_schedule)
 {
     auto executor = std::make_shared<openpal::StrandExecutor>(m_io_service);
-    auto tcp_connection = std::make_shared<AsioTcpConnection>(m_io_service, endpoint);
-    return std::make_shared<ChannelTcp>(executor, m_logger->clone("channel"), tcp_connection);
+    auto tcp_connection = std::make_shared<AsioTcpConnection>(m_io_service, executor->strand, endpoint);
+    auto channel = std::make_shared<ChannelTcp>(executor, m_logger->clone("channel"), tcp_connection);
+
+    m_created_channels.emplace_back(channel);
+
+    return channel;
 }
 
-void ModbusManagerImpl::run()
+void ModbusManagerImpl::shutdown()
 {
-    asio::io_service io;
-
-    asio::steady_timer timer1(io);
-    timer1.expires_from_now(std::chrono::seconds(5));
-    timer1.async_wait([=] (const std::error_code& err) {
-        m_logger->info("The end of timer 1");
-    });
-
-    asio::steady_timer timer2(io);
-    timer2.expires_from_now(std::chrono::seconds(2));
-    timer2.async_wait([=] (const std::error_code& err) {
-        m_logger->info("The end of timer 2");
-    });
-
-    io.run();
+    for(auto channel_ptr : m_created_channels)
+    {
+        auto channel = channel_ptr.lock();
+        if(channel)
+        {
+            channel->shutdown();
+        }
+    }
 }
 
 } // namespace modbus

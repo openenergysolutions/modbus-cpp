@@ -19,6 +19,7 @@ public:
 
     virtual void set_listener(ConnectionListener* listener) = 0;
     virtual void send(const openpal::rseq_t& data) = 0;
+    virtual void close() = 0;
 };
 
 } // namespace modbus

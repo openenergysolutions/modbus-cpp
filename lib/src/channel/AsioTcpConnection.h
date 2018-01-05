@@ -13,10 +13,11 @@ namespace modbus
 class AsioTcpConnection : public ITcpConnection
 {
 public:
-    AsioTcpConnection(std::shared_ptr<asio::io_service> io_service, const Ipv4Endpoint& endpoint);
+    AsioTcpConnection(std::shared_ptr<asio::io_service> io_service, asio::strand strand, const Ipv4Endpoint& endpoint);
 
     void set_listener(ConnectionListener* listener) override;
     void send(const openpal::rseq_t& data) override;
+    void close() override;
 
 private:
     enum class ConnectionStatus
@@ -30,9 +31,12 @@ private:
     void connect_handler(const std::error_code& ec);
     void read_handler(const std::error_code& ec, std::size_t bytes_transferred);
     void write_handler(const std::error_code& ec, std::size_t bytes_transferred);
+
     void send_buffer();
+    void send_error();
 
     Ipv4Endpoint m_ip_endpoint;
+    asio::strand m_strand;
     asio::ip::tcp::resolver m_resolver;
     asio::ip::tcp::socket m_tcp_socket;
 

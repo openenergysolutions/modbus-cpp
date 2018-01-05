@@ -5,8 +5,9 @@
 namespace modbus
 {
 
-AsioTcpConnection::AsioTcpConnection(std::shared_ptr<asio::io_service> io_service, const Ipv4Endpoint& endpoint)
+AsioTcpConnection::AsioTcpConnection(std::shared_ptr<asio::io_service> io_service, asio::strand strand, const Ipv4Endpoint& endpoint)
 : m_ip_endpoint{endpoint},
+  m_strand{strand},
   m_resolver{*io_service},
   m_tcp_socket{*io_service},
   m_current_connection_status{ConnectionStatus::NotConnected},
@@ -33,7 +34,7 @@ void AsioTcpConnection::send(const openpal::rseq_t& data)
         {
             resolve_handler(ec, it);
         };
-        m_resolver.async_resolve(q, cb);
+        m_resolver.async_resolve(q, m_strand.wrap(cb));
     }
 
     if(m_current_connection_status == ConnectionStatus::Connected)
@@ -42,11 +43,22 @@ void AsioTcpConnection::send(const openpal::rseq_t& data)
     }
 }
 
+void AsioTcpConnection::close()
+{
+    if(m_tcp_socket.is_open())
+    {
+        m_current_connection_status = ConnectionStatus::NotConnected;
+        m_tcp_socket.shutdown(asio::ip::tcp::socket::shutdown_both);
+        m_tcp_socket.close();
+    }
+}
+
 void AsioTcpConnection::resolve_handler(const std::error_code& ec, asio::ip::tcp::resolver::iterator it)
 {
     if(ec)
     {
         m_current_connection_status = ConnectionStatus::NotConnected;
+        send_error();
         return;
     }
 
@@ -54,7 +66,7 @@ void AsioTcpConnection::resolve_handler(const std::error_code& ec, asio::ip::tcp
     {
         connect_handler(ec);
     };
-    m_tcp_socket.async_connect(it->endpoint(), cb);
+    m_tcp_socket.async_connect(it->endpoint(), m_strand.wrap(cb));
 }
 
 void AsioTcpConnection::connect_handler(const std::error_code& ec)
@@ -62,6 +74,7 @@ void AsioTcpConnection::connect_handler(const std::error_code& ec)
     if(ec)
     {
         m_current_connection_status = ConnectionStatus::NotConnected;
+        send_error();
         return;
     }
 
@@ -72,15 +85,15 @@ void AsioTcpConnection::connect_handler(const std::error_code& ec)
     {
         read_handler(ec, bytes_t);
     };
-    m_tcp_socket.async_read_some(asio::buffer(m_read_buffer, m_read_buffer.size()), cb);
+    m_tcp_socket.async_read_some(asio::buffer(m_read_buffer, m_read_buffer.size()), m_strand.wrap(cb));
 }
 
 void AsioTcpConnection::read_handler(const std::error_code& ec, std::size_t bytes_transferred)
 {
     if(ec)
     {
-        m_tcp_socket.close();
         m_current_connection_status = ConnectionStatus::NotConnected;
+        send_error();
         return;
     }
 
@@ -93,15 +106,15 @@ void AsioTcpConnection::read_handler(const std::error_code& ec, std::size_t byte
     {
         read_handler(ec, bytes_transferred);
     };
-    m_tcp_socket.async_read_some(asio::buffer(m_read_buffer, m_read_buffer.size()), cb);
+    m_tcp_socket.async_read_some(asio::buffer(m_read_buffer, m_read_buffer.size()), m_strand.wrap(cb));
 }
 
 void AsioTcpConnection::write_handler(const std::error_code& ec, std::size_t bytes_transferred)
 {
     if(ec)
     {
-        m_tcp_socket.close();
         m_current_connection_status = ConnectionStatus::NotConnected;
+        send_error();
         return;
     }
 
@@ -116,7 +129,20 @@ void AsioTcpConnection::send_buffer()
         {
             write_handler(ec, bytes_transferred);
         };
-        m_tcp_socket.async_send(asio::buffer(m_write_buffer->as_rslice(), m_write_buffer->length()), cb);
+        m_tcp_socket.async_send(asio::buffer(m_write_buffer->as_rslice(), m_write_buffer->length()), m_strand.wrap(cb));
+    }
+}
+
+void AsioTcpConnection::send_error()
+{
+    if(m_tcp_socket.is_open())
+    {
+        m_tcp_socket.close();
+    }
+
+    if(m_connection_listener)
+    {
+        m_connection_listener->on_error();
     }
 }
 

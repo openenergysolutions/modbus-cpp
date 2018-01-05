@@ -34,12 +34,15 @@ public:
                       const openpal::duration_t& timeout,
                       ResponseHandler<openpal::rseq_t> response_handler) override;
 
+    void shutdown() override;
+
     // Connection listener
     void on_receive(const openpal::rseq_t& data) override;
     void on_error() override;
 
 private:
     void check_pending_requests();
+    void cancel_current_request();
 
     std::shared_ptr<openpal::IExecutor> m_executor;
     std::shared_ptr<Logger> m_logger;
@@ -66,6 +69,7 @@ private:
     };
     std::deque<std::unique_ptr<PendingRequest>> m_pending_requests;
     std::unique_ptr<PendingRequest> m_current_request;
+    openpal::Timer m_current_timer;
 };
 
 } // namespace modbus

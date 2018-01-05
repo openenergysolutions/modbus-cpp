@@ -2,6 +2,7 @@
 
 #include "openpal/container/Buffer.h"
 
+#include "modbus/TimeoutException.h"
 #include "modbus/messages/IRequest.h"
 #include "channel/ITcpConnection.h"
 #include "session/SessionImpl.h"
@@ -14,7 +15,8 @@ ChannelTcp::ChannelTcp(std::shared_ptr<openpal::IExecutor> executor,
                        std::shared_ptr<ITcpConnection> tcp_connection)
 : m_executor{std::move(executor)},
   m_logger{std::move(logger)},
-  m_tcp_connection{tcp_connection}
+  m_tcp_connection{tcp_connection},
+  m_current_timer{nullptr}
 {
     m_tcp_connection->set_listener(this);
 }
@@ -48,12 +50,25 @@ void ChannelTcp::send_request(const UnitIdentifier& unit_identifier,
     check_pending_requests();
 }
 
+void ChannelTcp::shutdown()
+{
+    m_executor->post([=, self = shared_from_this()] {
+        m_current_request.release();
+        m_pending_requests.clear();
+
+        m_tcp_connection->close();
+    });
+}
+
 void ChannelTcp::on_receive(const openpal::rseq_t& data)
 {
     if(m_current_request)
     {
+        m_current_timer.cancel();
         m_current_request->response_handler(Expected<openpal::rseq_t>{data});
         m_current_request.release();
+
+        check_pending_requests();
     }
 }
 
@@ -61,8 +76,11 @@ void ChannelTcp::on_error()
 {
     if(m_current_request)
     {
+        m_current_timer.cancel();
         m_current_request->response_handler(Expected<openpal::rseq_t>::from_exception(std::domain_error("connection failure")));
         m_current_request.release();
+
+        check_pending_requests();
     }
 }
 
@@ -73,7 +91,21 @@ void ChannelTcp::check_pending_requests()
         m_current_request = std::move(m_pending_requests.front());
         m_pending_requests.pop_front();
 
+        m_current_timer = m_executor->start(m_current_request->timeout, [=, self = shared_from_this()]() {
+            cancel_current_request();
+        });
         m_tcp_connection->send(m_current_request->request.as_rslice());
+    }
+}
+
+void ChannelTcp::cancel_current_request()
+{
+    if(m_current_request)
+    {
+        m_current_request->response_handler(Expected<openpal::rseq_t>::from_exception(TimeoutException()));
+        m_current_request.release();
+
+        check_pending_requests();
     }
 }
 
