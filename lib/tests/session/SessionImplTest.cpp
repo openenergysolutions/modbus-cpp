@@ -17,6 +17,9 @@ using namespace modbus;
 
 TEST_CASE("SessionImpl")
 {
+    auto executor = Mock<openpal::IExecutor>();
+    auto executor_ptr = std::shared_ptr<openpal::IExecutor>(&executor.get(), [](...) {});
+
     auto logger = LoggerFactory::create_console_logger("test");
 
     auto channel = Mock<IChannel>();
@@ -26,15 +29,25 @@ TEST_CASE("SessionImpl")
     auto session_handler = Mock<ISessionResponseHandler>();
     auto session_handler_ptr = std::shared_ptr<ISessionResponseHandler>(&session_handler.get(), [](...) {});
 
-    SessionImpl session{ logger, channel_ptr, UnitIdentifier::default_unit_identifier(), std::chrono::seconds(5), session_handler_ptr };
+    const auto unit_identifier = UnitIdentifier::default_unit_identifier();
+    const auto timeout = std::chrono::seconds(5);
 
-    SECTION("ReadHoldingRegister sends request to channel")
+    SessionImpl session{ executor_ptr, logger, channel_ptr, unit_identifier, std::chrono::seconds(5), session_handler_ptr };
+
+    /*SECTION("ReadHoldingRegister sends request to channel")
     {
         ReadHoldingRegistersRequest req{ Address{0x0001}, 5 };
         session.send_request(req, [=](const Expected<ReadHoldingRegistersResponse>&)
         {
             
         });
-        Verify(Method(channel, send_request)).Exactly(1);
-    }
+        Verify(Method(channel, send_request).Matching([=](const UnitIdentifier& r_unit_identifier,
+                                                         const IRequest& r_request,
+                                                         const openpal::duration_t& r_timeout,
+                                                         ResponseHandler<openpal::rseq_t> r_response_handler)
+        {
+            return r_unit_identifier == unit_identifier &&
+                r_timeout == timeout;
+        })).Exactly(Once);
+    }*/
 }

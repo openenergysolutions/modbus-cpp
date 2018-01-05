@@ -3,14 +3,19 @@
 
 #include <vector>
 
+#include "modbus/Expected.h"
 #include "modbus/messages/IResponse.h"
 #include "modbus/messages/RegisterValue.h"
+#include "openpal/serialization/BigEndian.h"
 
 namespace modbus
 {
 
 class ReadHoldingRegistersResponse : public IResponse
 {
+public:
+    static Expected<ReadHoldingRegistersResponse> parse(const openpal::rseq_t& data);
+
 public:
     ReadHoldingRegistersResponse() = default;
 

@@ -10,8 +10,19 @@ ReadHoldingRegistersRequest::ReadHoldingRegistersRequest(Address starting_addres
 
 }
 
-void ReadHoldingRegistersRequest::build_request(openpal::wseq_t& buffer)
+size_t ReadHoldingRegistersRequest::get_request_length() const
 {
+    return 5;
+}
+
+void ReadHoldingRegistersRequest::build_request(openpal::wseq_t& buffer) const
+{
+    buffer.put('h');
+    buffer.put('e');
+    buffer.put('l');
+    buffer.put('l');
+    buffer.put('o');
+
 
 }
 

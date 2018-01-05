@@ -16,7 +16,7 @@ class ReadHoldingRegistersResponse;
 class ReadInputRegistersRequest;
 class ReadInputRegistersResponse;
 
-class ISession
+class ISession : public std::enable_shared_from_this<ISession>
 {
 public:
     virtual ~ISession() = default;

@@ -16,12 +16,12 @@ class IRequest;
 class ISession;
 class ISessionResponseHandler;
 
-class IChannel
+class IChannel : public std::enable_shared_from_this<IChannel>
 {
 public:
     virtual ~IChannel() = default;
 
-    virtual std::unique_ptr<ISession> create_session(const UnitIdentifier& unit_identifier,
+    virtual std::shared_ptr<ISession> create_session(const UnitIdentifier& unit_identifier,
                                                      const openpal::duration_t& default_timeout,
                                                      std::shared_ptr<ISessionResponseHandler> session_response_handler) = 0;
 

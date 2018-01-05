@@ -7,6 +7,8 @@
 
 #include <algorithm>
 #include <exception>
+#include <stdexcept>
+#include <typeinfo>
 
 namespace modbus
 {
@@ -43,6 +45,12 @@ public:
             new(&m_exception) std::exception_ptr{std::move(rhs.m_exception)};
         }
     }
+
+    ~Expected()
+    {
+        if (m_has_value) m_value.~T();
+        else m_exception.~exception_ptr();
+    };
 
     template<typename E>
     static Expected<T> from_exception(const E& exception)
@@ -105,6 +113,12 @@ public:
         return false;
     }
 
+    std::exception_ptr get_exception() const
+    {
+        if (m_has_value) throw std::invalid_argument("no exception");
+        return m_exception;
+    }
+
     template<typename E>
     E get_exception() const
     {
@@ -121,6 +135,8 @@ public:
     }
 
 private:
+    Expected() {}
+
     union
     {
         T m_value;

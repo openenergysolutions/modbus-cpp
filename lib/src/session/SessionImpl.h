@@ -5,6 +5,7 @@
 
 #include "modbus/session/ISession.h"
 #include "modbus/channel/UnitIdentifier.h"
+#include "openpal/executor/IExecutor.h"
 
 namespace modbus
 {
@@ -17,7 +18,8 @@ class UnitIdentifier;
 class SessionImpl : public ISession
 {
 public:
-    SessionImpl(std::shared_ptr<Logger> logger,
+    SessionImpl(std::shared_ptr<openpal::IExecutor> executor,
+                std::shared_ptr<Logger> logger,
                 std::shared_ptr<IChannel> channel,
                 const UnitIdentifier& unit_identifier,
                 const openpal::duration_t& default_timeout,
@@ -57,6 +59,7 @@ private:
 
     }
 
+    std::shared_ptr<openpal::IExecutor> m_executor;
     std::shared_ptr<Logger> m_logger;
     std::shared_ptr<IChannel> m_channel;
     UnitIdentifier m_unit_identifier;

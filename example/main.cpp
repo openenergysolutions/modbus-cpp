@@ -54,15 +54,14 @@ int main(int argc, char* argv[])
 
     // Create a TCP channel
     // Each channel has its own Executor with a strand to avoid many multithreading issues
-    std::unique_ptr<IChannel> channel = modbusManager->create_tcp_channel(Ipv4Endpoint{"localhost", 502},
-                                                                          ScheduleFactory::create_periodic_schedule(
-                                                                                  std::chrono::seconds(5)));
+    auto channel = modbusManager->create_tcp_channel(Ipv4Endpoint{"127.0.0.1", 8888},
+                                                     ScheduleFactory::create_periodic_schedule(std::chrono::seconds(5)));
 
     // Create a session with a specific unit identifier
     // Users will mainly play with the session to obtain what they want
-    std::unique_ptr<ISession> session = channel->create_session(UnitIdentifier::default_unit_identifier(),
-                                                                std::chrono::seconds(3),
-                                                                std::make_shared<MySessionResponseHandler>());
+    auto session = channel->create_session(UnitIdentifier::default_unit_identifier(),
+                                           std::chrono::seconds(3),
+                                           std::make_shared<MySessionResponseHandler>());
 
     // Send a request and print the result
     // You can override the default timeout value set when creating the session
@@ -93,10 +92,10 @@ int main(int argc, char* argv[])
 
     // Schedule a recurring request
     // All the scheduled requests will be handled by the ISessionResponseHandler registered on session creation
-    session->schedule_request(req, ScheduleFactory::create_periodic_schedule(std::chrono::seconds(5)));
+    //session->schedule_request(req, ScheduleFactory::create_periodic_schedule(std::chrono::seconds(5)));
 
     // Ignore this line, this is just a test
-    modbusManager->run();
+    //modbusManager->run();
 
     return 0;
 }

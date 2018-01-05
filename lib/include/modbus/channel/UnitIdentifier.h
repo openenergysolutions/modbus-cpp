@@ -8,7 +8,7 @@ namespace modbus
 
 class UnitIdentifier
 {
-    static constexpr uint8_t DefaultUnitIdentifier = 0xFF;
+    constexpr static uint8_t DefaultUnitIdentifier = 0xFF;
 
 public:
     static UnitIdentifier default_unit_identifier()

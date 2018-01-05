@@ -21,7 +21,7 @@ public:
     IModbusManager() = default;
     virtual ~IModbusManager() = default;
 
-    virtual std::unique_ptr<IChannel> create_tcp_channel(const Ipv4Endpoint& endpoint,
+    virtual std::shared_ptr<IChannel> create_tcp_channel(const Ipv4Endpoint& endpoint,
                                                          std::unique_ptr<ISchedule> channel_retry_schedule) = 0;
     virtual void run() = 0;
 };
