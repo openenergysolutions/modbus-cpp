@@ -45,12 +45,13 @@ void AsioTcpConnection::send(const openpal::rseq_t& data)
 
 void AsioTcpConnection::close()
 {
-    if(m_tcp_socket.is_open())
-    {
+    //if(m_tcp_socket.is_open())
+    //{
         m_current_connection_status = ConnectionStatus::NotConnected;
-        m_tcp_socket.shutdown(asio::ip::tcp::socket::shutdown_both);
-        m_tcp_socket.close();
-    }
+        //m_tcp_socket.shutdown(asio::ip::tcp::socket::shutdown_both);
+        std::error_code ec;
+        m_tcp_socket.close(ec);
+    //}
 }
 
 void AsioTcpConnection::resolve_handler(const std::error_code& ec, asio::ip::tcp::resolver::iterator it)

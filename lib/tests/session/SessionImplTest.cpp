@@ -1,4 +1,4 @@
-#include "catch.hpp"
+/*#include "catch.hpp"
 #include "fakeit.hpp"
 
 #include "session/SessionImpl.h"
@@ -34,7 +34,7 @@ TEST_CASE("SessionImpl")
 
     SessionImpl session{ executor_ptr, logger, channel_ptr, unit_identifier, std::chrono::seconds(5), session_handler_ptr };
 
-    /*SECTION("ReadHoldingRegister sends request to channel")
+    SECTION("ReadHoldingRegister sends request to channel")
     {
         ReadHoldingRegistersRequest req{ Address{0x0001}, 5 };
         session.send_request(req, [=](const Expected<ReadHoldingRegistersResponse>&)
@@ -49,5 +49,6 @@ TEST_CASE("SessionImpl")
             return r_unit_identifier == unit_identifier &&
                 r_timeout == timeout;
         })).Exactly(Once);
-    }*/
+    }
 }
+*/

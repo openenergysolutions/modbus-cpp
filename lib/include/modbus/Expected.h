@@ -21,7 +21,7 @@ public:
     Expected(T&& rhs) : m_value{std::move(rhs)}, m_has_value{true} {}
 
     Expected(const Expected& rhs)
-        : m_value{rhs.m_value}
+        : m_has_value{rhs.m_has_value}
     {
         if(m_has_value)
         {
@@ -34,7 +34,7 @@ public:
     }
 
     Expected(Expected&& rhs)
-        : m_value{rhs.m_value}
+        : m_has_value{rhs.m_has_value}
     {
         if(m_has_value)
         {
@@ -105,7 +105,7 @@ public:
         {
             if(!m_has_value) std::rethrow_exception(m_exception);
         }
-        catch(const E& exception)
+        catch(const E&)
         {
             return true;
         }

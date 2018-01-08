@@ -53,7 +53,7 @@ void ChannelTcp::send_request(const UnitIdentifier& unit_identifier,
 void ChannelTcp::shutdown()
 {
     m_executor->post([=, self = shared_from_this()] {
-        m_current_request.release();
+        m_current_request.reset(nullptr);
         m_pending_requests.clear();
 
         m_tcp_connection->close();
@@ -66,7 +66,7 @@ void ChannelTcp::on_receive(const openpal::rseq_t& data)
     {
         m_current_timer.cancel();
         m_current_request->response_handler(Expected<openpal::rseq_t>{data});
-        m_current_request.release();
+        m_current_request.reset(nullptr);
 
         check_pending_requests();
     }
@@ -78,7 +78,7 @@ void ChannelTcp::on_error()
     {
         m_current_timer.cancel();
         m_current_request->response_handler(Expected<openpal::rseq_t>::from_exception(std::domain_error("connection failure")));
-        m_current_request.release();
+        m_current_request.reset(nullptr);
 
         check_pending_requests();
     }
@@ -103,7 +103,7 @@ void ChannelTcp::cancel_current_request()
     if(m_current_request)
     {
         m_current_request->response_handler(Expected<openpal::rseq_t>::from_exception(TimeoutException()));
-        m_current_request.release();
+        m_current_request.reset(nullptr);
 
         check_pending_requests();
     }
