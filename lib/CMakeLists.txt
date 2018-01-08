@@ -34,7 +34,7 @@ set(modbus_private_headers
     ./src/PeriodicSchedule.h
 
     ./src/channel/ChannelTcp.h
-    ./src/channel/ConnectionListener.h
+    ./src/channel/IConnectionListener.h
     ./src/channel/ITcpConnection.h
     ./src/channel/AsioTcpConnection.h
     ./src/channel/TransactionIdentifier.h

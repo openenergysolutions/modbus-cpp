@@ -1,15 +1,15 @@
-#ifndef MODBUS_CONNECTIONCALLBACK_H
-#define MODBUS_CONNECTIONCALLBACK_H
+#ifndef MODBUS_ICONNECTIONLISTENER_H
+#define MODBUS_ICONNECTIONLISTENER_H
 
 #include <openpal/container/SequenceTypes.h>
 
 namespace modbus
 {
 
-class ConnectionListener
+class IConnectionListener
 {
 public:
-    virtual ~ConnectionListener() = default;
+    virtual ~IConnectionListener() = default;
 
     virtual void on_receive(const openpal::rseq_t& data) = 0;
     virtual void on_error() = 0;
@@ -17,4 +17,4 @@ public:
 
 } // namespace modbus
 
-#endif //MODBUS_CONNECTIONCALLBACK_H
+#endif //MODBUS_ICONNECTIONLISTENER_H

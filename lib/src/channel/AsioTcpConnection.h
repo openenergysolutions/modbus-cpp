@@ -15,7 +15,7 @@ class AsioTcpConnection : public ITcpConnection
 public:
     AsioTcpConnection(std::shared_ptr<asio::io_service> io_service, asio::strand strand, const Ipv4Endpoint& endpoint);
 
-    void set_listener(ConnectionListener* listener) override;
+    void set_listener(IConnectionListener* listener) override;
     void send(const openpal::rseq_t& data) override;
     void close() override;
 
@@ -44,7 +44,7 @@ private:
     std::array<uint8_t, 4096> m_read_buffer;
     std::unique_ptr<openpal::Buffer> m_write_buffer;
 
-    ConnectionListener* m_connection_listener;
+    IConnectionListener* m_connection_listener;
 };
 
 } // namespace modbus

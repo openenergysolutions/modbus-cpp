@@ -1,6 +1,6 @@
 #include "channel/AsioTcpConnection.h"
 
-#include "channel/ConnectionListener.h"
+#include "channel/IConnectionListener.h"
 
 namespace modbus
 {
@@ -16,7 +16,7 @@ AsioTcpConnection::AsioTcpConnection(std::shared_ptr<asio::io_service> io_servic
 
 }
 
-void AsioTcpConnection::set_listener(ConnectionListener* listener)
+void AsioTcpConnection::set_listener(IConnectionListener* listener)
 {
     m_connection_listener = listener;
 }
@@ -45,13 +45,11 @@ void AsioTcpConnection::send(const openpal::rseq_t& data)
 
 void AsioTcpConnection::close()
 {
-    //if(m_tcp_socket.is_open())
-    //{
-        m_current_connection_status = ConnectionStatus::NotConnected;
-        //m_tcp_socket.shutdown(asio::ip::tcp::socket::shutdown_both);
-        std::error_code ec;
-        m_tcp_socket.close(ec);
-    //}
+    m_current_connection_status = ConnectionStatus::NotConnected;
+
+    std::error_code ec;
+    m_tcp_socket.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
+    m_tcp_socket.close(ec);
 }
 
 void AsioTcpConnection::resolve_handler(const std::error_code& ec, asio::ip::tcp::resolver::iterator it)

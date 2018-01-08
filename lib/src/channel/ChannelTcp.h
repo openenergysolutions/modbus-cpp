@@ -8,7 +8,7 @@
 
 #include "logging/Logger.h"
 #include "modbus/messages/IRequest.h"
-#include "channel/ConnectionListener.h"
+#include "channel/IConnectionListener.h"
 
 #include "openpal/container/Buffer.h"
 #include "openpal/executor/IExecutor.h"
@@ -18,7 +18,7 @@ namespace modbus
 
 class ITcpConnection;
 
-class ChannelTcp : public IChannel, public ConnectionListener
+class ChannelTcp : public IChannel, public IConnectionListener
 {
 public:
     ChannelTcp(std::shared_ptr<openpal::IExecutor> executor,
