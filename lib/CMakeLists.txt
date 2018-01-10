@@ -79,4 +79,6 @@ target_include_directories(modbus
     PRIVATE ./src
 )
 
-add_subdirectory(./tests)
+if(${MODBUS_BUILD_TESTS})
+    add_subdirectory(./tests)
+endif()

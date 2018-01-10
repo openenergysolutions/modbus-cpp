@@ -18,7 +18,5 @@ jobs:
           working_directory: build
       - run:
           name: Test
-          command: mkdir TestResults && lib/tests/modbus_tests -r junit -o TestResults/modbus_tests.xml
+          command: ctest .
           working_directory: build
-      - store_test_results:
-          path: build/TestResults

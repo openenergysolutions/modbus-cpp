@@ -5,7 +5,20 @@ project (modbus)
 # Preserve folders for Visual Studio
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-enable_testing()
+# Check if we are the root project
+set(is_root OFF)
+if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
+    set(is_root ON)
+endif()
+
+# Cache variable to enable unit tests
+set(MODBUS_BUILD_TESTS ${is_root} CACHE BOOL "Build unit tests")
+if(${MODBUS_BUILD_TESTS})
+    enable_testing()
+endif()
+
+# Cache variable to enable example
+set(MODBUS_BUILD_EXAMPLE ${is_root} CACHE BOOL "Build example")
 
 # Import dependencies
 add_subdirectory(./deps/asio EXCLUDE_FROM_ALL)
@@ -16,4 +29,7 @@ add_subdirectory(./deps/spdlog EXCLUDE_FROM_ALL)
 
 # Add projects
 add_subdirectory(./lib)
-add_subdirectory(./example)
+
+if(${MODBUS_BUILD_EXAMPLE})
+    add_subdirectory(./example)
+endif()
