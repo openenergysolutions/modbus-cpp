@@ -23,7 +23,6 @@ set(modbus_tests_src
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${modbus_tests_headers} ${modbus_tests_src})
 
 add_executable(modbus_tests ${modbus_tests_headers} ${modbus_tests_src})
-target_compile_definitions(modbus_tests PRIVATE CATCH_CONFIG_FAST_COMPILE)
 target_link_libraries(modbus_tests
     PRIVATE catch2 modbus openpal asiopal asio
 )
