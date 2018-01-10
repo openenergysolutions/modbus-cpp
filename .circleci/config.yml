@@ -18,5 +18,5 @@ jobs:
           working_directory: build
       - run:
           name: Test
-          command: ctest .
+          command: ctest -VV .
           working_directory: build
