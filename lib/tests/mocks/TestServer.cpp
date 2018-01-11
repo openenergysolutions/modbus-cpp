@@ -132,11 +132,10 @@ void TestServer::close_socket()
 {
     if(m_current_socket)
     {
-        asio::error_code ec;
-        m_current_socket->shutdown(asio::ip::tcp::socket::shutdown_both, ec);
-
         if(m_current_socket->is_open())
         {
+            asio::error_code ec;
+            m_current_socket->shutdown(asio::ip::tcp::socket::shutdown_both, ec);
             m_current_socket->close(ec);
         }
     }

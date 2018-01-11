@@ -28,6 +28,8 @@ void close_connection(asio::strand& strand, std::shared_ptr<AsioTcpConnection> c
 
 TEST_CASE("AsioTcpConnection")
 {
+    ConnectionListenerMock connection_listener;
+
     constexpr auto test_port = 502;
     auto io_service = std::make_shared<asio::io_service>();
     asio::strand strand{*io_service};
@@ -35,8 +37,6 @@ TEST_CASE("AsioTcpConnection")
 
     const Ipv4Endpoint endpoint{"127.0.0.1", (uint32_t)test_port};
     auto asio_tcp_connection = std::make_shared<AsioTcpConnection>(io_service, strand, endpoint);
-
-    ConnectionListenerMock connection_listener;
     asio_tcp_connection->set_listener(&connection_listener);
 
     TestServer test_server{(unsigned short)test_port};
@@ -76,7 +76,7 @@ TEST_CASE("AsioTcpConnection")
             test_server.start();
             send_test_data(strand, asio_tcp_connection, test_data.as_seq());
 
-            //REQUIRE(test_server.wait_for_connection() == true);
+            REQUIRE(test_server.wait_for_connection() == true);
             REQUIRE(test_server.wait_for_data() == true);
         }
 
