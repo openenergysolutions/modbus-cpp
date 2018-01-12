@@ -8,20 +8,21 @@ using namespace std::placeholders;
 namespace modbus
 {
 
-AsioTcpConnection::AsioTcpConnection(std::shared_ptr<asio::io_service> io_service,
+AsioTcpConnection::AsioTcpConnection(std::shared_ptr<Logger> logger,
+                                     std::shared_ptr<asio::io_service> io_service,
                                      asio::strand strand,
                                      const Ipv4Endpoint& endpoint)
-        : m_ip_endpoint{endpoint},
+        : m_logger{logger},
+          m_ip_endpoint{endpoint},
           m_strand{strand},
           m_resolver{*io_service},
           m_tcp_socket{*io_service},
-          m_current_connection_status{ConnectionStatus::NotConnected},
-          m_connection_listener{nullptr}
+          m_current_connection_status{ConnectionStatus::NotConnected}
 {
 
 }
 
-void AsioTcpConnection::set_listener(IConnectionListener* listener)
+void AsioTcpConnection::set_listener(std::weak_ptr<IConnectionListener> listener)
 {
     m_connection_listener = listener;
 }
@@ -32,6 +33,8 @@ void AsioTcpConnection::send(const openpal::rseq_t& data)
 
     if(m_current_connection_status == ConnectionStatus::NotConnected)
     {
+        m_logger->info("Establishing connection to {}:{}", m_ip_endpoint.get_hostname(), m_ip_endpoint.get_port());
+
         m_current_connection_status = ConnectionStatus::Connecting;
         asio::ip::tcp::resolver::query query{m_ip_endpoint.get_hostname(), std::to_string(m_ip_endpoint.get_port())};
         m_resolver.async_resolve(query,
@@ -48,20 +51,25 @@ void AsioTcpConnection::send(const openpal::rseq_t& data)
 
 void AsioTcpConnection::close()
 {
-    m_current_connection_status = ConnectionStatus::NotConnected;
+    m_strand.dispatch([=, self = shared_from_this()] () {
+        m_current_connection_status = ConnectionStatus::NotConnected;
 
-    if(m_tcp_socket.is_open())
-    {
-        std::error_code ec;
-        m_tcp_socket.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
-        m_tcp_socket.close(ec);
-    }
+        if(m_tcp_socket.is_open())
+        {
+            m_logger->info("Closing connection");
+
+            std::error_code ec;
+            m_tcp_socket.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
+            m_tcp_socket.close(ec);
+        }
+    });
 }
 
 void AsioTcpConnection::resolve_handler(const asio::error_code& ec, asio::ip::tcp::resolver::iterator endpoints)
 {
     if(ec)
     {
+        m_logger->error("IP resolver error: {}", ec.message());
         m_current_connection_status = ConnectionStatus::NotConnected;
         send_error();
         return;
@@ -78,11 +86,13 @@ void AsioTcpConnection::connect_handler(const asio::error_code& ec)
 {
     if(ec)
     {
+        m_logger->error("Connection error: {}", ec.message());
         close();
         send_error();
         return;
     }
 
+    m_logger->info("Connection established");
     m_current_connection_status = ConnectionStatus::Connected;
     send_buffer();
 
@@ -93,14 +103,18 @@ void AsioTcpConnection::read_handler(const asio::error_code& ec, std::size_t byt
 {
     if(ec)
     {
+        m_logger->error("Read error: {}", ec.message());
         close();
         send_error();
         return;
     }
 
-    if(m_connection_listener)
+    m_logger->info("Received {} bytes", bytes_transferred);
+
+    auto connection_listener = m_connection_listener.lock();
+    if(connection_listener)
     {
-        m_connection_listener->on_receive(openpal::rseq_t{m_read_buffer.data(), (unsigned int) bytes_transferred});
+        connection_listener->on_receive(openpal::rseq_t{m_read_buffer.data(), (unsigned int) bytes_transferred});
     }
 
     begin_read();
@@ -110,16 +124,21 @@ void AsioTcpConnection::write_handler(const std::error_code& ec, std::size_t byt
 {
     if(ec)
     {
+        m_logger->error("Write error: {}", ec.message());
         close();
         send_error();
         return;
     }
 
-    if(m_connection_listener)
-    {
-        m_connection_listener->on_write_done();
-    }
+    m_logger->info("Sent {} bytes", bytes_transferred);
+
     m_write_buffer = nullptr;
+
+    auto connection_listener = m_connection_listener.lock();
+    if(connection_listener)
+    {
+        connection_listener->on_write_done();
+    }
 }
 
 void AsioTcpConnection::begin_read()
@@ -143,9 +162,10 @@ void AsioTcpConnection::send_buffer()
 
 void AsioTcpConnection::send_error()
 {
-    if(m_connection_listener)
+    auto connection_listener = m_connection_listener.lock();
+    if(connection_listener)
     {
-        m_connection_listener->on_error();
+        connection_listener->on_error();
     }
 }
 

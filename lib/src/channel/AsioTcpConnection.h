@@ -6,6 +6,7 @@
 #include "openpal/container/Buffer.h"
 
 #include "modbus/Ipv4Endpoint.h"
+#include "logging/Logger.h"
 #include "channel/ITcpConnection.h"
 
 namespace modbus
@@ -14,9 +15,12 @@ namespace modbus
 class AsioTcpConnection : public ITcpConnection
 {
 public:
-    AsioTcpConnection(std::shared_ptr<asio::io_service> io_service, asio::strand strand, const Ipv4Endpoint& endpoint);
+    AsioTcpConnection(std::shared_ptr<Logger> logger,
+                      std::shared_ptr<asio::io_service> io_service,
+                      asio::strand strand,
+                      const Ipv4Endpoint& endpoint);
 
-    void set_listener(IConnectionListener* listener) override;
+    void set_listener(std::weak_ptr<IConnectionListener> listener) override;
     void send(const openpal::rseq_t& data) override;
     void close() override;
 
@@ -37,6 +41,7 @@ private:
     void send_buffer();
     void send_error();
 
+    std::shared_ptr<Logger> m_logger;
     Ipv4Endpoint m_ip_endpoint;
     asio::strand m_strand;
     asio::ip::tcp::resolver m_resolver;
@@ -46,7 +51,7 @@ private:
     std::array<uint8_t, 4096> m_read_buffer;
     std::unique_ptr<openpal::Buffer> m_write_buffer;
 
-    IConnectionListener* m_connection_listener;
+    std::weak_ptr<IConnectionListener> m_connection_listener;
 };
 
 } // namespace modbus

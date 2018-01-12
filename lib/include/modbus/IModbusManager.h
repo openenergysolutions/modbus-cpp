@@ -1,6 +1,7 @@
 #ifndef MODBUS_IMODBUSMANAGER_H
 #define MODBUS_IMODBUSMANAGER_H
 
+#include <string>
 #include <memory>
 
 namespace modbus
@@ -21,7 +22,8 @@ public:
     IModbusManager() = default;
     virtual ~IModbusManager() = default;
 
-    virtual std::shared_ptr<IChannel> create_tcp_channel(const Ipv4Endpoint& endpoint,
+    virtual std::shared_ptr<IChannel> create_tcp_channel(const std::string& name,
+                                                         const Ipv4Endpoint& endpoint,
                                                          std::unique_ptr<ISchedule> channel_retry_schedule) = 0;
     virtual void shutdown() = 0;
 };

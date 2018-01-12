@@ -8,6 +8,7 @@
 #include "openpal/executor/Typedefs.h"
 
 #include "modbus/Ipv4Endpoint.h"
+#include "modbus/logging/LoggerFactory.h"
 #include "channel/AsioTcpConnection.h"
 #include "mocks/AsioTcpConnectionWrapper.h"
 #include "mocks/ConnectionListenerMock.h"
@@ -46,16 +47,17 @@ TEST_CASE("AsioTcpConnection")
         dest[5] = '\n';
     }
 
-    ConnectionListenerMock connection_listener;
+    auto connection_listener = std::make_shared<ConnectionListenerMock>();
     TestServer test_server{test_port, timeout};
 
     auto io_service = std::make_shared<asio::io_service>();
     asio::strand strand{*io_service};
     openpal::ThreadPool thread_pool{io_service, 1};
 
+    auto logger = LoggerFactory::create_null_logger("test");
     const Ipv4Endpoint endpoint{"127.0.0.1", test_port};
-    AsioTcpConnectionWrapper asio_tcp_connection{std::make_shared<AsioTcpConnection>(io_service, strand, endpoint)};
-    asio_tcp_connection->set_listener(&connection_listener);
+    AsioTcpConnectionWrapper asio_tcp_connection{std::make_shared<AsioTcpConnection>(logger, io_service, strand, endpoint)};
+    asio_tcp_connection->set_listener(connection_listener);
 
     SECTION("When sending data, then connection is established.")
     {
@@ -64,7 +66,7 @@ TEST_CASE("AsioTcpConnection")
         send_test_data(strand, asio_tcp_connection, test_data.as_seq());
 
         REQUIRE(test_server.wait_for_connection() == true);
-        REQUIRE(connection_listener.get_num_errors() == 0);
+        REQUIRE(connection_listener->get_num_errors() == 0);
 
         SECTION("When sending data twice, then re-use same connection.")
         {
@@ -72,7 +74,7 @@ TEST_CASE("AsioTcpConnection")
 
             REQUIRE(test_server.wait_for_connection() == false);
             REQUIRE(test_server.get_num_connections() == 1);
-            REQUIRE(connection_listener.get_num_errors() == 0);
+            REQUIRE(connection_listener->get_num_errors() == 0);
         }
 
         SECTION("When connection is lost, then a connection is re-established.")
@@ -97,7 +99,7 @@ TEST_CASE("AsioTcpConnection")
     {
         send_test_data(strand, asio_tcp_connection, test_data.as_seq());
 
-        REQUIRE(connection_listener.wait_for_error() == true);
+        REQUIRE(connection_listener->wait_for_error() == true);
     }
 
     SECTION("When write is completed, then it is reported.")
@@ -106,7 +108,7 @@ TEST_CASE("AsioTcpConnection")
 
         send_test_data(strand, asio_tcp_connection, test_data.as_seq());
 
-        REQUIRE(connection_listener.wait_for_write_done() == true);
+        REQUIRE(connection_listener->wait_for_write_done() == true);
     }
 
     SECTION("When data is received, then data is reported.")
@@ -117,6 +119,6 @@ TEST_CASE("AsioTcpConnection")
 
         test_server.send(test_data.as_seq());
 
-        REQUIRE(connection_listener.wait_for_data() == true);
+        REQUIRE(connection_listener->wait_for_data() == true);
     }
 }

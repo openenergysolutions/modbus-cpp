@@ -18,7 +18,12 @@ ChannelTcp::ChannelTcp(std::shared_ptr<openpal::IExecutor> executor,
   m_tcp_connection{tcp_connection},
   m_current_timer{nullptr}
 {
-    m_tcp_connection->set_listener(this);
+    
+}
+
+ChannelTcp::~ChannelTcp()
+{
+    m_tcp_connection->close();
 }
 
 std::shared_ptr<ISession> ChannelTcp::create_session(const UnitIdentifier& unit_identifier,
@@ -38,8 +43,6 @@ void ChannelTcp::send_request(const UnitIdentifier& unit_identifier,
                               const openpal::duration_t& timeout,
                               ResponseHandler<openpal::rseq_t> response_handler)
 {
-
-
     auto pending_request = std::make_unique<PendingRequest>(unit_identifier, (uint32_t)request.get_request_length(), timeout, response_handler);
 
     auto wdata = pending_request->request.as_wslice();
@@ -94,6 +97,8 @@ void ChannelTcp::check_pending_requests()
         m_current_timer = m_executor->start(m_current_request->timeout, [=, self = shared_from_this()]() {
             cancel_current_request();
         });
+
+        m_tcp_connection->set_listener(std::dynamic_pointer_cast<ChannelTcp>(shared_from_this()));
         m_tcp_connection->send(m_current_request->request.as_rslice());
     }
 }

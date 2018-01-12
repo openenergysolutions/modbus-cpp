@@ -24,6 +24,7 @@ public:
     ChannelTcp(std::shared_ptr<openpal::IExecutor> executor,
                std::shared_ptr<Logger> logger,
                std::shared_ptr<ITcpConnection> tcp_connection);
+    ~ChannelTcp();
 
     std::shared_ptr<ISession> create_session(const UnitIdentifier& unit_identifier,
                                              const openpal::duration_t& default_timeout,

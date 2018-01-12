@@ -26,7 +26,7 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${modbus_tests_headers} ${mo
 
 add_executable(modbus_tests ${modbus_tests_headers} ${modbus_tests_src})
 target_link_libraries(modbus_tests
-    PRIVATE catch2 modbus openpal asiopal asio
+    PRIVATE catch2 modbus openpal asiopal asio spdlog
 )
 target_include_directories(modbus_tests
     PRIVATE ./ ../src
