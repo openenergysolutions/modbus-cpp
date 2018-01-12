@@ -58,7 +58,7 @@ void AsioTcpConnection::close()
     }
 }
 
-void AsioTcpConnection::resolve_handler(const asio::error_code& ec, asio::ip::tcp::resolver::iterator it)
+void AsioTcpConnection::resolve_handler(const asio::error_code& ec, asio::ip::tcp::resolver::iterator endpoints)
 {
     if(ec)
     {
@@ -67,10 +67,11 @@ void AsioTcpConnection::resolve_handler(const asio::error_code& ec, asio::ip::tc
         return;
     }
 
-    m_tcp_socket.async_connect(it->endpoint(),
-                               m_strand.wrap(std::bind(&AsioTcpConnection::connect_handler,
-                                                       std::dynamic_pointer_cast<AsioTcpConnection>(shared_from_this()),
-                                                       _1)));
+    asio::async_connect(m_tcp_socket,
+                        endpoints,
+                        m_strand.wrap(std::bind(&AsioTcpConnection::connect_handler,
+                                                std::dynamic_pointer_cast<AsioTcpConnection>(shared_from_this()),
+                                                _1)));
 }
 
 void AsioTcpConnection::connect_handler(const asio::error_code& ec)
