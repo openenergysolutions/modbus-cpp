@@ -1,11 +1,19 @@
 #include "mocks/ConnectionListenerMock.h"
 
 ConnectionListenerMock::ConnectionListenerMock()
-        : m_pending_data{false},
+        : m_pending_write_done{false},
+          m_pending_data{false},
           m_num_errors{0},
           m_pending_error{false}
 {
 
+}
+
+void ConnectionListenerMock::on_write_done()
+{
+    std::lock_guard<std::mutex> lock{m_write_done_lock};
+    m_pending_write_done = true;
+    m_write_done_cv.notify_all();
 }
 
 void ConnectionListenerMock::on_receive(const openpal::rseq_t& data)
@@ -21,6 +29,16 @@ void ConnectionListenerMock::on_error()
     m_pending_error = true;
     ++m_num_errors;
     m_error_cv.notify_all();
+}
+
+bool ConnectionListenerMock::wait_for_write_done()
+{
+    std::unique_lock<std::mutex> lock(m_write_done_lock);
+
+    auto result = m_write_done_cv.wait_for(lock, std::chrono::seconds(5), [=]() { return m_pending_write_done; });
+    m_pending_write_done = false;
+
+    return result;
 }
 
 bool ConnectionListenerMock::wait_for_data()

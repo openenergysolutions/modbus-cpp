@@ -11,8 +11,9 @@ class IConnectionListener
 public:
     virtual ~IConnectionListener() = default;
 
-    virtual void on_receive(const openpal::rseq_t& data) = 0;
-    virtual void on_error() = 0;
+    virtual void on_write_done() {};
+    virtual void on_receive(const openpal::rseq_t& data) {};
+    virtual void on_error() {};
 };
 
 } // namespace modbus

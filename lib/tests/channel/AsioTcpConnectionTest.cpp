@@ -9,22 +9,25 @@
 
 #include "modbus/Ipv4Endpoint.h"
 #include "channel/AsioTcpConnection.h"
+#include "mocks/AsioTcpConnectionWrapper.h"
 #include "mocks/ConnectionListenerMock.h"
 #include "mocks/TestServer.h"
 
 using namespace modbus;
 
-void send_test_data(asio::strand& strand, std::shared_ptr<AsioTcpConnection> connection, const openpal::rseq_t& data)
+void send_test_data(asio::strand& strand, AsioTcpConnectionWrapper& connection, const openpal::rseq_t& data)
 {
+    auto shared_connection = connection.get();
     strand.post([=] () {
-        connection->send(data);
+        shared_connection->send(data);
     });
 }
 
-void close_connection(asio::strand& strand, std::shared_ptr<AsioTcpConnection> connection)
+void close_connection(asio::strand& strand, AsioTcpConnectionWrapper& connection)
 {
+    auto shared_connection = connection.get();
     strand.post([=] () {
-        connection->close();
+        shared_connection->close();
     });
 }
 
@@ -51,7 +54,7 @@ TEST_CASE("AsioTcpConnection")
     openpal::ThreadPool thread_pool{io_service, 1};
 
     const Ipv4Endpoint endpoint{"127.0.0.1", test_port};
-    auto asio_tcp_connection = std::make_shared<AsioTcpConnection>(io_service, strand, endpoint);
+    AsioTcpConnectionWrapper asio_tcp_connection{std::make_shared<AsioTcpConnection>(io_service, strand, endpoint)};
     asio_tcp_connection->set_listener(&connection_listener);
 
     SECTION("When sending data, then connection is established.")
@@ -97,6 +100,15 @@ TEST_CASE("AsioTcpConnection")
         REQUIRE(connection_listener.wait_for_error() == true);
     }
 
+    SECTION("When write is completed, then it is reported.")
+    {
+        test_server.start();
+
+        send_test_data(strand, asio_tcp_connection, test_data.as_seq());
+
+        REQUIRE(connection_listener.wait_for_write_done() == true);
+    }
+
     SECTION("When data is received, then data is reported.")
     {
         test_server.start();
@@ -107,6 +119,4 @@ TEST_CASE("AsioTcpConnection")
 
         REQUIRE(connection_listener.wait_for_data() == true);
     }
-
-    asio_tcp_connection->close();
 }

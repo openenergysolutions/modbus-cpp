@@ -115,6 +115,10 @@ void AsioTcpConnection::write_handler(const std::error_code& ec, std::size_t byt
         return;
     }
 
+    if(m_connection_listener)
+    {
+        m_connection_listener->on_write_done();
+    }
     m_write_buffer = nullptr;
 }
 
