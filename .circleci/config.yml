@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  build-gcc-debug:
     docker:
       - image: emgre/circleci-gcc:0.0.1
     steps:
@@ -10,7 +10,7 @@ jobs:
           command: git submodule update --init
       - run:
           name: Configure
-          command: cmake ..
+          command: cmake -DCMAKE_BUILD_TYPE=Debug ..
           working_directory: build
       - run:
           name: Build
@@ -20,3 +20,71 @@ jobs:
           name: Test
           command: ctest -VV .
           working_directory: build
+  build-gcc-release:
+    docker:
+      - image: emgre/circleci-gcc:0.0.1
+    steps:
+      - checkout
+      - run:
+          name: Initialize submodules
+          command: git submodule update --init
+      - run:
+          name: Configure
+          command: cmake -DCMAKE_BUILD_TYPE=Release ..
+          working_directory: build
+      - run:
+          name: Build
+          command: cmake --build . -- -j2
+          working_directory: build
+      - run:
+          name: Test
+          command: ctest -VV .
+          working_directory: build
+  build-clang-debug:
+    docker:
+      - image: emgre/circleci-clang:0.0.1
+    steps:
+      - checkout
+      - run:
+          name: Initialize submodules
+          command: git submodule update --init
+      - run:
+          name: Configure
+          command: cmake -DCMAKE_BUILD_TYPE=Debug ..
+          working_directory: build
+      - run:
+          name: Build
+          command: cmake --build . -- -j2
+          working_directory: build
+      - run:
+          name: Test
+          command: ctest -VV .
+          working_directory: build
+  build-clang-release:
+    docker:
+      - image: emgre/circleci-clang:0.0.1
+    steps:
+      - checkout
+      - run:
+          name: Initialize submodules
+          command: git submodule update --init
+      - run:
+          name: Configure
+          command: cmake -DCMAKE_BUILD_TYPE=Release ..
+          working_directory: build
+      - run:
+          name: Build
+          command: cmake --build . -- -j2
+          working_directory: build
+      - run:
+          name: Test
+          command: ctest -VV .
+          working_directory: build
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build-gcc-debug
+      - build-gcc-release
+      - build-clang-debug
+      - build-clang-release
