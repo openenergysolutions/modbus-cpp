@@ -1,15 +1,14 @@
-#ifndef MODBUS_TCPCONNECTION_H
-#define MODBUS_TCPCONNECTION_H
+#ifndef MODBUS_ITCPCONNECTION_H
+#define MODBUS_ITCPCONNECTION_H
 
 #include <memory>
 
 #include "openpal/container/SequenceTypes.h"
 
-#include "IConnectionListener.h"
-
 namespace modbus
 {
 
+class IConnectionListener;
 class Ipv4Endpoint;
 
 class ITcpConnection : public std::enable_shared_from_this<ITcpConnection>
@@ -24,4 +23,4 @@ public:
 
 } // namespace modbus
 
-#endif //MODBUS_TCPCONNECTION_H
+#endif //MODBUS_ITCPCONNECTION_H

@@ -1,11 +1,12 @@
 #ifndef MODBUS_ASIOTCPCONNECTION_H
 #define MODBUS_ASIOTCPCONNECTION_H
 
-#include <openpal/container/Buffer.h>
-#include "channel/ITcpConnection.h"
-#include "modbus/Ipv4Endpoint.h"
-
+#include <array>
 #include "asio.hpp"
+#include "openpal/container/Buffer.h"
+
+#include "modbus/Ipv4Endpoint.h"
+#include "channel/ITcpConnection.h"
 
 namespace modbus
 {
@@ -27,11 +28,12 @@ private:
         Connected
     };
 
-    void resolve_handler(const std::error_code& ec, asio::ip::tcp::resolver::iterator it);
-    void connect_handler(const std::error_code& ec);
-    void read_handler(const std::error_code& ec, std::size_t bytes_transferred);
-    void write_handler(const std::error_code& ec, std::size_t bytes_transferred);
+    void resolve_handler(const asio::error_code& ec, asio::ip::tcp::resolver::iterator it);
+    void connect_handler(const asio::error_code& ec);
+    void read_handler(const asio::error_code& ec, std::size_t bytes_transferred);
+    void write_handler(const asio::error_code& ec, std::size_t bytes_transferred);
 
+    void begin_read();
     void send_buffer();
     void send_error();
 
