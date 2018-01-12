@@ -1,9 +1,11 @@
 #include "catch.hpp"
 
+#include <chrono>
 #include <memory>
 #include "asio.hpp"
 #include "asiopal/ThreadPool.h"
 #include "openpal/container/StaticBuffer.h"
+#include "openpal/executor/Typedefs.h"
 
 #include "modbus/Ipv4Endpoint.h"
 #include "channel/AsioTcpConnection.h"
@@ -28,19 +30,8 @@ void close_connection(asio::strand& strand, std::shared_ptr<AsioTcpConnection> c
 
 TEST_CASE("AsioTcpConnection")
 {
-    ConnectionListenerMock connection_listener;
-
-    constexpr auto test_port = 502;
-    auto io_service = std::make_shared<asio::io_service>();
-    asio::strand strand{*io_service};
-    openpal::ThreadPool thread_pool{io_service, 1};
-
-    const Ipv4Endpoint endpoint{"127.0.0.1", (uint32_t)test_port};
-    auto asio_tcp_connection = std::make_shared<AsioTcpConnection>(io_service, strand, endpoint);
-    asio_tcp_connection->set_listener(&connection_listener);
-
-    TestServer test_server{(unsigned short)test_port};
-
+    constexpr unsigned short test_port = 502;
+    constexpr openpal::duration_t timeout = std::chrono::seconds(5);
     openpal::StaticBuffer<unsigned int, 6> test_data;
     {
         auto dest = test_data.as_wseq();
@@ -51,6 +42,17 @@ TEST_CASE("AsioTcpConnection")
         dest[4] = 'o';
         dest[5] = '\n';
     }
+
+    ConnectionListenerMock connection_listener;
+    TestServer test_server{test_port, timeout};
+
+    auto io_service = std::make_shared<asio::io_service>();
+    asio::strand strand{*io_service};
+    openpal::ThreadPool thread_pool{io_service, 1};
+
+    const Ipv4Endpoint endpoint{"127.0.0.1", test_port};
+    auto asio_tcp_connection = std::make_shared<AsioTcpConnection>(io_service, strand, endpoint);
+    asio_tcp_connection->set_listener(&connection_listener);
 
     SECTION("When sending data, then connection is established.")
     {
@@ -105,4 +107,6 @@ TEST_CASE("AsioTcpConnection")
 
         REQUIRE(connection_listener.wait_for_data() == true);
     }
+
+    asio_tcp_connection->close();
 }

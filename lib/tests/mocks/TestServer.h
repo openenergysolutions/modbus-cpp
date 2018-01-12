@@ -8,11 +8,12 @@
 #include "asiopal/ThreadPool.h"
 #include "openpal/container/SequenceTypes.h"
 #include "openpal/container/StaticBuffer.h"
+#include "openpal/executor/Typedefs.h"
 
 class TestServer
 {
 public:
-    TestServer(unsigned short port);
+    TestServer(unsigned short port, openpal::duration_t timeout);
     ~TestServer();
 
     void start();
@@ -36,8 +37,10 @@ private:
     void accept_handler(const asio::error_code& ec, std::shared_ptr<asio::ip::tcp::socket> socket);
     void read_handler(const asio::error_code& ec, std::size_t bytes_transferred);
 
-    std::shared_ptr<asio::io_service> m_io_service;
+    openpal::duration_t m_timeout;
     asio::ip::tcp::endpoint m_endpoint;
+
+    std::shared_ptr<asio::io_service> m_io_service;
     std::shared_ptr<asio::ip::tcp::acceptor> m_acceptor;
     std::shared_ptr<asio::ip::tcp::socket> m_current_socket;
 

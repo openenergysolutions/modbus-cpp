@@ -1,8 +1,9 @@
 #include "mocks/TestServer.h"
 
-TestServer::TestServer(unsigned short port)
-        : m_io_service{std::make_shared<asio::io_service>()},
+TestServer::TestServer(unsigned short port, openpal::duration_t timeout)
+        : m_timeout{timeout},
           m_endpoint{asio::ip::tcp::endpoint{asio::ip::tcp::v4(), port}},
+          m_io_service{std::make_shared<asio::io_service>()},
           m_acceptor{std::make_shared<asio::ip::tcp::acceptor>(*m_io_service)},
           m_pending_start{false},
           m_pending_stop{false},
@@ -73,7 +74,7 @@ bool TestServer::wait_for_connection()
 {
     std::unique_lock<std::mutex> lock(m_connection_lock);
 
-    auto result = m_connection_cv.wait_for(lock, std::chrono::seconds(5), [=]() { return m_pending_connection; });
+    auto result = m_connection_cv.wait_for(lock, m_timeout, [=]() { return m_pending_connection; });
     m_pending_connection = false;
 
     return result;
@@ -89,7 +90,7 @@ bool TestServer::wait_for_close_connection()
 {
     std::unique_lock<std::mutex> lock(m_close_connection_lock);
 
-    auto result = m_close_connection_cv.wait_for(lock, std::chrono::seconds(5), [=]() { return m_pending_close_connection; });
+    auto result = m_close_connection_cv.wait_for(lock, m_timeout, [=]() { return m_pending_close_connection; });
     m_pending_close_connection = false;
 
     return result;
@@ -99,7 +100,7 @@ bool TestServer::wait_for_data()
 {
     std::unique_lock<std::mutex> lock(m_data_lock);
 
-    auto result = m_data_cv.wait_for(lock, std::chrono::seconds(5), [=]() { return m_buffer_size > 0; });
+    auto result = m_data_cv.wait_for(lock, m_timeout, [=]() { return m_buffer_size > 0; });
     m_buffer_size = 0;
 
     return result;
