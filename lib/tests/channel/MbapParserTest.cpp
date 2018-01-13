@@ -1,6 +1,7 @@
 #include "catch.hpp"
 
 #include <array>
+#include <algorithm>
 #include "channel/MbapParser.h"
 #include "mocks/MbapSinkMock.h"
 
@@ -50,11 +51,13 @@ TEST_CASE("MbapParser")
         check_complete_message(sink.get_messages()[0]);
     }
 
-    SECTION("When receive two complete messages, then report received message")
+    SECTION("When receive two complete messages in one call, then report both messages")
     {
-        openpal::rseq_t buffer{complete_message.data(), complete_message.size()};
+        std::array<uint8_t, 18> two_messages;
+        auto end = std::copy(complete_message.begin(), complete_message.end(), two_messages.begin());
+        std::copy(complete_message.begin(), complete_message.end(), end);
+        openpal::rseq_t buffer{two_messages.data(), two_messages.size()};
 
-        parser.parse(buffer);
         parser.parse(buffer);
 
         REQUIRE(sink.get_num_messages() == 2);
