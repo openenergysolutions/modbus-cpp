@@ -10,9 +10,14 @@ ReadHoldingRegistersRequest::ReadHoldingRegistersRequest(Address starting_addres
 
 }
 
+std::unique_ptr<IRequest> ReadHoldingRegistersRequest::clone() const
+{
+    return std::make_unique<ReadHoldingRegistersRequest>(m_starting_address, m_qty_of_registers);
+}
+
 size_t ReadHoldingRegistersRequest::get_request_length() const
 {
-    return 5;
+    return 6;
 }
 
 void ReadHoldingRegistersRequest::build_request(openpal::wseq_t& buffer) const
@@ -22,7 +27,7 @@ void ReadHoldingRegistersRequest::build_request(openpal::wseq_t& buffer) const
     buffer.put('l');
     buffer.put('l');
     buffer.put('o');
-
+    buffer.put(m_qty_of_registers);
 
 }
 

@@ -4,7 +4,7 @@ Modbus TCP master library in modern C++.
 
 ## Requirements
 - [CMake](https://cmake.org/download/) 3.8 and higher
-- A modern C++ compiler supporting at least C++11
+- A modern C++ compiler supporting at least C++14
 
 ## Building
 1. Clone the repository recursively with `git clone https://github.com/aegis4ics/modbus-cpp.git --recursive`

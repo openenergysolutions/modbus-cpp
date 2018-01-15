@@ -3,8 +3,12 @@ cmake_minimum_required (VERSION 3.8)
 set(modbus_tests_headers
     ./mocks/AsioTcpConnectionWrapper.h
     ./mocks/ConnectionListenerMock.h
+    ./mocks/ExecutorMock.h
     ./mocks/MbapSinkMock.h
+    ./mocks/RequestMock.h
+    ./mocks/TcpConnectionMock.h
     ./mocks/TestServer.h
+    ./mocks/TimerMock.h
 )
 
 set(modbus_tests_src
@@ -13,14 +17,19 @@ set(modbus_tests_src
     ./PeriodicScheduleTest.cpp
 
     ./channel/AsioTcpConnectionTest.cpp
+    ./channel/ChannelTcpTest.cpp
     ./channel/MbapParserTest.cpp
     ./channel/TransactionIdentifierTest.cpp
     ./channel/UnitIdentifierTest.cpp
 
     ./mocks/AsioTcpConnectionWrapper.cpp
     ./mocks/ConnectionListenerMock.cpp
+    ./mocks/ExecutorMock.cpp
     ./mocks/MbapSinkMock.cpp
+    ./mocks/RequestMock.cpp
+    ./mocks/TcpConnectionMock.cpp
     ./mocks/TestServer.cpp
+    ./mocks/TimerMock.cpp
 
     ./session/SessionImplTest.cpp
 )
