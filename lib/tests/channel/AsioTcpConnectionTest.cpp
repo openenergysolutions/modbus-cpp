@@ -34,7 +34,7 @@ void close_connection(asio::strand& strand, AsioTcpConnectionWrapper& connection
 
 TEST_CASE("AsioTcpConnection")
 {
-    constexpr unsigned short test_port = 502;
+    constexpr unsigned short test_port = 8888;
     constexpr openpal::duration_t timeout = std::chrono::seconds(5);
     openpal::StaticBuffer<unsigned int, 6> test_data;
     {

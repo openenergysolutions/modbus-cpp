@@ -18,6 +18,7 @@ set(modbus_tests_src
 
     ./channel/AsioTcpConnectionTest.cpp
     ./channel/ChannelTcpTest.cpp
+    ./channel/MbapMessageTest.cpp
     ./channel/MbapParserTest.cpp
     ./channel/TransactionIdentifierTest.cpp
     ./channel/UnitIdentifierTest.cpp

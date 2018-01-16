@@ -3,6 +3,7 @@
 
 #include "openpal/container/SequenceTypes.h"
 #include "modbus/channel/UnitIdentifier.h"
+#include "modbus/messages/IRequest.h"
 #include "channel/TransactionIdentifier.h"
 
 namespace modbus
@@ -10,12 +11,14 @@ namespace modbus
 
 struct MbapMessage
 {
+    static openpal::rseq_t build_message(UnitIdentifier unit_id,
+                                         TransactionIdentifier transaction_id,
+                                         const IRequest& request,
+                                         openpal::wseq_t& buffer);
+
     MbapMessage(UnitIdentifier unit_id,
                 TransactionIdentifier transaction_id,
-                openpal::rseq_t data)
-        : unit_id{unit_id},
-          transaction_id{transaction_id},
-          data{data} {}
+                openpal::rseq_t data);
 
     UnitIdentifier unit_id;
     TransactionIdentifier transaction_id;

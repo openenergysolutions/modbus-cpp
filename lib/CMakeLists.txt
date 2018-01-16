@@ -8,10 +8,12 @@ set(modbus_public_headers
     ./include/modbus/ISessionResponseHandler.h
     ./include/modbus/ResponseHandler.h
     ./include/modbus/ScheduleFactory.h
-    ./include/modbus/TimeoutException.h
 
     ./include/modbus/channel/IChannel.h
     ./include/modbus/channel/UnitIdentifier.h
+
+    ./include/modbus/exceptions/ConnectionException.h
+    ./include/modbus/exceptions/TimeoutException.h
 
     ./include/modbus/logging/LoggerFactory.h
 
@@ -40,6 +42,7 @@ set(modbus_private_headers
     ./src/channel/ITcpConnection.h
     ./src/channel/MbapMessage.h
     ./src/channel/MbapParser.h
+    ./src/channel/PendingRequest.h
     ./src/channel/TransactionIdentifier.h
 
     ./src/logging/Logger.h
@@ -56,6 +59,7 @@ set(modbus_src
 
     ./src/channel/ChannelTcp.cpp
     ./src/channel/AsioTcpConnection.cpp
+    ./src/channel/MbapMessage.cpp
     ./src/channel/MbapParser.cpp
     ./src/channel/TransactionIdentifier.cpp
     ./src/channel/UnitIdentifier.cpp

@@ -5,20 +5,21 @@
 
 #include <deque>
 #include <memory>
-
-#include "logging/Logger.h"
-#include "modbus/messages/IRequest.h"
-#include "channel/IConnectionListener.h"
-
 #include "openpal/container/Buffer.h"
 #include "openpal/executor/IExecutor.h"
+#include "modbus/messages/IRequest.h"
+#include "channel/IConnectionListener.h"
+#include "channel/IMbapSink.h"
+#include "channel/MbapParser.h"
+#include "logging/Logger.h"
 
 namespace modbus
 {
 
 class ITcpConnection;
+class PendingRequest;
 
-class ChannelTcp : public IChannel, public IConnectionListener
+class ChannelTcp : public IChannel, public IConnectionListener, public IMbapSink
 {
 public:
     ChannelTcp(std::shared_ptr<openpal::IExecutor> executor,
@@ -41,36 +42,23 @@ public:
     void on_receive(const openpal::rseq_t& data) override;
     void on_error() override;
 
+    // MBAP sink
+    void on_mbap_message(const MbapMessage& message) override;
+
 private:
     void check_pending_requests();
     void cancel_current_request();
+    void cancel_all_pending_requests();
 
     std::shared_ptr<openpal::IExecutor> m_executor;
     std::shared_ptr<Logger> m_logger;
     std::shared_ptr<ITcpConnection> m_tcp_connection;
 
-    struct PendingRequest
-    {
-        PendingRequest(const UnitIdentifier& unit_identifier,
-                       uint32_t request_length,
-                       const openpal::duration_t& timeout,
-                       ResponseHandler<openpal::rseq_t> response_handler)
-        :unit_identifier{unit_identifier},
-         request{request_length},
-         timeout{timeout},
-         response_handler{response_handler}
-        {
-
-        }
-
-        UnitIdentifier unit_identifier;
-        openpal::Buffer request;
-        openpal::duration_t timeout;
-        ResponseHandler<openpal::rseq_t> response_handler;
-    };
+    MbapParser m_parser;
     std::deque<std::unique_ptr<PendingRequest>> m_pending_requests;
     std::unique_ptr<PendingRequest> m_current_request;
     openpal::Timer m_current_timer;
+    TransactionIdentifier m_next_transaction_id;
 };
 
 } // namespace modbus
