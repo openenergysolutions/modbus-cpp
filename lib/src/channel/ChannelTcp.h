@@ -17,7 +17,7 @@ namespace modbus
 {
 
 class ITcpConnection;
-class PendingRequest;
+struct PendingRequest;
 
 class ChannelTcp : public IChannel, public IConnectionListener, public IMbapSink
 {

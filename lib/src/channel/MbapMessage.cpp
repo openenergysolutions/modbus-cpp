@@ -30,7 +30,7 @@ openpal::rseq_t MbapMessage::build_message(UnitIdentifier unit_id,
 
     openpal::UInt16::write_to(buffer, transaction_id.get_value());
     openpal::UInt16::write_to(buffer, 0x0000);
-    openpal::UInt16::write_to(buffer, length + 1);
+    openpal::UInt16::write_to(buffer, (uint16_t)(length + 1));
     openpal::UInt8::write_to(buffer, unit_id.get_value());
     request.build_request(buffer);
 

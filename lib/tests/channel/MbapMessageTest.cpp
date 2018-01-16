@@ -1,5 +1,6 @@
 #include "catch.hpp"
 
+#include <array>
 #include "openpal/container/Buffer.h"
 #include "channel/MbapMessage.h"
 #include "mocks/RequestMock.h"
@@ -11,7 +12,7 @@ TEST_CASE("MbapMessage")
     UnitIdentifier unit_id{0x42};
     TransactionIdentifier transaction_id{0x1234};
     RequestMock request{2, 0x76};
-    std::array<uint8_t, 9> raw_request_data{
+    std::array<uint8_t, 9> raw_request_data {
             0x12, 0x34, // Transaction Identifier
             0x00, 0x00, // Protocol Identifier
             0x00, 0x03, // Length

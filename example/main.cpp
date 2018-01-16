@@ -8,7 +8,8 @@
 #include "modbus/ISessionResponseHandler.h"
 #include "modbus/ISchedule.h"
 #include "modbus/ScheduleFactory.h"
-#include "modbus/TimeoutException.h"
+
+#include "modbus/exceptions/TimeoutException.h"
 
 #include "modbus/logging/LoggerFactory.h"
 
