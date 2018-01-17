@@ -4,7 +4,8 @@
 #include "mocks/TimerMock.h"
 
 ExecutorMock::ExecutorMock()
-    : m_current_time{std::chrono::steady_clock::now()}
+    : m_current_time{std::chrono::steady_clock::now()},
+      m_num_post_calls{0}
 {
 
 }
@@ -24,6 +25,7 @@ openpal::Timer ExecutorMock::start(const openpal::steady_time_t& expiration, con
 
 void ExecutorMock::post(const openpal::action_t& action)
 {
+    ++m_num_post_calls;
     action();
 }
 
@@ -46,9 +48,14 @@ void ExecutorMock::set_time(const openpal::steady_time_t& time)
 
 void ExecutorMock::check_expired_timers()
 {
-    while(!m_active_timers.empty() && m_active_timers.top()->expires_at() < m_current_time)
+    while(!m_active_timers.empty() && m_active_timers.top()->expires_at() <= m_current_time)
     {
         m_active_timers.top()->execute();
         m_active_timers.pop();
     }
+}
+
+unsigned int ExecutorMock::get_num_post_calls() const
+{
+    return m_num_post_calls;
 }

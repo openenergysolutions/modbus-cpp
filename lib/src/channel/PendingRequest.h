@@ -13,7 +13,7 @@ namespace modbus
 
 struct PendingRequest
 {
-    PendingRequest(const UnitIdentifier& unit_id,
+   PendingRequest(const UnitIdentifier& unit_id,
                    const TransactionIdentifier& transaction_id,
                    const IRequest& request,
                    const openpal::duration_t& timeout,

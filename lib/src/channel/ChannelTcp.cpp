@@ -45,16 +45,19 @@ void ChannelTcp::send_request(const UnitIdentifier& unit_identifier,
                               const openpal::duration_t& timeout,
                               ResponseHandler<openpal::rseq_t> response_handler)
 {
-    auto pending_request = std::make_unique<PendingRequest>(unit_identifier,
-                                                            m_next_transaction_id,
-                                                            request,
-                                                            timeout,
-                                                            response_handler);
-    m_pending_requests.push_back(std::move(pending_request));
+    std::shared_ptr<IRequest> req{request.clone()};
+    m_executor->post([=, self = shared_from_this()] () {
+        auto pending_request = std::make_unique<PendingRequest>(unit_identifier,
+                                                                m_next_transaction_id,
+                                                                *req,
+                                                                timeout,
+                                                                response_handler);
+        m_pending_requests.push_back(std::move(pending_request));
 
-    m_next_transaction_id = TransactionIdentifier{(uint16_t)(m_next_transaction_id.get_value() + 1)};
+        m_next_transaction_id = TransactionIdentifier{(uint16_t) (m_next_transaction_id.get_value() + 1)};
 
-    check_pending_requests();
+        check_pending_requests();
+    });
 }
 
 void ChannelTcp::shutdown()

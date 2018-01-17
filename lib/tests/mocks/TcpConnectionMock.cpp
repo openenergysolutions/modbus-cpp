@@ -1,7 +1,8 @@
 #include "mocks/TcpConnectionMock.h"
 
 TcpConnectionMock::TcpConnectionMock()
-    : m_parser{this}
+    : m_parser{this},
+      m_num_close{0}
 {
 
 }
@@ -18,7 +19,7 @@ void TcpConnectionMock::send(const openpal::rseq_t& data)
 
 void TcpConnectionMock::close()
 {
-
+    ++m_num_close;
 }
 
 void TcpConnectionMock::on_mbap_message(const modbus::MbapMessage& message)
@@ -35,4 +36,9 @@ std::size_t TcpConnectionMock::get_num_requests() const
 const std::vector<modbus::MbapMessage>& TcpConnectionMock::get_requests() const
 {
     return m_requests;
+}
+
+unsigned int TcpConnectionMock::get_num_close() const
+{
+    return m_num_close;
 }

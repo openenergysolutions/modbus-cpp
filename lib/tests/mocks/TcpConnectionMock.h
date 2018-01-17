@@ -21,11 +21,13 @@ public:
 
     std::size_t get_num_requests() const;
     const std::vector<modbus::MbapMessage>& get_requests() const;
+    unsigned int get_num_close() const;
 
 private:
     modbus::MbapParser m_parser;
     std::vector<modbus::MbapMessage> m_requests;
     std::vector<std::unique_ptr<openpal::Buffer>> m_request_buffers;
+    unsigned int m_num_close;
 };
 
 #endif //MODBUS_TCPCONNECTIONMOCK_H

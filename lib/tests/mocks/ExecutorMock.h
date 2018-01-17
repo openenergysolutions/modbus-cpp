@@ -29,6 +29,8 @@ public:
     void advance_time(const openpal::duration_t& duration);
     void set_time(const openpal::steady_time_t& time);
 
+    unsigned int get_num_post_calls() const;
+
 private:
     void check_expired_timers();
 
@@ -36,6 +38,7 @@ private:
     std::priority_queue<std::shared_ptr<TimerMock>,
                         std::vector<std::shared_ptr<TimerMock>>,
                         TimerMockComparator> m_active_timers;
+    unsigned int m_num_post_calls;
 };
 
 #endif //MODBUS_EXECUTORMOCK_H
