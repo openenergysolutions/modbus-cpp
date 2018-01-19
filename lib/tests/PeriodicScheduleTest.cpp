@@ -15,7 +15,6 @@ TEST_CASE("PeriodicSchedule")
     {
         schedule.reset(Now);
 
-        auto test = std::chrono::steady_clock::time_point{Now + Delay};
         REQUIRE(schedule.get_next_execution() == openpal::steady_time_t{Now + Delay});
     }
 

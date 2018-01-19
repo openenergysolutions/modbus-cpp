@@ -29,10 +29,10 @@ bool UnitIdentifier::operator!=(const UnitIdentifier& other) const
 
 std::ostream& operator<<(std::ostream& stream, const UnitIdentifier& unit_id)
 {
-    stream << "0x"
-           << std::uppercase
-           << std::setw(2) << std::setfill('0')
-           << std::hex << (unsigned int)unit_id.get_value();
+    return stream << "0x"
+                  << std::uppercase
+                  << std::setw(2) << std::setfill('0')
+                  << std::hex << (unsigned int)unit_id.get_value();
 }
 
 } // namespace modbus

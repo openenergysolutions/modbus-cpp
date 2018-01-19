@@ -41,10 +41,10 @@ TransactionIdentifier TransactionIdentifier::operator++(int)
 
 std::ostream& operator<<(std::ostream& stream, const TransactionIdentifier& transaction_id)
 {
-    stream << "0x"
-           << std::uppercase
-           << std::setw(4) << std::setfill('0')
-           << std::hex << (unsigned int)transaction_id.get_value();
+    return stream << "0x"
+                  << std::uppercase
+                  << std::setw(4) << std::setfill('0')
+                  << std::hex << (unsigned int)transaction_id.get_value();
 }
 
 } // namespace modbus

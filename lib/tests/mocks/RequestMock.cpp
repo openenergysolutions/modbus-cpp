@@ -19,7 +19,7 @@ size_t RequestMock::get_request_length() const
 
 void RequestMock::build_request(openpal::wseq_t& buffer) const
 {
-    for(auto i = 0; i < m_length; ++i)
+    for(std::size_t i = 0; i < m_length; ++i)
     {
         buffer.put(m_value);
     }

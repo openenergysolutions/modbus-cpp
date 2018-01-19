@@ -10,7 +10,7 @@ jobs:
           command: git submodule update --init
       - run:
           name: Configure
-          command: cmake -DCMAKE_BUILD_TYPE=Debug ..
+          command: cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_FLAGS="-Wall" -DCMAKE_CXX_FLAGS="-Wall" ..
           working_directory: build
       - run:
           name: Build
@@ -30,7 +30,7 @@ jobs:
           command: git submodule update --init
       - run:
           name: Configure
-          command: cmake -DCMAKE_BUILD_TYPE=Release ..
+          command: cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS="-Wall" -DCMAKE_CXX_FLAGS="-Wall" ..
           working_directory: build
       - run:
           name: Build
@@ -50,7 +50,7 @@ jobs:
           command: git submodule update --init
       - run:
           name: Configure
-          command: cmake -DCMAKE_BUILD_TYPE=Debug ..
+          command: cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_FLAGS="-Wall" -DCMAKE_CXX_FLAGS="-Wall" ..
           working_directory: build
       - run:
           name: Build
@@ -70,7 +70,7 @@ jobs:
           command: git submodule update --init
       - run:
           name: Configure
-          command: cmake -DCMAKE_BUILD_TYPE=Release ..
+          command: cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS="-Wall" -DCMAKE_CXX_FLAGS="-Wall" ..
           working_directory: build
       - run:
           name: Build

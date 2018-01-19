@@ -3,8 +3,8 @@
 ConnectionListenerMock::ConnectionListenerMock()
         : m_pending_write_done{false},
           m_pending_data{false},
-          m_num_errors{0},
-          m_pending_error{false}
+          m_pending_error{false},
+          m_num_errors{0}
 {
 
 }
