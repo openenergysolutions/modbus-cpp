@@ -1,7 +1,7 @@
 #ifndef MODBUS_EXCEPTIONTYPE_H
 #define MODBUS_EXCEPTIONTYPE_H
 
-#include <iostream>
+#include <ostream>
 
 namespace modbus
 {

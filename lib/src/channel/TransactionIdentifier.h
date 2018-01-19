@@ -2,6 +2,7 @@
 #define MODBUS_TRANSACTIONIDENTIFIER_H
 
 #include <cstdint>
+#include <ostream>
 
 namespace modbus
 {
@@ -18,6 +19,8 @@ public:
 private:
     uint16_t m_value;
 };
+
+std::ostream& operator<<(std::ostream& stream, const TransactionIdentifier& transaction_id);
 
 } // namespace modbus
 

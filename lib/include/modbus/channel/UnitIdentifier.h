@@ -2,6 +2,7 @@
 #define MODBUS_UNITIDENTIFIER_H
 
 #include <cstdint>
+#include <ostream>
 
 namespace modbus
 {
@@ -26,6 +27,8 @@ public:
 private:
     uint8_t m_value;
 };
+
+std::ostream& operator<<(std::ostream& stream, const UnitIdentifier& unit_id);
 
 } // namespace modbus
 

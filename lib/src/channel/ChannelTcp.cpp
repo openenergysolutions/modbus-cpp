@@ -62,6 +62,7 @@ void ChannelTcp::send_request(const UnitIdentifier& unit_identifier,
 
 void ChannelTcp::shutdown()
 {
+    m_logger->info("Shutting down.");
     m_executor->post([=, self = shared_from_this()] {
         m_pending_requests.clear();
         m_current_request.reset(nullptr);
@@ -73,11 +74,15 @@ void ChannelTcp::shutdown()
 
 void ChannelTcp::on_receive(const openpal::rseq_t& data)
 {
+    m_logger->debug("Received {} bytes of data.", data.length());
+
     m_parser.parse(data);
 }
 
 void ChannelTcp::on_error()
 {
+    m_logger->error("Error from TCP connection, cancelling all pending requests.");
+
     m_parser.reset();
 
     cancel_all_pending_requests();
@@ -91,12 +96,24 @@ void ChannelTcp::on_mbap_message(const MbapMessage& message)
         if(message.transaction_id == m_current_request->transaction_id &&
            message.unit_id == m_current_request->unit_id)
         {
+            m_logger->info("Received response for pending request. UnitId: {}, TransactionId: {}.",
+                           message.unit_id, message.transaction_id);
+
             m_current_timer.cancel();
             m_current_request->response_handler(Expected<openpal::rseq_t>{message.data});
             m_current_request.reset(nullptr);
 
             check_pending_requests();
         }
+        else
+        {
+            m_logger->warn("Received unexpected response. UnitId: {}, TransactionId: {}.",
+                           message.unit_id, message.transaction_id);
+        }
+    }
+    else
+    {
+        m_logger->warn("Received message while not waiting for any response. Ignoring it.");
     }
 }
 
@@ -106,6 +123,12 @@ void ChannelTcp::check_pending_requests()
     {
         m_current_request = std::move(m_pending_requests.front());
         m_pending_requests.pop_front();
+
+        m_logger->info("Sending request. UnitId: {}, TransactionId: {}, Timeout: {} ms, Length: {} bytes.",
+                       m_current_request->unit_id,
+                       m_current_request->transaction_id,
+                       std::chrono::duration_cast<std::chrono::milliseconds>(m_current_request->timeout).count(),
+                       m_current_request->request->get_request_length());
 
         openpal::StaticBuffer<uint32_t, 260> buffer;
         auto view = buffer.as_wseq();
@@ -118,6 +141,9 @@ void ChannelTcp::check_pending_requests()
         m_tcp_connection->send(serialized_request);
 
         m_current_timer = m_executor->start(m_current_request->timeout, [=, self = shared_from_this()]() {
+            m_logger->warn("Timeout reached. UnitId: {}, TransactionId: {}.",
+                           m_current_request->unit_id, m_current_request->transaction_id);
+
             cancel_current_request();
         });
     }
