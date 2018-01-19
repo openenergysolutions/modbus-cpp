@@ -14,15 +14,15 @@ namespace modbus
 struct PendingRequest
 {
    PendingRequest(const UnitIdentifier& unit_id,
-                   const TransactionIdentifier& transaction_id,
-                   const IRequest& request,
-                   const openpal::duration_t& timeout,
-                   ResponseHandler<openpal::rseq_t> response_handler)
-            : unit_id{unit_id},
-              transaction_id{transaction_id},
-              request{request.clone()},
-              timeout{timeout},
-              response_handler{response_handler}
+                  const TransactionIdentifier& transaction_id,
+                  const IRequest& request,
+                  const openpal::duration_t& timeout,
+                  ResponseHandler<openpal::rseq_t> response_handler)
+           : unit_id{unit_id},
+             transaction_id{transaction_id},
+             request{request.clone()},
+             timeout{timeout},
+             response_handler{response_handler}
     {
 
     }

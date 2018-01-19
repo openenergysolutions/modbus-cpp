@@ -26,6 +26,19 @@ bool TransactionIdentifier::operator!=(const TransactionIdentifier& other) const
     return m_value != other.m_value;
 }
 
+TransactionIdentifier& TransactionIdentifier::operator++()
+{
+    ++m_value;
+    return *this;
+}
+
+TransactionIdentifier TransactionIdentifier::operator++(int)
+{
+    auto temp = (*this);
+    ++m_value;
+    return temp;
+}
+
 std::ostream& operator<<(std::ostream& stream, const TransactionIdentifier& transaction_id)
 {
     stream << "0x"

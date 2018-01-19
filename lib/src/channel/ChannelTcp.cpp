@@ -54,7 +54,7 @@ void ChannelTcp::send_request(const UnitIdentifier& unit_identifier,
                                                                 response_handler);
         m_pending_requests.push_back(std::move(pending_request));
 
-        m_next_transaction_id = TransactionIdentifier{(uint16_t) (m_next_transaction_id.get_value() + 1)};
+        ++m_next_transaction_id;
 
         check_pending_requests();
     });

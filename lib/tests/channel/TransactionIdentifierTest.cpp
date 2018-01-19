@@ -22,6 +22,28 @@ TEST_CASE("TransactionIdentifier")
         REQUIRE(first_transaction_identifier != second_transaction_identifier);
     }
 
+    SECTION("Increments")
+    {
+        TransactionIdentifier transaction_id{0x0042};
+
+        SECTION("Pre-increment")
+        {
+            REQUIRE(++transaction_id == TransactionIdentifier{0x0043});
+        }
+
+        SECTION("Post-increment")
+        {
+            REQUIRE(transaction_id++ == TransactionIdentifier{0x0042});
+            REQUIRE(transaction_id == TransactionIdentifier{0x0043});
+        }
+
+        SECTION("Wrap-around")
+        {
+            TransactionIdentifier biggest_transaction_id{0xFFFF};
+            REQUIRE(++biggest_transaction_id == TransactionIdentifier{0x0000});
+        }
+    }
+
     SECTION("Printing writes proper hexadecimal format")
     {
         SECTION("Leading zeros are added")

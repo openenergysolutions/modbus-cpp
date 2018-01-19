@@ -15,6 +15,8 @@ public:
     uint16_t get_value() const;
     bool operator==(const TransactionIdentifier& other) const;
     bool operator!=(const TransactionIdentifier& other) const;
+    TransactionIdentifier& operator++();
+    TransactionIdentifier operator++(int);
 
 private:
     uint16_t m_value;

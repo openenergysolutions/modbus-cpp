@@ -37,7 +37,7 @@ std::shared_ptr<IChannel> ModbusManagerImpl::create_tcp_channel(const std::strin
                                                               executor->strand,
                                                               endpoint);
 
-    auto channel = std::make_shared<ChannelTcp>(executor, m_logger->clone("channel"), tcp_connection);
+    auto channel = std::make_shared<ChannelTcp>(executor, m_logger->clone(name), tcp_connection);
 
     m_created_channels.emplace_back(channel);
 
