@@ -119,8 +119,23 @@ public:
         return m_exception;
     }
 
-    template<typename E>
+    /*template<typename E>
     E get_exception() const
+    {
+        try
+        {
+            if(!m_has_value) std::rethrow_exception(m_exception);
+        }
+        catch(const E& exception)
+        {
+            return exception;
+        }
+        catch(...) {}
+        throw std::invalid_argument("not the right exception");
+    }*/
+
+    template<typename E>
+    const E& get_exception() const
     {
         try
         {

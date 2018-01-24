@@ -1,15 +1,18 @@
 #ifndef MODBUS_CONNECTIONEXCEPTION_H
 #define MODBUS_CONNECTIONEXCEPTION_H
 
-#include <stdexcept>
+#include "modbus/exceptions/IException.h"
 
 namespace modbus
 {
 
-class ConnectionException : public std::domain_error
+class ConnectionException : public IException
 {
 public:
-    ConnectionException() : std::domain_error("Connection error") {}
+    std::string get_message() const override
+    {
+        return "Connection error";
+    }
 };
 
 } // namespace modbus

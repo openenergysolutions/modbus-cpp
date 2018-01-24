@@ -6,6 +6,7 @@
 #include "modbus/Expected.h"
 #include "modbus/messages/IResponse.h"
 #include "modbus/messages/RegisterValue.h"
+#include "modbus/messages/ReadHoldingRegistersRequest.h"
 #include "openpal/serialization/BigEndian.h"
 
 namespace modbus
@@ -14,7 +15,8 @@ namespace modbus
 class ReadHoldingRegistersResponse : public IResponse
 {
 public:
-    static Expected<ReadHoldingRegistersResponse> parse(const openpal::rseq_t& data);
+    static Expected<ReadHoldingRegistersResponse> parse(const ReadHoldingRegistersRequest& req,
+                                                        const openpal::rseq_t& data);
 
 public:
     ReadHoldingRegistersResponse() = default;

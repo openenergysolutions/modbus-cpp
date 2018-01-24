@@ -4,7 +4,7 @@
 namespace modbus
 {
 
-class Exception;
+class IException;
 class ReadInputRegistersResponse;
 class ReadHoldingRegistersResponse;
 
@@ -16,7 +16,7 @@ public:
     virtual void on_response(const ReadInputRegistersResponse& response) {};
     virtual void on_response(const ReadHoldingRegistersResponse& response) {};
 
-    virtual void on_exception(const Exception& exception) {};
+    virtual void on_exception(const IException& exception) {};
     virtual void on_timeout() {};
 };
 

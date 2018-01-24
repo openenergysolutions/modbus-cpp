@@ -9,11 +9,10 @@
 #include "modbus/ISchedule.h"
 #include "modbus/ScheduleFactory.h"
 
-#include "modbus/exceptions/TimeoutException.h"
+#include "modbus/exceptions/IException.h"
 
 #include "modbus/logging/LoggerFactory.h"
 
-#include "modbus/messages/Exception.h"
 #include "modbus/messages/ReadHoldingRegistersRequest.h"
 #include "modbus/messages/ReadHoldingRegistersResponse.h"
 
@@ -31,10 +30,10 @@ public:
         }
     }
 
-    void on_exception(const Exception& exception) override
+    void on_exception(const IException& exception) override
     {
         // A scheduled request produced an exception
-        std::cout << "Error: " << exception.get_type() << " received." << std::endl;
+        std::cout << "Error: " << exception.get_message() << " received." << std::endl;
     }
 
     void on_timeout() override
@@ -83,20 +82,7 @@ int main(int argc, char* argv[])
                         // If the exception is set, then an error occured
                         if (!response.is_valid())
                         {
-                            if (response.has_exception<Exception>())
-                            {
-                                auto e = response.get_exception<Exception>();
-                                std::cout << "Modbus exception: " << e.get_type() << " plz help" << std::endl;
-                            }
-                            if (response.has_exception<TimeoutException>())
-                            {
-                                std::cout << "Timeout was reached" << std::endl;
-                            }
-                            else
-                            {
-                                std::cout << "Unknown exception" << std::endl;
-                            }
-
+                            std::cout << response.get_exception<IException>().get_message() << std::endl;
                             return;
                         }
 

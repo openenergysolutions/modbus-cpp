@@ -1,5 +1,7 @@
 #include "modbus/messages/ReadHoldingRegistersRequest.h"
 
+#include "openpal/serialization/BigEndian.h"
+
 namespace modbus
 {
 
@@ -17,18 +19,24 @@ std::unique_ptr<IRequest> ReadHoldingRegistersRequest::clone() const
 
 size_t ReadHoldingRegistersRequest::get_request_length() const
 {
-    return 6;
+    return 5;
 }
 
 void ReadHoldingRegistersRequest::build_request(openpal::wseq_t& buffer) const
 {
-    buffer.put('h');
-    buffer.put('e');
-    buffer.put('l');
-    buffer.put('l');
-    buffer.put('o');
-    buffer.put(m_qty_of_registers);
+    openpal::UInt8::write_to(buffer, 0x03); // Function code
+    openpal::UInt16::write_to(buffer, m_starting_address); // Starting address
+    openpal::UInt16::write_to(buffer, m_qty_of_registers); // Qty of registers
+}
 
+const Address& ReadHoldingRegistersRequest::get_starting_address() const
+{
+    return m_starting_address;
+}
+
+uint16_t ReadHoldingRegistersRequest::get_qty_of_registers() const
+{
+    return m_qty_of_registers;
 }
 
 } // namespace modbus

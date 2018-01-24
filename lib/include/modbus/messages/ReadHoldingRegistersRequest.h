@@ -17,6 +17,9 @@ public:
     size_t get_request_length() const override;
     void build_request(openpal::wseq_t& buffer) const override;
 
+    const Address& get_starting_address() const;
+    uint16_t get_qty_of_registers() const;
+
 private:
     Address m_starting_address;
     uint16_t m_qty_of_registers;

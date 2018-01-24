@@ -38,19 +38,7 @@ void SessionImpl::send_request(const ReadHoldingRegistersRequest& request,
                                const openpal::duration_t& timeout,
                                ResponseHandler<ReadHoldingRegistersResponse> handler)
 {
-    m_executor->post([=, self = shared_from_this()] {
-        m_channel->send_request(m_unit_identifier, request, timeout, [=, self = shared_from_this()](const Expected<openpal::rseq_t>& response)
-        {
-            if(!response.is_valid())
-            {
-                handler(Expected<ReadHoldingRegistersResponse>::from_exception(response.get_exception()));
-            }
-            else
-            {
-                handler(ReadHoldingRegistersResponse::parse(response.get()));
-            }
-        });
-    });
+    meta_send_request(request, timeout, handler);
 }
 
 void SessionImpl::send_request(const ReadInputRegistersRequest& request,
@@ -90,6 +78,26 @@ void SessionImpl::schedule_request(const ReadInputRegistersRequest& request,
                                    std::unique_ptr<ISchedule> schedule)
 {
 
+}
+
+template<typename TRequest, typename TResponse>
+void SessionImpl::meta_send_request(const TRequest& request,
+                                    const openpal::duration_t& timeout,
+                                    ResponseHandler<TResponse> handler)
+{
+    m_executor->post([=, self = shared_from_this()] {
+        m_channel->send_request(m_unit_identifier, request, timeout, [=, self2 = self](const Expected<openpal::rseq_t>& response)
+        {
+            if(!response.is_valid())
+            {
+                handler(Expected<TResponse>::from_exception(response.get_exception()));
+            }
+            else
+            {
+                handler(TResponse::parse(request, response.get()));
+            }
+        });
+    });
 }
 
 } // namespace modbus

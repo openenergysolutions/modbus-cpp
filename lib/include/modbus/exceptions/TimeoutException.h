@@ -1,15 +1,18 @@
 #ifndef MODBUS_TIMEOUTEXCEPTION_H
 #define MODBUS_TIMEOUTEXCEPTION_H
 
-#include <stdexcept>
+#include "modbus/exceptions/IException.h"
 
 namespace modbus
 {
 
-class TimeoutException : public std::domain_error
+class TimeoutException : public IException
 {
 public:
-    TimeoutException() : std::domain_error("Timeout reached") {}
+    std::string get_message() const override
+    {
+        return "Timeout reached";
+    }
 };
 
 } // namespace modbus

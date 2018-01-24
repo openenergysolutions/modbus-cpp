@@ -16,9 +16,11 @@ enum class ExceptionType
     ServerDeviceBusy = 0x06,
     MemoryParityError = 0x07,
     GatewayPathUnavailable = 0x0A,
-    GatewayTargetDeviceFailedToRespond = 0x0B
+    GatewayTargetDeviceFailedToRespond = 0x0B,
+    Unknown
 };
 
+ExceptionType parse_exception_type(uint8_t data);
 std::ostream& operator<<(std::ostream& stream, const ExceptionType& exception_type);
 
 } // namespace modbus

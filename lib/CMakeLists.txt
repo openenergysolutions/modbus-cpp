@@ -13,12 +13,14 @@ set(modbus_public_headers
     ./include/modbus/channel/UnitIdentifier.h
 
     ./include/modbus/exceptions/ConnectionException.h
+    ./include/modbus/exceptions/IException.h
+    ./include/modbus/exceptions/MalformedModbusResponseException.h
+    ./include/modbus/exceptions/ModbusException.h
     ./include/modbus/exceptions/TimeoutException.h
 
     ./include/modbus/logging/LoggerFactory.h
 
     ./include/modbus/messages/Address.h
-    ./include/modbus/messages/Exception.h
     ./include/modbus/messages/ExceptionType.h
     ./include/modbus/messages/IRequest.h
     ./include/modbus/messages/IResponse.h
@@ -67,7 +69,7 @@ set(modbus_src
     ./src/logging/LoggerFactory.cpp
 
     ./src/messages/ExceptionType.cpp
-    ./src/messages/Exception.cpp
+    ./src/messages/IResponse.cpp
     ./src/messages/ReadHoldingRegistersRequest.cpp
     ./src/messages/ReadHoldingRegistersResponse.cpp
 

@@ -4,6 +4,7 @@ set(modbus_tests_headers
     ./mocks/AsioTcpConnectionWrapper.h
     ./mocks/ConnectionListenerMock.h
     ./mocks/ExecutorMock.h
+    ./mocks/IResponseMock.h
     ./mocks/MbapSinkMock.h
     ./mocks/RequestMock.h
     ./mocks/TcpConnectionMock.h
@@ -23,9 +24,15 @@ set(modbus_tests_src
     ./channel/TransactionIdentifierTest.cpp
     ./channel/UnitIdentifierTest.cpp
 
+    ./messages/ExceptionTypeTest.cpp
+    ./messages/IResponseTest.cpp
+    ./messages/ReadHoldingRegistersRequestTest.cpp
+    ./messages/ReadHoldingRegistersResponseTest.cpp
+
     ./mocks/AsioTcpConnectionWrapper.cpp
     ./mocks/ConnectionListenerMock.cpp
     ./mocks/ExecutorMock.cpp
+    ./mocks/IResponseMock.cpp
     ./mocks/MbapSinkMock.cpp
     ./mocks/RequestMock.cpp
     ./mocks/TcpConnectionMock.cpp

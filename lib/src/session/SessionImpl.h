@@ -53,11 +53,9 @@ public:
 
 private:
     template<typename TRequest, typename TResponse>
-    void send_request(const TRequest& request,
-                      ResponseHandler<TResponse> handler)
-    {
-
-    }
+    void meta_send_request(const TRequest& request,
+                           const openpal::duration_t& timeout,
+                           ResponseHandler<TResponse> handler);
 
     std::shared_ptr<openpal::IExecutor> m_executor;
     std::shared_ptr<Logger> m_logger;
