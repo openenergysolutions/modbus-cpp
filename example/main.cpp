@@ -57,12 +57,12 @@ int main(int argc, char* argv[])
 
             // Create a TCP channel
             // Each channel has its own Executor with a strand to avoid many multithreading issues
-            auto channel = modbusManager->create_tcp_channel("Example channel", Ipv4Endpoint{ "127.0.0.1", 8888 },
+            auto channel = modbusManager->create_tcp_channel("Example channel", Ipv4Endpoint{ "127.0.0.1", 502 },
                 ScheduleFactory::create_periodic_schedule(std::chrono::seconds(5)));
 
             // Create a session with a specific unit identifier
             // Users will mainly play with the session to obtain what they want
-            auto session = channel->create_session(UnitIdentifier::default_unit_identifier(),
+            auto session = channel->create_session(UnitIdentifier{0x01},
                 std::chrono::seconds(3),
                 std::make_shared<MySessionResponseHandler>());
 

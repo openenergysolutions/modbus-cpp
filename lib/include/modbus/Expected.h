@@ -135,7 +135,7 @@ public:
     }*/
 
     template<typename E>
-    const E& get_exception() const
+    E get_exception() const
     {
         try
         {

@@ -10,18 +10,10 @@ class MalformedModbusResponseException : public IException
 {
 public:
     explicit MalformedModbusResponseException(const std::string& message)
-        : m_message{message}
+        : IException{message}
     {
 
     }
-
-    std::string get_message() const override
-    {
-        return m_message;
-    }
-
-private:
-    std::string m_message;
 };
 
 } // namespace modbus

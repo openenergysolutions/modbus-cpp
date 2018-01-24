@@ -9,10 +9,7 @@ namespace modbus
 class TimeoutException : public IException
 {
 public:
-    std::string get_message() const override
-    {
-        return "Timeout reached";
-    }
+    TimeoutException() : IException{"Timeout reached"} {}
 };
 
 } // namespace modbus

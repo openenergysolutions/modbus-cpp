@@ -18,6 +18,18 @@ Expected<ReadHoldingRegistersResponse> ReadHoldingRegistersResponse::parse(const
         return Expected<ReadHoldingRegistersResponse>::from_exception(function_code_result.get_exception());
     }
 
+    // Read number of bytes
+    if(view.length() < 1)
+    {
+        return Expected<ReadHoldingRegistersResponse>::from_exception(MalformedModbusResponseException{"Response is too short."});
+    }
+    uint8_t length;
+    openpal::UInt8::read_from(view, length);
+    if(length % 2 != 0)
+    {
+        return Expected<ReadHoldingRegistersResponse>::from_exception(MalformedModbusResponseException{ "Response should contain an even number of register bytes." });
+    }
+
     // Check that each number of registers match
     if(view.length() != 2 * req.get_qty_of_registers())
     {

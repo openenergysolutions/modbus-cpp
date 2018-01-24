@@ -11,17 +11,19 @@ namespace modbus
 class ModbusException : public IException
 {
 public:
-    explicit ModbusException(const ExceptionType& exception_type)
-        : m_exception_type{exception_type}
-    {
-
-    }
-
-    std::string get_message() const override
+    static std::string get_message(const ExceptionType& exception_type)
     {
         std::ostringstream oss;
-        oss << m_exception_type;
+        oss << exception_type;
         return oss.str();
+    }
+
+public:
+    explicit ModbusException(const ExceptionType& exception_type)
+        : IException{get_message(exception_type)},
+          m_exception_type{exception_type}
+    {
+
     }
 
     const ExceptionType& get_exception_type() const

@@ -7,8 +7,8 @@ using namespace modbus;
 
 TEST_CASE("ReadHoldingRegistersRequest")
 {
-    const auto starting_address = 0x1234;
-    const auto qty_of_registers = 4;
+    const uint16_t starting_address = 0x1234;
+    const uint16_t qty_of_registers = 4;
     ReadHoldingRegistersRequest request{starting_address, qty_of_registers};
 
     SECTION("When get length, then always return 5.")

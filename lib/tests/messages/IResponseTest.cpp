@@ -1,9 +1,9 @@
 #include "catch.hpp"
 
+#include <array>
 #include "modbus/exceptions/MalformedModbusResponseException.h"
 #include "modbus/exceptions/ModbusException.h"
 #include "mocks/IResponseMock.h"
-
 
 using namespace modbus;
 

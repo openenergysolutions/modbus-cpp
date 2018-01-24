@@ -9,10 +9,7 @@ namespace modbus
 class ConnectionException : public IException
 {
 public:
-    std::string get_message() const override
-    {
-        return "Connection error";
-    }
+    ConnectionException() : IException{"Connection error"} {}
 };
 
 } // namespace modbus
