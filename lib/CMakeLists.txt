@@ -72,6 +72,8 @@ set(modbus_src
     ./src/messages/IResponse.cpp
     ./src/messages/ReadHoldingRegistersRequest.cpp
     ./src/messages/ReadHoldingRegistersResponse.cpp
+    ./src/messages/ReadInputRegistersRequest.cpp
+    ./src/messages/ReadInputRegistersResponse.cpp
 
     ./src/session/SessionImpl.cpp
 )

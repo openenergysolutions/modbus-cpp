@@ -22,7 +22,7 @@ public:
 
 private:
     Address m_starting_address;
-    uint16_t qty_of_registers;
+    uint16_t m_qty_of_registers;
 };
 
 } // namespace modbus

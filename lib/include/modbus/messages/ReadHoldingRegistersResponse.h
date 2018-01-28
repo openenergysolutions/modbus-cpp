@@ -2,12 +2,10 @@
 #define MODBUS_READHOLDINGREGISTERSRESPONSE_H
 
 #include <vector>
-
 #include "modbus/Expected.h"
 #include "modbus/messages/IResponse.h"
 #include "modbus/messages/RegisterValue.h"
 #include "modbus/messages/ReadHoldingRegistersRequest.h"
-#include "openpal/serialization/BigEndian.h"
 
 namespace modbus
 {
