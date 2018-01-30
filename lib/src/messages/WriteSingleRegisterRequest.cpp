@@ -25,7 +25,7 @@ size_t WriteSingleRegisterRequest::get_request_length() const
 void WriteSingleRegisterRequest::build_request(openpal::wseq_t& buffer) const
 {
     openpal::UInt8::write_to(buffer, 0x06); // Function code
-    openpal::UInt16::write_to(buffer, m_address); //Address
+    openpal::UInt16::write_to(buffer, m_address); // Address
     openpal::UInt16::write_to(buffer, m_value); // Value
 }
 

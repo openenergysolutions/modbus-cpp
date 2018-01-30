@@ -44,6 +44,13 @@ public:
                       const openpal::duration_t& timeout,
                       ResponseHandler<WriteSingleRegisterResponse> handler) override;
 
+    void send_request(const WriteMultipleRegistersRequest& request,
+                      ResponseHandler<WriteMultipleRegistersResponse> handler) override;
+    void send_request(const WriteMultipleRegistersRequest& request,
+                      const openpal::duration_t& timeout,
+                      ResponseHandler<WriteMultipleRegistersResponse> handler) override;
+
+
     // Scheduled requests
     void schedule_request(const ReadHoldingRegistersRequest& request,
                           std::unique_ptr<ISchedule> schedule) override;

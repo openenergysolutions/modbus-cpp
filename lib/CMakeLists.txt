@@ -29,6 +29,8 @@ set(modbus_public_headers
     ./include/modbus/messages/ReadInputRegistersRequest.h
     ./include/modbus/messages/ReadInputRegistersResponse.h
     ./include/modbus/messages/RegisterValue.h
+    ./include/modbus/messages/WriteMultipleRegistersRequest.h
+    ./include/modbus/messages/WriteMultipleRegistersResponse.h
     ./include/modbus/messages/WriteSingleRegisterRequest.h
     ./include/modbus/messages/WriteSingleRegisterResponse.h
 
@@ -76,6 +78,8 @@ set(modbus_src
     ./src/messages/ReadHoldingRegistersResponse.cpp
     ./src/messages/ReadInputRegistersRequest.cpp
     ./src/messages/ReadInputRegistersResponse.cpp
+    ./src/messages/WriteMultipleRegistersRequest.cpp
+    ./src/messages/WriteMultipleRegistersResponse.cpp
     ./src/messages/WriteSingleRegisterRequest.cpp
     ./src/messages/WriteSingleRegisterResponse.cpp
 

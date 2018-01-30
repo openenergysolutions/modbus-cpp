@@ -8,6 +8,8 @@
 #include "modbus/messages/ReadHoldingRegistersResponse.h"
 #include "modbus/messages/ReadInputRegistersRequest.h"
 #include "modbus/messages/ReadInputRegistersResponse.h"
+#include "modbus/messages/WriteMultipleRegistersRequest.h"
+#include "modbus/messages/WriteMultipleRegistersResponse.h"
 #include "modbus/messages/WriteSingleRegisterRequest.h"
 #include "modbus/messages/WriteSingleRegisterResponse.h"
 
@@ -65,6 +67,19 @@ void SessionImpl::send_request(const WriteSingleRegisterRequest& request,
 void SessionImpl::send_request(const WriteSingleRegisterRequest& request,
                                const openpal::duration_t& timeout,
                                ResponseHandler<WriteSingleRegisterResponse> handler)
+{
+    meta_send_request(request, timeout, handler);
+}
+
+void SessionImpl::send_request(const WriteMultipleRegistersRequest& request,
+                               ResponseHandler<WriteMultipleRegistersResponse> handler)
+{
+    send_request(request, m_default_timeout, handler);
+}
+
+void SessionImpl::send_request(const WriteMultipleRegistersRequest& request,
+                               const openpal::duration_t& timeout,
+                               ResponseHandler<WriteMultipleRegistersResponse> handler)
 {
     meta_send_request(request, timeout, handler);
 }
