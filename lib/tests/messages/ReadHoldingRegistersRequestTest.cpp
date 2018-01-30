@@ -34,7 +34,8 @@ TEST_CASE("ReadHoldingRegistersRequest")
 
     SECTION("When clone, then effectively creates a copy of the request")
     {
-        auto other_request = static_cast<ReadHoldingRegistersRequest*>(request.clone().get());
+        auto copy = request.clone();
+        auto other_request = static_cast<ReadHoldingRegistersRequest*>(copy.get());
 
         REQUIRE(other_request->get_starting_address() == starting_address);
         REQUIRE(other_request->get_qty_of_registers() == qty_of_registers);

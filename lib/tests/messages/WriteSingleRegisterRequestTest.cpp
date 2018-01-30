@@ -35,7 +35,8 @@ TEST_CASE("WriteSingleRegisterRequest")
 
     SECTION("When clone, then effectively creates a copy of the request")
     {
-        auto other_request = static_cast<WriteSingleRegisterRequest*>(request.clone().get());
+        auto copy = request.clone();
+        auto other_request = static_cast<WriteSingleRegisterRequest*>(copy.get());
 
         REQUIRE(other_request->get_address() == address);
         REQUIRE(other_request->get_value() == value);
