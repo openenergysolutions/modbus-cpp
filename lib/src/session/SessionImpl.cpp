@@ -8,6 +8,8 @@
 #include "modbus/messages/ReadHoldingRegistersResponse.h"
 #include "modbus/messages/ReadInputRegistersRequest.h"
 #include "modbus/messages/ReadInputRegistersResponse.h"
+#include "modbus/messages/WriteSingleRegisterRequest.h"
+#include "modbus/messages/WriteSingleRegisterResponse.h"
 
 namespace modbus
 {
@@ -44,14 +46,27 @@ void SessionImpl::send_request(const ReadHoldingRegistersRequest& request,
 void SessionImpl::send_request(const ReadInputRegistersRequest& request,
                                ResponseHandler<ReadInputRegistersResponse> handler)
 {
-
+    send_request(request, m_default_timeout, handler);
 }
 
 void SessionImpl::send_request(const ReadInputRegistersRequest& request,
                                const openpal::duration_t& timeout,
                                ResponseHandler<ReadInputRegistersResponse> handler)
 {
+    meta_send_request(request, timeout, handler);
+}
 
+void SessionImpl::send_request(const WriteSingleRegisterRequest& request,
+                               ResponseHandler<WriteSingleRegisterResponse> handler)
+{
+    send_request(request, m_default_timeout, handler);
+}
+
+void SessionImpl::send_request(const WriteSingleRegisterRequest& request,
+                               const openpal::duration_t& timeout,
+                               ResponseHandler<WriteSingleRegisterResponse> handler)
+{
+    meta_send_request(request, timeout, handler);
 }
 
 void SessionImpl::schedule_request(const ReadHoldingRegistersRequest& request,

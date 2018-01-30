@@ -30,6 +30,8 @@ set(modbus_tests_src
     ./messages/ReadHoldingRegistersResponseTest.cpp
     ./messages/ReadInputRegistersRequestTest.cpp
     ./messages/ReadInputRegistersResponseTest.cpp
+    ./messages/WriteSingleRegisterRequestTest.cpp
+    ./messages/WriteSingleRegisterResponseTest.cpp
 
     ./mocks/AsioTcpConnectionWrapper.cpp
     ./mocks/ConnectionListenerMock.cpp

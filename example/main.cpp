@@ -15,6 +15,8 @@
 
 #include "modbus/messages/ReadHoldingRegistersRequest.h"
 #include "modbus/messages/ReadHoldingRegistersResponse.h"
+#include "modbus/messages/WriteSingleRegisterRequest.h"
+#include "modbus/messages/WriteSingleRegisterResponse.h"
 
 using namespace modbus;
 
@@ -91,6 +93,21 @@ int main(int argc, char* argv[])
                         {
                             std::cout << value.address << ": " << value.value << std::endl;
                         }
+                    });
+                    break;
+                }
+                case 'w':
+                {
+                    WriteSingleRegisterRequest req{ 0x0024, 59 };
+                    session->send_request(req, [](const Expected<WriteSingleRegisterResponse>& response) {
+                        if (!response.is_valid())
+                        {
+                            std::cout << response.get_exception<IException>().get_message() << std::endl;
+                            return;
+                        }
+
+                        auto value = response.get().get_value();
+                        std::cout << "Write result= " << value.address << ": " << value.value << std::endl;
                     });
                     break;
                 }

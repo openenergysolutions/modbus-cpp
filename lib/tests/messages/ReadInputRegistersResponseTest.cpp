@@ -44,8 +44,8 @@ TEST_CASE("ReadInputRegistersResponse")
     SECTION("When exception response, then parse report exception")
     {
         std::array<uint8_t, 2> exception_response{{
-            0x84,       // Exception function code
-            0x02        // Illegal data address
+            0x84, // Exception function code
+            0x02  // Illegal data address
         }};
         openpal::rseq_t buffer{exception_response.data(), exception_response.size()};
 
@@ -57,8 +57,8 @@ TEST_CASE("ReadInputRegistersResponse")
 
     SECTION("When size not present, then return malformed exception")
     {
-        std::array<uint8_t, 6> wrong_size_response{ {
-            0x03,       // Function code
+        std::array<uint8_t, 1> wrong_size_response{ {
+            0x03 // Function code
         }};
         openpal::rseq_t buffer{ wrong_size_response.data(), wrong_size_response.size() };
 
@@ -69,9 +69,9 @@ TEST_CASE("ReadInputRegistersResponse")
 
     SECTION("When size is not even, then return malformed exception")
     {
-        std::array<uint8_t, 6> wrong_size_response{ {
-            0x03,       // Function code
-            0x03,       // Size not even
+        std::array<uint8_t, 5> wrong_size_response{ {
+            0x03,            // Function code
+            0x03,            // Size not even
             0x42, 0x43, 0x44 // Appropriate data
         }};
         openpal::rseq_t buffer{ wrong_size_response.data(), wrong_size_response.size() };
@@ -83,7 +83,7 @@ TEST_CASE("ReadInputRegistersResponse")
 
     SECTION("When wrong size response, then return malformed exception")
     {
-        std::array<uint8_t, 4> wrong_size_response{{
+        std::array<uint8_t, 3> wrong_size_response{{
             0x03, // Function code
             0x02, // Length should be 2
             0x42  // Only 1 byte is received

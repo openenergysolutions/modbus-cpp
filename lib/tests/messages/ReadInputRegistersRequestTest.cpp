@@ -31,4 +31,12 @@ TEST_CASE("ReadInputRegistersRequest")
         REQUIRE(buffer.as_wslice()[3] == 0x00); // Qty of registers MSB
         REQUIRE(buffer.as_wslice()[4] == 0x04); // Qty of registers LSB
     }
+
+    SECTION("When clone, then effectively creates a copy of the request")
+    {
+        auto other_request = static_cast<ReadInputRegistersRequest*>(request.clone().get());
+
+        REQUIRE(other_request->get_starting_address() == starting_address);
+        REQUIRE(other_request->get_qty_of_registers() == qty_of_registers);
+    }
 }

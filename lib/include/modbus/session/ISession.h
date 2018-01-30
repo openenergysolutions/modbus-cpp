@@ -15,6 +15,8 @@ class ReadHoldingRegistersRequest;
 class ReadHoldingRegistersResponse;
 class ReadInputRegistersRequest;
 class ReadInputRegistersResponse;
+class WriteSingleRegisterRequest;
+class WriteSingleRegisterResponse;
 
 class ISession : public std::enable_shared_from_this<ISession>
 {
@@ -33,6 +35,12 @@ public:
     virtual void send_request(const ReadInputRegistersRequest& request,
                               const openpal::duration_t& timeout,
                               ResponseHandler<ReadInputRegistersResponse> handler) = 0;
+
+    virtual void send_request(const WriteSingleRegisterRequest& request,
+                              ResponseHandler<WriteSingleRegisterResponse> handler) = 0;
+    virtual void send_request(const WriteSingleRegisterRequest& request,
+                              const openpal::duration_t& timeout,
+                              ResponseHandler<WriteSingleRegisterResponse> handler) = 0;
 
     // Scheduled requests
     virtual void schedule_request(const ReadHoldingRegistersRequest& request,
