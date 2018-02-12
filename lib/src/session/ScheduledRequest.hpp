@@ -1,12 +1,12 @@
 #ifndef MODBUS_SCHEDULEDREQUEST_HPP
 #define MODBUS_SCHEDULEDREQUEST_HPP
 
-#include "modbus/ISchedule.h"
 #include "modbus/Expected.h"
 #include "modbus/exceptions/IException.h"
 #include "modbus/exceptions/TimeoutException.h"
-#include "modbus/ISessionResponseHandler.h"
+#include "modbus/session/ISchedule.h"
 #include "modbus/session/ISession.h"
+#include "modbus/session/ISessionResponseHandler.h"
 
 namespace modbus
 {

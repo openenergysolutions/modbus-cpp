@@ -4,10 +4,7 @@ set(modbus_public_headers
     ./include/modbus/Expected.h
     ./include/modbus/IModbusManager.h
     ./include/modbus/Ipv4Endpoint.h
-    ./include/modbus/ISchedule.h
-    ./include/modbus/ISessionResponseHandler.h
     ./include/modbus/ResponseHandler.h
-    ./include/modbus/ScheduleFactory.h
 
     ./include/modbus/channel/IChannel.h
     ./include/modbus/channel/UnitIdentifier.h
@@ -34,12 +31,15 @@ set(modbus_public_headers
     ./include/modbus/messages/WriteSingleRegisterRequest.h
     ./include/modbus/messages/WriteSingleRegisterResponse.h
 
+    ./include/modbus/session/ISchedule.h
+    ./include/modbus/session/IScheduledRequest.h
     ./include/modbus/session/ISession.h
+    ./include/modbus/session/ISessionResponseHandler.h
+    ./include/modbus/session/ScheduleFactory.h
 )
 
 set(modbus_private_headers
     ./src/ModbusManagerImpl.h
-    ./src/PeriodicSchedule.h
 
     ./src/channel/AsioTcpConnection.h
     ./src/channel/ChannelTcp.h
@@ -53,7 +53,7 @@ set(modbus_private_headers
 
     ./src/logging/Logger.h
 
-    ./src/session/IScheduledRequest.h
+    ./src/session/PeriodicSchedule.h
     ./src/session/ScheduledRequest.h
     ./src/session/SessionImpl.h
 )
@@ -62,8 +62,6 @@ set(modbus_src
     ./src/IModbusManager.cpp
     ./src/Ipv4Endpoint.cpp
     ./src/ModbusManagerImpl.cpp
-    ./src/PeriodicSchedule.cpp
-    ./src/ScheduleFactory.cpp
 
     ./src/channel/ChannelTcp.cpp
     ./src/channel/AsioTcpConnection.cpp
@@ -85,7 +83,9 @@ set(modbus_src
     ./src/messages/WriteSingleRegisterRequest.cpp
     ./src/messages/WriteSingleRegisterResponse.cpp
 
+    ./src/session/PeriodicSchedule.cpp
     ./src/session/ScheduledRequest.hpp
+    ./src/session/ScheduleFactory.cpp
     ./src/session/SessionImpl.cpp
 )
 

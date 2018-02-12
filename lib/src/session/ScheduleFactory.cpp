@@ -1,6 +1,6 @@
-#include "modbus/ScheduleFactory.h"
+#include "modbus/session/ScheduleFactory.h"
 
-#include "PeriodicSchedule.h"
+#include "session/PeriodicSchedule.h"
 
 namespace modbus
 {

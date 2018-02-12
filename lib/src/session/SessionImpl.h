@@ -5,9 +5,9 @@
 #include <vector>
 #include "openpal/executor/IExecutor.h"
 #include "openpal/executor/Timer.h"
-#include "modbus/session/ISession.h"
 #include "modbus/channel/UnitIdentifier.h"
-#include "session/IScheduledRequest.h"
+#include "modbus/session/IScheduledRequest.h"
+#include "modbus/session/ISession.h"
 
 namespace modbus
 {

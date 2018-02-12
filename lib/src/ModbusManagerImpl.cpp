@@ -2,7 +2,7 @@
 
 #include "asiopal/StrandExecutor.h"
 #include "modbus/Ipv4Endpoint.h"
-#include "modbus/ISchedule.h"
+#include "modbus/session/ISchedule.h"
 #include "channel/ChannelTcp.h"
 #include "channel/AsioTcpConnection.h"
 #include "logging/Logger.h"

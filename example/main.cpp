@@ -4,10 +4,10 @@
 #include "modbus/IModbusManager.h"
 #include "modbus/channel/IChannel.h"
 #include "modbus/Ipv4Endpoint.h"
+#include "modbus/session/ISchedule.h"
+#include "modbus/session/ScheduleFactory.h"
 #include "modbus/session/ISession.h"
-#include "modbus/ISessionResponseHandler.h"
-#include "modbus/ISchedule.h"
-#include "modbus/ScheduleFactory.h"
+#include "modbus/session/ISessionResponseHandler.h"
 
 #include "modbus/exceptions/IException.h"
 

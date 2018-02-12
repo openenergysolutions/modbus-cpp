@@ -5,7 +5,7 @@
 #include "openpal/executor/IExecutor.h"
 #include "openpal/executor/Timer.h"
 #include "openpal/executor/Typedefs.h"
-#include "session/IScheduledRequest.h"
+#include "modbus/session/IScheduledRequest.h"
 
 namespace modbus
 {

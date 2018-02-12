@@ -1,8 +1,6 @@
 #include "session/SessionImpl.h"
 
 #include "openpal/executor/IExecutor.h"
-#include "modbus/ISchedule.h"
-#include "modbus/ISessionResponseHandler.h"
 #include "modbus/channel/IChannel.h"
 #include "modbus/messages/ReadHoldingRegistersRequest.h"
 #include "modbus/messages/ReadHoldingRegistersResponse.h"
@@ -12,6 +10,8 @@
 #include "modbus/messages/WriteMultipleRegistersResponse.h"
 #include "modbus/messages/WriteSingleRegisterRequest.h"
 #include "modbus/messages/WriteSingleRegisterResponse.h"
+#include "modbus/session/ISchedule.h"
+#include "modbus/session/ISessionResponseHandler.h"
 #include "session/ScheduledRequest.h"
 
 namespace modbus

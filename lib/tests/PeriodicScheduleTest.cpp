@@ -1,6 +1,6 @@
 #include "catch.hpp"
 
-#include "PeriodicSchedule.h"
+#include "session/PeriodicSchedule.h"
 
 using namespace modbus;
 

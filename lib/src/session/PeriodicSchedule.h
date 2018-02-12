@@ -1,7 +1,7 @@
 #ifndef MODBUS_PERIODICTIMER_H
 #define MODBUS_PERIODICTIMER_H
 
-#include "modbus/ISchedule.h"
+#include "modbus/session/ISchedule.h"
 
 namespace modbus
 {
