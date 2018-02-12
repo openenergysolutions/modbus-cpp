@@ -12,7 +12,7 @@ public:
     virtual ~IScheduledRequest() = default;
 
     virtual void start() = 0;
-    virtual void cancel() = 0;
+    virtual void stop() = 0;
 };
 
 } // namespace modbus

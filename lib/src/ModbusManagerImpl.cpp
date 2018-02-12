@@ -1,10 +1,8 @@
 #include "ModbusManagerImpl.h"
 
 #include "asiopal/StrandExecutor.h"
-
 #include "modbus/Ipv4Endpoint.h"
 #include "modbus/ISchedule.h"
-
 #include "channel/ChannelTcp.h"
 #include "channel/AsioTcpConnection.h"
 #include "logging/Logger.h"
@@ -39,21 +37,24 @@ std::shared_ptr<IChannel> ModbusManagerImpl::create_tcp_channel(const std::strin
 
     auto channel = std::make_shared<ChannelTcp>(executor, m_logger->clone(name), tcp_connection);
 
-    m_created_channels.emplace_back(channel);
+    {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        m_created_channels.emplace_back(channel);
+    }
 
     return channel;
 }
 
 void ModbusManagerImpl::shutdown()
 {
-    for(auto channel_ptr : m_created_channels)
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    for(auto channel : m_created_channels)
     {
-        auto channel = channel_ptr.lock();
-        if(channel)
-        {
-            channel->shutdown();
-        }
+        channel->shutdown();
     }
+
+    m_created_channels.clear();
 }
 
 } // namespace modbus

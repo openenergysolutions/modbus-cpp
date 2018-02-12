@@ -12,8 +12,8 @@ namespace modbus
 {
 
 template<typename TRequest, typename TResponse>
-ScheduledRequest<TRequest, TResponse>::ScheduledRequest(ISession* session,
-                                                        ISessionResponseHandler* session_response_handler,
+ScheduledRequest<TRequest, TResponse>::ScheduledRequest(std::shared_ptr<ISession> session,
+                                                        std::shared_ptr<ISessionResponseHandler> session_response_handler,
                                                         std::shared_ptr<openpal::IExecutor> executor,
                                                         const TRequest& request,
                                                         const openpal::duration_t& timeout,
@@ -24,6 +24,7 @@ ScheduledRequest<TRequest, TResponse>::ScheduledRequest(ISession* session,
       m_request{request},
       m_timeout{timeout},
       m_schedule{std::move(schedule)},
+      m_started{false},
       m_timer{nullptr}
 {
 
@@ -31,6 +32,30 @@ ScheduledRequest<TRequest, TResponse>::ScheduledRequest(ISession* session,
 
 template<typename TRequest, typename TResponse>
 void ScheduledRequest<TRequest, TResponse>::start()
+{
+    m_executor->post([=, self = shared_from_this()]() {
+        if(!m_started)
+        {
+            execute();
+            m_started = true;
+        }
+    });
+}
+
+template<typename TRequest, typename TResponse>
+void ScheduledRequest<TRequest, TResponse>::stop()
+{
+    m_executor->post([=, self = shared_from_this()]() {
+        if(m_started)
+        {
+            m_timer.cancel();
+            m_started = false;
+        }
+    });
+}
+
+template<typename TRequest, typename TResponse>
+void ScheduledRequest<TRequest, TResponse>::execute()
 {
     // Send the request
     m_session->send_request(m_request, m_timeout, [=, self = shared_from_this()](const Expected<TResponse>& response) {
@@ -65,15 +90,9 @@ void ScheduledRequest<TRequest, TResponse>::start()
 
         // Start the timer for the next execution
         m_timer = m_executor->start(m_schedule->get_next_execution(), [=, self2 = self]() {
-            start();
+            execute();
         });
     });
-}
-
-template<typename TRequest, typename TResponse>
-void ScheduledRequest<TRequest, TResponse>::cancel()
-{
-    m_timer.cancel();
 }
 
 } // namespace modbus

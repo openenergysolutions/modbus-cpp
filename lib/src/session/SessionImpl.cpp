@@ -1,7 +1,6 @@
 #include "session/SessionImpl.h"
 
 #include "openpal/executor/IExecutor.h"
-
 #include "modbus/ISchedule.h"
 #include "modbus/ISessionResponseHandler.h"
 #include "modbus/channel/IChannel.h"
@@ -34,17 +33,16 @@ SessionImpl::SessionImpl(std::shared_ptr<openpal::IExecutor> executor,
 
 }
 
-SessionImpl::~SessionImpl()
-{
-    shutdown();
-}
-
 void SessionImpl::shutdown()
 {
-    for(auto& req : m_scheduled_requests)
-    {
-        req->cancel();
-    }
+    m_executor->post([=, self = shared_from_this()] {
+        for(auto& req : m_scheduled_requests)
+        {
+            req->stop();
+        }
+
+        m_scheduled_requests.clear();
+    });
 }
 
 void SessionImpl::send_request(const ReadHoldingRegistersRequest& request,
@@ -152,7 +150,7 @@ void SessionImpl::meta_schedule_request(const TRequest& request,
 {
     auto shared_schedule = std::shared_ptr<ISchedule>{std::move(schedule)};
     m_executor->post([=, self = shared_from_this()] {
-        auto scheduled_request = std::make_shared<ScheduledRequest<TRequest, TResponse>>(this, m_session_response_handler.get(), m_executor, request, timeout, shared_schedule->clone());
+        auto scheduled_request = std::make_shared<ScheduledRequest<TRequest, TResponse>>(self, m_session_response_handler, m_executor, request, timeout, shared_schedule->clone());
         m_scheduled_requests.push_back(scheduled_request);
         scheduled_request->start();
     });

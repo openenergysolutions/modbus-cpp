@@ -18,23 +18,28 @@ template<typename TRequest, typename TResponse>
 class ScheduledRequest : public IScheduledRequest
 {
 public:
-    ScheduledRequest(ISession* session,
-                     ISessionResponseHandler* session_response_handler,
+    ScheduledRequest(std::shared_ptr<ISession> session,
+                     std::shared_ptr<ISessionResponseHandler> session_response_handler,
                      std::shared_ptr<openpal::IExecutor> executor,
                      const TRequest& request,
                      const openpal::duration_t& timeout,
                      std::unique_ptr<ISchedule> schedule);
+    ~ScheduledRequest() = default;
 
     void start() override;
-    void cancel() override;
+    void stop() override;
 
 private:
-    ISession* m_session;
-    ISessionResponseHandler* m_session_response_handler;
+    void execute();
+
+    std::shared_ptr<ISession> m_session;
+    std::shared_ptr<ISessionResponseHandler> m_session_response_handler;
     std::shared_ptr<openpal::IExecutor> m_executor;
     TRequest m_request;
     openpal::duration_t m_timeout;
     std::unique_ptr<ISchedule> m_schedule;
+
+    bool m_started;
     openpal::Timer m_timer;
 };
 

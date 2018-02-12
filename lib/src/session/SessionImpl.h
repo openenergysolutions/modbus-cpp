@@ -3,7 +3,6 @@
 
 #include <memory>
 #include <vector>
-
 #include "openpal/executor/IExecutor.h"
 #include "openpal/executor/Timer.h"
 #include "modbus/session/ISession.h"
@@ -27,7 +26,7 @@ public:
                 const UnitIdentifier& unit_identifier,
                 const openpal::duration_t& default_timeout,
                 std::shared_ptr<ISessionResponseHandler> session_response_handler);
-    ~SessionImpl();
+    ~SessionImpl() = default;
 
     void shutdown() override;
 

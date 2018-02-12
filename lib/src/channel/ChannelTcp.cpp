@@ -23,11 +23,6 @@ ChannelTcp::ChannelTcp(std::shared_ptr<openpal::IExecutor> executor,
     
 }
 
-ChannelTcp::~ChannelTcp()
-{
-    m_tcp_connection->close();
-}
-
 std::shared_ptr<ISession> ChannelTcp::create_session(const UnitIdentifier& unit_identifier,
                                                      const openpal::duration_t& default_timeout,
                                                      std::shared_ptr<ISessionResponseHandler> session_response_handler)
@@ -67,14 +62,11 @@ void ChannelTcp::shutdown()
 {
     m_logger->info("Shutting down.");
     m_executor->post([=, self = shared_from_this()] {
-        for(auto& session : m_sessions)
+        for(auto session : m_sessions)
         {
-            auto locked_session = session.lock();
-            if(locked_session)
-            {
-                locked_session->shutdown();
-            }
+            session->shutdown();
         }
+        m_sessions.clear();
 
         m_pending_requests.clear();
         m_current_request.reset(nullptr);

@@ -1,8 +1,8 @@
 #ifndef MODBUS_MODBUSMANAGERIMPL_H
 #define MODBUS_MODBUSMANAGERIMPL_H
 
+#include <mutex>
 #include "asiopal/ThreadPool.h"
-
 #include "modbus/IModbusManager.h"
 
 namespace modbus
@@ -24,7 +24,8 @@ private:
     std::shared_ptr<Logger> m_logger;
     openpal::ThreadPool m_thread_pool;
 
-    std::vector<std::weak_ptr<IChannel>> m_created_channels;
+    std::mutex m_mutex;
+    std::vector<std::shared_ptr<IChannel>> m_created_channels;
 };
 
 } // namespace modbus

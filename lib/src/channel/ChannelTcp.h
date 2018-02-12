@@ -11,13 +11,13 @@
 #include "channel/IConnectionListener.h"
 #include "channel/IMbapSink.h"
 #include "channel/MbapParser.h"
+#include "channel/PendingRequest.h"
 #include "logging/Logger.h"
 
 namespace modbus
 {
 
 class ITcpConnection;
-struct PendingRequest;
 
 class ChannelTcp : public IChannel, public IConnectionListener, public IMbapSink
 {
@@ -25,7 +25,7 @@ public:
     ChannelTcp(std::shared_ptr<openpal::IExecutor> executor,
                std::shared_ptr<Logger> logger,
                std::shared_ptr<ITcpConnection> tcp_connection);
-    ~ChannelTcp();
+    ~ChannelTcp() = default;
 
     std::shared_ptr<ISession> create_session(const UnitIdentifier& unit_identifier,
                                              const openpal::duration_t& default_timeout,
@@ -54,7 +54,7 @@ private:
     std::shared_ptr<Logger> m_logger;
     std::shared_ptr<ITcpConnection> m_tcp_connection;
 
-    std::vector<std::weak_ptr<ISession>> m_sessions;
+    std::vector<std::shared_ptr<ISession>> m_sessions;
     MbapParser m_parser;
     std::deque<std::unique_ptr<PendingRequest>> m_pending_requests;
     std::unique_ptr<PendingRequest> m_current_request;
