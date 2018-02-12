@@ -25,6 +25,8 @@ class ISession : public std::enable_shared_from_this<ISession>
 public:
     virtual ~ISession() = default;
 
+    virtual void shutdown() = 0;
+
     // One-time requests
     virtual void send_request(const ReadHoldingRegistersRequest& request,
                               ResponseHandler<ReadHoldingRegistersResponse> handler) = 0;

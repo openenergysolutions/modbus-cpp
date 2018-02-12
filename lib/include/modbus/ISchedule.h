@@ -12,6 +12,7 @@ class ISchedule
 {
 public:
     virtual ~ISchedule() = default;
+    virtual std::unique_ptr<ISchedule> clone() = 0;
 
     virtual void reset(const openpal::steady_time_t& now) = 0;
     virtual void on_success(const openpal::steady_time_t& now) = 0;

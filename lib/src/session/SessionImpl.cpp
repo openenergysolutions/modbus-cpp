@@ -3,6 +3,7 @@
 #include "openpal/executor/IExecutor.h"
 
 #include "modbus/ISchedule.h"
+#include "modbus/ISessionResponseHandler.h"
 #include "modbus/channel/IChannel.h"
 #include "modbus/messages/ReadHoldingRegistersRequest.h"
 #include "modbus/messages/ReadHoldingRegistersResponse.h"
@@ -12,6 +13,7 @@
 #include "modbus/messages/WriteMultipleRegistersResponse.h"
 #include "modbus/messages/WriteSingleRegisterRequest.h"
 #include "modbus/messages/WriteSingleRegisterResponse.h"
+#include "session/ScheduledRequest.h"
 
 namespace modbus
 {
@@ -32,6 +34,19 @@ SessionImpl::SessionImpl(std::shared_ptr<openpal::IExecutor> executor,
 
 }
 
+SessionImpl::~SessionImpl()
+{
+    shutdown();
+}
+
+void SessionImpl::shutdown()
+{
+    for(auto& req : m_scheduled_requests)
+    {
+        req->cancel();
+    }
+}
+
 void SessionImpl::send_request(const ReadHoldingRegistersRequest& request,
                                ResponseHandler<ReadHoldingRegistersResponse> handler)
 {
@@ -87,14 +102,14 @@ void SessionImpl::send_request(const WriteMultipleRegistersRequest& request,
 void SessionImpl::schedule_request(const ReadHoldingRegistersRequest& request,
                                    std::unique_ptr<ISchedule> schedule)
 {
-
+    schedule_request(request, m_default_timeout, std::move(schedule));
 }
 
 void SessionImpl::schedule_request(const ReadHoldingRegistersRequest& request,
                                    const openpal::duration_t& timeout,
                                    std::unique_ptr<ISchedule> schedule)
 {
-
+    meta_schedule_request<ReadHoldingRegistersRequest, ReadHoldingRegistersResponse>(request, timeout, std::move(schedule));
 }
 
 void SessionImpl::schedule_request(const ReadInputRegistersRequest& request,
@@ -129,5 +144,18 @@ void SessionImpl::meta_send_request(const TRequest& request,
         });
     });
 }
+
+template<typename TRequest, typename TResponse>
+void SessionImpl::meta_schedule_request(const TRequest& request,
+                                        const openpal::duration_t& timeout,
+                                        std::unique_ptr<ISchedule> schedule)
+{
+    auto shared_schedule = std::shared_ptr<ISchedule>{std::move(schedule)};
+    m_executor->post([=, self = shared_from_this()] {
+        auto scheduled_request = std::make_shared<ScheduledRequest<TRequest, TResponse>>(this, m_session_response_handler.get(), m_executor, request, timeout, shared_schedule->clone());
+        m_scheduled_requests.push_back(scheduled_request);
+        scheduled_request->start();
+    });
+};
 
 } // namespace modbus

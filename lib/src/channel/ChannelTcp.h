@@ -54,6 +54,7 @@ private:
     std::shared_ptr<Logger> m_logger;
     std::shared_ptr<ITcpConnection> m_tcp_connection;
 
+    std::vector<std::weak_ptr<ISession>> m_sessions;
     MbapParser m_parser;
     std::deque<std::unique_ptr<PendingRequest>> m_pending_requests;
     std::unique_ptr<PendingRequest> m_current_request;

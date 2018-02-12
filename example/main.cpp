@@ -68,6 +68,11 @@ int main(int argc, char* argv[])
                 std::chrono::seconds(3),
                 std::make_shared<MySessionResponseHandler>());
 
+            // Schedule a recurring request
+            // All the scheduled requests will be handled by the ISessionResponseHandler registered on session creation
+            ReadHoldingRegistersRequest req{ 0x0024, 59 };
+            session->schedule_request(req, ScheduleFactory::create_periodic_schedule(std::chrono::seconds(2)));
+
             while (true)
             {
                 char cmd;
@@ -123,13 +128,6 @@ int main(int argc, char* argv[])
                 }
 
             }
-
-            // Schedule a recurring request
-            // All the scheduled requests will be handled by the ISessionResponseHandler registered on session creation
-            //session->schedule_request(req, ScheduleFactory::create_periodic_schedule(std::chrono::seconds(5)));
-
-            // Ignore this line, this is just a test
-            //modbusManager->run();
         }
     }
 

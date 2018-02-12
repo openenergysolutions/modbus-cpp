@@ -53,6 +53,8 @@ set(modbus_private_headers
 
     ./src/logging/Logger.h
 
+    ./src/session/IScheduledRequest.h
+    ./src/session/ScheduledRequest.h
     ./src/session/SessionImpl.h
 )
 
@@ -83,6 +85,7 @@ set(modbus_src
     ./src/messages/WriteSingleRegisterRequest.cpp
     ./src/messages/WriteSingleRegisterResponse.cpp
 
+    ./src/session/ScheduledRequest.hpp
     ./src/session/SessionImpl.cpp
 )
 

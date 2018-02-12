@@ -9,6 +9,11 @@ PeriodicSchedule::PeriodicSchedule(const openpal::duration_t& delay)
 
 }
 
+std::unique_ptr<ISchedule> PeriodicSchedule::clone()
+{
+    return std::make_unique<PeriodicSchedule>(*this);
+}
+
 void PeriodicSchedule::reset(const openpal::steady_time_t& now)
 {
     m_next_execution = now + m_delay;

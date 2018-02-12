@@ -32,12 +32,15 @@ std::shared_ptr<ISession> ChannelTcp::create_session(const UnitIdentifier& unit_
                                                      const openpal::duration_t& default_timeout,
                                                      std::shared_ptr<ISessionResponseHandler> session_response_handler)
 {
-    return std::make_shared<SessionImpl>(m_executor,
-                                         m_logger->clone("session"),
-                                         shared_from_this(),
-                                         unit_identifier,
-                                         default_timeout,
-                                         session_response_handler);
+    auto session = std::make_shared<SessionImpl>(m_executor,
+                                                 m_logger->clone("session"),
+                                                 shared_from_this(),
+                                                 unit_identifier,
+                                                 default_timeout,
+                                                 session_response_handler);
+    m_sessions.push_back(session);
+
+    return session;
 }
 
 void ChannelTcp::send_request(const UnitIdentifier& unit_identifier,
@@ -64,6 +67,15 @@ void ChannelTcp::shutdown()
 {
     m_logger->info("Shutting down.");
     m_executor->post([=, self = shared_from_this()] {
+        for(auto& session : m_sessions)
+        {
+            auto locked_session = session.lock();
+            if(locked_session)
+            {
+                locked_session->shutdown();
+            }
+        }
+
         m_pending_requests.clear();
         m_current_request.reset(nullptr);
         m_current_timer.cancel();

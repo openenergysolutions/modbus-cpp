@@ -10,6 +10,7 @@ class PeriodicSchedule : public ISchedule
 {
 public:
     explicit PeriodicSchedule(const openpal::duration_t& delay);
+    std::unique_ptr<ISchedule> clone() override;
 
     void reset(const openpal::steady_time_t& now) override;
     void on_success(const openpal::steady_time_t& now) override;
