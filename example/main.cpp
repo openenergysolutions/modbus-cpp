@@ -5,6 +5,7 @@
 #include "modbus/channel/IChannel.h"
 #include "modbus/Ipv4Endpoint.h"
 #include "modbus/session/ISchedule.h"
+#include "modbus/session/IScheduledRequest.h"
 #include "modbus/session/ScheduleFactory.h"
 #include "modbus/session/ISession.h"
 #include "modbus/session/ISessionResponseHandler.h"
@@ -71,7 +72,7 @@ int main(int argc, char* argv[])
             // Schedule a recurring request
             // All the scheduled requests will be handled by the ISessionResponseHandler registered on session creation
             ReadHoldingRegistersRequest req{ 0x0024, 59 };
-            session->schedule_request(req, ScheduleFactory::create_periodic_schedule(std::chrono::seconds(2)));
+            auto scheduled_req = session->schedule_request(req, ScheduleFactory::create_periodic_schedule(std::chrono::seconds(2)));
 
             while (true)
             {
@@ -117,6 +118,18 @@ int main(int argc, char* argv[])
 
                         std::cout << "Write result= " << response.get().get_starting_address() << ": " << response.get().get_qty_of_registers() << std::endl;
                     });
+                    break;
+                }
+                case 'c':
+                {
+                    if(scheduled_req->is_running())
+                    {
+                        scheduled_req->stop();
+                    }
+                    else
+                    {
+                        scheduled_req->start();
+                    }
                     break;
                 }
                 case 'q':

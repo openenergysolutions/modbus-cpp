@@ -1,6 +1,5 @@
 #include "session/SessionImpl.h"
 
-#include "openpal/executor/IExecutor.h"
 #include "modbus/channel/IChannel.h"
 #include "modbus/messages/ReadHoldingRegistersRequest.h"
 #include "modbus/messages/ReadHoldingRegistersResponse.h"
@@ -97,30 +96,34 @@ void SessionImpl::send_request(const WriteMultipleRegistersRequest& request,
     meta_send_request(request, timeout, handler);
 }
 
-void SessionImpl::schedule_request(const ReadHoldingRegistersRequest& request,
-                                   std::unique_ptr<ISchedule> schedule)
+std::shared_ptr<IScheduledRequest> SessionImpl::schedule_request(const ReadHoldingRegistersRequest& request,
+                                                                 std::unique_ptr<ISchedule> schedule)
 {
-    schedule_request(request, m_default_timeout, std::move(schedule));
+    return schedule_request(request, m_default_timeout, std::move(schedule));
 }
 
-void SessionImpl::schedule_request(const ReadHoldingRegistersRequest& request,
-                                   const openpal::duration_t& timeout,
-                                   std::unique_ptr<ISchedule> schedule)
+std::shared_ptr<IScheduledRequest> SessionImpl::schedule_request(const ReadHoldingRegistersRequest& request,
+                                                                 const openpal::duration_t& timeout,
+                                                                 std::unique_ptr<ISchedule> schedule)
 {
-    meta_schedule_request<ReadHoldingRegistersRequest, ReadHoldingRegistersResponse>(request, timeout, std::move(schedule));
+    return meta_schedule_request<ReadHoldingRegistersRequest, ReadHoldingRegistersResponse>(request,
+                                                                                            timeout,
+                                                                                            std::move(schedule));
 }
 
-void SessionImpl::schedule_request(const ReadInputRegistersRequest& request,
-                                   std::unique_ptr<ISchedule> schedule)
+std::shared_ptr<IScheduledRequest> SessionImpl::schedule_request(const ReadInputRegistersRequest& request,
+                                                                 std::unique_ptr<ISchedule> schedule)
 {
-
+    return schedule_request(request, m_default_timeout, std::move(schedule));
 }
 
-void SessionImpl::schedule_request(const ReadInputRegistersRequest& request,
-                                   const openpal::duration_t& timeout,
-                                   std::unique_ptr<ISchedule> schedule)
+std::shared_ptr<IScheduledRequest> SessionImpl::schedule_request(const ReadInputRegistersRequest& request,
+                                                                 const openpal::duration_t& timeout,
+                                                                 std::unique_ptr<ISchedule> schedule)
 {
-
+    return meta_schedule_request<ReadInputRegistersRequest, ReadInputRegistersResponse>(request,
+                                                                                        timeout,
+                                                                                        std::move(schedule));
 }
 
 template<typename TRequest, typename TResponse>
@@ -128,32 +131,37 @@ void SessionImpl::meta_send_request(const TRequest& request,
                                     const openpal::duration_t& timeout,
                                     ResponseHandler<TResponse> handler)
 {
-    m_executor->post([=, self = shared_from_this()] {
-        m_channel->send_request(m_unit_identifier, request, timeout, [=, self2 = self](const Expected<openpal::rseq_t>& response)
+    m_channel->send_request(m_unit_identifier, request, timeout, [=, self = shared_from_this()](const Expected<openpal::rseq_t>& response)
+    {
+        if(!response.is_valid())
         {
-            if(!response.is_valid())
-            {
-                handler(Expected<TResponse>::from_exception(response.get_exception()));
-            }
-            else
-            {
-                handler(TResponse::parse(request, response.get()));
-            }
-        });
+            handler(Expected<TResponse>::from_exception(response.get_exception()));
+        }
+        else
+        {
+            handler(TResponse::parse(request, response.get()));
+        }
     });
 }
 
 template<typename TRequest, typename TResponse>
-void SessionImpl::meta_schedule_request(const TRequest& request,
-                                        const openpal::duration_t& timeout,
-                                        std::unique_ptr<ISchedule> schedule)
+std::shared_ptr<IScheduledRequest> SessionImpl::meta_schedule_request(const TRequest& request,
+                                                                      const openpal::duration_t& timeout,
+                                                                      std::unique_ptr<ISchedule> schedule)
 {
-    auto shared_schedule = std::shared_ptr<ISchedule>{std::move(schedule)};
-    m_executor->post([=, self = shared_from_this()] {
-        auto scheduled_request = std::make_shared<ScheduledRequest<TRequest, TResponse>>(self, m_session_response_handler, m_executor, request, timeout, shared_schedule->clone());
+    auto scheduled_request = std::make_shared<ScheduledRequest<TRequest, TResponse>>(shared_from_this(),
+                                                                                     m_session_response_handler,
+                                                                                     m_executor,
+                                                                                     request,
+                                                                                     timeout,
+                                                                                     std::move(schedule));
+    scheduled_request->start();
+
+    m_executor->post([=, self = shared_from_this()]() {
         m_scheduled_requests.push_back(scheduled_request);
-        scheduled_request->start();
     });
+
+    return scheduled_request;
 };
 
 } // namespace modbus

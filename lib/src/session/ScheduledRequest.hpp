@@ -24,7 +24,7 @@ ScheduledRequest<TRequest, TResponse>::ScheduledRequest(std::shared_ptr<ISession
       m_request{request},
       m_timeout{timeout},
       m_schedule{std::move(schedule)},
-      m_started{false},
+      m_running{false},
       m_timer{nullptr}
 {
 
@@ -34,10 +34,10 @@ template<typename TRequest, typename TResponse>
 void ScheduledRequest<TRequest, TResponse>::start()
 {
     m_executor->post([=, self = shared_from_this()]() {
-        if(!m_started)
+        if(!m_running)
         {
             execute();
-            m_started = true;
+            m_running = true;
         }
     });
 }
@@ -46,13 +46,19 @@ template<typename TRequest, typename TResponse>
 void ScheduledRequest<TRequest, TResponse>::stop()
 {
     m_executor->post([=, self = shared_from_this()]() {
-        if(m_started)
+        if(m_running)
         {
             m_timer.cancel();
-            m_started = false;
+            m_running = false;
         }
     });
 }
+
+template<typename TRequest, typename TResponse>
+bool ScheduledRequest<TRequest, TResponse>::is_running() const
+{
+    return m_running;
+};
 
 template<typename TRequest, typename TResponse>
 void ScheduledRequest<TRequest, TResponse>::execute()

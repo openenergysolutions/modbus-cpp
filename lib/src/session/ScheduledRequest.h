@@ -28,6 +28,7 @@ public:
 
     void start() override;
     void stop() override;
+    bool is_running() const override;
 
 private:
     void execute();
@@ -39,7 +40,7 @@ private:
     openpal::duration_t m_timeout;
     std::unique_ptr<ISchedule> m_schedule;
 
-    bool m_started;
+    bool m_running;
     openpal::Timer m_timer;
 };
 

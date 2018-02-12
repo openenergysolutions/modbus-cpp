@@ -2,15 +2,14 @@
 #define MODBUS_ISESSION_H
 
 #include <memory>
-
 #include "openpal/executor/Typedefs.h"
-
 #include "modbus/ResponseHandler.h"
 
 namespace modbus
 {
 
 class ISchedule;
+class IScheduledRequest;
 class ReadHoldingRegistersRequest;
 class ReadHoldingRegistersResponse;
 class ReadInputRegistersRequest;
@@ -53,17 +52,17 @@ public:
                               ResponseHandler<WriteMultipleRegistersResponse> handler) = 0;
 
     // Scheduled requests
-    virtual void schedule_request(const ReadHoldingRegistersRequest& request,
-                                  std::unique_ptr<ISchedule> schedule) = 0;
-    virtual void schedule_request(const ReadHoldingRegistersRequest& request,
-                                  const openpal::duration_t& timeout,
-                                  std::unique_ptr<ISchedule> schedule) = 0;
+    virtual std::shared_ptr<IScheduledRequest> schedule_request(const ReadHoldingRegistersRequest& request,
+                                                                std::unique_ptr<ISchedule> schedule) = 0;
+    virtual std::shared_ptr<IScheduledRequest> schedule_request(const ReadHoldingRegistersRequest& request,
+                                                                const openpal::duration_t& timeout,
+                                                                std::unique_ptr<ISchedule> schedule) = 0;
 
-    virtual void schedule_request(const ReadInputRegistersRequest& request,
-                                  std::unique_ptr<ISchedule> schedule) = 0;
-    virtual void schedule_request(const ReadInputRegistersRequest& request,
-                                  const openpal::duration_t& timeout,
-                                  std::unique_ptr<ISchedule> schedule) = 0;
+    virtual std::shared_ptr<IScheduledRequest> schedule_request(const ReadInputRegistersRequest& request,
+                                                                std::unique_ptr<ISchedule> schedule) = 0;
+    virtual std::shared_ptr<IScheduledRequest> schedule_request(const ReadInputRegistersRequest& request,
+                                                                const openpal::duration_t& timeout,
+                                                                std::unique_ptr<ISchedule> schedule) = 0;
 };
 
 } // namespace modbus
