@@ -37,16 +37,16 @@ public:
 
     // Scheduled requests
     std::shared_ptr<modbus::IScheduledRequest> schedule_request(const modbus::ReadHoldingRegistersRequest& request,
-                                                        std::unique_ptr<modbus::ISchedule> schedule) override;
+                                                                const openpal::duration_t& frequency) override;
     std::shared_ptr<modbus::IScheduledRequest> schedule_request(const modbus::ReadHoldingRegistersRequest& request,
-                                                        const openpal::duration_t& timeout,
-                                                        std::unique_ptr<modbus::ISchedule> schedule) override;
+                                                                const openpal::duration_t& timeout,
+                                                                const openpal::duration_t& frequency) override;
 
     std::shared_ptr<modbus::IScheduledRequest> schedule_request(const modbus::ReadInputRegistersRequest& request,
-                                                        std::unique_ptr<modbus::ISchedule> schedule) override;
+                                                                const openpal::duration_t& frequency) override;
     std::shared_ptr<modbus::IScheduledRequest> schedule_request(const modbus::ReadInputRegistersRequest& request,
-                                                        const openpal::duration_t& timeout,
-                                                        std::unique_ptr<modbus::ISchedule> schedule) override;
+                                                                const openpal::duration_t& timeout,
+                                                                const openpal::duration_t& frequency) override;
 
     bool is_shutdown_called() const;
     unsigned int get_num_read_holding_registers_request_sent() const;

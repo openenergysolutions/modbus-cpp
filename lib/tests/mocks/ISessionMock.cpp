@@ -69,27 +69,27 @@ void ISessionMock::send_request(const modbus::WriteMultipleRegistersRequest& req
 
 // Scheduled requests
 std::shared_ptr<modbus::IScheduledRequest> ISessionMock::schedule_request(const modbus::ReadHoldingRegistersRequest& request,
-                                                                          std::unique_ptr<modbus::ISchedule> schedule)
+                                                                          const openpal::duration_t& frequency)
 {
     return nullptr;
 }
 
 std::shared_ptr<modbus::IScheduledRequest> ISessionMock::schedule_request(const modbus::ReadHoldingRegistersRequest& request,
                                                                           const openpal::duration_t& timeout,
-                                                                          std::unique_ptr<modbus::ISchedule> schedule)
+                                                                          const openpal::duration_t& frequency)
 {
     return nullptr;
 }
 
 std::shared_ptr<modbus::IScheduledRequest> ISessionMock::schedule_request(const modbus::ReadInputRegistersRequest& request,
-                                                                          std::unique_ptr<modbus::ISchedule> schedule)
+                                                                          const openpal::duration_t& frequency)
 {
     return nullptr;
 }
 
 std::shared_ptr<modbus::IScheduledRequest> ISessionMock::schedule_request(const modbus::ReadInputRegistersRequest& request,
                                                                           const openpal::duration_t& timeout,
-                                                                          std::unique_ptr<modbus::ISchedule> schedule)
+                                                                          const openpal::duration_t& frequency)
 {
     return nullptr;
 }

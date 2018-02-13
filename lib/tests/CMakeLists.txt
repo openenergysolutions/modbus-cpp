@@ -17,7 +17,6 @@ set(modbus_tests_headers
 set(modbus_tests_src
     ./main.cpp
     ./Ipv4EndpointTest.cpp
-    ./PeriodicScheduleTest.cpp
 
     ./channel/AsioTcpConnectionTest.cpp
     ./channel/ChannelTcpTest.cpp

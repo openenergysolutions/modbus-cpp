@@ -4,9 +4,7 @@
 #include "modbus/IModbusManager.h"
 #include "modbus/channel/IChannel.h"
 #include "modbus/Ipv4Endpoint.h"
-#include "modbus/session/ISchedule.h"
 #include "modbus/session/IScheduledRequest.h"
-#include "modbus/session/ScheduleFactory.h"
 #include "modbus/session/ISession.h"
 #include "modbus/session/ISessionResponseHandler.h"
 
@@ -60,8 +58,7 @@ int main(int argc, char* argv[])
 
             // Create a TCP channel
             // Each channel has its own Executor with a strand to avoid many multithreading issues
-            auto channel = modbusManager->create_tcp_channel("Example channel", Ipv4Endpoint{ "127.0.0.1", 502 },
-                ScheduleFactory::create_periodic_schedule(std::chrono::seconds(5)));
+            auto channel = modbusManager->create_tcp_channel("Example channel", Ipv4Endpoint{ "127.0.0.1", 502 });
 
             // Create a session with a specific unit identifier
             // Users will mainly play with the session to obtain what they want
@@ -72,7 +69,7 @@ int main(int argc, char* argv[])
             // Schedule a recurring request
             // All the scheduled requests will be handled by the ISessionResponseHandler registered on session creation
             ReadHoldingRegistersRequest req{ 0x0024, 59 };
-            auto scheduled_req = session->schedule_request(req, ScheduleFactory::create_periodic_schedule(std::chrono::seconds(2)));
+            auto scheduled_req = session->schedule_request(req, std::chrono::seconds(2));
 
             while (true)
             {
@@ -129,6 +126,18 @@ int main(int argc, char* argv[])
                     else
                     {
                         scheduled_req->start();
+                    }
+                    break;
+                }
+                case 'z':
+                {
+                    if(scheduled_req->get_frequency() == std::chrono::seconds(2))
+                    {
+                        scheduled_req->set_frequency(std::chrono::seconds(5));
+                    }
+                    else
+                    {
+                        scheduled_req->set_frequency(std::chrono::seconds(2));
                     }
                     break;
                 }

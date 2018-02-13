@@ -9,7 +9,6 @@
 #include "modbus/messages/WriteMultipleRegistersResponse.h"
 #include "modbus/messages/WriteSingleRegisterRequest.h"
 #include "modbus/messages/WriteSingleRegisterResponse.h"
-#include "modbus/session/ISchedule.h"
 #include "modbus/session/ISessionResponseHandler.h"
 #include "session/ScheduledRequest.h"
 
@@ -97,33 +96,33 @@ void SessionImpl::send_request(const WriteMultipleRegistersRequest& request,
 }
 
 std::shared_ptr<IScheduledRequest> SessionImpl::schedule_request(const ReadHoldingRegistersRequest& request,
-                                                                 std::unique_ptr<ISchedule> schedule)
+                                                                 const openpal::duration_t& frequency)
 {
-    return schedule_request(request, m_default_timeout, std::move(schedule));
+    return schedule_request(request, m_default_timeout, frequency);
 }
 
 std::shared_ptr<IScheduledRequest> SessionImpl::schedule_request(const ReadHoldingRegistersRequest& request,
                                                                  const openpal::duration_t& timeout,
-                                                                 std::unique_ptr<ISchedule> schedule)
+                                                                 const openpal::duration_t& frequency)
 {
     return meta_schedule_request<ReadHoldingRegistersRequest, ReadHoldingRegistersResponse>(request,
                                                                                             timeout,
-                                                                                            std::move(schedule));
+                                                                                            frequency);
 }
 
 std::shared_ptr<IScheduledRequest> SessionImpl::schedule_request(const ReadInputRegistersRequest& request,
-                                                                 std::unique_ptr<ISchedule> schedule)
+                                                                 const openpal::duration_t& frequency)
 {
-    return schedule_request(request, m_default_timeout, std::move(schedule));
+    return schedule_request(request, m_default_timeout, frequency);
 }
 
 std::shared_ptr<IScheduledRequest> SessionImpl::schedule_request(const ReadInputRegistersRequest& request,
                                                                  const openpal::duration_t& timeout,
-                                                                 std::unique_ptr<ISchedule> schedule)
+                                                                 const openpal::duration_t& frequency)
 {
     return meta_schedule_request<ReadInputRegistersRequest, ReadInputRegistersResponse>(request,
                                                                                         timeout,
-                                                                                        std::move(schedule));
+                                                                                        frequency);
 }
 
 template<typename TRequest, typename TResponse>
@@ -147,14 +146,14 @@ void SessionImpl::meta_send_request(const TRequest& request,
 template<typename TRequest, typename TResponse>
 std::shared_ptr<IScheduledRequest> SessionImpl::meta_schedule_request(const TRequest& request,
                                                                       const openpal::duration_t& timeout,
-                                                                      std::unique_ptr<ISchedule> schedule)
+                                                                      const openpal::duration_t& frequency)
 {
     auto scheduled_request = std::make_shared<ScheduledRequest<TRequest, TResponse>>(shared_from_this(),
                                                                                      m_session_response_handler,
                                                                                      m_executor,
                                                                                      request,
                                                                                      timeout,
-                                                                                     std::move(schedule));
+                                                                                     frequency);
     scheduled_request->start();
 
     m_executor->post([=, self = shared_from_this()]() {

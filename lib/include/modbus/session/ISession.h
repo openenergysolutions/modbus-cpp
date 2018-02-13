@@ -8,7 +8,6 @@
 namespace modbus
 {
 
-class ISchedule;
 class IScheduledRequest;
 class ReadHoldingRegistersRequest;
 class ReadHoldingRegistersResponse;
@@ -53,16 +52,16 @@ public:
 
     // Scheduled requests
     virtual std::shared_ptr<IScheduledRequest> schedule_request(const ReadHoldingRegistersRequest& request,
-                                                                std::unique_ptr<ISchedule> schedule) = 0;
+                                                                const openpal::duration_t& frequency) = 0;
     virtual std::shared_ptr<IScheduledRequest> schedule_request(const ReadHoldingRegistersRequest& request,
                                                                 const openpal::duration_t& timeout,
-                                                                std::unique_ptr<ISchedule> schedule) = 0;
+                                                                const openpal::duration_t& frequency) = 0;
 
     virtual std::shared_ptr<IScheduledRequest> schedule_request(const ReadInputRegistersRequest& request,
-                                                                std::unique_ptr<ISchedule> schedule) = 0;
+                                                                const openpal::duration_t& frequency) = 0;
     virtual std::shared_ptr<IScheduledRequest> schedule_request(const ReadInputRegistersRequest& request,
                                                                 const openpal::duration_t& timeout,
-                                                                std::unique_ptr<ISchedule> schedule) = 0;
+                                                                const openpal::duration_t& frequency) = 0;
 };
 
 } // namespace modbus

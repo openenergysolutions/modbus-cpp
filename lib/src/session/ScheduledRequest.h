@@ -10,7 +10,6 @@
 namespace modbus
 {
 
-class ISchedule;
 class ISession;
 class ISessionResponseHandler;
 
@@ -23,12 +22,15 @@ public:
                      std::shared_ptr<openpal::IExecutor> executor,
                      const TRequest& request,
                      const openpal::duration_t& timeout,
-                     std::unique_ptr<ISchedule> schedule);
+                     const openpal::duration_t& frequency);
     ~ScheduledRequest() = default;
 
     void start() override;
     void stop() override;
     bool is_running() const override;
+
+    void set_frequency(const openpal::duration_t& frequency) override;
+    openpal::duration_t get_frequency() const override;
 
 private:
     void execute();
@@ -38,7 +40,7 @@ private:
     std::shared_ptr<openpal::IExecutor> m_executor;
     TRequest m_request;
     openpal::duration_t m_timeout;
-    std::unique_ptr<ISchedule> m_schedule;
+    openpal::duration_t m_frequency;
 
     bool m_running;
     openpal::Timer m_timer;

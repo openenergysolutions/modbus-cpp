@@ -15,8 +15,7 @@ public:
     ~ModbusManagerImpl();
 
     std::shared_ptr<IChannel> create_tcp_channel(const std::string& name,
-                                                 const Ipv4Endpoint& endpoint,
-                                                 std::unique_ptr<ISchedule> channel_retry_schedule) override;
+                                                 const Ipv4Endpoint& endpoint) override;
     void shutdown() override;
 
 private:

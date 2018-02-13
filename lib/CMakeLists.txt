@@ -31,11 +31,9 @@ set(modbus_public_headers
     ./include/modbus/messages/WriteSingleRegisterRequest.h
     ./include/modbus/messages/WriteSingleRegisterResponse.h
 
-    ./include/modbus/session/ISchedule.h
     ./include/modbus/session/IScheduledRequest.h
     ./include/modbus/session/ISession.h
     ./include/modbus/session/ISessionResponseHandler.h
-    ./include/modbus/session/ScheduleFactory.h
 )
 
 set(modbus_private_headers
@@ -53,7 +51,6 @@ set(modbus_private_headers
 
     ./src/logging/Logger.h
 
-    ./src/session/PeriodicSchedule.h
     ./src/session/ScheduledRequest.h
     ./src/session/SessionImpl.h
 )
@@ -83,9 +80,7 @@ set(modbus_src
     ./src/messages/WriteSingleRegisterRequest.cpp
     ./src/messages/WriteSingleRegisterResponse.cpp
 
-    ./src/session/PeriodicSchedule.cpp
     ./src/session/ScheduledRequest.hpp
-    ./src/session/ScheduleFactory.cpp
     ./src/session/SessionImpl.cpp
 )
 

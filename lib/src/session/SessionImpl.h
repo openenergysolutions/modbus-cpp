@@ -58,16 +58,16 @@ public:
 
     // Scheduled requests
     std::shared_ptr<IScheduledRequest> schedule_request(const ReadHoldingRegistersRequest& request,
-                                                        std::unique_ptr<ISchedule> schedule) override;
+                                                        const openpal::duration_t& frequency) override;
     std::shared_ptr<IScheduledRequest> schedule_request(const ReadHoldingRegistersRequest& request,
                                                         const openpal::duration_t& timeout,
-                                                        std::unique_ptr<ISchedule> schedule) override;
+                                                        const openpal::duration_t& frequency) override;
 
     std::shared_ptr<IScheduledRequest> schedule_request(const ReadInputRegistersRequest& request,
-                                                        std::unique_ptr<ISchedule> schedule) override;
+                                                        const openpal::duration_t& frequency) override;
     std::shared_ptr<IScheduledRequest> schedule_request(const ReadInputRegistersRequest& request,
                                                         const openpal::duration_t& timeout,
-                                                        std::unique_ptr<ISchedule> schedule) override;
+                                                        const openpal::duration_t& frequency) override;
 
 private:
     template<typename TRequest, typename TResponse>
@@ -78,7 +78,7 @@ private:
     template<typename TRequest, typename TResponse>
     std::shared_ptr<IScheduledRequest> meta_schedule_request(const TRequest& request,
                                                              const openpal::duration_t& timeout,
-                                                             std::unique_ptr<ISchedule> schedule);
+                                                             const openpal::duration_t& frequency);
 
     std::shared_ptr<openpal::IExecutor> m_executor;
     std::shared_ptr<Logger> m_logger;

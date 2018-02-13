@@ -2,7 +2,6 @@
 
 #include "asiopal/StrandExecutor.h"
 #include "modbus/Ipv4Endpoint.h"
-#include "modbus/session/ISchedule.h"
 #include "channel/ChannelTcp.h"
 #include "channel/AsioTcpConnection.h"
 #include "logging/Logger.h"
@@ -24,8 +23,7 @@ ModbusManagerImpl::~ModbusManagerImpl()
 }
 
 std::shared_ptr<IChannel> ModbusManagerImpl::create_tcp_channel(const std::string& name,
-                                                                const Ipv4Endpoint& endpoint,
-                                                                std::unique_ptr<ISchedule> channel_retry_schedule)
+                                                                const Ipv4Endpoint& endpoint)
 {
     auto executor = std::make_shared<openpal::StrandExecutor>(m_io_service);
 
