@@ -5,6 +5,8 @@ set(modbus_tests_headers
     ./mocks/ConnectionListenerMock.h
     ./mocks/ExecutorMock.h
     ./mocks/IResponseMock.h
+    ./mocks/ISessionMock.h
+    ./mocks/ISessionResponseHandlerMock.h
     ./mocks/MbapSinkMock.h
     ./mocks/RequestMock.h
     ./mocks/TcpConnectionMock.h
@@ -39,12 +41,15 @@ set(modbus_tests_src
     ./mocks/ConnectionListenerMock.cpp
     ./mocks/ExecutorMock.cpp
     ./mocks/IResponseMock.cpp
+    ./mocks/ISessionMock.cpp
+    ./mocks/ISessionResponseHandlerMock.cpp
     ./mocks/MbapSinkMock.cpp
     ./mocks/RequestMock.cpp
     ./mocks/TcpConnectionMock.cpp
     ./mocks/TestServer.cpp
     ./mocks/TimerMock.cpp
 
+    ./session/ScheduledRequestTest.cpp
     ./session/SessionImplTest.cpp
 )
 

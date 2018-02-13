@@ -69,13 +69,17 @@ void ScheduledRequest<TRequest, TResponse>::execute()
         // Call the response handler
         if(m_session_response_handler)
         {
-            if(!response.is_valid())
+            if(response.is_valid())
             {
-                m_session_response_handler->on_exception(response.template get_exception<IException>());
+                m_session_response_handler->on_response(response.get());
+            }
+            else if(response.template has_exception<TimeoutException>())
+            {
+                m_session_response_handler->on_timeout();
             }
             else
             {
-                m_session_response_handler->on_response(response.get());
+                m_session_response_handler->on_exception(response.template get_exception<IException>());
             }
         }
 
