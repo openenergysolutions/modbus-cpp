@@ -96,10 +96,13 @@ void ScheduledRequest<TRequest, TResponse>::execute()
             }
         }
 
-        // Start the timer for the next execution
-        m_timer = m_executor->start(m_frequency, [=, self2 = self]() {
-            execute();
-        });
+        if(is_running())
+        {
+            // Start the timer for the next execution
+            m_timer = m_executor->start(m_frequency, [=, self2 = self]() {
+                execute();
+            });
+        }
     });
 }
 

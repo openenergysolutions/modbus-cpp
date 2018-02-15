@@ -97,6 +97,14 @@ TEST_CASE("ScheduledRequest")
                 REQUIRE(session->get_num_read_holding_registers_request_sent() == 1);
             }
 
+            SECTION("When receive response of old request, don't start the timer.")
+            {
+                handler(Expected<ReadHoldingRegistersResponse>{ReadHoldingRegistersResponse{}});
+                executor->advance_time(frequency);
+
+                REQUIRE(session->get_num_read_holding_registers_request_sent() == 1);
+            }
+
             SECTION("When start called, then restart sending requests.")
             {
                 scheduled_req->start();

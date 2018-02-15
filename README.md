@@ -15,6 +15,22 @@ Modbus TCP master library in modern C++.
 
 4. Build the project with `cmake --build .`
 
-5. Run the tests with `ctest .`
+5. Execute the example with `./example/modbus_example`
 
-6. Execute the example with `./example/modbus_example`
+## Tests
+To run the tests, simply execute `ctest .` in your build directory.
+
+**Note**: `AsioTcpConnectionTest` requires that the port 8888 is available. If for any reason this port is not available, either skip the tests by appending `~AsioTcpConnection` to the command line arguments, or change the `test_port` variable in `AsioTcpConnectionTest`.
+
+To run performance tests, simply build and run target `modbus_perf_tests`. It will create 1000 channels (from port 8000 to 8999) with a scheduled request every 2 seconds. An easy way to have 1000 slave devices is to use [Tony Rogvall Modbus implementation in Erlang](https://github.com/tonyrog/modbus) and start the slave devices with the following code (of course, `modbus` application must be started) :
+
+```
+load() ->
+    load(0).
+
+load(1000) -> ok;
+load(Count) ->
+    Port = Count + 8000,
+    modbus_tcp_server:start_link([{port, Port}, {callback, modbus_demo_callback}]),
+    load(Count + 1).
+```

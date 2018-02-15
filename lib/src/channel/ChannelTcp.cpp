@@ -16,6 +16,7 @@ ChannelTcp::ChannelTcp(std::shared_ptr<openpal::IExecutor> executor,
     : m_executor{std::move(executor)},
       m_logger{std::move(logger)},
       m_tcp_connection{tcp_connection},
+      m_is_shutdown{false},
       m_parser{this},
       m_current_timer{nullptr},
       m_next_transaction_id{0x0000}
@@ -27,13 +28,18 @@ std::shared_ptr<ISession> ChannelTcp::create_session(const UnitIdentifier& unit_
                                                      const openpal::duration_t& default_timeout,
                                                      std::shared_ptr<ISessionResponseHandler> session_response_handler)
 {
-    auto session = std::make_shared<SessionImpl>(m_executor,
-                                                 m_logger->clone("session"),
-                                                 shared_from_this(),
-                                                 unit_identifier,
-                                                 default_timeout,
-                                                 session_response_handler);
-    m_sessions.push_back(session);
+    std::shared_ptr<ISession> session;
+
+    if(!m_is_shutdown)
+    {
+        session = std::make_shared<SessionImpl>(m_executor,
+                                                m_logger->clone("session"),
+                                                shared_from_this(),
+                                                unit_identifier,
+                                                default_timeout,
+                                                session_response_handler);
+        m_sessions.push_back(session);
+    }
 
     return session;
 }
@@ -43,26 +49,31 @@ void ChannelTcp::send_request(const UnitIdentifier& unit_identifier,
                               const openpal::duration_t& timeout,
                               ResponseHandler<openpal::rseq_t> response_handler)
 {
-    std::shared_ptr<IRequest> req{request.clone()};
-    m_executor->post([=, self = shared_from_this()] () {
-        auto pending_request = std::make_unique<PendingRequest>(unit_identifier,
-                                                                m_next_transaction_id,
-                                                                *req,
-                                                                timeout,
-                                                                response_handler);
-        m_pending_requests.push_back(std::move(pending_request));
+    if(!m_is_shutdown)
+    {
+        std::shared_ptr<IRequest> req{request.clone()};
+        m_executor->post([=, self = shared_from_this()] () {
+            auto pending_request = std::make_unique<PendingRequest>(unit_identifier,
+                                                                    m_next_transaction_id,
+                                                                    *req,
+                                                                    timeout,
+                                                                    response_handler);
+            m_pending_requests.push_back(std::move(pending_request));
 
-        ++m_next_transaction_id;
+            ++m_next_transaction_id;
 
-        check_pending_requests();
-    });
+            check_pending_requests();
+        });
+    }
 }
 
 void ChannelTcp::shutdown()
 {
     m_logger->info("Shutting down.");
     m_executor->post([=, self = shared_from_this()] {
-        for(auto session : m_sessions)
+        m_is_shutdown = true;
+
+        for(auto& session : m_sessions)
         {
             session->shutdown();
         }
@@ -145,10 +156,13 @@ void ChannelTcp::check_pending_requests()
         m_tcp_connection->send(serialized_request);
 
         m_current_timer = m_executor->start(m_current_request->timeout, [=, self = shared_from_this()]() {
-            m_logger->warn("Timeout reached. UnitId: {}, TransactionId: {}.",
-                           m_current_request->unit_id, m_current_request->transaction_id);
+            if (m_current_request)
+            {
+                m_logger->warn("Timeout reached. UnitId: {}, TransactionId: {}.",
+                    m_current_request->unit_id, m_current_request->transaction_id);
 
-            cancel_current_request();
+                cancel_current_request();
+            }
         });
     }
 }

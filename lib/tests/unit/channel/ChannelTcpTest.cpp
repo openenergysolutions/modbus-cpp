@@ -197,6 +197,14 @@ TEST_CASE("ChannelTcp")
             REQUIRE(tcp_connection->get_num_close() == 1);
         }
 
+        SECTION("When shutdown, refuse all requests")
+        {
+            channel->shutdown();
+
+            channel->send_request(unit_id, request, timeout, test_handler);
+            REQUIRE(tcp_connection->get_num_requests() == 0);
+        }
+
         SECTION("All IChannel interface methods are executed through the Executor")
         {
             channel->send_request(unit_id, request, timeout, test_handler);
