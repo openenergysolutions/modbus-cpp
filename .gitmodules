@@ -6,7 +6,7 @@
 	url = https://github.com/catchorg/Catch2
 [submodule "deps/openpal"]
 	path = deps/openpal
-	url = https://github.com/emgre/openpal
+	url = https://github.com/automatak/openpal
 [submodule "deps/spdlog/spdlog"]
 	path = deps/spdlog/spdlog
 	url = https://github.com/gabime/spdlog
