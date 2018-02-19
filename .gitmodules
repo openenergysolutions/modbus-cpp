@@ -7,9 +7,6 @@
 [submodule "deps/openpal"]
 	path = deps/openpal
 	url = https://github.com/emgre/openpal
-[submodule "deps/fakeit/fakeit"]
-	path = deps/fakeit/fakeit
-	url = https://github.com/eranpeer/FakeIt.git
 [submodule "deps/spdlog/spdlog"]
 	path = deps/spdlog/spdlog
 	url = https://github.com/gabime/spdlog

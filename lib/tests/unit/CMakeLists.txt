@@ -49,7 +49,6 @@ set(modbus_tests_src
     ./mocks/TimerMock.cpp
 
     ./session/ScheduledRequestTest.cpp
-    ./session/SessionImplTest.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${modbus_tests_headers} ${modbus_tests_src})
