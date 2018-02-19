@@ -1,6 +1,7 @@
 #include "catch.hpp"
 
 #include <memory>
+#include <modbus/exceptions/TimeoutException.h>
 #include "modbus/logging/LoggerFactory.h"
 #include "channel/ChannelTcp.h"
 #include "mocks/ExecutorMock.h"
@@ -27,11 +28,16 @@ TEST_CASE("ChannelTcp")
     auto timeout = std::chrono::seconds(5);
 
     unsigned int num_handler_success = 0;
+    unsigned int num_handler_timeout = 0;
     unsigned int num_handler_error = 0;
     auto test_handler = [&] (const Expected<openpal::rseq_t>& response) {
         if(response.is_valid())
         {
             ++num_handler_success;
+        }
+        else if(response.has_exception<TimeoutException>())
+        {
+            ++num_handler_timeout;
         }
         else
         {
@@ -143,6 +149,7 @@ TEST_CASE("ChannelTcp")
             receive(channel, UnitIdentifier{0x64}, tcp_connection->get_requests()[0].transaction_id, request);
 
             REQUIRE(num_handler_success == 0);
+            REQUIRE(num_handler_timeout == 0);
             REQUIRE(num_handler_error == 0);
         }
 
@@ -154,7 +161,8 @@ TEST_CASE("ChannelTcp")
             executor->advance_time(timeout);
 
             REQUIRE(num_handler_success == 0);
-            REQUIRE(num_handler_error == 1);
+            REQUIRE(num_handler_timeout == 1);
+            REQUIRE(num_handler_error == 0);
         }
 
         SECTION("When connection error, then report error")
@@ -165,6 +173,7 @@ TEST_CASE("ChannelTcp")
             channel->on_error();
 
             REQUIRE(num_handler_success == 0);
+            REQUIRE(num_handler_timeout == 0);
             REQUIRE(num_handler_error == 1);
         }
 
@@ -178,6 +187,7 @@ TEST_CASE("ChannelTcp")
             channel->on_error();
 
             REQUIRE(num_handler_success == 0);
+            REQUIRE(num_handler_timeout == 0);
             REQUIRE(num_handler_error == 3);
         }
     }

@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
     {
         unsigned int port = i + 8000;
         std::string name = "Channel " + std::to_string(port);
-        auto channel = modbusManager->create_tcp_channel(name, Ipv4Endpoint{ "127.0.0.1", port });
+        auto channel = modbusManager->create_tcp_channel(name, Ipv4Endpoint{ "10.248.239.56", port });
 
         auto session = channel->create_session(UnitIdentifier::default_unit_identifier(),
                                                std::chrono::seconds(3),

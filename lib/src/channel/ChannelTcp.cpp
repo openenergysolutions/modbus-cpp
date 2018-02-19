@@ -49,10 +49,11 @@ void ChannelTcp::send_request(const UnitIdentifier& unit_identifier,
                               const openpal::duration_t& timeout,
                               ResponseHandler<openpal::rseq_t> response_handler)
 {
-    if(!m_is_shutdown)
-    {
-        std::shared_ptr<IRequest> req{request.clone()};
-        m_executor->post([=, self = shared_from_this()] () {
+
+    std::shared_ptr<IRequest> req{request.clone()};
+    m_executor->post([=, self = shared_from_this()] () {
+        if(!m_is_shutdown)
+        {
             auto pending_request = std::make_unique<PendingRequest>(unit_identifier,
                                                                     m_next_transaction_id,
                                                                     *req,
@@ -63,8 +64,8 @@ void ChannelTcp::send_request(const UnitIdentifier& unit_identifier,
             ++m_next_transaction_id;
 
             check_pending_requests();
-        });
-    }
+        }
+    });
 }
 
 void ChannelTcp::shutdown()
@@ -101,7 +102,12 @@ void ChannelTcp::on_error()
     m_parser.reset();
 
     cancel_all_pending_requests();
-    cancel_current_request();
+
+    if(m_current_request)
+    {
+        m_current_request->response_handler(Expected<openpal::rseq_t>::from_exception(ConnectionException{}));
+        cancel_current_request();
+    }
 }
 
 void ChannelTcp::on_mbap_message(const MbapMessage& message)
@@ -161,6 +167,7 @@ void ChannelTcp::check_pending_requests()
                 m_logger->warn("Timeout reached. UnitId: {}, TransactionId: {}.",
                     m_current_request->unit_id, m_current_request->transaction_id);
 
+                m_current_request->response_handler(Expected<openpal::rseq_t>::from_exception(TimeoutException{}));
                 cancel_current_request();
             }
         });
@@ -171,7 +178,6 @@ void ChannelTcp::cancel_current_request()
 {
     if(m_current_request)
     {
-        m_current_request->response_handler(Expected<openpal::rseq_t>::from_exception(TimeoutException{}));
         m_current_request.reset(nullptr);
         m_current_timer.cancel();
 
