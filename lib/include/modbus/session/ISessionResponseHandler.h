@@ -1,12 +1,13 @@
 #ifndef MODBUS_ISESSIONRESPONSEHANDLER_H
 #define MODBUS_ISESSIONRESPONSEHANDLER_H
 
+#include "modbus/messages/ReadHoldingRegistersResponse.h"
+#include "modbus/messages/ReadInputRegistersResponse.h"
+
 namespace modbus
 {
 
 class IException;
-class ReadInputRegistersResponse;
-class ReadHoldingRegistersResponse;
 
 class ISessionResponseHandler
 {

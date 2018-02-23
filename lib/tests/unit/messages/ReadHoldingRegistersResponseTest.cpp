@@ -3,6 +3,7 @@
 #include <array>
 #include "modbus/exceptions/MalformedModbusResponseException.h"
 #include "modbus/exceptions/ModbusException.h"
+#include "modbus/messages/ReadHoldingRegistersRequest.h"
 #include "modbus/messages/ReadHoldingRegistersResponse.h"
 
 using namespace modbus;
@@ -18,10 +19,10 @@ TEST_CASE("ReadHoldingRegistersResponse")
         std::array<uint8_t, 10> proper_response{{
             0x03,       // Function code
             0x08,       // Number of bytes
-            0x00, 0x01, // Register 0x0017
-            0x00, 0x02, // Register 0x0018
-            0x00, 0x03, // Register 0x0019
-            0x00, 0x04  // Register 0x001A
+            0x00, 0x01, // Register 0x0016
+            0x00, 0x02, // Register 0x0017
+            0x00, 0x03, // Register 0x0018
+            0x00, 0x04  // Register 0x0019
         }};
         openpal::rseq_t buffer{proper_response.data(), proper_response.size()};
 
@@ -31,13 +32,13 @@ TEST_CASE("ReadHoldingRegistersResponse")
         auto response = result.get();
         auto values = response.get_values();
         REQUIRE(values.size() == 4);
-        REQUIRE(values[0].address == 0x0017);
+        REQUIRE(values[0].address == 0x0016);
         REQUIRE(values[0].value == 0x0001);
-        REQUIRE(values[1].address == 0x0018);
+        REQUIRE(values[1].address == 0x0017);
         REQUIRE(values[1].value == 0x0002);
-        REQUIRE(values[2].address == 0x0019);
+        REQUIRE(values[2].address == 0x0018);
         REQUIRE(values[2].value == 0x0003);
-        REQUIRE(values[3].address == 0x001A);
+        REQUIRE(values[3].address == 0x0019);
         REQUIRE(values[3].value == 0x0004);
     }
 

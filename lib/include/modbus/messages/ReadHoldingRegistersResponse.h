@@ -1,30 +1,12 @@
 #ifndef MODBUS_READHOLDINGREGISTERSRESPONSE_H
 #define MODBUS_READHOLDINGREGISTERSRESPONSE_H
 
-#include <vector>
-#include "modbus/Expected.h"
-#include "modbus/messages/IResponse.h"
-#include "modbus/messages/RegisterValue.h"
-#include "modbus/messages/ReadHoldingRegistersRequest.h"
+#include "modbus/messages/ReadRegistersResponse.h"
 
 namespace modbus
 {
 
-class ReadHoldingRegistersResponse : public IResponse
-{
-public:
-    static Expected<ReadHoldingRegistersResponse> parse(const ReadHoldingRegistersRequest& req,
-                                                        const openpal::rseq_t& data);
-
-public:
-    ReadHoldingRegistersResponse() = default;
-
-    void add_value(Address address, uint16_t value);
-    const std::vector<RegisterValue>& get_values() const;
-
-private:
-    std::vector<RegisterValue> m_values;
-};
+using ReadHoldingRegistersResponse = ReadRegistersResponse<0x03>;
 
 } // namespace modbus
 

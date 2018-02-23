@@ -4,15 +4,15 @@
 #include <memory>
 #include "openpal/executor/Typedefs.h"
 #include "modbus/ResponseHandler.h"
+#include "modbus/messages/ReadHoldingRegistersRequest.h"
+#include "modbus/messages/ReadHoldingRegistersResponse.h"
+#include "modbus/messages/ReadInputRegistersRequest.h"
+#include "modbus/messages/ReadInputRegistersResponse.h"
 
 namespace modbus
 {
 
 class IScheduledRequest;
-class ReadHoldingRegistersRequest;
-class ReadHoldingRegistersResponse;
-class ReadInputRegistersRequest;
-class ReadInputRegistersResponse;
 class WriteSingleRegisterRequest;
 class WriteSingleRegisterResponse;
 class WriteMultipleRegistersRequest;
