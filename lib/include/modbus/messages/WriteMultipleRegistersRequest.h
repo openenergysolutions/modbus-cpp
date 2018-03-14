@@ -16,7 +16,7 @@ public:
     std::unique_ptr<IRequest> clone() const override;
 
     size_t get_request_length() const override;
-    void build_request(openpal::wseq_t& buffer) const override;
+    void build_request(loopser::wseq_t& buffer) const override;
 
     void add_register(uint16_t value);
     const Address& get_starting_address() const;

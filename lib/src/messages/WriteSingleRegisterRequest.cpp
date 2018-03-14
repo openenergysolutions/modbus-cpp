@@ -1,6 +1,6 @@
 #include "modbus/messages/WriteSingleRegisterRequest.h"
 
-#include "openpal/serialization/BigEndian.h"
+#include "loopser/serialization/BigEndian.h"
 
 namespace modbus
 {
@@ -22,11 +22,11 @@ size_t WriteSingleRegisterRequest::get_request_length() const
     return 5;
 }
 
-void WriteSingleRegisterRequest::build_request(openpal::wseq_t& buffer) const
+void WriteSingleRegisterRequest::build_request(loopser::wseq_t& buffer) const
 {
-    openpal::UInt8::write_to(buffer, 0x06); // Function code
-    openpal::UInt16::write_to(buffer, m_address); // Address
-    openpal::UInt16::write_to(buffer, m_value); // Value
+    loopser::UInt8::write_to(buffer, 0x06); // Function code
+    loopser::UInt16::write_to(buffer, m_address); // Address
+    loopser::UInt16::write_to(buffer, m_value); // Value
 }
 
 const Address& WriteSingleRegisterRequest::get_address() const

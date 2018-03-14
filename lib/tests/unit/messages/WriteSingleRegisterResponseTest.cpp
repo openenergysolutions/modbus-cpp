@@ -20,7 +20,7 @@ TEST_CASE("WriteSingleRegisterResponse")
             0x12, 0x34, // Address
             0x67, 0x89  // Value
         }};
-        openpal::rseq_t buffer{proper_response.data(), proper_response.size()};
+        loopser::rseq_t buffer{proper_response.data(), proper_response.size()};
 
         auto result = WriteSingleRegisterResponse::parse(request, buffer);
 
@@ -36,7 +36,7 @@ TEST_CASE("WriteSingleRegisterResponse")
             0x86,       // Exception function code
             0x02        // Illegal data address
         }};
-        openpal::rseq_t buffer{exception_response.data(), exception_response.size()};
+        loopser::rseq_t buffer{exception_response.data(), exception_response.size()};
 
         auto result = WriteSingleRegisterResponse::parse(request, buffer);
 
@@ -49,7 +49,7 @@ TEST_CASE("WriteSingleRegisterResponse")
         std::array<uint8_t, 1> too_small_response{ {
             0x06 // Function code
         }};
-        openpal::rseq_t buffer{ too_small_response.data(), too_small_response.size() };
+        loopser::rseq_t buffer{ too_small_response.data(), too_small_response.size() };
 
         auto result = WriteSingleRegisterResponse::parse(request, buffer);
 
@@ -64,7 +64,7 @@ TEST_CASE("WriteSingleRegisterResponse")
             0x67, 0x89, // Value
             0x42, 0x42  // Junk
         }};
-        openpal::rseq_t buffer{ too_big_response.data(), too_big_response.size() };
+        loopser::rseq_t buffer{ too_big_response.data(), too_big_response.size() };
 
         auto result = WriteSingleRegisterResponse::parse(request, buffer);
 

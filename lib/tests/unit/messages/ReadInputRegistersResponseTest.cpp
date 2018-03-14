@@ -24,7 +24,7 @@ TEST_CASE("ReadInputRegistersResponse")
             0x00, 0x03, // Register 0x0018
             0x00, 0x04  // Register 0x0019
         }};
-        openpal::rseq_t buffer{proper_response.data(), proper_response.size()};
+        loopser::rseq_t buffer{proper_response.data(), proper_response.size()};
 
         auto result = ReadInputRegistersResponse::parse(request, buffer);
 
@@ -48,7 +48,7 @@ TEST_CASE("ReadInputRegistersResponse")
             0x84, // Exception function code
             0x02  // Illegal data address
         }};
-        openpal::rseq_t buffer{exception_response.data(), exception_response.size()};
+        loopser::rseq_t buffer{exception_response.data(), exception_response.size()};
 
         auto result = ReadInputRegistersResponse::parse(request, buffer);
 
@@ -61,7 +61,7 @@ TEST_CASE("ReadInputRegistersResponse")
         std::array<uint8_t, 1> wrong_size_response{ {
             0x03 // Function code
         }};
-        openpal::rseq_t buffer{ wrong_size_response.data(), wrong_size_response.size() };
+        loopser::rseq_t buffer{ wrong_size_response.data(), wrong_size_response.size() };
 
         auto result = ReadInputRegistersResponse::parse(request, buffer);
 
@@ -75,7 +75,7 @@ TEST_CASE("ReadInputRegistersResponse")
             0x03,            // Size not even
             0x42, 0x43, 0x44 // Appropriate data
         }};
-        openpal::rseq_t buffer{ wrong_size_response.data(), wrong_size_response.size() };
+        loopser::rseq_t buffer{ wrong_size_response.data(), wrong_size_response.size() };
 
         auto result = ReadInputRegistersResponse::parse(request, buffer);
 
@@ -89,7 +89,7 @@ TEST_CASE("ReadInputRegistersResponse")
             0x02, // Length should be 2
             0x42  // Only 1 byte is received
         }};
-        openpal::rseq_t buffer{wrong_size_response.data(), wrong_size_response.size()};
+        loopser::rseq_t buffer{wrong_size_response.data(), wrong_size_response.size()};
 
         auto result = ReadInputRegistersResponse::parse(request, buffer);
 

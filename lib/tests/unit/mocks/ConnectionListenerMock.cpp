@@ -16,7 +16,7 @@ void ConnectionListenerMock::on_write_done()
     m_write_done_cv.notify_all();
 }
 
-void ConnectionListenerMock::on_receive(const openpal::rseq_t& data)
+void ConnectionListenerMock::on_receive(const loopser::rseq_t& data)
 {
     std::lock_guard<std::mutex> lock{m_data_lock};
     m_pending_data= true;

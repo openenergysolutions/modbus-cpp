@@ -2,10 +2,10 @@
 
 #include <chrono>
 #include <memory>
-#include "asio.hpp"
-#include "asiopal/ThreadPool.h"
-#include "openpal/container/StaticBuffer.h"
-#include "openpal/executor/Typedefs.h"
+
+#include "loopser/asio/ThreadPool.h"
+#include "loopser/container/StaticBuffer.h"
+#include "loopser/executor/Typedefs.h"
 
 #include "modbus/Ipv4Endpoint.h"
 #include "modbus/logging/LoggerFactory.h"
@@ -16,7 +16,7 @@
 
 using namespace modbus;
 
-void send_test_data(asio::strand& strand, AsioTcpConnectionWrapper& connection, const openpal::rseq_t& data)
+void send_test_data(asio::strand& strand, AsioTcpConnectionWrapper& connection, const loopser::rseq_t& data)
 {
     auto shared_connection = connection.get();
     strand.post([=] () {
@@ -35,8 +35,8 @@ void close_connection(asio::strand& strand, AsioTcpConnectionWrapper& connection
 TEST_CASE("AsioTcpConnection")
 {
     constexpr unsigned short test_port = 8888;
-    constexpr openpal::duration_t timeout = std::chrono::seconds(5);
-    openpal::StaticBuffer<unsigned int, 6> test_data;
+    constexpr loopser::duration_t timeout = std::chrono::seconds(5);
+    loopser::StaticBuffer<unsigned int, 6> test_data;
     {
         auto dest = test_data.as_wseq();
         dest[0] = 'h';
@@ -52,7 +52,7 @@ TEST_CASE("AsioTcpConnection")
 
     auto io_service = std::make_shared<asio::io_service>();
     asio::strand strand{*io_service};
-    openpal::ThreadPool thread_pool{io_service, 1};
+    loopser::asioloop::ThreadPool thread_pool{io_service, 1};
 
     auto logger = LoggerFactory::create_null_logger("test");
     const Ipv4Endpoint endpoint{"127.0.0.1", test_port};

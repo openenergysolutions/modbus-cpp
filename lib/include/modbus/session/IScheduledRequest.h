@@ -15,8 +15,8 @@ public:
     virtual void stop() = 0;
     virtual bool is_running() const = 0;
 
-    virtual void set_frequency(const openpal::duration_t& frequency) = 0;
-    virtual openpal::duration_t get_frequency() const = 0;
+    virtual void set_frequency(const loopser::duration_t& frequency) = 0;
+    virtual loopser::duration_t get_frequency() const = 0;
 };
 
 } // namespace modbus

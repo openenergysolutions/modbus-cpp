@@ -27,9 +27,9 @@ void AsioTcpConnection::set_listener(std::weak_ptr<IConnectionListener> listener
     m_connection_listener = listener;
 }
 
-void AsioTcpConnection::send(const openpal::rseq_t& data)
+void AsioTcpConnection::send(const loopser::rseq_t& data)
 {
-    m_write_buffer = std::make_unique<openpal::Buffer>(data);
+    m_write_buffer = std::make_unique<loopser::Buffer>(data);
 
     if(m_current_connection_status == ConnectionStatus::NotConnected)
     {
@@ -114,7 +114,7 @@ void AsioTcpConnection::read_handler(const asio::error_code& ec, std::size_t byt
     auto connection_listener = m_connection_listener.lock();
     if(connection_listener)
     {
-        connection_listener->on_receive(openpal::rseq_t{m_read_buffer.data(), (unsigned int) bytes_transferred});
+        connection_listener->on_receive(loopser::rseq_t{m_read_buffer.data(), (unsigned int) bytes_transferred});
     }
 
     begin_read();

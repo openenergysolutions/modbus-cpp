@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <queue>
-#include "openpal/executor/IExecutor.h"
+#include "loopser/executor/IExecutor.h"
 #include "mocks/TimerMock.h"
 
 class TimerMockComparator
@@ -15,26 +15,26 @@ public:
     }
 };
 
-class ExecutorMock : public openpal::IExecutor
+class ExecutorMock : public loopser::IExecutor
 {
 public:
     ExecutorMock();
 
-    openpal::Timer start(const openpal::duration_t& duration, const openpal::action_t& action) override;
-    openpal::Timer start(const openpal::steady_time_t& expiration, const openpal::action_t& action) override;
-    void post(const openpal::action_t& action) override;
+    loopser::Timer start(const loopser::duration_t& duration, const loopser::action_t& action) override;
+    loopser::Timer start(const loopser::steady_time_t& expiration, const loopser::action_t& action) override;
+    void post(const loopser::action_t& action) override;
 
-    openpal::steady_time_t get_time() override;
+    loopser::steady_time_t get_time() override;
 
-    void advance_time(const openpal::duration_t& duration);
-    void set_time(const openpal::steady_time_t& time);
+    void advance_time(const loopser::duration_t& duration);
+    void set_time(const loopser::steady_time_t& time);
 
     unsigned int get_num_post_calls() const;
 
 private:
     void check_expired_timers();
 
-    openpal::steady_time_t m_current_time;
+    loopser::steady_time_t m_current_time;
     std::priority_queue<std::shared_ptr<TimerMock>,
                         std::vector<std::shared_ptr<TimerMock>>,
                         TimerMockComparator> m_active_timers;

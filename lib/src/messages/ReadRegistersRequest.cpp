@@ -1,6 +1,6 @@
 #include "modbus/messages/ReadRegistersRequest.h"
 
-#include "openpal/serialization/BigEndian.h"
+#include "loopser/serialization/BigEndian.h"
 
 namespace modbus
 {
@@ -26,11 +26,11 @@ size_t ReadRegistersRequest<function_code>::get_request_length() const
 }
 
 template <uint8_t function_code>
-void ReadRegistersRequest<function_code>::build_request(openpal::wseq_t& buffer) const
+void ReadRegistersRequest<function_code>::build_request(loopser::wseq_t& buffer) const
 {
-    openpal::UInt8::write_to(buffer, function_code); // Function code
-    openpal::UInt16::write_to(buffer, m_starting_address); // Starting address
-    openpal::UInt16::write_to(buffer, m_qty_of_registers); // Qty of registers
+    loopser::UInt8::write_to(buffer, function_code); // Function code
+    loopser::UInt16::write_to(buffer, m_starting_address); // Starting address
+    loopser::UInt16::write_to(buffer, m_qty_of_registers); // Qty of registers
 }
 
 template <uint8_t function_code>

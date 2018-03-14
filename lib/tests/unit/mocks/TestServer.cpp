@@ -1,6 +1,6 @@
 #include "mocks/TestServer.h"
 
-TestServer::TestServer(unsigned short port, openpal::duration_t timeout)
+TestServer::TestServer(unsigned short port, loopser::duration_t timeout)
         : m_timeout{timeout},
           m_endpoint{asio::ip::tcp::endpoint{asio::ip::tcp::v4(), port}},
           m_io_service{std::make_shared<asio::io_service>()},
@@ -63,7 +63,7 @@ void TestServer::stop()
     m_stop_cv.wait(lock, [=]() { return m_pending_stop; });
 }
 
-void TestServer::send(const openpal::rseq_t& data)
+void TestServer::send(const loopser::rseq_t& data)
 {
     m_io_service->post([=, socket = m_current_socket]() {
         m_current_socket->write_some(asio::buffer(data, data.length()));

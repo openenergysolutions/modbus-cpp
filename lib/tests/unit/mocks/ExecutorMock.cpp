@@ -10,36 +10,36 @@ ExecutorMock::ExecutorMock()
 
 }
 
-openpal::Timer ExecutorMock::start(const openpal::duration_t& duration, const openpal::action_t& action)
+loopser::Timer ExecutorMock::start(const loopser::duration_t& duration, const loopser::action_t& action)
 {
     return start(m_current_time + duration, action);
 }
 
-openpal::Timer ExecutorMock::start(const openpal::steady_time_t& expiration, const openpal::action_t& action)
+loopser::Timer ExecutorMock::start(const loopser::steady_time_t& expiration, const loopser::action_t& action)
 {
     auto timer = std::make_shared<TimerMock>(expiration, action);
     m_active_timers.push(timer);
 
-    return openpal::Timer{timer};
+    return loopser::Timer{timer};
 }
 
-void ExecutorMock::post(const openpal::action_t& action)
+void ExecutorMock::post(const loopser::action_t& action)
 {
     ++m_num_post_calls;
     action();
 }
 
-openpal::steady_time_t ExecutorMock::get_time()
+loopser::steady_time_t ExecutorMock::get_time()
 {
     return m_current_time;
 }
 
-void ExecutorMock::advance_time(const openpal::duration_t& duration)
+void ExecutorMock::advance_time(const loopser::duration_t& duration)
 {
     set_time(m_current_time + duration);
 }
 
-void ExecutorMock::set_time(const openpal::steady_time_t& time)
+void ExecutorMock::set_time(const loopser::steady_time_t& time)
 {
     m_current_time = time;
 

@@ -2,7 +2,7 @@
 #define MODBUS_MODBUSMANAGERIMPL_H
 
 #include <mutex>
-#include "asiopal/ThreadPool.h"
+#include "loopser/asio/ThreadPool.h"
 #include "modbus/IModbusManager.h"
 
 namespace modbus
@@ -21,7 +21,7 @@ public:
 private:
     std::shared_ptr<asio::io_service> m_io_service;
     std::shared_ptr<Logger> m_logger;
-    openpal::ThreadPool m_thread_pool;
+    loopser::asioloop::ThreadPool m_thread_pool;
 
     std::mutex m_mutex;
     std::vector<std::shared_ptr<IChannel>> m_created_channels;

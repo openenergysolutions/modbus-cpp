@@ -1,6 +1,6 @@
 #include "modbus/messages/ReadRegistersResponse.h"
 
-#include "openpal/serialization/BigEndian.h"
+#include "loopser/serialization/BigEndian.h"
 #include "modbus/exceptions/MalformedModbusResponseException.h"
 
 namespace modbus
@@ -8,7 +8,7 @@ namespace modbus
 
 template <uint8_t function_code>
 Expected<ReadRegistersResponse<function_code>> ReadRegistersResponse<function_code>::parse(const ReadRegistersRequest<function_code>& req,
-                                                                                           const openpal::rseq_t& data)
+                                                                                           const loopser::rseq_t& data)
 {
     auto view = data;
 
@@ -25,7 +25,7 @@ Expected<ReadRegistersResponse<function_code>> ReadRegistersResponse<function_co
         return Expected<ReadRegistersResponse<function_code>>::from_exception(MalformedModbusResponseException{"Response is too short."});
     }
     uint8_t length;
-    openpal::UInt8::read_from(view, length);
+    loopser::UInt8::read_from(view, length);
     if(length % 2 != 0)
     {
         return Expected<ReadRegistersResponse<function_code>>::from_exception(MalformedModbusResponseException{ "Response should contain an even number of register bytes." });
@@ -41,7 +41,7 @@ Expected<ReadRegistersResponse<function_code>> ReadRegistersResponse<function_co
     ReadRegistersResponse<function_code> response;
     auto current_address = req.get_starting_address();
     uint16_t current_value;
-    while(openpal::UInt16::read_from(view, current_value))
+    while(loopser::UInt16::read_from(view, current_value))
     {
         response.add_value(current_address, current_value);
         ++current_address;

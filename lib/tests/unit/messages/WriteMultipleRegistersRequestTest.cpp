@@ -1,7 +1,7 @@
 #include "catch.hpp"
 
 #include <memory>
-#include "openpal/container/Buffer.h"
+#include "loopser/container/Buffer.h"
 #include "modbus/messages/WriteMultipleRegistersRequest.h"
 
 using namespace modbus;
@@ -26,7 +26,7 @@ TEST_CASE("WriteMultipleRegistersRequest")
 
         SECTION("When build request, then write appropriate values to the buffer")
         {
-            openpal::Buffer buffer{(uint32_t) request.get_request_length()};
+            loopser::Buffer buffer{(uint32_t) request.get_request_length()};
             auto slice = buffer.as_wslice();
 
             request.build_request(slice);
@@ -66,7 +66,7 @@ TEST_CASE("WriteMultipleRegistersRequest")
 
         SECTION("When build request, then write appropriate values to the buffer")
         {
-            openpal::Buffer buffer{(uint32_t) request.get_request_length()};
+            loopser::Buffer buffer{(uint32_t) request.get_request_length()};
             auto slice = buffer.as_wslice();
 
             request.build_request(slice);

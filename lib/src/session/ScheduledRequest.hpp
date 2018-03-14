@@ -13,10 +13,10 @@ namespace modbus
 template<typename TRequest, typename TResponse>
 ScheduledRequest<TRequest, TResponse>::ScheduledRequest(std::shared_ptr<ISession> session,
                                                         std::shared_ptr<ISessionResponseHandler> session_response_handler,
-                                                        std::shared_ptr<openpal::IExecutor> executor,
+                                                        std::shared_ptr<loopser::IExecutor> executor,
                                                         const TRequest& request,
-                                                        const openpal::duration_t& timeout,
-                                                        const openpal::duration_t& frequency)
+                                                        const loopser::duration_t& timeout,
+                                                        const loopser::duration_t& frequency)
     : m_session{session},
       m_session_response_handler{session_response_handler},
       m_executor{executor},
@@ -54,7 +54,7 @@ void ScheduledRequest<TRequest, TResponse>::stop()
 }
 
 template<typename TRequest, typename TResponse>
-void ScheduledRequest<TRequest, TResponse>::set_frequency(const openpal::duration_t& frequency)
+void ScheduledRequest<TRequest, TResponse>::set_frequency(const loopser::duration_t& frequency)
 {
     m_executor->post([=, self = shared_from_this()]() {
         m_frequency = frequency;
@@ -62,7 +62,7 @@ void ScheduledRequest<TRequest, TResponse>::set_frequency(const openpal::duratio
 };
 
 template<typename TRequest, typename TResponse>
-openpal::duration_t ScheduledRequest<TRequest, TResponse>::get_frequency() const
+loopser::duration_t ScheduledRequest<TRequest, TResponse>::get_frequency() const
 {
     return m_frequency;
 };

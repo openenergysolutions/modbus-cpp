@@ -2,9 +2,9 @@
 #define MODBUS_SCHEDULEDREQUEST_H
 
 #include <memory>
-#include "openpal/executor/IExecutor.h"
-#include "openpal/executor/Timer.h"
-#include "openpal/executor/Typedefs.h"
+#include "loopser/executor/IExecutor.h"
+#include "loopser/executor/Timer.h"
+#include "loopser/executor/Typedefs.h"
 #include "modbus/session/IScheduledRequest.h"
 
 namespace modbus
@@ -19,31 +19,31 @@ class ScheduledRequest : public IScheduledRequest
 public:
     ScheduledRequest(std::shared_ptr<ISession> session,
                      std::shared_ptr<ISessionResponseHandler> session_response_handler,
-                     std::shared_ptr<openpal::IExecutor> executor,
+                     std::shared_ptr<loopser::IExecutor> executor,
                      const TRequest& request,
-                     const openpal::duration_t& timeout,
-                     const openpal::duration_t& frequency);
+                     const loopser::duration_t& timeout,
+                     const loopser::duration_t& frequency);
     ~ScheduledRequest() = default;
 
     void start() override;
     void stop() override;
     bool is_running() const override;
 
-    void set_frequency(const openpal::duration_t& frequency) override;
-    openpal::duration_t get_frequency() const override;
+    void set_frequency(const loopser::duration_t& frequency) override;
+    loopser::duration_t get_frequency() const override;
 
 private:
     void execute();
 
     std::shared_ptr<ISession> m_session;
     std::shared_ptr<ISessionResponseHandler> m_session_response_handler;
-    std::shared_ptr<openpal::IExecutor> m_executor;
+    std::shared_ptr<loopser::IExecutor> m_executor;
     TRequest m_request;
-    openpal::duration_t m_timeout;
-    openpal::duration_t m_frequency;
+    loopser::duration_t m_timeout;
+    loopser::duration_t m_frequency;
 
     bool m_running;
-    openpal::Timer m_timer;
+    loopser::Timer m_timer;
 };
 
 } // namespace modbus

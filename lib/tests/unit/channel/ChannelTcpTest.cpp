@@ -15,7 +15,7 @@ void receive(std::shared_ptr<ChannelTcp> channel,
              const TransactionIdentifier transaction_id,
              const IRequest& request)
 {
-    openpal::Buffer buffer{260};
+    loopser::Buffer buffer{260};
     auto view = buffer.as_wslice();
     auto serialized_request = MbapMessage::build_message(unit_id, transaction_id, request, view);
     channel->on_receive(serialized_request);
@@ -30,7 +30,7 @@ TEST_CASE("ChannelTcp")
     unsigned int num_handler_success = 0;
     unsigned int num_handler_timeout = 0;
     unsigned int num_handler_error = 0;
-    auto test_handler = [&] (const Expected<openpal::rseq_t>& response) {
+    auto test_handler = [&] (const Expected<loopser::rseq_t>& response) {
         if(response.is_valid())
         {
             ++num_handler_success;

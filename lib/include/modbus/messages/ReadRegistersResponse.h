@@ -15,7 +15,7 @@ class ReadRegistersResponse : public IResponse
 {
 public:
     static Expected<ReadRegistersResponse<function_code>> parse(const ReadRegistersRequest<function_code>& req,
-                                                                const openpal::rseq_t& data);
+                                                                const loopser::rseq_t& data);
 
 public:
     ReadRegistersResponse() = default;

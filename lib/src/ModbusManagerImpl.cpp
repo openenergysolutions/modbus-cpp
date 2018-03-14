@@ -1,6 +1,6 @@
 #include "ModbusManagerImpl.h"
 
-#include "asiopal/StrandExecutor.h"
+#include "loopser/asio/StrandExecutor.h"
 #include "modbus/Ipv4Endpoint.h"
 #include "channel/ChannelTcp.h"
 #include "channel/AsioTcpConnection.h"
@@ -25,7 +25,7 @@ ModbusManagerImpl::~ModbusManagerImpl()
 std::shared_ptr<IChannel> ModbusManagerImpl::create_tcp_channel(const std::string& name,
                                                                 const Ipv4Endpoint& endpoint)
 {
-    auto executor = std::make_shared<openpal::StrandExecutor>(m_io_service);
+    auto executor = std::make_shared<loopser::asioloop::StrandExecutor>(m_io_service);
 
     auto connection_logger = m_logger->clone(name + " - Connection");
     auto tcp_connection = std::make_shared<AsioTcpConnection>(connection_logger,

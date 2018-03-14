@@ -1,13 +1,13 @@
 #include "modbus/messages/WriteSingleRegisterResponse.h"
 
-#include "openpal/serialization/BigEndian.h"
+#include "loopser/serialization/BigEndian.h"
 #include "modbus/exceptions/MalformedModbusResponseException.h"
 
 namespace modbus
 {
 
 Expected<WriteSingleRegisterResponse> WriteSingleRegisterResponse::parse(const WriteSingleRegisterRequest& req,
-                                                                         const openpal::rseq_t& data)
+                                                                         const loopser::rseq_t& data)
 {
     auto view = data;
 
@@ -26,11 +26,11 @@ Expected<WriteSingleRegisterResponse> WriteSingleRegisterResponse::parse(const W
 
     // Read address
     uint16_t address;
-    openpal::UInt16::read_from(view, address);
+    loopser::UInt16::read_from(view, address);
 
     // Read value
     uint16_t value;
-    openpal::UInt16::read_from(view, value);
+    loopser::UInt16::read_from(view, value);
 
     // Return result
     WriteSingleRegisterResponse response{RegisterValue{address, value}};

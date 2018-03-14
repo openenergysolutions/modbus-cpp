@@ -3,7 +3,7 @@
 
 #include <array>
 #include "asio.hpp"
-#include "openpal/container/Buffer.h"
+#include "loopser/container/Buffer.h"
 
 #include "modbus/Ipv4Endpoint.h"
 #include "logging/Logger.h"
@@ -21,7 +21,7 @@ public:
                       const Ipv4Endpoint& endpoint);
 
     void set_listener(std::weak_ptr<IConnectionListener> listener) override;
-    void send(const openpal::rseq_t& data) override;
+    void send(const loopser::rseq_t& data) override;
     void close() override;
 
 private:
@@ -49,7 +49,7 @@ private:
 
     ConnectionStatus m_current_connection_status;
     std::array<uint8_t, 4096> m_read_buffer;
-    std::unique_ptr<openpal::Buffer> m_write_buffer;
+    std::unique_ptr<loopser::Buffer> m_write_buffer;
 
     std::weak_ptr<IConnectionListener> m_connection_listener;
 };
