@@ -125,6 +125,16 @@ std::shared_ptr<IScheduledRequest> SessionImpl::schedule_request(const ReadInput
                                                                                         frequency);
 }
 
+loopser::Timer SessionImpl::start(const loopser::duration_t& duration, const loopser::action_t& action)
+{
+    return this->m_executor->start(duration, action);
+}
+
+loopser::Timer SessionImpl::start(const loopser::steady_time_t& expiration, const loopser::action_t& action)
+{
+    return this->m_executor->start(expiration, action);
+}
+
 template<typename TRequest, typename TResponse>
 void SessionImpl::meta_send_request(const TRequest& request,
                                     const loopser::duration_t& timeout,

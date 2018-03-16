@@ -108,3 +108,11 @@ modbus::ResponseHandler<modbus::ReadHoldingRegistersResponse> ISessionMock::get_
 {
     return m_last_read_holding_registers_request_handler;
 }
+
+loopser::Timer ISessionMock::start(const loopser::duration_t &duration, const loopser::action_t &action) {
+    throw std::logic_error("not implemented");
+}
+
+loopser::Timer ISessionMock::start(const loopser::steady_time_t &expiration, const loopser::action_t &action) {
+    throw std::logic_error("not implemented");
+}

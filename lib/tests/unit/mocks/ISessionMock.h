@@ -48,6 +48,11 @@ public:
                                                                 const loopser::duration_t& timeout,
                                                                 const loopser::duration_t& frequency) override;
 
+    loopser::Timer start(const loopser::duration_t &duration, const loopser::action_t &action) override;
+
+    loopser::Timer start(const loopser::steady_time_t &expiration, const loopser::action_t &action) override;
+
+
     bool is_shutdown_called() const;
     unsigned int get_num_read_holding_registers_request_sent() const;
     modbus::ResponseHandler<modbus::ReadHoldingRegistersResponse> get_last_read_holding_registers_request_handler() const;

@@ -2,7 +2,10 @@
 #define MODBUS_ISESSION_H
 
 #include <memory>
+
 #include "loopser/executor/Typedefs.h"
+#include "loopser/executor/Timer.h"
+
 #include "modbus/ResponseHandler.h"
 #include "modbus/messages/ReadHoldingRegistersRequest.h"
 #include "modbus/messages/ReadHoldingRegistersResponse.h"
@@ -62,6 +65,14 @@ public:
     virtual std::shared_ptr<IScheduledRequest> schedule_request(const ReadInputRegistersRequest& request,
                                                                 const loopser::duration_t& timeout,
                                                                 const loopser::duration_t& frequency) = 0;
+
+    // ---- provide access to the underlying timer implementation so that users can perform asynchronous timers -----
+
+    /// @return start a new timer based on a relative time duration
+    virtual loopser::Timer start(const loopser::duration_t& duration, const loopser::action_t& action) = 0;
+
+    /// @return start a new timer based on an absolute timestamp of the steady clock
+    virtual loopser::Timer start(const loopser::steady_time_t& expiration, const loopser::action_t& action) = 0;
 };
 
 } // namespace modbus

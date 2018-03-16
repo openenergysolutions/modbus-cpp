@@ -17,7 +17,7 @@ class IChannel;
 class ISessionResponseHandler;
 class UnitIdentifier;
 
-class SessionImpl : public ISession
+class SessionImpl final : public ISession
 {
 public:
     SessionImpl(std::shared_ptr<loopser::IExecutor> executor,
@@ -68,6 +68,10 @@ public:
     std::shared_ptr<IScheduledRequest> schedule_request(const ReadInputRegistersRequest& request,
                                                         const loopser::duration_t& timeout,
                                                         const loopser::duration_t& frequency) override;
+
+
+    loopser::Timer start(const loopser::duration_t& duration, const loopser::action_t& action) override;
+    loopser::Timer start(const loopser::steady_time_t& expiration, const loopser::action_t& action) override;
 
 private:
     template<typename TRequest, typename TResponse>
