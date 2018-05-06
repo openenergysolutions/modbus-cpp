@@ -14,43 +14,43 @@ public:
     void send_request(const modbus::ReadHoldingRegistersRequest& request,
                       modbus::ResponseHandler<modbus::ReadHoldingRegistersResponse> handler) override;
     void send_request(const modbus::ReadHoldingRegistersRequest& request,
-                      const loopser::duration_t& timeout,
+                      const exe4cpp::duration_t& timeout,
                       modbus::ResponseHandler<modbus::ReadHoldingRegistersResponse> handler) override;
 
     void send_request(const modbus::ReadInputRegistersRequest& request,
                       modbus::ResponseHandler<modbus::ReadInputRegistersResponse> handler) override;
     void send_request(const modbus::ReadInputRegistersRequest& request,
-                      const loopser::duration_t& timeout,
+                      const exe4cpp::duration_t& timeout,
                       modbus::ResponseHandler<modbus::ReadInputRegistersResponse> handler) override;
 
     void send_request(const modbus::WriteSingleRegisterRequest& request,
                       modbus::ResponseHandler<modbus::WriteSingleRegisterResponse> handler) override;
     void send_request(const modbus::WriteSingleRegisterRequest& request,
-                      const loopser::duration_t& timeout,
+                      const exe4cpp::duration_t& timeout,
                       modbus::ResponseHandler<modbus::WriteSingleRegisterResponse> handler) override;
 
     void send_request(const modbus::WriteMultipleRegistersRequest& request,
                       modbus::ResponseHandler<modbus::WriteMultipleRegistersResponse> handler) override;
     void send_request(const modbus::WriteMultipleRegistersRequest& request,
-                      const loopser::duration_t& timeout,
+                      const exe4cpp::duration_t& timeout,
                       modbus::ResponseHandler<modbus::WriteMultipleRegistersResponse> handler) override;
 
     // Scheduled requests
     std::shared_ptr<modbus::IScheduledRequest> schedule_request(const modbus::ReadHoldingRegistersRequest& request,
-                                                                const loopser::duration_t& frequency) override;
+                                                                const exe4cpp::duration_t& frequency) override;
     std::shared_ptr<modbus::IScheduledRequest> schedule_request(const modbus::ReadHoldingRegistersRequest& request,
-                                                                const loopser::duration_t& timeout,
-                                                                const loopser::duration_t& frequency) override;
+                                                                const exe4cpp::duration_t& timeout,
+                                                                const exe4cpp::duration_t& frequency) override;
 
     std::shared_ptr<modbus::IScheduledRequest> schedule_request(const modbus::ReadInputRegistersRequest& request,
-                                                                const loopser::duration_t& frequency) override;
+                                                                const exe4cpp::duration_t& frequency) override;
     std::shared_ptr<modbus::IScheduledRequest> schedule_request(const modbus::ReadInputRegistersRequest& request,
-                                                                const loopser::duration_t& timeout,
-                                                                const loopser::duration_t& frequency) override;
+                                                                const exe4cpp::duration_t& timeout,
+                                                                const exe4cpp::duration_t& frequency) override;
 
-    loopser::Timer start(const loopser::duration_t &duration, const loopser::action_t &action) override;
+    exe4cpp::Timer start(const exe4cpp::duration_t &duration, const exe4cpp::action_t &action) override;
 
-    loopser::Timer start(const loopser::steady_time_t &expiration, const loopser::action_t &action) override;
+    exe4cpp::Timer start(const exe4cpp::steady_time_t &expiration, const exe4cpp::action_t &action) override;
 
 
     bool is_shutdown_called() const;

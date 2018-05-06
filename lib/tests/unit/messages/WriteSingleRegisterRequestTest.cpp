@@ -1,7 +1,7 @@
 #include "catch.hpp"
 
 #include <memory>
-#include "loopser/container/Buffer.h"
+#include "ser4cpp/container/Buffer.h"
 #include "modbus/messages/WriteSingleRegisterRequest.h"
 
 using namespace modbus;
@@ -21,7 +21,7 @@ TEST_CASE("WriteSingleRegisterRequest")
 
     SECTION("When build request, then write appropriate values to the buffer")
     {
-        loopser::Buffer buffer{(uint32_t)request.get_request_length()};
+        ser4cpp::Buffer buffer{(uint32_t)request.get_request_length()};
         auto slice = buffer.as_wslice();
 
         request.build_request(slice);

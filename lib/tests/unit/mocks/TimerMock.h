@@ -1,21 +1,21 @@
 #ifndef MODBUS_TIMERMOCK_H
 #define MODBUS_TIMERMOCK_H
 
-#include "loopser/executor/ITimer.h"
+#include "exe4cpp/ITimer.h"
 
-class TimerMock : public loopser::ITimer
+class TimerMock : public exe4cpp::ITimer
 {
 public:
-    TimerMock(const loopser::steady_time_t& expiration, const loopser::action_t& action);
+    TimerMock(const exe4cpp::steady_time_t& expiration, const exe4cpp::action_t& action);
 
     void cancel() override;
-    loopser::steady_time_t expires_at() override;
+    exe4cpp::steady_time_t expires_at() override;
 
     void execute();
 
 private:
-    loopser::steady_time_t m_expiration;
-    loopser::action_t m_action;
+    exe4cpp::steady_time_t m_expiration;
+    exe4cpp::action_t m_action;
 };
 
 #endif //MODBUS_TIMERMOCK_H

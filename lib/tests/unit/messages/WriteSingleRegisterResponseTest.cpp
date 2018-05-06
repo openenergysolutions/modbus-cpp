@@ -20,7 +20,7 @@ TEST_CASE("WriteSingleRegisterResponse")
             0x12, 0x34, // Address
             0x67, 0x89  // Value
         }};
-        loopser::rseq_t buffer{proper_response.data(), proper_response.size()};
+        ser4cpp::rseq_t buffer{proper_response.data(), proper_response.size()};
 
         auto result = WriteSingleRegisterResponse::parse(request, buffer);
 
@@ -36,7 +36,7 @@ TEST_CASE("WriteSingleRegisterResponse")
             0x86,       // Exception function code
             0x02        // Illegal data address
         }};
-        loopser::rseq_t buffer{exception_response.data(), exception_response.size()};
+        ser4cpp::rseq_t buffer{exception_response.data(), exception_response.size()};
 
         auto result = WriteSingleRegisterResponse::parse(request, buffer);
 
@@ -49,7 +49,7 @@ TEST_CASE("WriteSingleRegisterResponse")
         std::array<uint8_t, 1> too_small_response{ {
             0x06 // Function code
         }};
-        loopser::rseq_t buffer{ too_small_response.data(), too_small_response.size() };
+        ser4cpp::rseq_t buffer{ too_small_response.data(), too_small_response.size() };
 
         auto result = WriteSingleRegisterResponse::parse(request, buffer);
 
@@ -64,7 +64,7 @@ TEST_CASE("WriteSingleRegisterResponse")
             0x67, 0x89, // Value
             0x42, 0x42  // Junk
         }};
-        loopser::rseq_t buffer{ too_big_response.data(), too_big_response.size() };
+        ser4cpp::rseq_t buffer{ too_big_response.data(), too_big_response.size() };
 
         auto result = WriteSingleRegisterResponse::parse(request, buffer);
 

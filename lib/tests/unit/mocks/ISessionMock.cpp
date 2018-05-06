@@ -21,7 +21,7 @@ void ISessionMock::send_request(const modbus::ReadHoldingRegistersRequest& reque
 }
 
 void ISessionMock::send_request(const modbus::ReadHoldingRegistersRequest& request,
-                                const loopser::duration_t& timeout,
+                                const exe4cpp::duration_t& timeout,
                                 modbus::ResponseHandler<modbus::ReadHoldingRegistersResponse> handler)
 {
     ++m_num_read_holding_registers_request_sent;
@@ -35,7 +35,7 @@ void ISessionMock::send_request(const modbus::ReadInputRegistersRequest& request
 }
 
 void ISessionMock::send_request(const modbus::ReadInputRegistersRequest& request,
-                                const loopser::duration_t& timeout,
+                                const exe4cpp::duration_t& timeout,
                                 modbus::ResponseHandler<modbus::ReadInputRegistersResponse> handler)
 {
 
@@ -48,7 +48,7 @@ void ISessionMock::send_request(const modbus::WriteSingleRegisterRequest& reques
 }
 
 void ISessionMock::send_request(const modbus::WriteSingleRegisterRequest& request,
-                                const loopser::duration_t& timeout,
+                                const exe4cpp::duration_t& timeout,
                                 modbus::ResponseHandler<modbus::WriteSingleRegisterResponse> handler)
 {
 
@@ -61,7 +61,7 @@ void ISessionMock::send_request(const modbus::WriteMultipleRegistersRequest& req
 }
 
 void ISessionMock::send_request(const modbus::WriteMultipleRegistersRequest& request,
-                                const loopser::duration_t& timeout,
+                                const exe4cpp::duration_t& timeout,
                                 modbus::ResponseHandler<modbus::WriteMultipleRegistersResponse> handler)
 {
 
@@ -69,27 +69,27 @@ void ISessionMock::send_request(const modbus::WriteMultipleRegistersRequest& req
 
 // Scheduled requests
 std::shared_ptr<modbus::IScheduledRequest> ISessionMock::schedule_request(const modbus::ReadHoldingRegistersRequest& request,
-                                                                          const loopser::duration_t& frequency)
+                                                                          const exe4cpp::duration_t& frequency)
 {
     return nullptr;
 }
 
 std::shared_ptr<modbus::IScheduledRequest> ISessionMock::schedule_request(const modbus::ReadHoldingRegistersRequest& request,
-                                                                          const loopser::duration_t& timeout,
-                                                                          const loopser::duration_t& frequency)
+                                                                          const exe4cpp::duration_t& timeout,
+                                                                          const exe4cpp::duration_t& frequency)
 {
     return nullptr;
 }
 
 std::shared_ptr<modbus::IScheduledRequest> ISessionMock::schedule_request(const modbus::ReadInputRegistersRequest& request,
-                                                                          const loopser::duration_t& frequency)
+                                                                          const exe4cpp::duration_t& frequency)
 {
     return nullptr;
 }
 
 std::shared_ptr<modbus::IScheduledRequest> ISessionMock::schedule_request(const modbus::ReadInputRegistersRequest& request,
-                                                                          const loopser::duration_t& timeout,
-                                                                          const loopser::duration_t& frequency)
+                                                                          const exe4cpp::duration_t& timeout,
+                                                                          const exe4cpp::duration_t& frequency)
 {
     return nullptr;
 }
@@ -109,10 +109,10 @@ modbus::ResponseHandler<modbus::ReadHoldingRegistersResponse> ISessionMock::get_
     return m_last_read_holding_registers_request_handler;
 }
 
-loopser::Timer ISessionMock::start(const loopser::duration_t &duration, const loopser::action_t &action) {
+exe4cpp::Timer ISessionMock::start(const exe4cpp::duration_t &duration, const exe4cpp::action_t &action) {
     throw std::logic_error("not implemented");
 }
 
-loopser::Timer ISessionMock::start(const loopser::steady_time_t &expiration, const loopser::action_t &action) {
+exe4cpp::Timer ISessionMock::start(const exe4cpp::steady_time_t &expiration, const exe4cpp::action_t &action) {
     throw std::logic_error("not implemented");
 }

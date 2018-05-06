@@ -15,7 +15,7 @@ class ReadRegistersResponse : public IResponse
 {
 public:
     static Expected<ReadRegistersResponse<function_code>> parse(const ReadRegistersRequest<function_code>& req,
-                                                                const loopser::rseq_t& data);
+                                                                const ser4cpp::rseq_t& data);
 
 public:
     ReadRegistersResponse() = default;

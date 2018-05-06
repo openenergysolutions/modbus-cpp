@@ -2,7 +2,7 @@
 #define MODBUS_PENDINGREQUEST_H
 
 #include <memory>
-#include "loopser/executor/Typedefs.h"
+#include "exe4cpp/Typedefs.h"
 #include "modbus/ResponseHandler.h"
 #include "modbus/channel/UnitIdentifier.h"
 #include "modbus/messages/IRequest.h"
@@ -16,8 +16,8 @@ struct PendingRequest
    PendingRequest(const UnitIdentifier& unit_id,
                   const TransactionIdentifier& transaction_id,
                   const IRequest& request,
-                  const loopser::duration_t& timeout,
-                  ResponseHandler<loopser::rseq_t> response_handler)
+                  const exe4cpp::duration_t& timeout,
+                  ResponseHandler<ser4cpp::rseq_t> response_handler)
            : unit_id{unit_id},
              transaction_id{transaction_id},
              request{request.clone()},
@@ -30,8 +30,8 @@ struct PendingRequest
     UnitIdentifier unit_id;
     TransactionIdentifier transaction_id;
     std::unique_ptr<IRequest> request;
-    loopser::duration_t timeout;
-    ResponseHandler<loopser::rseq_t> response_handler;
+    exe4cpp::duration_t timeout;
+    ResponseHandler<ser4cpp::rseq_t> response_handler;
 };
 
 } // namespace modbus

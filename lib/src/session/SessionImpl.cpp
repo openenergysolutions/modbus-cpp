@@ -15,11 +15,11 @@
 namespace modbus
 {
 
-SessionImpl::SessionImpl(std::shared_ptr<loopser::IExecutor> executor,
+SessionImpl::SessionImpl(std::shared_ptr<exe4cpp::IExecutor> executor,
                          std::shared_ptr<Logger> logger,
                          std::shared_ptr<IChannel> channel,
                          const UnitIdentifier& unit_identifier,
-                         const loopser::duration_t& default_timeout,
+                         const exe4cpp::duration_t& default_timeout,
                          std::shared_ptr<ISessionResponseHandler> session_response_handler)
 : m_executor{executor},
   m_logger{logger},
@@ -50,7 +50,7 @@ void SessionImpl::send_request(const ReadHoldingRegistersRequest& request,
 }
 
 void SessionImpl::send_request(const ReadHoldingRegistersRequest& request,
-                               const loopser::duration_t& timeout,
+                               const exe4cpp::duration_t& timeout,
                                ResponseHandler<ReadHoldingRegistersResponse> handler)
 {
     meta_send_request(request, timeout, handler);
@@ -63,7 +63,7 @@ void SessionImpl::send_request(const ReadInputRegistersRequest& request,
 }
 
 void SessionImpl::send_request(const ReadInputRegistersRequest& request,
-                               const loopser::duration_t& timeout,
+                               const exe4cpp::duration_t& timeout,
                                ResponseHandler<ReadInputRegistersResponse> handler)
 {
     meta_send_request(request, timeout, handler);
@@ -76,7 +76,7 @@ void SessionImpl::send_request(const WriteSingleRegisterRequest& request,
 }
 
 void SessionImpl::send_request(const WriteSingleRegisterRequest& request,
-                               const loopser::duration_t& timeout,
+                               const exe4cpp::duration_t& timeout,
                                ResponseHandler<WriteSingleRegisterResponse> handler)
 {
     meta_send_request(request, timeout, handler);
@@ -89,21 +89,21 @@ void SessionImpl::send_request(const WriteMultipleRegistersRequest& request,
 }
 
 void SessionImpl::send_request(const WriteMultipleRegistersRequest& request,
-                               const loopser::duration_t& timeout,
+                               const exe4cpp::duration_t& timeout,
                                ResponseHandler<WriteMultipleRegistersResponse> handler)
 {
     meta_send_request(request, timeout, handler);
 }
 
 std::shared_ptr<IScheduledRequest> SessionImpl::schedule_request(const ReadHoldingRegistersRequest& request,
-                                                                 const loopser::duration_t& frequency)
+                                                                 const exe4cpp::duration_t& frequency)
 {
     return schedule_request(request, m_default_timeout, frequency);
 }
 
 std::shared_ptr<IScheduledRequest> SessionImpl::schedule_request(const ReadHoldingRegistersRequest& request,
-                                                                 const loopser::duration_t& timeout,
-                                                                 const loopser::duration_t& frequency)
+                                                                 const exe4cpp::duration_t& timeout,
+                                                                 const exe4cpp::duration_t& frequency)
 {
     return meta_schedule_request<ReadHoldingRegistersRequest, ReadHoldingRegistersResponse>(request,
                                                                                             timeout,
@@ -111,36 +111,36 @@ std::shared_ptr<IScheduledRequest> SessionImpl::schedule_request(const ReadHoldi
 }
 
 std::shared_ptr<IScheduledRequest> SessionImpl::schedule_request(const ReadInputRegistersRequest& request,
-                                                                 const loopser::duration_t& frequency)
+                                                                 const exe4cpp::duration_t& frequency)
 {
     return schedule_request(request, m_default_timeout, frequency);
 }
 
 std::shared_ptr<IScheduledRequest> SessionImpl::schedule_request(const ReadInputRegistersRequest& request,
-                                                                 const loopser::duration_t& timeout,
-                                                                 const loopser::duration_t& frequency)
+                                                                 const exe4cpp::duration_t& timeout,
+                                                                 const exe4cpp::duration_t& frequency)
 {
     return meta_schedule_request<ReadInputRegistersRequest, ReadInputRegistersResponse>(request,
                                                                                         timeout,
                                                                                         frequency);
 }
 
-loopser::Timer SessionImpl::start(const loopser::duration_t& duration, const loopser::action_t& action)
+exe4cpp::Timer SessionImpl::start(const exe4cpp::duration_t& duration, const exe4cpp::action_t& action)
 {
     return this->m_executor->start(duration, action);
 }
 
-loopser::Timer SessionImpl::start(const loopser::steady_time_t& expiration, const loopser::action_t& action)
+exe4cpp::Timer SessionImpl::start(const exe4cpp::steady_time_t& expiration, const exe4cpp::action_t& action)
 {
     return this->m_executor->start(expiration, action);
 }
 
 template<typename TRequest, typename TResponse>
 void SessionImpl::meta_send_request(const TRequest& request,
-                                    const loopser::duration_t& timeout,
+                                    const exe4cpp::duration_t& timeout,
                                     ResponseHandler<TResponse> handler)
 {
-    m_channel->send_request(m_unit_identifier, request, timeout, [=, self = shared_from_this()](const Expected<loopser::rseq_t>& response)
+    m_channel->send_request(m_unit_identifier, request, timeout, [=, self = shared_from_this()](const Expected<ser4cpp::rseq_t>& response)
     {
         if(!response.is_valid())
         {
@@ -155,8 +155,8 @@ void SessionImpl::meta_send_request(const TRequest& request,
 
 template<typename TRequest, typename TResponse>
 std::shared_ptr<IScheduledRequest> SessionImpl::meta_schedule_request(const TRequest& request,
-                                                                      const loopser::duration_t& timeout,
-                                                                      const loopser::duration_t& frequency)
+                                                                      const exe4cpp::duration_t& timeout,
+                                                                      const exe4cpp::duration_t& frequency)
 {
     auto scheduled_request = std::make_shared<ScheduledRequest<TRequest, TResponse>>(shared_from_this(),
                                                                                      m_session_response_handler,

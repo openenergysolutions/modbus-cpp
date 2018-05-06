@@ -17,7 +17,7 @@ TEST_CASE("IResponse")
             0x03,       // Good function code
             0x42, 0x43 // Data
         }};
-        loopser::rseq_t buffer{good_function_code.data(), good_function_code.size()};
+        ser4cpp::rseq_t buffer{good_function_code.data(), good_function_code.size()};
 
         auto result = IResponseMock::parse_function_code(function_code, buffer);
 
@@ -27,7 +27,7 @@ TEST_CASE("IResponse")
 
     SECTION("When buffer is empty, then return malformed exception")
     {
-        auto data = loopser::rseq_t::empty();
+        auto data = ser4cpp::rseq_t::empty();
 
         auto result = IResponseMock::parse_function_code(function_code, data);
 
@@ -40,7 +40,7 @@ TEST_CASE("IResponse")
             0x01,       // Wrong function code
             0x00, 0x00 // Data
         }};
-        loopser::rseq_t buffer{wrong_function_code.data(), wrong_function_code.size()};
+        ser4cpp::rseq_t buffer{wrong_function_code.data(), wrong_function_code.size()};
 
         auto result = IResponseMock::parse_function_code(function_code, buffer);
 
@@ -53,7 +53,7 @@ TEST_CASE("IResponse")
             0x81,      // Wrong exception function code
             0x00, 0x00 // Data
         }};
-        loopser::rseq_t buffer{wrong_exception_function_code.data(), wrong_exception_function_code.size()};
+        ser4cpp::rseq_t buffer{wrong_exception_function_code.data(), wrong_exception_function_code.size()};
 
         auto result = IResponseMock::parse_function_code(function_code, buffer);
 
@@ -66,7 +66,7 @@ TEST_CASE("IResponse")
             0x83,      // Exception function code
             0x02, 0x03 // Data of invalid length
         }};
-        loopser::rseq_t buffer{exception_function_code_invalid_length.data(), exception_function_code_invalid_length.size()};
+        ser4cpp::rseq_t buffer{exception_function_code_invalid_length.data(), exception_function_code_invalid_length.size()};
 
         auto result = IResponseMock::parse_function_code(function_code, buffer);
 
@@ -78,7 +78,7 @@ TEST_CASE("IResponse")
         std::array<uint8_t, 1> exception_function_without_code{{
             0x83,      // Exception function code
         }};
-        loopser::rseq_t buffer{exception_function_without_code.data(), exception_function_without_code.size()};
+        ser4cpp::rseq_t buffer{exception_function_without_code.data(), exception_function_without_code.size()};
 
         auto result = IResponseMock::parse_function_code(function_code, buffer);
 
@@ -91,7 +91,7 @@ TEST_CASE("IResponse")
             0x83,      // Exception function code
             0x02       // Illegal data address
         }};
-        loopser::rseq_t buffer{exception_function_code.data(), exception_function_code.size()};
+        ser4cpp::rseq_t buffer{exception_function_code.data(), exception_function_code.size()};
 
         auto result = IResponseMock::parse_function_code(function_code, buffer);
 

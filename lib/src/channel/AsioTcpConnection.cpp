@@ -9,14 +9,13 @@ namespace modbus
 {
 
 AsioTcpConnection::AsioTcpConnection(std::shared_ptr<Logger> logger,
-                                     std::shared_ptr<asio::io_service> io_service,
-                                     asio::strand strand,
+                                     std::shared_ptr<exe4cpp::StrandExecutor> executor,
                                      const Ipv4Endpoint& endpoint)
         : m_logger{logger},
           m_ip_endpoint{endpoint},
-          m_strand{strand},
-          m_resolver{*io_service},
-          m_tcp_socket{*io_service},
+          m_executor{executor},
+          m_resolver{*executor->get_service()},
+          m_tcp_socket{*executor->get_service()},
           m_current_connection_status{ConnectionStatus::NotConnected}
 {
 
@@ -27,9 +26,9 @@ void AsioTcpConnection::set_listener(std::weak_ptr<IConnectionListener> listener
     m_connection_listener = listener;
 }
 
-void AsioTcpConnection::send(const loopser::rseq_t& data)
+void AsioTcpConnection::send(const ser4cpp::rseq_t& data)
 {
-    m_write_buffer = std::make_unique<loopser::Buffer>(data);
+    m_write_buffer = std::make_unique<ser4cpp::Buffer>(data);
 
     if(m_current_connection_status == ConnectionStatus::NotConnected)
     {
@@ -38,7 +37,7 @@ void AsioTcpConnection::send(const loopser::rseq_t& data)
         m_current_connection_status = ConnectionStatus::Connecting;
         asio::ip::tcp::resolver::query query{m_ip_endpoint.get_hostname(), std::to_string(m_ip_endpoint.get_port())};
         m_resolver.async_resolve(query,
-                                 m_strand.wrap(std::bind(&AsioTcpConnection::resolve_handler,
+                                 m_executor->wrap(std::bind(&AsioTcpConnection::resolve_handler,
                                                          std::dynamic_pointer_cast<AsioTcpConnection>(shared_from_this()),
                                                          _1, _2)));
     }
@@ -51,7 +50,7 @@ void AsioTcpConnection::send(const loopser::rseq_t& data)
 
 void AsioTcpConnection::close()
 {
-    m_strand.dispatch([=, self = shared_from_this()] () {
+    m_executor->post([=, self = shared_from_this()] () {
         m_current_connection_status = ConnectionStatus::NotConnected;
 
         if(m_tcp_socket.is_open())
@@ -77,7 +76,7 @@ void AsioTcpConnection::resolve_handler(const asio::error_code& ec, asio::ip::tc
 
     asio::async_connect(m_tcp_socket,
                         endpoints,
-                        m_strand.wrap(std::bind(&AsioTcpConnection::connect_handler,
+                        m_executor->wrap(std::bind(&AsioTcpConnection::connect_handler,
                                                 std::dynamic_pointer_cast<AsioTcpConnection>(shared_from_this()),
                                                 _1)));
 }
@@ -114,7 +113,7 @@ void AsioTcpConnection::read_handler(const asio::error_code& ec, std::size_t byt
     auto connection_listener = m_connection_listener.lock();
     if(connection_listener)
     {
-        connection_listener->on_receive(loopser::rseq_t{m_read_buffer.data(), (unsigned int) bytes_transferred});
+        connection_listener->on_receive(ser4cpp::rseq_t{m_read_buffer.data(), (unsigned int) bytes_transferred});
     }
 
     begin_read();
@@ -144,7 +143,7 @@ void AsioTcpConnection::write_handler(const std::error_code& ec, std::size_t byt
 void AsioTcpConnection::begin_read()
 {
     m_tcp_socket.async_read_some(asio::buffer(m_read_buffer, m_read_buffer.size()),
-                                 m_strand.wrap(std::bind(&AsioTcpConnection::read_handler,
+                                 m_executor->wrap(std::bind(&AsioTcpConnection::read_handler,
                                                          std::dynamic_pointer_cast<AsioTcpConnection>(shared_from_this()),
                                                          _1, _2)));
 }
@@ -154,7 +153,7 @@ void AsioTcpConnection::send_buffer()
     if(m_write_buffer)
     {
         m_tcp_socket.async_send(asio::buffer(m_write_buffer->as_rslice(), m_write_buffer->length()),
-                                m_strand.wrap(std::bind(&AsioTcpConnection::write_handler,
+                                m_executor->wrap(std::bind(&AsioTcpConnection::write_handler,
                                                         std::dynamic_pointer_cast<AsioTcpConnection>(shared_from_this()),
                                                         _1, _2)));
     }

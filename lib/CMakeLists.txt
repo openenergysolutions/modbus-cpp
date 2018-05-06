@@ -89,7 +89,7 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${modbus_public_headers} ${m
 add_library(modbus-cpp ${modbus_public_headers} ${modbus_private_headers} ${modbus_src})
 target_compile_features(modbus-cpp PRIVATE cxx_std_14)
 target_link_libraries(modbus-cpp
-    PUBLIC loopser
+    PUBLIC ser4cpp exe4cpp
     PRIVATE asio spdlog
 )
 target_include_directories(modbus-cpp

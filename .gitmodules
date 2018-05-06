@@ -4,9 +4,12 @@
 [submodule "deps/catch2/catch2"]
 	path = deps/catch2/catch2
 	url = https://github.com/catchorg/Catch2
-[submodule "deps/openpal"]
-	path = deps/openpal
-	url = https://github.com/automatak/openpal
 [submodule "deps/spdlog/spdlog"]
 	path = deps/spdlog/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "deps/exe4cpp"]
+	path = deps/exe4cpp
+	url = https://github.com/automatak/exe4cpp.git
+[submodule "deps/ser4cpp"]
+	path = deps/ser4cpp
+	url = https://github.com/automatak/ser4cpp.git

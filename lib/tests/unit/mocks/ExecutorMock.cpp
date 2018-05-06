@@ -10,36 +10,36 @@ ExecutorMock::ExecutorMock()
 
 }
 
-loopser::Timer ExecutorMock::start(const loopser::duration_t& duration, const loopser::action_t& action)
+exe4cpp::Timer ExecutorMock::start(const exe4cpp::duration_t& duration, const exe4cpp::action_t& action)
 {
     return start(m_current_time + duration, action);
 }
 
-loopser::Timer ExecutorMock::start(const loopser::steady_time_t& expiration, const loopser::action_t& action)
+exe4cpp::Timer ExecutorMock::start(const exe4cpp::steady_time_t& expiration, const exe4cpp::action_t& action)
 {
     auto timer = std::make_shared<TimerMock>(expiration, action);
     m_active_timers.push(timer);
 
-    return loopser::Timer{timer};
+    return exe4cpp::Timer{timer};
 }
 
-void ExecutorMock::post(const loopser::action_t& action)
+void ExecutorMock::post(const exe4cpp::action_t& action)
 {
     ++m_num_post_calls;
     action();
 }
 
-loopser::steady_time_t ExecutorMock::get_time()
+exe4cpp::steady_time_t ExecutorMock::get_time()
 {
     return m_current_time;
 }
 
-void ExecutorMock::advance_time(const loopser::duration_t& duration)
+void ExecutorMock::advance_time(const exe4cpp::duration_t& duration)
 {
     set_time(m_current_time + duration);
 }
 
-void ExecutorMock::set_time(const loopser::steady_time_t& time)
+void ExecutorMock::set_time(const exe4cpp::steady_time_t& time)
 {
     m_current_time = time;
 

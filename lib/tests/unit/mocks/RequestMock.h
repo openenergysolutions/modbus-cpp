@@ -11,7 +11,7 @@ public:
     std::unique_ptr<modbus::IRequest> clone() const override;
 
     size_t get_request_length() const override;
-    void build_request(loopser::wseq_t& buffer) const override;
+    void build_request(ser4cpp::wseq_t& buffer) const override;
 
 private:
     std::size_t m_length;

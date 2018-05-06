@@ -1,6 +1,6 @@
 #include "modbus/messages/WriteMultipleRegistersRequest.h"
 
-#include "loopser/serialization/BigEndian.h"
+#include "ser4cpp/serialization/BigEndian.h"
 
 namespace modbus
 {
@@ -21,17 +21,17 @@ size_t WriteMultipleRegistersRequest::get_request_length() const
     return 6 + 2 * m_values.size();
 }
 
-void WriteMultipleRegistersRequest::build_request(loopser::wseq_t& buffer) const
+void WriteMultipleRegistersRequest::build_request(ser4cpp::wseq_t& buffer) const
 {
-    loopser::UInt8::write_to(buffer, 0x10); // Function code
-    loopser::UInt16::write_to(buffer, m_starting_address); // Starting address
-    loopser::UInt16::write_to(buffer, m_values.size()); // Qty of registers
-    loopser::UInt8::write_to(buffer, 2 * m_values.size()); // Byte count
+    ser4cpp::UInt8::write_to(buffer, 0x10); // Function code
+    ser4cpp::UInt16::write_to(buffer, m_starting_address); // Starting address
+    ser4cpp::UInt16::write_to(buffer, m_values.size()); // Qty of registers
+    ser4cpp::UInt8::write_to(buffer, 2 * m_values.size()); // Byte count
 
     // Register values
     for(auto value : m_values)
     {
-        loopser::UInt16::write_to(buffer, value);
+        ser4cpp::UInt16::write_to(buffer, value);
     }
 }
 

@@ -14,7 +14,7 @@ class WriteSingleRegisterResponse : public IResponse
 {
 public:
     static Expected<WriteSingleRegisterResponse> parse(const WriteSingleRegisterRequest& req,
-                                                       const loopser::rseq_t& data);
+                                                       const ser4cpp::rseq_t& data);
 
 public:
     WriteSingleRegisterResponse(const RegisterValue& value);

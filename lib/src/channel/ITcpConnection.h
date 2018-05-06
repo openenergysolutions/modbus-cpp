@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "loopser/container/SequenceTypes.h"
+#include "ser4cpp/container/SequenceTypes.h"
 
 namespace modbus
 {
@@ -17,7 +17,7 @@ public:
     virtual ~ITcpConnection() = default;
 
     virtual void set_listener(std::weak_ptr<IConnectionListener> listener) = 0;
-    virtual void send(const loopser::rseq_t& data) = 0;
+    virtual void send(const ser4cpp::rseq_t& data) = 0;
     virtual void close() = 0;
 };
 

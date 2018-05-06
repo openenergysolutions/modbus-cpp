@@ -3,8 +3,8 @@
 
 #include <memory>
 
-#include "loopser/executor/Typedefs.h"
-#include "loopser/executor/Timer.h"
+#include "exe4cpp/Typedefs.h"
+#include "exe4cpp/Timer.h"
 
 #include "modbus/ResponseHandler.h"
 #include "modbus/messages/ReadHoldingRegistersRequest.h"
@@ -32,47 +32,47 @@ public:
     virtual void send_request(const ReadHoldingRegistersRequest& request,
                               ResponseHandler<ReadHoldingRegistersResponse> handler) = 0;
     virtual void send_request(const ReadHoldingRegistersRequest& request,
-                              const loopser::duration_t& timeout,
+                              const exe4cpp::duration_t& timeout,
                               ResponseHandler<ReadHoldingRegistersResponse> handler) = 0;
 
     virtual void send_request(const ReadInputRegistersRequest& request,
                               ResponseHandler<ReadInputRegistersResponse> handler) = 0;
     virtual void send_request(const ReadInputRegistersRequest& request,
-                              const loopser::duration_t& timeout,
+                              const exe4cpp::duration_t& timeout,
                               ResponseHandler<ReadInputRegistersResponse> handler) = 0;
 
     virtual void send_request(const WriteSingleRegisterRequest& request,
                               ResponseHandler<WriteSingleRegisterResponse> handler) = 0;
     virtual void send_request(const WriteSingleRegisterRequest& request,
-                              const loopser::duration_t& timeout,
+                              const exe4cpp::duration_t& timeout,
                               ResponseHandler<WriteSingleRegisterResponse> handler) = 0;
 
     virtual void send_request(const WriteMultipleRegistersRequest& request,
                               ResponseHandler<WriteMultipleRegistersResponse> handler) = 0;
     virtual void send_request(const WriteMultipleRegistersRequest& request,
-                              const loopser::duration_t& timeout,
+                              const exe4cpp::duration_t& timeout,
                               ResponseHandler<WriteMultipleRegistersResponse> handler) = 0;
 
     // Scheduled requests
     virtual std::shared_ptr<IScheduledRequest> schedule_request(const ReadHoldingRegistersRequest& request,
-                                                                const loopser::duration_t& frequency) = 0;
+                                                                const exe4cpp::duration_t& frequency) = 0;
     virtual std::shared_ptr<IScheduledRequest> schedule_request(const ReadHoldingRegistersRequest& request,
-                                                                const loopser::duration_t& timeout,
-                                                                const loopser::duration_t& frequency) = 0;
+                                                                const exe4cpp::duration_t& timeout,
+                                                                const exe4cpp::duration_t& frequency) = 0;
 
     virtual std::shared_ptr<IScheduledRequest> schedule_request(const ReadInputRegistersRequest& request,
-                                                                const loopser::duration_t& frequency) = 0;
+                                                                const exe4cpp::duration_t& frequency) = 0;
     virtual std::shared_ptr<IScheduledRequest> schedule_request(const ReadInputRegistersRequest& request,
-                                                                const loopser::duration_t& timeout,
-                                                                const loopser::duration_t& frequency) = 0;
+                                                                const exe4cpp::duration_t& timeout,
+                                                                const exe4cpp::duration_t& frequency) = 0;
 
     // ---- provide access to the underlying timer implementation so that users can perform asynchronous timers -----
 
     /// @return start a new timer based on a relative time duration
-    virtual loopser::Timer start(const loopser::duration_t& duration, const loopser::action_t& action) = 0;
+    virtual exe4cpp::Timer start(const exe4cpp::duration_t& duration, const exe4cpp::action_t& action) = 0;
 
     /// @return start a new timer based on an absolute timestamp of the steady clock
-    virtual loopser::Timer start(const loopser::steady_time_t& expiration, const loopser::action_t& action) = 0;
+    virtual exe4cpp::Timer start(const exe4cpp::steady_time_t& expiration, const exe4cpp::action_t& action) = 0;
 };
 
 } // namespace modbus

@@ -13,7 +13,7 @@ class WriteMultipleRegistersResponse : public IResponse
 {
 public:
     static Expected<WriteMultipleRegistersResponse> parse(const WriteMultipleRegistersRequest& req,
-                                                          const loopser::rseq_t& data);
+                                                          const ser4cpp::rseq_t& data);
 
 public:
     WriteMultipleRegistersResponse(Address starting_address, uint16_t qty_of_registers);
