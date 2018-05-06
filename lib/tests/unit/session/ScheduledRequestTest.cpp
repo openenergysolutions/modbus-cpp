@@ -1,10 +1,10 @@
 #include "catch.hpp"
 
+#include "exe4cpp/MockExecutor.h"
 #include "modbus/Expected.h"
 #include "modbus/exceptions/ModbusException.h"
 #include "modbus/messages/ReadHoldingRegistersRequest.h"
 #include "modbus/messages/ReadHoldingRegistersResponse.h"
-#include "mocks/ExecutorMock.h"
 #include "mocks/ISessionMock.h"
 #include "mocks/ISessionResponseHandlerMock.h"
 #include "session/ScheduledRequest.h"
@@ -15,7 +15,7 @@ TEST_CASE("ScheduledRequest")
 {
     auto session = std::make_shared<ISessionMock>();
     auto session_response_handler = std::make_shared<ISessionResponseHandlerMock>();
-    auto executor = std::make_shared<ExecutorMock>();
+    auto executor = std::make_shared<exe4cpp::MockExecutor>();
     auto request = ReadHoldingRegistersRequest{Address{1}, 0x42};
     auto timeout = std::chrono::seconds(5);
     auto frequency = std::chrono::seconds(2);
@@ -29,6 +29,7 @@ TEST_CASE("ScheduledRequest")
     SECTION("When start, then send request.")
     {
         scheduled_req->start();
+        executor->run_one();
         REQUIRE(scheduled_req->is_running() == true);
         REQUIRE(session->get_num_read_holding_registers_request_sent() == 1);
         auto handler = session->get_last_read_holding_registers_request_handler();
@@ -36,6 +37,7 @@ TEST_CASE("ScheduledRequest")
         SECTION("Don't re-send request until previous response was received or timed-out.")
         {
             executor->advance_time(frequency);
+            executor->run_one();
 
             REQUIRE(session->get_num_read_holding_registers_request_sent() == 1);
         }
@@ -65,6 +67,7 @@ TEST_CASE("ScheduledRequest")
         {
             handler(Expected<ReadHoldingRegistersResponse>{ReadHoldingRegistersResponse{}});
             executor->advance_time(frequency);
+            executor->run_one();
 
             REQUIRE(session->get_num_read_holding_registers_request_sent() == 2);
         }
@@ -73,10 +76,12 @@ TEST_CASE("ScheduledRequest")
         {
             auto new_frequency = std::chrono::seconds(1);
             scheduled_req->set_frequency(new_frequency);
+            executor->run_one();
 
             handler(Expected<ReadHoldingRegistersResponse>{ReadHoldingRegistersResponse{}});
 
             executor->advance_time(new_frequency);
+            executor->run_one();
             REQUIRE(session->get_num_read_holding_registers_request_sent() == 2);
         }
 
@@ -84,6 +89,7 @@ TEST_CASE("ScheduledRequest")
         {
             scheduled_req->stop();
             executor->advance_time(frequency);
+            executor->run_one();
 
             REQUIRE(scheduled_req->is_running() == false);
             REQUIRE(session->get_num_read_holding_registers_request_sent() == 1);
@@ -92,6 +98,7 @@ TEST_CASE("ScheduledRequest")
             {
                 scheduled_req->stop();
                 executor->advance_time(frequency);
+                executor->run_one();
 
                 REQUIRE(scheduled_req->is_running() == false);
                 REQUIRE(session->get_num_read_holding_registers_request_sent() == 1);
@@ -101,6 +108,7 @@ TEST_CASE("ScheduledRequest")
             {
                 handler(Expected<ReadHoldingRegistersResponse>{ReadHoldingRegistersResponse{}});
                 executor->advance_time(frequency);
+                executor->run_one();
 
                 REQUIRE(session->get_num_read_holding_registers_request_sent() == 1);
             }
@@ -108,6 +116,7 @@ TEST_CASE("ScheduledRequest")
             SECTION("When start called, then restart sending requests.")
             {
                 scheduled_req->start();
+                executor->run_one();
 
                 REQUIRE(scheduled_req->is_running() == true);
                 REQUIRE(session->get_num_read_holding_registers_request_sent() == 2);
