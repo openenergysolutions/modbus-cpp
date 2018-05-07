@@ -3,8 +3,8 @@
 
 #include "ser4cpp/container/SequenceTypes.h"
 #include "modbus/channel/UnitIdentifier.h"
-#include "modbus/messages/IRequest.h"
 #include "channel/TransactionIdentifier.h"
+#include "messages/IRequest.h"
 
 namespace modbus
 {

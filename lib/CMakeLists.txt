@@ -19,14 +19,10 @@ set(modbus_public_headers
 
     ./include/modbus/messages/Address.h
     ./include/modbus/messages/ExceptionType.h
-    ./include/modbus/messages/IRequest.h
-    ./include/modbus/messages/IResponse.h
     ./include/modbus/messages/ReadHoldingRegistersRequest.h
     ./include/modbus/messages/ReadHoldingRegistersResponse.h
     ./include/modbus/messages/ReadInputRegistersRequest.h
     ./include/modbus/messages/ReadInputRegistersResponse.h
-    ./include/modbus/messages/ReadRegistersRequest.h
-    ./include/modbus/messages/ReadRegistersResponse.h
     ./include/modbus/messages/RegisterValue.h
     ./include/modbus/messages/WriteMultipleRegistersRequest.h
     ./include/modbus/messages/WriteMultipleRegistersResponse.h
@@ -43,6 +39,7 @@ set(modbus_private_headers
 
     ./src/channel/AsioTcpConnection.h
     ./src/channel/ChannelTcp.h
+    ./src/channel/IChannelImpl.h
     ./src/channel/IConnectionListener.h
     ./src/channel/IMbapSink.h
     ./src/channel/ITcpConnection.h
@@ -52,6 +49,19 @@ set(modbus_private_headers
     ./src/channel/TransactionIdentifier.h
 
     ./src/logging/Logger.h
+
+    ./src/messages/IRequest.h
+    ./src/messages/IResponse.h
+    ./src/messages/ReadHoldingRegistersRequestImpl.h
+    ./src/messages/ReadHoldingRegistersResponseImpl.h
+    ./src/messages/ReadInputRegistersRequestImpl.h
+    ./src/messages/ReadInputRegistersResponseImpl.h
+    ./src/messages/ReadRegistersRequestImpl.h
+    ./src/messages/ReadRegistersResponseImpl.h
+    ./src/messages/WriteMultipleRegistersRequestImpl.h
+    ./src/messages/WriteMultipleRegistersResponseImpl.h
+    ./src/messages/WriteSingleRegisterRequestImpl.h
+    ./src/messages/WriteSingleRegisterResponseImpl.h
 
     ./src/session/ScheduledRequest.h
     ./src/session/SessionImpl.h
@@ -73,12 +83,12 @@ set(modbus_src
 
     ./src/messages/ExceptionType.cpp
     ./src/messages/IResponse.cpp
-    ./src/messages/ReadRegistersRequest.cpp
-    ./src/messages/ReadRegistersResponse.cpp
-    ./src/messages/WriteMultipleRegistersRequest.cpp
-    ./src/messages/WriteMultipleRegistersResponse.cpp
-    ./src/messages/WriteSingleRegisterRequest.cpp
-    ./src/messages/WriteSingleRegisterResponse.cpp
+    ./src/messages/ReadRegistersRequestImpl.cpp
+    ./src/messages/ReadRegistersResponseImpl.cpp
+    ./src/messages/WriteMultipleRegistersRequestImpl.cpp
+    ./src/messages/WriteMultipleRegistersResponseImpl.cpp
+    ./src/messages/WriteSingleRegisterRequestImpl.cpp
+    ./src/messages/WriteSingleRegisterResponseImpl.cpp
 
     ./src/session/ScheduledRequest.hpp
     ./src/session/SessionImpl.cpp
@@ -89,8 +99,8 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${modbus_public_headers} ${m
 add_library(modbus-cpp ${modbus_public_headers} ${modbus_private_headers} ${modbus_src})
 target_compile_features(modbus-cpp PRIVATE cxx_std_14)
 target_link_libraries(modbus-cpp
-    PUBLIC ser4cpp exe4cpp
-    PRIVATE asio spdlog
+    PUBLIC exe4cpp
+    PRIVATE asio spdlog ser4cpp
 )
 target_include_directories(modbus-cpp
     PUBLIC ./include

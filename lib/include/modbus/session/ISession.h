@@ -11,15 +11,15 @@
 #include "modbus/messages/ReadHoldingRegistersResponse.h"
 #include "modbus/messages/ReadInputRegistersRequest.h"
 #include "modbus/messages/ReadInputRegistersResponse.h"
+#include "modbus/messages/WriteSingleRegisterRequest.h"
+#include "modbus/messages/WriteSingleRegisterResponse.h"
+#include "modbus/messages/WriteMultipleRegistersRequest.h"
+#include "modbus/messages/WriteMultipleRegistersResponse.h"
 
 namespace modbus
 {
 
 class IScheduledRequest;
-class WriteSingleRegisterRequest;
-class WriteSingleRegisterResponse;
-class WriteMultipleRegistersRequest;
-class WriteMultipleRegistersResponse;
 
 class ISession : public std::enable_shared_from_this<ISession>
 {

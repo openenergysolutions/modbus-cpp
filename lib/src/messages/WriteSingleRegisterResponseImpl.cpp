@@ -1,4 +1,4 @@
-#include "modbus/messages/WriteSingleRegisterResponse.h"
+#include "messages/WriteSingleRegisterResponseImpl.h"
 
 #include "ser4cpp/serialization/BigEndian.h"
 #include "modbus/exceptions/MalformedModbusResponseException.h"
@@ -6,8 +6,8 @@
 namespace modbus
 {
 
-Expected<WriteSingleRegisterResponse> WriteSingleRegisterResponse::parse(const WriteSingleRegisterRequest& req,
-                                                                         const ser4cpp::rseq_t& data)
+Expected<WriteSingleRegisterResponse> WriteSingleRegisterResponseImpl::parse(const WriteSingleRegisterRequestImpl& req,
+                                                                             const ser4cpp::rseq_t& data)
 {
     auto view = data;
 
@@ -35,17 +35,6 @@ Expected<WriteSingleRegisterResponse> WriteSingleRegisterResponse::parse(const W
     // Return result
     WriteSingleRegisterResponse response{RegisterValue{address, value}};
     return Expected<WriteSingleRegisterResponse>(response);
-}
-
-WriteSingleRegisterResponse::WriteSingleRegisterResponse(const RegisterValue& value)
-        : m_value{value}
-{
-
-}
-
-RegisterValue WriteSingleRegisterResponse::get_value() const
-{
-    return m_value;
 }
 
 } // namespace modbus

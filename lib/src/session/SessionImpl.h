@@ -13,7 +13,7 @@ namespace modbus
 {
 
 class Logger;
-class IChannel;
+class IChannelImpl;
 class ISessionResponseHandler;
 class UnitIdentifier;
 
@@ -22,7 +22,7 @@ class SessionImpl final : public ISession
 public:
     SessionImpl(std::shared_ptr<exe4cpp::IExecutor> executor,
                 std::shared_ptr<Logger> logger,
-                std::shared_ptr<IChannel> channel,
+                std::shared_ptr<IChannelImpl> channel,
                 const UnitIdentifier& unit_identifier,
                 const exe4cpp::duration_t& default_timeout,
                 std::shared_ptr<ISessionResponseHandler> session_response_handler);
@@ -74,7 +74,7 @@ public:
     exe4cpp::Timer start(const exe4cpp::steady_time_t& expiration, const exe4cpp::action_t& action) override;
 
 private:
-    template<typename TRequest, typename TResponse>
+    template<typename TRequestImpl, typename TResponseImpl, typename TRequest, typename TResponse>
     void meta_send_request(const TRequest& request,
                            const exe4cpp::duration_t& timeout,
                            ResponseHandler<TResponse> handler);
@@ -86,7 +86,7 @@ private:
 
     std::shared_ptr<exe4cpp::IExecutor> m_executor;
     std::shared_ptr<Logger> m_logger;
-    std::shared_ptr<IChannel> m_channel;
+    std::shared_ptr<IChannelImpl> m_channel;
     UnitIdentifier m_unit_identifier;
     exe4cpp::duration_t m_default_timeout;
     std::shared_ptr<ISessionResponseHandler> m_session_response_handler;

@@ -34,7 +34,7 @@ std::shared_ptr<ISession> ChannelTcp::create_session(const UnitIdentifier& unit_
     {
         session = std::make_shared<SessionImpl>(m_executor,
                                                 m_logger->clone("session"),
-                                                shared_from_this(),
+                                                std::dynamic_pointer_cast<IChannelImpl>(shared_from_this()),
                                                 unit_identifier,
                                                 default_timeout,
                                                 session_response_handler);

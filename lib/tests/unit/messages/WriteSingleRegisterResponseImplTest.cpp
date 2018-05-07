@@ -3,7 +3,7 @@
 #include <array>
 #include "modbus/exceptions/MalformedModbusResponseException.h"
 #include "modbus/exceptions/ModbusException.h"
-#include "modbus/messages/WriteSingleRegisterResponse.h"
+#include "messages/WriteSingleRegisterResponseImpl.h"
 
 using namespace modbus;
 
@@ -12,6 +12,7 @@ TEST_CASE("WriteSingleRegisterResponse")
     const uint16_t address = 0x1234;
     const uint16_t value = 0x6789;
     WriteSingleRegisterRequest request{address, value};
+    WriteSingleRegisterRequestImpl request_impl{request};
 
     SECTION("When proper response, then parse it properly")
     {
@@ -22,12 +23,12 @@ TEST_CASE("WriteSingleRegisterResponse")
         }};
         ser4cpp::rseq_t buffer{proper_response.data(), proper_response.size()};
 
-        auto result = WriteSingleRegisterResponse::parse(request, buffer);
+        auto result = WriteSingleRegisterResponseImpl::parse(request, buffer);
 
         REQUIRE(result.is_valid() == true);
         auto response = result.get();
-        REQUIRE(response.get_value().address == address);
-        REQUIRE(response.get_value().value == value);
+        REQUIRE(response.value.address == address);
+        REQUIRE(response.value.value == value);
     }
 
     SECTION("When exception response, then parse report exception")
@@ -38,7 +39,7 @@ TEST_CASE("WriteSingleRegisterResponse")
         }};
         ser4cpp::rseq_t buffer{exception_response.data(), exception_response.size()};
 
-        auto result = WriteSingleRegisterResponse::parse(request, buffer);
+        auto result = WriteSingleRegisterResponseImpl::parse(request, buffer);
 
         REQUIRE(result.has_exception<ModbusException>() == true);
         REQUIRE(result.get_exception<ModbusException>().get_exception_type() == ExceptionType::IllegalDataAddress);
@@ -51,7 +52,7 @@ TEST_CASE("WriteSingleRegisterResponse")
         }};
         ser4cpp::rseq_t buffer{ too_small_response.data(), too_small_response.size() };
 
-        auto result = WriteSingleRegisterResponse::parse(request, buffer);
+        auto result = WriteSingleRegisterResponseImpl::parse(request, buffer);
 
         REQUIRE(result.has_exception<MalformedModbusResponseException>() == true);
     }
@@ -66,7 +67,7 @@ TEST_CASE("WriteSingleRegisterResponse")
         }};
         ser4cpp::rseq_t buffer{ too_big_response.data(), too_big_response.size() };
 
-        auto result = WriteSingleRegisterResponse::parse(request, buffer);
+        auto result = WriteSingleRegisterResponseImpl::parse(request, buffer);
 
         REQUIRE(result.has_exception<MalformedModbusResponseException>() == true);
     }

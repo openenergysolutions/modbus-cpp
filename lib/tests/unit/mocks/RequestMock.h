@@ -1,7 +1,7 @@
 #ifndef MODBUS_REQUESTMOCK_H
 #define MODBUS_REQUESTMOCK_H
 
-#include "modbus/messages/IRequest.h"
+#include "messages/IRequest.h"
 
 class RequestMock : public modbus::IRequest
 {

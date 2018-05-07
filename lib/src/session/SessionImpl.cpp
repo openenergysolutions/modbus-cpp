@@ -1,15 +1,15 @@
 #include "session/SessionImpl.h"
 
-#include "modbus/channel/IChannel.h"
-#include "modbus/messages/ReadHoldingRegistersRequest.h"
-#include "modbus/messages/ReadHoldingRegistersResponse.h"
-#include "modbus/messages/ReadInputRegistersRequest.h"
-#include "modbus/messages/ReadInputRegistersResponse.h"
-#include "modbus/messages/WriteMultipleRegistersRequest.h"
-#include "modbus/messages/WriteMultipleRegistersResponse.h"
-#include "modbus/messages/WriteSingleRegisterRequest.h"
-#include "modbus/messages/WriteSingleRegisterResponse.h"
+#include "messages/ReadHoldingRegistersRequestImpl.h"
+#include "messages/ReadHoldingRegistersResponseImpl.h"
+#include "messages/ReadInputRegistersRequestImpl.h"
+#include "messages/ReadInputRegistersResponseImpl.h"
+#include "messages/WriteMultipleRegistersRequestImpl.h"
+#include "messages/WriteMultipleRegistersResponseImpl.h"
+#include "messages/WriteSingleRegisterRequestImpl.h"
+#include "messages/WriteSingleRegisterResponseImpl.h"
 #include "modbus/session/ISessionResponseHandler.h"
+#include "channel/IChannelImpl.h"
 #include "session/ScheduledRequest.h"
 
 namespace modbus
@@ -17,7 +17,7 @@ namespace modbus
 
 SessionImpl::SessionImpl(std::shared_ptr<exe4cpp::IExecutor> executor,
                          std::shared_ptr<Logger> logger,
-                         std::shared_ptr<IChannel> channel,
+                         std::shared_ptr<IChannelImpl> channel,
                          const UnitIdentifier& unit_identifier,
                          const exe4cpp::duration_t& default_timeout,
                          std::shared_ptr<ISessionResponseHandler> session_response_handler)
@@ -53,7 +53,7 @@ void SessionImpl::send_request(const ReadHoldingRegistersRequest& request,
                                const exe4cpp::duration_t& timeout,
                                ResponseHandler<ReadHoldingRegistersResponse> handler)
 {
-    meta_send_request(request, timeout, handler);
+    meta_send_request<ReadHoldingRegistersRequestImpl, ReadHoldingRegistersResponseImpl>(request, timeout, handler);
 }
 
 void SessionImpl::send_request(const ReadInputRegistersRequest& request,
@@ -66,7 +66,7 @@ void SessionImpl::send_request(const ReadInputRegistersRequest& request,
                                const exe4cpp::duration_t& timeout,
                                ResponseHandler<ReadInputRegistersResponse> handler)
 {
-    meta_send_request(request, timeout, handler);
+    meta_send_request<ReadInputRegistersRequestImpl, ReadInputRegistersResponseImpl>(request, timeout, handler);
 }
 
 void SessionImpl::send_request(const WriteSingleRegisterRequest& request,
@@ -79,7 +79,7 @@ void SessionImpl::send_request(const WriteSingleRegisterRequest& request,
                                const exe4cpp::duration_t& timeout,
                                ResponseHandler<WriteSingleRegisterResponse> handler)
 {
-    meta_send_request(request, timeout, handler);
+    meta_send_request<WriteSingleRegisterRequestImpl, WriteSingleRegisterResponseImpl>(request, timeout, handler);
 }
 
 void SessionImpl::send_request(const WriteMultipleRegistersRequest& request,
@@ -92,7 +92,7 @@ void SessionImpl::send_request(const WriteMultipleRegistersRequest& request,
                                const exe4cpp::duration_t& timeout,
                                ResponseHandler<WriteMultipleRegistersResponse> handler)
 {
-    meta_send_request(request, timeout, handler);
+    meta_send_request<WriteMultipleRegistersRequestImpl, WriteMultipleRegistersResponseImpl>(request, timeout, handler);
 }
 
 std::shared_ptr<IScheduledRequest> SessionImpl::schedule_request(const ReadHoldingRegistersRequest& request,
@@ -135,12 +135,13 @@ exe4cpp::Timer SessionImpl::start(const exe4cpp::steady_time_t& expiration, cons
     return this->m_executor->start(expiration, action);
 }
 
-template<typename TRequest, typename TResponse>
+template<typename TRequestImpl, typename TResponseImpl, typename TRequest, typename TResponse>
 void SessionImpl::meta_send_request(const TRequest& request,
                                     const exe4cpp::duration_t& timeout,
                                     ResponseHandler<TResponse> handler)
 {
-    m_channel->send_request(m_unit_identifier, request, timeout, [=, self = shared_from_this()](const Expected<ser4cpp::rseq_t>& response)
+    TRequestImpl request_impl{request};
+    m_channel->send_request(m_unit_identifier, request_impl, timeout, [=, self = shared_from_this()](const Expected<ser4cpp::rseq_t>& response)
     {
         if(!response.is_valid())
         {
@@ -148,7 +149,7 @@ void SessionImpl::meta_send_request(const TRequest& request,
         }
         else
         {
-            handler(TResponse::parse(request, response.get()));
+            handler(TResponseImpl::parse(request, response.get()));
         }
     });
 }

@@ -25,7 +25,7 @@ public:
     void on_response(const ReadHoldingRegistersResponse& response) override
     {
         // A scheduled response was received
-        for(auto& value : response.get_values())
+        for(auto& value : response.values)
         {
             std::cout << value.address << ": " << value.value <<  std::endl;
         }
@@ -92,7 +92,7 @@ int main(int argc, char* argv[])
                         }
 
                         // Otherwise, everything went good and the response is available
-                        for (auto& value : response.get().get_values())
+                        for (auto& value : response.get().values)
                         {
                             std::cout << value.address << ": " << value.value << std::endl;
                         }
@@ -101,10 +101,7 @@ int main(int argc, char* argv[])
                 }
                 case 'w':
                 {
-                    WriteMultipleRegistersRequest req{ 0x0024 };
-                    req.add_register(11);
-                    req.add_register(22);
-                    req.add_register(33);
+                    WriteMultipleRegistersRequest req{ 0x0024, {11, 22, 33} };
 
                     session->send_request(req, [](const Expected<WriteMultipleRegistersResponse>& response) {
                         if (!response.is_valid())
@@ -113,7 +110,7 @@ int main(int argc, char* argv[])
                             return;
                         }
 
-                        std::cout << "Write result= " << response.get().get_starting_address() << ": " << response.get().get_qty_of_registers() << std::endl;
+                        std::cout << "Write result= " << response.get().starting_address << ": " << response.get().qty_of_registers << std::endl;
                     });
                     break;
                 }

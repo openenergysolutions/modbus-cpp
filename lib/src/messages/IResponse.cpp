@@ -1,4 +1,4 @@
-#include "modbus/messages/IResponse.h"
+#include "messages/IResponse.h"
 
 #include "ser4cpp/serialization/BigEndian.h"
 #include "modbus/exceptions/MalformedModbusResponseException.h"

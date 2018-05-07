@@ -1,25 +1,25 @@
 #ifndef MODBUS_CHANNELTCP_H
 #define MODBUS_CHANNELTCP_H
 
-#include "modbus/channel/IChannel.h"
+#include "channel/IChannelImpl.h"
 
 #include <deque>
 #include <memory>
 #include "ser4cpp/container/Buffer.h"
 #include "exe4cpp/IExecutor.h"
-#include "modbus/messages/IRequest.h"
 #include "channel/IConnectionListener.h"
 #include "channel/IMbapSink.h"
 #include "channel/MbapParser.h"
 #include "channel/PendingRequest.h"
 #include "logging/Logger.h"
+#include "messages/IRequest.h"
 
 namespace modbus
 {
 
 class ITcpConnection;
 
-class ChannelTcp : public IChannel, public IConnectionListener, public IMbapSink
+class ChannelTcp : public IChannelImpl, public IConnectionListener, public IMbapSink
 {
 public:
     ChannelTcp(std::shared_ptr<exe4cpp::IExecutor> executor,

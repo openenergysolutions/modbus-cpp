@@ -1,7 +1,7 @@
 #ifndef MODBUS_IRESPONSEMOCK_H
 #define MODBUS_IRESPONSEMOCK_H
 
-#include "modbus/messages/IResponse.h"
+#include "messages/IResponse.h"
 
 class IResponseMock : public modbus::IResponse
 {

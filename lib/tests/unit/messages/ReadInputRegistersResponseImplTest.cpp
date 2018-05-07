@@ -3,16 +3,17 @@
 #include <array>
 #include "modbus/exceptions/MalformedModbusResponseException.h"
 #include "modbus/exceptions/ModbusException.h"
-#include "modbus/messages/ReadInputRegistersRequest.h"
-#include "modbus/messages/ReadInputRegistersResponse.h"
+#include "messages/ReadInputRegistersRequestImpl.h"
+#include "messages/ReadInputRegistersResponseImpl.h"
 
 using namespace modbus;
 
-TEST_CASE("ReadInputRegistersResponse")
+TEST_CASE("ReadInputRegistersResponseImpl")
 {
     const uint16_t starting_address = 0x0016;
     const uint16_t qty_of_registers = 4;
     ReadInputRegistersRequest request{starting_address, qty_of_registers};
+    ReadInputRegistersRequestImpl request_impl{request};
 
     SECTION("When proper response, then parse it properly")
     {
@@ -26,11 +27,11 @@ TEST_CASE("ReadInputRegistersResponse")
         }};
         ser4cpp::rseq_t buffer{proper_response.data(), proper_response.size()};
 
-        auto result = ReadInputRegistersResponse::parse(request, buffer);
+        auto result = ReadInputRegistersResponseImpl::parse(request, buffer);
 
         REQUIRE(result.is_valid() == true);
         auto response = result.get();
-        auto values = response.get_values();
+        auto values = response.values;
         REQUIRE(values.size() == 4);
         REQUIRE(values[0].address == 0x0016);
         REQUIRE(values[0].value == 0x0001);
@@ -50,7 +51,7 @@ TEST_CASE("ReadInputRegistersResponse")
         }};
         ser4cpp::rseq_t buffer{exception_response.data(), exception_response.size()};
 
-        auto result = ReadInputRegistersResponse::parse(request, buffer);
+        auto result = ReadInputRegistersResponseImpl::parse(request, buffer);
 
         REQUIRE(result.has_exception<ModbusException>() == true);
         REQUIRE(result.get_exception<ModbusException>().get_exception_type() == ExceptionType::IllegalDataAddress);
@@ -63,7 +64,7 @@ TEST_CASE("ReadInputRegistersResponse")
         }};
         ser4cpp::rseq_t buffer{ wrong_size_response.data(), wrong_size_response.size() };
 
-        auto result = ReadInputRegistersResponse::parse(request, buffer);
+        auto result = ReadInputRegistersResponseImpl::parse(request, buffer);
 
         REQUIRE(result.has_exception<MalformedModbusResponseException>() == true);
     }
@@ -77,7 +78,7 @@ TEST_CASE("ReadInputRegistersResponse")
         }};
         ser4cpp::rseq_t buffer{ wrong_size_response.data(), wrong_size_response.size() };
 
-        auto result = ReadInputRegistersResponse::parse(request, buffer);
+        auto result = ReadInputRegistersResponseImpl::parse(request, buffer);
 
         REQUIRE(result.has_exception<MalformedModbusResponseException>() == true);
     }
@@ -91,7 +92,7 @@ TEST_CASE("ReadInputRegistersResponse")
         }};
         ser4cpp::rseq_t buffer{wrong_size_response.data(), wrong_size_response.size()};
 
-        auto result = ReadInputRegistersResponse::parse(request, buffer);
+        auto result = ReadInputRegistersResponseImpl::parse(request, buffer);
 
         REQUIRE(result.has_exception<MalformedModbusResponseException>() == true);
     }
