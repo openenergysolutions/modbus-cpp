@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>modbus::Expected class | modbus-cpp</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
+  <link rel="stylesheet" href="m-dark+doxygen.compiled.css" />
+  <link rel="icon" href="favicon-dark.png" type="image/png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#22272e" />
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <a href="index.html" id="m-navbar-brand" class="m-col-t-8 m-col-m-none m-left-m">modbus-cpp</a>
+      <div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
+        <a href="#search" class="m-dox-search-icon" title="Search" onclick="return showSearch()"><svg viewBox="0 0 16 16">
+          <path d="m6 0c-3.3144 0-6 2.6856-6 6 0 3.3144 2.6856 6 6 6 1.4858 0 2.8463-0.54083 3.8945-1.4355-0.0164 0.33797 0.14734 0.75854 0.5 1.1504l3.2227 3.7891c0.55185 0.6139 1.4517 0.66544 2.002 0.11524 0.55022-0.55022 0.49866-1.4501-0.11524-2.002l-3.7891-3.2246c-0.39184-0.35266-0.81242-0.51469-1.1504-0.5 0.89472-1.0482 1.4355-2.4088 1.4355-3.8945 0-3.3128-2.6856-5.998-6-5.998zm0 1.5625a4.4375 4.4375 0 0 1 4.4375 4.4375 4.4375 4.4375 0 0 1-4.4375 4.4375 4.4375 4.4375 0 0 1-4.4375-4.4375 4.4375 4.4375 0 0 1 4.4375-4.4375z"/>
+        </svg></a>
+        <a id="m-navbar-show" href="#navigation" title="Show navigation"></a>
+        <a id="m-navbar-hide" href="#" title="Hide navigation"></a>
+      </div>
+      <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
+        <div class="m-row">
+          <ol class="m-col-t-6 m-col-m-none">
+            <li><a href="pages.html">Pages</a></li>
+            <li><a href="namespaces.html">Namespaces</a></li>
+          </ol>
+          <ol class="m-col-t-6 m-col-m-none" start="3">
+            <li><a href="annotated.html">Classes</a></li>
+            <li><a href="files.html">Files</a></li>
+            <li class="m-show-m"><a href="#search" class="m-dox-search-icon" title="Search" onclick="return showSearch()"><svg viewBox="0 0 16 16">
+              <path d="m6 0c-3.3144 0-6 2.6856-6 6 0 3.3144 2.6856 6 6 6 1.4858 0 2.8463-0.54083 3.8945-1.4355-0.0164 0.33797 0.14734 0.75854 0.5 1.1504l3.2227 3.7891c0.55185 0.6139 1.4517 0.66544 2.002 0.11524 0.55022-0.55022 0.49866-1.4501-0.11524-2.002l-3.7891-3.2246c-0.39184-0.35266-0.81242-0.51469-1.1504-0.5 0.89472-1.0482 1.4355-2.4088 1.4355-3.8945 0-3.3128-2.6856-5.998-6-5.998zm0 1.5625a4.4375 4.4375 0 0 1 4.4375 4.4375 4.4375 4.4375 0 0 1-4.4375 4.4375 4.4375 4.4375 0 0 1-4.4375-4.4375 4.4375 4.4375 0 0 1 4.4375-4.4375z"/>
+            </svg></a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main><article>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <h1>
+          <div class="m-dox-template">template&lt;typename T&gt;</div>
+          <span class="m-breadcrumb"><a href="namespacemodbus.html">modbus</a>::</span>Expected <span class="m-thin">class</span>
+        </h1>
+        <p>Expected type often used in return values and callbacks.</p>
+        <table class="m-table m-fullwidth m-flat">
+          <thead>
+            <tr><th colspan="2">Template parameters</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="width: 1%">T</td>
+              <td>Type of the expected value</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="m-block m-default">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#pub-static-methods">Public static functions</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+<p>This type represents a value that is expected to be returned, but may be impossible to obtain. If <a href="classmodbus_1_1Expected.html#ab7eb91ad6172997fad1046a7e2195112" class="m-dox">is_<wbr />valid()</a> returns <code class="m-code"><span class="nb">true</span></code>, it means that the value was indeed returned and it may be obtained by <a href="classmodbus_1_1Expected.html#a23f4587dd767f80e7f844c8fec458226" class="m-dox">get()</a>. Otherwise, it means an error occured and the value could not be returned. In this case, you can determine the type with <a href="classmodbus_1_1Expected.html#a1c1360b538316853e218c32ffcb6df39" class="m-dox">has_<wbr />exception()</a> templated with the type of error it may have returned. You can also get the error with <a href="classmodbus_1_1Expected.html#a4461d76194c8d30243df2a33ea7721ab" class="m-dox">get_<wbr />exception()</a>.</p><p>It is very similar to Rust&#x27;s <a href="https://doc.rust-lang.org/std/result/">Result</a> type. This class uses the <code class="m-code"><span class="n">std</span><span class="o">::</span><span class="n">exception_ptr</span></code> union trick to work.</p><p>This class is heavily inspired by Andrei Alexandescu <code>Expected</code> class that he presented in 2012 in his talk &quot;Systematic Error Handling in C++&quot; available on Channel9: <a href="https://channel9.msdn.com/Shows/Going+Deep/C-and-Beyond-2012-Andrei-Alexandrescu-Systematic-Error-Handling-in-C">https:/<wbr />/<wbr />channel9.msdn.com/<wbr />Shows/<wbr />Going+Deep/<wbr />C-and-Beyond-2012-Andrei-Alexandrescu-Systematic-Error-Handling-in-C</a></p>
+        <section id="pub-static-methods">
+          <h2><a href="#pub-static-methods">Public static functions</a></h2>
+          <dl class="m-dox">
+            <dt>
+              <div class="m-dox-template">template&lt;typename E&gt;</div>
+              <span class="m-dox-wrap-bumper">static auto <a href="#aa4ed46d9b0a73068986e37672bed5f79" class="m-dox">from_exception</a>(</span><span class="m-dox-wrap">const E&amp; exception) -&gt; <a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a>&lt;T&gt;</span>
+            </dt>
+            <dd>Creates an error.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper">static auto <a href="#a850a644cc1749265841cc2f6a2cc815a" class="m-dox">from_exception</a>(</span><span class="m-dox-wrap">std::exception_ptr exception) -&gt; <a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a>&lt;T&gt;</span>
+            </dt>
+            <dd>Creates an error from and.</dd>
+          </dl>
+        </section>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+          <dl class="m-dox">
+            <dt>
+              <span class="m-dox-wrap-bumper"><a href="#abda3c86def2bf8552188aa1669f82dd9" class="m-dox">Expected</a>(</span><span class="m-dox-wrap">const T&amp; value)</span>
+            </dt>
+            <dd>Constructor for a valid value.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper"><a href="#ab8b7cf1d08d1f2b2c2866a22e1779d0e" class="m-dox">Expected</a>(</span><span class="m-dox-wrap">T&amp;&amp; rhs)</span>
+            </dt>
+            <dd>Constructor for a valid value.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper"><a href="#a8b981bf302057e9f2f8c8708cc22b551" class="m-dox">Expected</a>(</span><span class="m-dox-wrap">const <a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a>&amp; rhs)</span>
+            </dt>
+            <dd>Copy contructor.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper"><a href="#a96a9e3d31cf93ee0785fac07c7ba563e" class="m-dox">Expected</a>(</span><span class="m-dox-wrap"><a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a>&amp;&amp; rhs)</span>
+            </dt>
+            <dd>Move contructor.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper"><a href="#a652b7ba941b6707b17b0334e888b9d61" class="m-dox">~Expected</a>(</span><span class="m-dox-wrap">)</span>
+            </dt>
+            <dd>Destructor.</dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-dox">
+            <dt>
+              <span class="m-dox-wrap-bumper">auto <a href="#ab7eb91ad6172997fad1046a7e2195112" class="m-dox">is_valid</a>(</span><span class="m-dox-wrap">) const -&gt; bool</span>
+            </dt>
+            <dd>Check if expectation is valid.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper">auto <a href="#a23f4587dd767f80e7f844c8fec458226" class="m-dox">get</a>(</span><span class="m-dox-wrap">) -&gt; T&amp;</span>
+            </dt>
+            <dd>Return the contained value.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper">auto <a href="#a6233cd4d69790eb4b2286ac19cd4d08f" class="m-dox">get</a>(</span><span class="m-dox-wrap">) const -&gt; const T&amp;</span>
+            </dt>
+            <dd>Return the contained value.</dd>
+            <dt>
+              <div class="m-dox-template">template&lt;typename E&gt;</div>
+              <span class="m-dox-wrap-bumper">auto <a href="#a1c1360b538316853e218c32ffcb6df39" class="m-dox">has_exception</a>(</span><span class="m-dox-wrap">) const -&gt; bool</span>
+            </dt>
+            <dd>Check if the expectation contains an error of the specified type.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper">auto <a href="#a4461d76194c8d30243df2a33ea7721ab" class="m-dox">get_exception</a>(</span><span class="m-dox-wrap">) const -&gt; std::exception_ptr</span>
+            </dt>
+            <dd>Get the internal.</dd>
+            <dt>
+              <div class="m-dox-template">template&lt;typename E&gt;</div>
+              <span class="m-dox-wrap-bumper">auto <a href="#a27032a7b97e4cc64a0fdeb948f736526" class="m-dox">get_exception</a>(</span><span class="m-dox-wrap">) const -&gt; E</span>
+            </dt>
+            <dd>Get the error of the specified type.</dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-dox-details" id="aa4ed46d9b0a73068986e37672bed5f79"><div>
+            <h3>
+              <div class="m-dox-template">
+                template&lt;typename T&gt;
+                template&lt;typename E&gt;
+              </div>
+              <span class="m-dox-wrap-bumper">static <a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a>&lt;T&gt; modbus::<wbr />Expected&lt;T&gt;::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#aa4ed46d9b0a73068986e37672bed5f79" class="m-dox-self">from_exception</a>(</span><span class="m-dox-wrap">const E&amp; exception)</span></span>
+            </h3>
+            <p>Creates an error.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">E</td>
+                  <td>Error type (can be deduced by the parameter)</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>exception</td>
+                  <td>Error value</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>New error for an expectation</td>
+                </tr>
+              </tfoot>
+            </table>
+<p>This method should be used when the value could not be obtained (i.e. an error occured). Here&#x27;s an example usage:</p><pre class="m-code"><span class="n">Expected</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">foo</span><span class="p">()</span>
+<span class="p">{</span>
+     <span class="k">return</span> <span class="n">Expected</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">from_exception</span><span class="p">(</span><span class="s">&quot;Could not foo...&quot;</span><span class="p">);</span>
+<span class="p">}</span></pre>
+          </div></section>
+          <section class="m-dox-details" id="a850a644cc1749265841cc2f6a2cc815a"><div>
+            <h3>
+              <div class="m-dox-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-dox-wrap-bumper">static <a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a>&lt;T&gt; modbus::<wbr />Expected&lt;T&gt;::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a850a644cc1749265841cc2f6a2cc815a" class="m-dox-self">from_exception</a>(</span><span class="m-dox-wrap">std::exception_ptr exception)</span></span>
+            </h3>
+            <p>Creates an error from and.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">exception</td>
+                  <td>Error value as an <code class="m-code"><span class="n">std</span><span class="o">::</span><span class="n">exception_ptr</span></code></td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>New error for an expectation</td>
+                </tr>
+              </tfoot>
+            </table>
+<p><code class="m-code"><span class="n">std</span><span class="o">::</span><span class="n">exception_ptr</span></code></p>
+          </div></section>
+          <section class="m-dox-details" id="abda3c86def2bf8552188aa1669f82dd9"><div>
+            <h3>
+              <div class="m-dox-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-dox-wrap-bumper"> modbus::<wbr />Expected&lt;T&gt;::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#abda3c86def2bf8552188aa1669f82dd9" class="m-dox-self">Expected</a>(</span><span class="m-dox-wrap">const T&amp; value)</span></span>
+            </h3>
+            <p>Constructor for a valid value.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">value</td>
+                  <td>Value to be created</td>
+                </tr>
+              </tbody>
+            </table>
+<p>This constructor is used whenever you want to create a valid value (i.e. no error) by copy. Here&#x27;s an example of its usage:</p><pre class="m-code"><span class="n">Expected</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">foo</span><span class="p">()</span>
+<span class="p">{</span>
+     <span class="k">return</span> <span class="n">Expected</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">{</span><span class="mi">42</span><span class="p">};</span>
+<span class="p">}</span></pre>
+          </div></section>
+          <section class="m-dox-details" id="ab8b7cf1d08d1f2b2c2866a22e1779d0e"><div>
+            <h3>
+              <div class="m-dox-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-dox-wrap-bumper"> modbus::<wbr />Expected&lt;T&gt;::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#ab8b7cf1d08d1f2b2c2866a22e1779d0e" class="m-dox-self">Expected</a>(</span><span class="m-dox-wrap">T&amp;&amp; rhs)</span></span>
+            </h3>
+            <p>Constructor for a valid value.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">rhs</td>
+                  <td>Value to be created</td>
+                </tr>
+              </tbody>
+            </table>
+<p>This constructor is used whenever you want to create a valid value (i.e. no error) by move.</p>
+          </div></section>
+          <section class="m-dox-details" id="a8b981bf302057e9f2f8c8708cc22b551"><div>
+            <h3>
+              <div class="m-dox-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-dox-wrap-bumper"> modbus::<wbr />Expected&lt;T&gt;::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a8b981bf302057e9f2f8c8708cc22b551" class="m-dox-self">Expected</a>(</span><span class="m-dox-wrap">const <a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a>&amp; rhs)</span></span>
+            </h3>
+            <p>Copy contructor.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">rhs</td>
+                  <td>Right-hand side value</td>
+                </tr>
+              </tbody>
+            </table>
+<p>This copy constructor will create a valid value or an exception value based on the right-hand side value.</p>
+          </div></section>
+          <section class="m-dox-details" id="a96a9e3d31cf93ee0785fac07c7ba563e"><div>
+            <h3>
+              <div class="m-dox-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-dox-wrap-bumper"> modbus::<wbr />Expected&lt;T&gt;::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a96a9e3d31cf93ee0785fac07c7ba563e" class="m-dox-self">Expected</a>(</span><span class="m-dox-wrap"><a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a>&amp;&amp; rhs)</span></span>
+            </h3>
+            <p>Move contructor.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">rhs</td>
+                  <td>Right-hand side value</td>
+                </tr>
+              </tbody>
+            </table>
+<p>This copy constructor will create a valid value or an exception value based on the right-hand side value.</p>
+          </div></section>
+          <section class="m-dox-details" id="a652b7ba941b6707b17b0334e888b9d61"><div>
+            <h3>
+              <div class="m-dox-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-dox-wrap-bumper"> modbus::<wbr />Expected&lt;T&gt;::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a652b7ba941b6707b17b0334e888b9d61" class="m-dox-self">~Expected</a>(</span><span class="m-dox-wrap">)</span></span>
+            </h3>
+            <p>Destructor.</p>
+<p>Effectively calls the destructor of the value or of the error.</p>
+          </div></section>
+          <section class="m-dox-details" id="ab7eb91ad6172997fad1046a7e2195112"><div>
+            <h3>
+              <div class="m-dox-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-dox-wrap-bumper">bool modbus::<wbr />Expected&lt;T&gt;::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#ab7eb91ad6172997fad1046a7e2195112" class="m-dox-self">is_valid</a>(</span><span class="m-dox-wrap">) const</span></span>
+            </h3>
+            <p>Check if expectation is valid.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td><code class="m-code"><span class="nb">true</span></code> if the expectation is valid, <code class="m-code"><span class="nb">false</span></code> if it contains an error</td>
+                </tr>
+              </tfoot>
+            </table>
+<p>If this method returns <code class="m-code"><span class="nb">true</span></code>, the value can be obtained with <a href="classmodbus_1_1Expected.html#a23f4587dd767f80e7f844c8fec458226" class="m-dox">get()</a>. Otherwise, the error can be obtained with <a href="classmodbus_1_1Expected.html#a4461d76194c8d30243df2a33ea7721ab" class="m-dox">get_<wbr />exception()</a>.</p><aside class="m-note m-default"><h4>See also</h4><p><a href="classmodbus_1_1Expected.html#a23f4587dd767f80e7f844c8fec458226" class="m-dox">get()</a> <a href="classmodbus_1_1Expected.html#a1c1360b538316853e218c32ffcb6df39" class="m-dox">has_<wbr />exception()</a> <a href="classmodbus_1_1Expected.html#a4461d76194c8d30243df2a33ea7721ab" class="m-dox">get_<wbr />exception()</a></p></aside>
+          </div></section>
+          <section class="m-dox-details" id="a23f4587dd767f80e7f844c8fec458226"><div>
+            <h3>
+              <div class="m-dox-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-dox-wrap-bumper">T&amp; modbus::<wbr />Expected&lt;T&gt;::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a23f4587dd767f80e7f844c8fec458226" class="m-dox-self">get</a>(</span><span class="m-dox-wrap">)</span></span>
+            </h3>
+            <p>Return the contained value.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>Contained value</td>
+                </tr>
+              </thead>
+              <thead>
+                <tr><th colspan="2">Exceptions</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Re-throws</td>
+                  <td>the exception if it contains one</td>
+                </tr>
+              </tbody>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>Always check that <a href="classmodbus_1_1Expected.html#ab7eb91ad6172997fad1046a7e2195112" class="m-dox">is_<wbr />valid()</a> return <code class="m-code"><span class="nb">true</span></code> before calling this method. Otherwise, it may throw an exception.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a href="classmodbus_1_1Expected.html#ab7eb91ad6172997fad1046a7e2195112" class="m-dox">is_<wbr />valid()</a></p></aside>
+          </div></section>
+          <section class="m-dox-details" id="a6233cd4d69790eb4b2286ac19cd4d08f"><div>
+            <h3>
+              <div class="m-dox-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-dox-wrap-bumper">const T&amp; modbus::<wbr />Expected&lt;T&gt;::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a6233cd4d69790eb4b2286ac19cd4d08f" class="m-dox-self">get</a>(</span><span class="m-dox-wrap">) const</span></span>
+            </h3>
+            <p>Return the contained value.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>Contained value</td>
+                </tr>
+              </thead>
+              <thead>
+                <tr><th colspan="2">Exceptions</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Re-throws</td>
+                  <td>the exception if it contains one</td>
+                </tr>
+              </tbody>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>Always check that <a href="classmodbus_1_1Expected.html#ab7eb91ad6172997fad1046a7e2195112" class="m-dox">is_<wbr />valid()</a> return <code class="m-code"><span class="nb">true</span></code> before calling this method. Otherwise, it may throw an exception.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a href="classmodbus_1_1Expected.html#ab7eb91ad6172997fad1046a7e2195112" class="m-dox">is_<wbr />valid()</a></p></aside>
+          </div></section>
+          <section class="m-dox-details" id="a1c1360b538316853e218c32ffcb6df39"><div>
+            <h3>
+              <div class="m-dox-template">
+                template&lt;typename T&gt;
+                template&lt;typename E&gt;
+              </div>
+              <span class="m-dox-wrap-bumper">bool modbus::<wbr />Expected&lt;T&gt;::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a1c1360b538316853e218c32ffcb6df39" class="m-dox-self">has_exception</a>(</span><span class="m-dox-wrap">) const</span></span>
+            </h3>
+            <p>Check if the expectation contains an error of the specified type.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">E</td>
+                  <td>Type of the error to check</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td><code class="m-code"><span class="nb">true</span></code> if it contains an error of the specified type, <code class="m-code"><span class="nb">false</span></code> otherwise.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-default"><h4>See also</h4><p><a href="classmodbus_1_1Expected.html#ab7eb91ad6172997fad1046a7e2195112" class="m-dox">is_<wbr />valid()</a> <a href="classmodbus_1_1Expected.html#a4461d76194c8d30243df2a33ea7721ab" class="m-dox">get_<wbr />exception()</a></p></aside>
+          </div></section>
+          <section class="m-dox-details" id="a4461d76194c8d30243df2a33ea7721ab"><div>
+            <h3>
+              <div class="m-dox-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-dox-wrap-bumper">std::exception_ptr modbus::<wbr />Expected&lt;T&gt;::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a4461d76194c8d30243df2a33ea7721ab" class="m-dox-self">get_exception</a>(</span><span class="m-dox-wrap">) const</span></span>
+            </h3>
+            <p>Get the internal.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>Internal <code class="m-code"><span class="n">std</span><span class="o">::</span><span class="n">exception_ptr</span></code></td>
+                </tr>
+              </thead>
+              <thead>
+                <tr><th colspan="2">Exceptions</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>std::invalid_argument</td>
+                  <td>if the expectation is valid</td>
+                </tr>
+              </tbody>
+            </table>
+<p><code class="m-code"><span class="n">std</span><span class="o">::</span><span class="n">exception_ptr</span></code></p><aside class="m-note m-default"><h4>See also</h4><p><a href="classmodbus_1_1Expected.html#ab7eb91ad6172997fad1046a7e2195112" class="m-dox">is_<wbr />valid()</a></p></aside>
+          </div></section>
+          <section class="m-dox-details" id="a27032a7b97e4cc64a0fdeb948f736526"><div>
+            <h3>
+              <div class="m-dox-template">
+                template&lt;typename T&gt;
+                template&lt;typename E&gt;
+              </div>
+              <span class="m-dox-wrap-bumper">E modbus::<wbr />Expected&lt;T&gt;::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a27032a7b97e4cc64a0fdeb948f736526" class="m-dox-self">get_exception</a>(</span><span class="m-dox-wrap">) const</span></span>
+            </h3>
+            <p>Get the error of the specified type.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">E</td>
+                  <td>Error type</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr>
+                  <th>Returns</th>
+                  <td>Internal <code class="m-code"><span class="n">std</span><span class="o">::</span><span class="n">exception_ptr</span></code></td>
+                </tr>
+              </thead>
+              <thead>
+                <tr><th colspan="2">Exceptions</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>std::invalid_argument</td>
+                  <td>if the expectation does not contain the right type</td>
+                </tr>
+              </tbody>
+            </table>
+<aside class="m-note m-default"><h4>See also</h4><p><a href="classmodbus_1_1Expected.html#ab7eb91ad6172997fad1046a7e2195112" class="m-dox">is_<wbr />valid()</a> <a href="classmodbus_1_1Expected.html#a1c1360b538316853e218c32ffcb6df39" class="m-dox">has_<wbr />exception()</a></p></aside>
+          </div></section>
+        </section>
+      </div>
+    </div>
+  </div>
+</article></main>
+<div class="m-dox-search" id="search">
+  <a href="#!" onclick="return hideSearch()"></a>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-m-8 m-push-m-2">
+        <div class="m-dox-search-header m-text m-small">
+          <div><span class="m-label m-default">Tab</span> / <span class="m-label m-default">T</span> to search, <span class="m-label m-default">Esc</span> to close</div>
+          <div id="search-symbolcount">&hellip;</div>
+        </div>
+        <div class="m-dox-search-content">
+          <input type="search" id="search-input" placeholder="Loading &hellip;" disabled="disabled" autofocus="autofocus" />
+          <noscript class="m-text m-danger m-text-center">Unlike everything else in the docs, the search functionality <em>requires</em> JavaScript.</noscript>
+          <div id="search-help" class="m-text m-dim m-text-center">
+            Search for symbols, directories, files, pages or modules. You can omit any
+            prefix from the symbol or file path; adding a <code>:</code> or <code>/</code>
+            suffix lists all members of given symbol or directory. Navigate through the
+            list using <span class="m-label m-dim">&darr;</span> and
+            <span class="m-label m-dim">&uarr;</span>, press
+            <span class="m-label m-dim">Enter</span> to go.
+          </div>
+          <div id="search-notfound" class="m-text m-warning m-text-center">Sorry, nothing was found.</div>
+          <ul id="search-results"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="search.js"></script>
+<script src="searchdata.js" async="async"></script>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <p>modbus-cpp. Created by <a href="http://doxygen.org/">Doxygen</a> 1.8.13 and <a href="http://mcss.mosra.cz/">m.css</a>.</p>
+      </div>
+    </div>
+  </div>
+</nav></footer>
+</body>
+</html>
