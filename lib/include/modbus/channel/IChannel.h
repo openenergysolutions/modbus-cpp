@@ -4,12 +4,11 @@
 #include <memory>
 #include "exe4cpp/Typedefs.h"
 #include "modbus/channel/UnitIdentifier.h"
+#include "modbus/session/ISession.h"
+#include "modbus/session/ISessionResponseHandler.h"
 
 namespace modbus
 {
-
-class ISession;
-class ISessionResponseHandler;
 
 class IChannel : public std::enable_shared_from_this<IChannel>
 {

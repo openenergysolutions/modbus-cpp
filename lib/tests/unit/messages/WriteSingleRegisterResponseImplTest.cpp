@@ -11,7 +11,7 @@ TEST_CASE("WriteSingleRegisterResponse")
 {
     const uint16_t address = 0x1234;
     const uint16_t value = 0x6789;
-    WriteSingleRegisterRequest request{address, value};
+    WriteSingleRegisterRequest request{{address, value}};
     WriteSingleRegisterRequestImpl request_impl{request};
 
     SECTION("When proper response, then parse it properly")

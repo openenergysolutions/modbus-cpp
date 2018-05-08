@@ -2,20 +2,7 @@
 #include <memory>
 
 #include "modbus/IModbusManager.h"
-#include "modbus/channel/IChannel.h"
-#include "modbus/Ipv4Endpoint.h"
-#include "modbus/session/IScheduledRequest.h"
-#include "modbus/session/ISession.h"
-#include "modbus/session/ISessionResponseHandler.h"
-
-#include "modbus/exceptions/IException.h"
-
 #include "modbus/logging/LoggerFactory.h"
-
-#include "modbus/messages/ReadHoldingRegistersRequest.h"
-#include "modbus/messages/ReadHoldingRegistersResponse.h"
-#include "modbus/messages/WriteMultipleRegistersRequest.h"
-#include "modbus/messages/WriteMultipleRegistersResponse.h"
 
 using namespace modbus;
 

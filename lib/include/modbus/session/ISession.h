@@ -15,11 +15,10 @@
 #include "modbus/messages/WriteSingleRegisterResponse.h"
 #include "modbus/messages/WriteMultipleRegistersRequest.h"
 #include "modbus/messages/WriteMultipleRegistersResponse.h"
+#include "modbus/session/IScheduledRequest.h"
 
 namespace modbus
 {
-
-class IScheduledRequest;
 
 class ISession : public std::enable_shared_from_this<ISession>
 {

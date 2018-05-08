@@ -1,12 +1,11 @@
 #ifndef MODBUS_CHANNELTCP_H
 #define MODBUS_CHANNELTCP_H
 
-#include "channel/IChannelImpl.h"
-
 #include <deque>
 #include <memory>
 #include "ser4cpp/container/Buffer.h"
 #include "exe4cpp/IExecutor.h"
+#include "channel/IChannelImpl.h"
 #include "channel/IConnectionListener.h"
 #include "channel/IMbapSink.h"
 #include "channel/MbapParser.h"

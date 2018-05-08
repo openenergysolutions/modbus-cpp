@@ -25,8 +25,8 @@ void WriteMultipleRegistersRequestImpl::build_request(ser4cpp::wseq_t& buffer) c
 {
     ser4cpp::UInt8::write_to(buffer, 0x10); // Function code
     ser4cpp::UInt16::write_to(buffer, m_request.starting_address); // Starting address
-    ser4cpp::UInt16::write_to(buffer, m_request.values.size()); // Qty of registers
-    ser4cpp::UInt8::write_to(buffer, 2 * m_request.values.size()); // Byte count
+    ser4cpp::UInt16::write_to(buffer, static_cast<uint16_t>(m_request.values.size())); // Qty of registers
+    ser4cpp::UInt8::write_to(buffer, static_cast<uint8_t>(2 * m_request.values.size())); // Byte count
 
     // Register values
     for(auto value : m_request.values)
