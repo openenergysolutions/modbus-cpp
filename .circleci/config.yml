@@ -80,11 +80,34 @@ jobs:
           name: Test
           command: ctest -VV .
           working_directory: build
+  build-doc:
+      docker:
+        - image: emgre/circleci-doxygen:0.0.1
+      steps:
+        - checkout
+        - run:
+            name: Initialize m.css submodule
+            command: git submodule update --init deps/m.css
+        - run:
+            name: Create build/doc directory
+            command: mkdir -p build/doc
+        - run:
+            name: Build documentation
+            command: python3 deps/m.css/doxygen/dox2html5.py Doxyfile-mcss
+        - store_artifacts:
+             path: build/doc
+             destination: doc
 workflows:
   version: 2
   build_and_test:
     jobs:
-      - build-gcc-debug
-      - build-gcc-release
-      - build-clang-debug
-      - build-clang-release
+      #- build-gcc-debug
+      #- build-gcc-release
+      #- build-clang-debug
+      #- build-clang-release
+      - build-doc
+          #requires:
+          #  - build-gcc-debug
+          #  - build-gcc-release
+          #  - build-clang-debug
+          #  - build-clang-release
