@@ -1,35 +1,37 @@
 #include "catch.hpp"
 
 #include <memory>
-#include "openpal/container/Buffer.h"
-#include "modbus/messages/WriteMultipleRegistersRequest.h"
+#include "ser4cpp/container/Buffer.h"
+#include "messages/WriteMultipleRegistersRequestImpl.h"
 
 using namespace modbus;
 
-TEST_CASE("WriteMultipleRegistersRequest")
+TEST_CASE("WriteMultipleRegistersRequestImpl")
 {
     const uint16_t starting_address = 0x1234;
     WriteMultipleRegistersRequest request{starting_address};
 
     SECTION("Normal request")
     {
-        request.add_register(0x1111);
-        request.add_register(0x1122);
-        request.add_register(0x1133);
+        request.values.emplace_back(0x1111);
+        request.values.emplace_back(0x1122);
+        request.values.emplace_back(0x1133);
+
+        WriteMultipleRegistersRequestImpl request_impl{request};
 
         SECTION("When get length, then return actual length.")
         {
-            auto length = request.get_request_length();
+            auto length = request_impl.get_request_length();
 
             REQUIRE(length == 6 + 6);
         }
 
         SECTION("When build request, then write appropriate values to the buffer")
         {
-            openpal::Buffer buffer{(uint32_t) request.get_request_length()};
+            ser4cpp::Buffer buffer{(uint32_t) request_impl.get_request_length()};
             auto slice = buffer.as_wslice();
 
-            request.build_request(slice);
+            request_impl.build_request(slice);
 
             REQUIRE(buffer.as_wslice()[0] == 0x10);  // Function code
             REQUIRE(buffer.as_wslice()[1] == 0x12);  // Starting address MSB
@@ -47,29 +49,32 @@ TEST_CASE("WriteMultipleRegistersRequest")
 
         SECTION("When clone, then effectively creates a copy of the request")
         {
-            auto copy = request.clone();
-            auto other_request = static_cast<WriteMultipleRegistersRequest*>(copy.get());
+            auto copy = request_impl.clone();
+            auto other_request = static_cast<WriteMultipleRegistersRequestImpl*>(copy.get());
 
-            REQUIRE(other_request->get_starting_address() == starting_address);
-            REQUIRE(other_request->get_request_length() == 6 + 6);
+            REQUIRE(other_request->get_request().starting_address == starting_address);
+            REQUIRE(other_request->get_request().values.size() == 3);
+            REQUIRE(&other_request->get_request() != &request);
         }
     }
 
     SECTION("Empty request")
     {
+        WriteMultipleRegistersRequestImpl request_impl{request};
+
         SECTION("When get length, then return actual length.")
         {
-            auto length = request.get_request_length();
+            auto length = request_impl.get_request_length();
 
             REQUIRE(length == 6);
         }
 
         SECTION("When build request, then write appropriate values to the buffer")
         {
-            openpal::Buffer buffer{(uint32_t) request.get_request_length()};
+            ser4cpp::Buffer buffer{(uint32_t) request_impl.get_request_length()};
             auto slice = buffer.as_wslice();
 
-            request.build_request(slice);
+            request_impl.build_request(slice);
 
             REQUIRE(buffer.as_wslice()[0] == 0x10);  // Function code
             REQUIRE(buffer.as_wslice()[1] == 0x12);  // Starting address MSB

@@ -1,12 +1,16 @@
 #ifndef MODBUS_READINPUTREGISTERSRESPONSE_H
 #define MODBUS_READINPUTREGISTERSRESPONSE_H
 
-#include "modbus/messages/ReadRegistersResponse.h"
+#include <vector>
+#include "modbus/messages/RegisterValue.h"
 
 namespace modbus
 {
 
-using ReadInputRegistersResponse = ReadRegistersResponse<0x04>;
+struct ReadInputRegistersResponse
+{
+    std::vector<RegisterValue> values;
+};
 
 } // namespace modbus
 

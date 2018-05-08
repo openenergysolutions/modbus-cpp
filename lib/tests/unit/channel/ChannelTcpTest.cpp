@@ -1,10 +1,10 @@
 #include "catch.hpp"
 
 #include <memory>
-#include <modbus/exceptions/TimeoutException.h>
+#include "exe4cpp/MockExecutor.h"
+#include "modbus/exceptions/TimeoutException.h"
 #include "modbus/logging/LoggerFactory.h"
 #include "channel/ChannelTcp.h"
-#include "mocks/ExecutorMock.h"
 #include "mocks/RequestMock.h"
 #include "mocks/TcpConnectionMock.h"
 
@@ -15,7 +15,7 @@ void receive(std::shared_ptr<ChannelTcp> channel,
              const TransactionIdentifier transaction_id,
              const IRequest& request)
 {
-    openpal::Buffer buffer{260};
+    ser4cpp::Buffer buffer{260};
     auto view = buffer.as_wslice();
     auto serialized_request = MbapMessage::build_message(unit_id, transaction_id, request, view);
     channel->on_receive(serialized_request);
@@ -30,7 +30,7 @@ TEST_CASE("ChannelTcp")
     unsigned int num_handler_success = 0;
     unsigned int num_handler_timeout = 0;
     unsigned int num_handler_error = 0;
-    auto test_handler = [&] (const Expected<openpal::rseq_t>& response) {
+    auto test_handler = [&] (const Expected<ser4cpp::rseq_t>& response) {
         if(response.is_valid())
         {
             ++num_handler_success;
@@ -45,7 +45,7 @@ TEST_CASE("ChannelTcp")
         }
     };
 
-    auto executor = std::make_shared<ExecutorMock>();
+    auto executor = std::make_shared<exe4cpp::MockExecutor>();
     auto logger = LoggerFactory::create_null_logger("test");
     auto tcp_connection = std::make_shared<TcpConnectionMock>();
 
@@ -56,6 +56,7 @@ TEST_CASE("ChannelTcp")
         SECTION("When send request, then request is sent to the connection")
         {
             channel->send_request(unit_id, request, timeout, test_handler);
+            executor->run_one();
 
             REQUIRE(tcp_connection->get_num_requests() == 1);
             REQUIRE(tcp_connection->get_requests()[0].unit_id == unit_id);
@@ -64,6 +65,7 @@ TEST_CASE("ChannelTcp")
             SECTION("When send another request, then wait for reception of the current request")
             {
                 channel->send_request(unit_id, request, timeout, test_handler);
+                executor->run_one();
                 REQUIRE(tcp_connection->get_num_requests() == 1);
 
                 receive(channel, unit_id, tcp_connection->get_requests()[0].transaction_id, request);
@@ -76,6 +78,7 @@ TEST_CASE("ChannelTcp")
             channel->send_request(unit_id, RequestMock{1, 0x01}, timeout, test_handler);
             channel->send_request(unit_id, RequestMock{1, 0x02}, timeout, test_handler);
             channel->send_request(unit_id, RequestMock{1, 0x03}, timeout, test_handler);
+            executor->run_many(3);
 
             REQUIRE(tcp_connection->get_num_requests() == 1);
             REQUIRE(tcp_connection->get_requests()[0].data[0] == 0x01);
@@ -107,13 +110,16 @@ TEST_CASE("ChannelTcp")
             channel->send_request(unit_id, RequestMock{1, 0x01}, timeout, test_handler);
             channel->send_request(unit_id, RequestMock{1, 0x02}, timeout, test_handler);
             channel->send_request(unit_id, RequestMock{1, 0x03}, timeout, test_handler);
+            executor->run_many(3);
             REQUIRE(tcp_connection->get_num_requests() == 1);
 
             channel->on_error();
+            executor->run_one();
 
             REQUIRE(tcp_connection->get_num_requests() == 1);
 
             channel->send_request(unit_id, RequestMock{1, 0x04}, timeout, test_handler);
+            executor->run_one();
             REQUIRE(tcp_connection->get_num_requests() == 2);
             REQUIRE(tcp_connection->get_requests()[1].data[0] == 0x04);
         }
@@ -124,6 +130,7 @@ TEST_CASE("ChannelTcp")
         SECTION("When receive corresponding response, report it back")
         {
             channel->send_request(unit_id, request, timeout, test_handler);
+            executor->run_one();
             REQUIRE(tcp_connection->get_num_requests() == 1);
 
             receive(channel, unit_id, tcp_connection->get_requests()[0].transaction_id, request);
@@ -134,6 +141,7 @@ TEST_CASE("ChannelTcp")
         SECTION("When receive response with wrong transaction id, then continue waiting")
         {
             channel->send_request(unit_id, request, timeout, test_handler);
+            executor->run_one();
 
             receive(channel, unit_id, TransactionIdentifier{0xFEFE}, request);
 
@@ -144,6 +152,7 @@ TEST_CASE("ChannelTcp")
         SECTION("When receive response with wrong unit identifier, then continue waiting")
         {
             channel->send_request(unit_id, request, timeout, test_handler);
+            executor->run_one();
             REQUIRE(tcp_connection->get_num_requests() == 1);
 
             receive(channel, UnitIdentifier{0x64}, tcp_connection->get_requests()[0].transaction_id, request);
@@ -156,9 +165,11 @@ TEST_CASE("ChannelTcp")
         SECTION("When request times out, then report timeout")
         {
             channel->send_request(unit_id, request, timeout, test_handler);
+            executor->run_one();
             REQUIRE(tcp_connection->get_num_requests() == 1);
 
             executor->advance_time(timeout);
+            executor->run_many();
 
             REQUIRE(num_handler_success == 0);
             REQUIRE(num_handler_timeout == 1);
@@ -168,9 +179,11 @@ TEST_CASE("ChannelTcp")
         SECTION("When connection error, then report error")
         {
             channel->send_request(unit_id, request, timeout, test_handler);
+            executor->run_one();
             REQUIRE(tcp_connection->get_num_requests() == 1);
 
             channel->on_error();
+            executor->run_one();
 
             REQUIRE(num_handler_success == 0);
             REQUIRE(num_handler_timeout == 0);
@@ -182,9 +195,11 @@ TEST_CASE("ChannelTcp")
             channel->send_request(unit_id, RequestMock{1, 0x01}, timeout, test_handler);
             channel->send_request(unit_id, RequestMock{1, 0x02}, timeout, test_handler);
             channel->send_request(unit_id, RequestMock{1, 0x03}, timeout, test_handler);
+            executor->run_many(3);
             REQUIRE(tcp_connection->get_num_requests() == 1);
 
             channel->on_error();
+            executor->run_one();
 
             REQUIRE(num_handler_success == 0);
             REQUIRE(num_handler_timeout == 0);
@@ -197,9 +212,11 @@ TEST_CASE("ChannelTcp")
         SECTION("When shutdown, then discard all pending requests and close the connection")
         {
             channel->send_request(unit_id, request, timeout, test_handler);
+            executor->run_one();
             REQUIRE(tcp_connection->get_num_requests() == 1);
 
             channel->shutdown();
+            executor->run_one();
 
             receive(channel, unit_id, tcp_connection->get_requests()[0].transaction_id, request);
             REQUIRE(num_handler_success == 0);
@@ -210,18 +227,26 @@ TEST_CASE("ChannelTcp")
         SECTION("When shutdown, refuse all requests")
         {
             channel->shutdown();
+            executor->run_one();
 
             channel->send_request(unit_id, request, timeout, test_handler);
+            executor->run_one();
             REQUIRE(tcp_connection->get_num_requests() == 0);
         }
 
         SECTION("All IChannel interface methods are executed through the Executor")
         {
             channel->send_request(unit_id, request, timeout, test_handler);
-            REQUIRE(executor->get_num_post_calls() == 1);
+            REQUIRE(executor->num_active() == 1);
+
+            executor->run_one();
+            REQUIRE(executor->num_active() == 0);
 
             channel->shutdown();
-            REQUIRE(executor->get_num_post_calls() == 2);
+            REQUIRE(executor->num_active() == 1);
+
+            executor->run_one();
+            REQUIRE(executor->num_active() == 0);
         }
     }
 }

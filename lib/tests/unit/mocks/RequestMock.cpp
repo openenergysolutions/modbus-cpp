@@ -17,7 +17,7 @@ size_t RequestMock::get_request_length() const
     return m_length;
 }
 
-void RequestMock::build_request(openpal::wseq_t& buffer) const
+void RequestMock::build_request(ser4cpp::wseq_t& buffer) const
 {
     for(std::size_t i = 0; i < m_length; ++i)
     {

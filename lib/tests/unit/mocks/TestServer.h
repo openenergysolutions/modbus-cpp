@@ -4,22 +4,22 @@
 #include <condition_variable>
 #include <memory>
 #include <mutex>
-#include "asio.hpp"
-#include "asiopal/ThreadPool.h"
-#include "openpal/container/SequenceTypes.h"
-#include "openpal/container/StaticBuffer.h"
-#include "openpal/executor/Typedefs.h"
+
+#include "exe4cpp/asio/ThreadPool.h"
+#include "exe4cpp/Typedefs.h"
+#include "ser4cpp/container/SequenceTypes.h"
+#include "ser4cpp/container/StaticBuffer.h"
 
 class TestServer
 {
 public:
-    TestServer(unsigned short port, openpal::duration_t timeout);
+    TestServer(unsigned short port, exe4cpp::duration_t timeout);
     ~TestServer();
 
     void start();
     void stop();
 
-    void send(const openpal::rseq_t& data);
+    void send(const ser4cpp::rseq_t& data);
 
     bool wait_for_connection();
     unsigned int get_num_connections();
@@ -37,7 +37,7 @@ private:
     void accept_handler(const asio::error_code& ec, std::shared_ptr<asio::ip::tcp::socket> socket);
     void read_handler(const asio::error_code& ec, std::size_t bytes_transferred);
 
-    openpal::duration_t m_timeout;
+    exe4cpp::duration_t m_timeout;
     asio::ip::tcp::endpoint m_endpoint;
 
     std::shared_ptr<asio::io_service> m_io_service;
@@ -66,7 +66,7 @@ private:
     std::array<uint8_t, 4096> m_data_buffer;
     std::size_t m_buffer_size;
 
-    openpal::ThreadPool m_thread_pool;
+    exe4cpp::ThreadPool m_thread_pool;
 };
 
 #endif //MODBUS_TESTSERVER_H

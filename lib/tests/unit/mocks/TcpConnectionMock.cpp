@@ -12,7 +12,7 @@ void TcpConnectionMock::set_listener(std::weak_ptr<modbus::IConnectionListener> 
 
 }
 
-void TcpConnectionMock::send(const openpal::rseq_t& data)
+void TcpConnectionMock::send(const ser4cpp::rseq_t& data)
 {
     m_parser.parse(data);
 }
@@ -24,7 +24,7 @@ void TcpConnectionMock::close()
 
 void TcpConnectionMock::on_mbap_message(const modbus::MbapMessage& message)
 {
-    m_request_buffers.push_back(std::make_unique<openpal::Buffer>(message.data));
+    m_request_buffers.push_back(std::make_unique<ser4cpp::Buffer>(message.data));
     m_requests.emplace_back(message.unit_id, message.transaction_id, m_request_buffers.back()->as_rslice());
 }
 

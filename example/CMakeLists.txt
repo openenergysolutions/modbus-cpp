@@ -6,6 +6,4 @@ set(modbus_example_src
 
 add_executable(modbus_example ${modbus_example_src})
 target_compile_features(modbus_example PRIVATE cxx_std_14)
-target_link_libraries(modbus_example
-    PRIVATE modbus
-)
+target_link_libraries(modbus_example PRIVATE modbus-cpp)

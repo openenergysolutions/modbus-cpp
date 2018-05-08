@@ -1,13 +1,13 @@
-#include "modbus/messages/WriteMultipleRegistersResponse.h"
+#include "messages/WriteMultipleRegistersResponseImpl.h"
 
-#include "openpal/serialization/BigEndian.h"
+#include "ser4cpp/serialization/BigEndian.h"
 #include "modbus/exceptions/MalformedModbusResponseException.h"
 
 namespace modbus
 {
 
-Expected<WriteMultipleRegistersResponse> WriteMultipleRegistersResponse::parse(const WriteMultipleRegistersRequest& req,
-                                                                               const openpal::rseq_t& data)
+Expected<WriteMultipleRegistersResponse> WriteMultipleRegistersResponseImpl::parse(const WriteMultipleRegistersRequestImpl& req,
+                                                                                   const ser4cpp::rseq_t& data)
 {
     auto view = data;
 
@@ -26,32 +26,15 @@ Expected<WriteMultipleRegistersResponse> WriteMultipleRegistersResponse::parse(c
 
     // Read address
     uint16_t starting_address;
-    openpal::UInt16::read_from(view, starting_address);
+    ser4cpp::UInt16::read_from(view, starting_address);
 
     // Read value
     uint16_t qty_of_registers;
-    openpal::UInt16::read_from(view, qty_of_registers);
+    ser4cpp::UInt16::read_from(view, qty_of_registers);
 
     // Return result
     WriteMultipleRegistersResponse response{starting_address, qty_of_registers};
     return Expected<WriteMultipleRegistersResponse>(response);
-}
-
-WriteMultipleRegistersResponse::WriteMultipleRegistersResponse(Address starting_address, uint16_t qty_of_registers)
-        : m_starting_address{starting_address},
-          m_qty_of_registers{qty_of_registers}
-{
-
-}
-
-Address WriteMultipleRegistersResponse::get_starting_address() const
-{
-    return m_starting_address;
-}
-
-uint16_t WriteMultipleRegistersResponse::get_qty_of_registers() const
-{
-    return m_qty_of_registers;
 }
 
 } // namespace modbus

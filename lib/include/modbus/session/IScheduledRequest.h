@@ -3,6 +3,8 @@
 
 #include <memory>
 
+#include "exe4cpp/Typedefs.h"
+
 namespace modbus
 {
 
@@ -15,8 +17,8 @@ public:
     virtual void stop() = 0;
     virtual bool is_running() const = 0;
 
-    virtual void set_frequency(const openpal::duration_t& frequency) = 0;
-    virtual openpal::duration_t get_frequency() const = 0;
+    virtual void set_frequency(const exe4cpp::duration_t& frequency) = 0;
+    virtual exe4cpp::duration_t get_frequency() const = 0;
 };
 
 } // namespace modbus

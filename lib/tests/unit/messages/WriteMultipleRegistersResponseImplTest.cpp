@@ -3,15 +3,16 @@
 #include <array>
 #include "modbus/exceptions/MalformedModbusResponseException.h"
 #include "modbus/exceptions/ModbusException.h"
-#include "modbus/messages/WriteMultipleRegistersResponse.h"
+#include "messages/WriteMultipleRegistersResponseImpl.h"
 
 using namespace modbus;
 
-TEST_CASE("WriteMultpileRegistersResponse")
+TEST_CASE("WriteMultpileRegistersResponseImpl")
 {
     const uint16_t starting_address = 0x1234;
     const uint16_t qty_of_registers = 3;
     WriteMultipleRegistersRequest request{starting_address};
+    WriteMultipleRegistersRequestImpl request_impl{request};
 
     SECTION("When proper response, then parse it properly")
     {
@@ -20,14 +21,14 @@ TEST_CASE("WriteMultpileRegistersResponse")
             0x12, 0x34, // Starting address
             0x00, 0x03  // Qty of registers
         }};
-        openpal::rseq_t buffer{proper_response.data(), proper_response.size()};
+        ser4cpp::rseq_t buffer{proper_response.data(), proper_response.size()};
 
-        auto result = WriteMultipleRegistersResponse::parse(request, buffer);
+        auto result = WriteMultipleRegistersResponseImpl::parse(request, buffer);
 
         REQUIRE(result.is_valid() == true);
         auto response = result.get();
-        REQUIRE(response.get_starting_address() == starting_address);
-        REQUIRE(response.get_qty_of_registers() == qty_of_registers);
+        REQUIRE(response.starting_address == starting_address);
+        REQUIRE(response.qty_of_registers == qty_of_registers);
     }
 
     SECTION("When exception response, then parse report exception")
@@ -36,9 +37,9 @@ TEST_CASE("WriteMultpileRegistersResponse")
             0x90,       // Exception function code
             0x02        // Illegal data address
         }};
-        openpal::rseq_t buffer{exception_response.data(), exception_response.size()};
+        ser4cpp::rseq_t buffer{exception_response.data(), exception_response.size()};
 
-        auto result = WriteMultipleRegistersResponse::parse(request, buffer);
+        auto result = WriteMultipleRegistersResponseImpl::parse(request, buffer);
 
         REQUIRE(result.has_exception<ModbusException>() == true);
         REQUIRE(result.get_exception<ModbusException>().get_exception_type() == ExceptionType::IllegalDataAddress);
@@ -49,9 +50,9 @@ TEST_CASE("WriteMultpileRegistersResponse")
         std::array<uint8_t, 1> too_small_response{{
             0x10 // Function code
         }};
-        openpal::rseq_t buffer{ too_small_response.data(), too_small_response.size() };
+        ser4cpp::rseq_t buffer{ too_small_response.data(), too_small_response.size() };
 
-        auto result = WriteMultipleRegistersResponse::parse(request, buffer);
+        auto result = WriteMultipleRegistersResponseImpl::parse(request, buffer);
 
         REQUIRE(result.has_exception<MalformedModbusResponseException>() == true);
     }
@@ -64,9 +65,9 @@ TEST_CASE("WriteMultpileRegistersResponse")
             0x00, 0x03, // Qty of registers
             0x42, 0x42  // Junk
         }};
-        openpal::rseq_t buffer{ too_big_response.data(), too_big_response.size() };
+        ser4cpp::rseq_t buffer{ too_big_response.data(), too_big_response.size() };
 
-        auto result = WriteMultipleRegistersResponse::parse(request, buffer);
+        auto result = WriteMultipleRegistersResponseImpl::parse(request, buffer);
 
         REQUIRE(result.has_exception<MalformedModbusResponseException>() == true);
     }

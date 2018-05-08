@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <vector>
-#include "openpal/container/Buffer.h"
+#include "ser4cpp/container/Buffer.h"
 #include "channel/IMbapSink.h"
 #include "channel/ITcpConnection.h"
 #include "channel/MbapParser.h"
@@ -14,7 +14,7 @@ public:
     TcpConnectionMock();
 
     void set_listener(std::weak_ptr<modbus::IConnectionListener> listener) override;
-    void send(const openpal::rseq_t& data) override;
+    void send(const ser4cpp::rseq_t& data) override;
     void close() override;
 
     void on_mbap_message(const modbus::MbapMessage& message) override;
@@ -26,7 +26,7 @@ public:
 private:
     modbus::MbapParser m_parser;
     std::vector<modbus::MbapMessage> m_requests;
-    std::vector<std::unique_ptr<openpal::Buffer>> m_request_buffers;
+    std::vector<std::unique_ptr<ser4cpp::Buffer>> m_request_buffers;
     unsigned int m_num_close;
 };
 

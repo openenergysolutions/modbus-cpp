@@ -1,12 +1,16 @@
 #ifndef MODBUS_READINPUTREGISTERSREQUEST_H
 #define MODBUS_READINPUTREGISTERSREQUEST_H
 
-#include "modbus/messages/ReadRegistersRequest.h"
+#include "modbus/messages/Address.h"
 
 namespace modbus
 {
 
-using ReadInputRegistersRequest = ReadRegistersRequest<0x04>;
+struct ReadInputRegistersRequest
+{
+    Address starting_address;
+    uint16_t qty_of_registers;
+};
 
 } // namespace modbus
 

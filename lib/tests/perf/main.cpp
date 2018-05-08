@@ -4,14 +4,7 @@
 #include "spdlog/spdlog.h"
 
 #include "modbus/IModbusManager.h"
-#include "modbus/Ipv4Endpoint.h"
-#include "modbus/channel/IChannel.h"
-#include "modbus/exceptions/IException.h"
 #include "modbus/logging/LoggerFactory.h"
-#include "modbus/messages/ReadHoldingRegistersRequest.h"
-#include "modbus/messages/ReadHoldingRegistersResponse.h"
-#include "modbus/session/ISession.h"
-#include "modbus/session/ISessionResponseHandler.h"
 
 using namespace modbus;
 

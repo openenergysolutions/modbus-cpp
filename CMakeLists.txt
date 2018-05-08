@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.8)
 
-project (modbus)
+project (modbus-cpp)
 
 # Preserve folders for Visual Studio
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -23,7 +23,8 @@ set(MODBUS_BUILD_EXAMPLE ${is_root} CACHE BOOL "Build example")
 # Import dependencies
 add_subdirectory(./deps/asio EXCLUDE_FROM_ALL)
 add_subdirectory(./deps/catch2 EXCLUDE_FROM_ALL)
-add_subdirectory(./deps/openpal EXCLUDE_FROM_ALL)
+add_subdirectory(./deps/ser4cpp EXCLUDE_FROM_ALL)
+add_subdirectory(./deps/exe4cpp EXCLUDE_FROM_ALL)
 add_subdirectory(./deps/spdlog EXCLUDE_FROM_ALL)
 
 # Add projects

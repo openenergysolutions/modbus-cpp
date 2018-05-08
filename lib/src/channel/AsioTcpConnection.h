@@ -2,8 +2,8 @@
 #define MODBUS_ASIOTCPCONNECTION_H
 
 #include <array>
-#include "asio.hpp"
-#include "openpal/container/Buffer.h"
+#include "exe4cpp/asio/StrandExecutor.h"
+#include "ser4cpp/container/Buffer.h"
 
 #include "modbus/Ipv4Endpoint.h"
 #include "logging/Logger.h"
@@ -16,12 +16,11 @@ class AsioTcpConnection : public ITcpConnection
 {
 public:
     AsioTcpConnection(std::shared_ptr<Logger> logger,
-                      std::shared_ptr<asio::io_service> io_service,
-                      asio::strand strand,
+                      std::shared_ptr<exe4cpp::StrandExecutor> executor,
                       const Ipv4Endpoint& endpoint);
 
     void set_listener(std::weak_ptr<IConnectionListener> listener) override;
-    void send(const openpal::rseq_t& data) override;
+    void send(const ser4cpp::rseq_t& data) override;
     void close() override;
 
 private:
@@ -43,13 +42,13 @@ private:
 
     std::shared_ptr<Logger> m_logger;
     Ipv4Endpoint m_ip_endpoint;
-    asio::strand m_strand;
+    std::shared_ptr<exe4cpp::StrandExecutor> m_executor;
     asio::ip::tcp::resolver m_resolver;
     asio::ip::tcp::socket m_tcp_socket;
 
     ConnectionStatus m_current_connection_status;
     std::array<uint8_t, 4096> m_read_buffer;
-    std::unique_ptr<openpal::Buffer> m_write_buffer;
+    std::unique_ptr<ser4cpp::Buffer> m_write_buffer;
 
     std::weak_ptr<IConnectionListener> m_connection_listener;
 };

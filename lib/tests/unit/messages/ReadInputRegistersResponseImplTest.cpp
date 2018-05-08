@@ -3,16 +3,17 @@
 #include <array>
 #include "modbus/exceptions/MalformedModbusResponseException.h"
 #include "modbus/exceptions/ModbusException.h"
-#include "modbus/messages/ReadInputRegistersRequest.h"
-#include "modbus/messages/ReadInputRegistersResponse.h"
+#include "messages/ReadInputRegistersRequestImpl.h"
+#include "messages/ReadInputRegistersResponseImpl.h"
 
 using namespace modbus;
 
-TEST_CASE("ReadInputRegistersResponse")
+TEST_CASE("ReadInputRegistersResponseImpl")
 {
     const uint16_t starting_address = 0x0016;
     const uint16_t qty_of_registers = 4;
     ReadInputRegistersRequest request{starting_address, qty_of_registers};
+    ReadInputRegistersRequestImpl request_impl{request};
 
     SECTION("When proper response, then parse it properly")
     {
@@ -24,13 +25,13 @@ TEST_CASE("ReadInputRegistersResponse")
             0x00, 0x03, // Register 0x0018
             0x00, 0x04  // Register 0x0019
         }};
-        openpal::rseq_t buffer{proper_response.data(), proper_response.size()};
+        ser4cpp::rseq_t buffer{proper_response.data(), proper_response.size()};
 
-        auto result = ReadInputRegistersResponse::parse(request, buffer);
+        auto result = ReadInputRegistersResponseImpl::parse(request, buffer);
 
         REQUIRE(result.is_valid() == true);
         auto response = result.get();
-        auto values = response.get_values();
+        auto values = response.values;
         REQUIRE(values.size() == 4);
         REQUIRE(values[0].address == 0x0016);
         REQUIRE(values[0].value == 0x0001);
@@ -48,9 +49,9 @@ TEST_CASE("ReadInputRegistersResponse")
             0x84, // Exception function code
             0x02  // Illegal data address
         }};
-        openpal::rseq_t buffer{exception_response.data(), exception_response.size()};
+        ser4cpp::rseq_t buffer{exception_response.data(), exception_response.size()};
 
-        auto result = ReadInputRegistersResponse::parse(request, buffer);
+        auto result = ReadInputRegistersResponseImpl::parse(request, buffer);
 
         REQUIRE(result.has_exception<ModbusException>() == true);
         REQUIRE(result.get_exception<ModbusException>().get_exception_type() == ExceptionType::IllegalDataAddress);
@@ -61,9 +62,9 @@ TEST_CASE("ReadInputRegistersResponse")
         std::array<uint8_t, 1> wrong_size_response{ {
             0x03 // Function code
         }};
-        openpal::rseq_t buffer{ wrong_size_response.data(), wrong_size_response.size() };
+        ser4cpp::rseq_t buffer{ wrong_size_response.data(), wrong_size_response.size() };
 
-        auto result = ReadInputRegistersResponse::parse(request, buffer);
+        auto result = ReadInputRegistersResponseImpl::parse(request, buffer);
 
         REQUIRE(result.has_exception<MalformedModbusResponseException>() == true);
     }
@@ -75,9 +76,9 @@ TEST_CASE("ReadInputRegistersResponse")
             0x03,            // Size not even
             0x42, 0x43, 0x44 // Appropriate data
         }};
-        openpal::rseq_t buffer{ wrong_size_response.data(), wrong_size_response.size() };
+        ser4cpp::rseq_t buffer{ wrong_size_response.data(), wrong_size_response.size() };
 
-        auto result = ReadInputRegistersResponse::parse(request, buffer);
+        auto result = ReadInputRegistersResponseImpl::parse(request, buffer);
 
         REQUIRE(result.has_exception<MalformedModbusResponseException>() == true);
     }
@@ -89,9 +90,9 @@ TEST_CASE("ReadInputRegistersResponse")
             0x02, // Length should be 2
             0x42  // Only 1 byte is received
         }};
-        openpal::rseq_t buffer{wrong_size_response.data(), wrong_size_response.size()};
+        ser4cpp::rseq_t buffer{wrong_size_response.data(), wrong_size_response.size()};
 
-        auto result = ReadInputRegistersResponse::parse(request, buffer);
+        auto result = ReadInputRegistersResponseImpl::parse(request, buffer);
 
         REQUIRE(result.has_exception<MalformedModbusResponseException>() == true);
     }

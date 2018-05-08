@@ -21,8 +21,7 @@ std::shared_ptr<Logger> LoggerFactory::create_null_logger(const std::string& nam
     return std::make_shared<Logger>(spd_logger);
 }
 
-std::shared_ptr<Logger> LoggerFactory::create_custom_logger(const std::string& name,
-                                                            std::shared_ptr<spdlog::logger> custom_logger)
+std::shared_ptr<Logger> LoggerFactory::create_custom_logger(std::shared_ptr<spdlog::logger> custom_logger)
 {
     return std::make_shared<Logger>(custom_logger);
 }

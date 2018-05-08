@@ -3,12 +3,12 @@
 
 #include <string>
 #include <memory>
+#include "modbus/channel/IChannel.h"
+#include "modbus/Ipv4Endpoint.h"
 
 namespace modbus
 {
 
-class IChannel;
-class Ipv4Endpoint;
 class Logger;
 
 class IModbusManager

@@ -1,7 +1,7 @@
 #include "catch.hpp"
 
 #include <array>
-#include "openpal/container/Buffer.h"
+#include "ser4cpp/container/Buffer.h"
 #include "channel/MbapMessage.h"
 #include "mocks/RequestMock.h"
 
@@ -19,7 +19,7 @@ TEST_CASE("MbapMessage")
             0x42,       // Unit identifier
             0x76, 0x76  // Data
     }};
-    openpal::rseq_t raw_request{raw_request_data.data(), raw_request_data.size()};
+    ser4cpp::rseq_t raw_request{raw_request_data.data(), raw_request_data.size()};
 
     SECTION("When constructor, then set the values appropriately")
     {
@@ -32,7 +32,7 @@ TEST_CASE("MbapMessage")
 
     SECTION("When build message, then appropriately build the message")
     {
-        openpal::Buffer buffer{260};
+        ser4cpp::Buffer buffer{260};
         auto write_buffer = buffer.as_wslice();
         auto result = MbapMessage::build_message(unit_id, transaction_id, request, write_buffer);
 
@@ -42,7 +42,7 @@ TEST_CASE("MbapMessage")
 
     SECTION("When build message of size 0, then appropriately build the message")
     {
-        openpal::Buffer buffer{260};
+        ser4cpp::Buffer buffer{260};
         RequestMock empty_request{0, 0x42};
         auto write_buffer = buffer.as_wslice();
         auto result = MbapMessage::build_message(unit_id, transaction_id, empty_request, write_buffer);
@@ -53,13 +53,13 @@ TEST_CASE("MbapMessage")
                 0x00, 0x01, // Length
                 0x42,       // Unit identifier
         }};
-        openpal::rseq_t expected_message{expected_message_data.data(), expected_message_data.size()};
+        ser4cpp::rseq_t expected_message{expected_message_data.data(), expected_message_data.size()};
         REQUIRE(result.equals(expected_message));
     }
 
     SECTION("When build message of size greater than the limit, then stop writing after the limit")
     {
-        openpal::Buffer buffer{260};
+        ser4cpp::Buffer buffer{260};
         RequestMock big_request{400, 0x42};
         auto write_buffer = buffer.as_wslice();
         auto result = MbapMessage::build_message(unit_id, transaction_id, big_request, write_buffer);
