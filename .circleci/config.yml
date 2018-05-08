@@ -105,13 +105,13 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      #- build-gcc-debug
-      #- build-gcc-release
-      #- build-clang-debug
-      #- build-clang-release
-      - build-doc
-          #requires:
-          #  - build-gcc-debug
-          #  - build-gcc-release
-          #  - build-clang-debug
-          #  - build-clang-release
+      - build-gcc-debug
+      - build-gcc-release
+      - build-clang-debug
+      - build-clang-release
+      - build-doc:
+          requires:
+            - build-gcc-debug
+            - build-gcc-release
+            - build-clang-debug
+            - build-clang-release
