@@ -6,6 +6,12 @@
 namespace modbus
 {
 
+/**
+ * @brief Represent a register address and its value
+ *
+ * @see @ref ReadHoldingRegistersResponse, @ref ReadInputRegistersResponse,
+ *      @ref WriteSingleRegisterRequest, @ref WriteSingleRegisterResponse
+ */
 struct RegisterValue
 {
     Address address;

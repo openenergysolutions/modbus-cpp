@@ -35,6 +35,7 @@ public:
      *
      * This constructor is used whenever you want to create a valid value (i.e. no error) by copy.
      * Here's an example of its usage:
+     *
      * @cpp
      * Expected<int> foo()
      * {
@@ -111,6 +112,7 @@ public:
      *
      * This method should be used when the value could not be obtained (i.e. an error occured).
      * Here's an example usage:
+     *
      * @cpp
      * Expected<int> foo()
      * {
@@ -147,7 +149,7 @@ public:
      *
      * If this method returns @cpp true @ce, the value can be obtained with @ref get(). Otherwise,
      * the error can be obtained with @ref get_exception().
-     * @see @ref get() @ref has_exception() @ref get_exception()
+     * @see @ref get(), @ref has_exception(), @ref get_exception()
      */
     bool is_valid() const
     {
@@ -195,7 +197,7 @@ public:
      * @tparam E    Type of the error to check
      * @return @cpp true @ce if it contains an error of the specified type, @cpp false @ce otherwise.
      *
-     * @see @ref is_valid() @ref get_exception()
+     * @see @ref is_valid(), @ref get_exception()
      */
     template<typename E>
     bool has_exception() const
@@ -231,7 +233,7 @@ public:
      * @return Internal @cpp std::exception_ptr @ce
      * @throw std::invalid_argument if the expectation does not contain the right type
      *
-     * @see @ref is_valid() @ref has_exception()
+     * @see @ref is_valid(), @ref has_exception()
      */
     template<typename E>
     E get_exception() const

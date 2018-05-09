@@ -82,7 +82,7 @@ jobs:
           working_directory: build
   build-doc:
       docker:
-        - image: emgre/circleci-doxygen:0.0.1
+        - image: emgre/circleci-doxygen:0.0.2
       steps:
         - add_ssh_keys:
             fingerprints:

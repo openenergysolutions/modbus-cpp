@@ -6,8 +6,22 @@
 namespace modbus
 {
 
+/**
+ * @brief Write Single Register request message
+ *
+ * Write a single holding register.
+ *
+ * This is the function code @cpp 0x06 @ce of the Modbus protocol.
+ *
+ * @see @ref WriteSingleRegisterResponse, @ref WriteMultipleRegistersRequest
+ */
 struct WriteSingleRegisterRequest
 {
+    /**
+     * @brief Address of the register to write and its new value
+     *
+     * The address must be in a valid range of the device.
+     */
     RegisterValue value;
 };
 

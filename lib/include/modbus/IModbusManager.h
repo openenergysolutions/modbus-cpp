@@ -54,7 +54,7 @@ public:
      *
      * The number of threads to use is often found by trial and error. It depends on the machine
      * used, as well as the number of active channels and their polling frenquency. A good start
-     * is usually @cpp std::thread::hardware_concurrency @ece.
+     * is usually @cpp std::thread::hardware_concurrency @ce.
      *
      * The returned instance can safely be put in a @cpp std::shared_ptr @ce if necessary.
      *

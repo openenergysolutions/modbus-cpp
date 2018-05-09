@@ -12,6 +12,14 @@ namespace spdlog
 namespace modbus
 {
 
+/**
+ * @brief Pointer type for a logger
+ *
+ * This type is only used internally. It is made available here in order to pass
+ * it to the @ref IModbusManager.
+ *
+ * @see @ref LoggerFactory, @ref IModbusManager
+ */
 class Logger;
 
 /**

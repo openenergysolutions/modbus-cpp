@@ -6,9 +6,17 @@
 namespace modbus
 {
 
+/**
+ * @brief Timeout error
+ *
+ * This error is emitted whenever the timeout of a request is reached.
+ */
 class TimeoutException : public IException
 {
 public:
+    /**
+     * @brief Constructor
+     */
     TimeoutException() : IException{"Timeout reached"} {}
 };
 
