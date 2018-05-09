@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>modbus-cpp</title>
+  <title>modbus::TimeoutException class | modbus-cpp</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+doxygen.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -43,24 +43,41 @@
   <div class="m-container m-container-inflatable">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <h1>Modules</h2>
-        <ul class="m-dox">
-        </ul>
-        <script>
-        function toggle(e) {
-            e.parentElement.className = e.parentElement.className == 'm-dox-collapsible' ?
-                'm-dox-expansible' : 'm-dox-collapsible';
-            return false;
-        }
-        /* Collapse all nodes marked as such. Doing it via JS instead of directly in
-           markup so disabling it doesn't harm usability. The list is somehow
-           regenerated on every iteration and shrinks as I change the classes. It's not
-           documented anywhere and I'm not sure if this is the same across browsers, so
-           I am going backwards in that list to be sure.  */
-        var collapsed = document.getElementsByClassName("collapsed");
-        for(var i = collapsed.length - 1; i >= 0; --i)
-            collapsed[i].className = 'm-dox-expansible';
-        </script>
+        <h1>
+          <span class="m-breadcrumb"><a href="namespacemodbus.html">modbus</a>::</span>TimeoutException <span class="m-thin">class</span>
+        </h1>
+        <p>Timeout error.</p>
+        <div class="m-block m-default">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#base-classes">Base classes</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+<p>This error is emitted whenever the timeout of a request is reached.</p>
+        <section id="base-classes">
+          <h2><a href="#base-classes">Base classes</a></h2>
+          <dl class="m-dox">
+            <dt>
+              class <a href="classmodbus_1_1IException.html" class="m-dox">IException</a>
+            </dt>
+            <dd>Interface for all the exception types.</dd>
+          </dl>
+        </section>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+          <dl class="m-dox">
+            <dt>
+              <span class="m-dox-wrap-bumper"><a href="#a32d4859ffa9199a9afdfa6f7b44a15b1" class="m-dox-self" name="a32d4859ffa9199a9afdfa6f7b44a15b1">TimeoutException</a>(</span><span class="m-dox-wrap">)</span>
+            </dt>
+            <dd>Constructor.</dd>
+          </dl>
+        </section>
       </div>
     </div>
   </div>

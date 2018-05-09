@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>modbus-cpp</title>
+  <title>modbus::IException class | modbus-cpp</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+doxygen.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -43,24 +43,97 @@
   <div class="m-container m-container-inflatable">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <h1>Modules</h2>
-        <ul class="m-dox">
-        </ul>
-        <script>
-        function toggle(e) {
-            e.parentElement.className = e.parentElement.className == 'm-dox-collapsible' ?
-                'm-dox-expansible' : 'm-dox-collapsible';
-            return false;
-        }
-        /* Collapse all nodes marked as such. Doing it via JS instead of directly in
-           markup so disabling it doesn't harm usability. The list is somehow
-           regenerated on every iteration and shrinks as I change the classes. It's not
-           documented anywhere and I'm not sure if this is the same across browsers, so
-           I am going backwards in that list to be sure.  */
-        var collapsed = document.getElementsByClassName("collapsed");
-        for(var i = collapsed.length - 1; i >= 0; --i)
-            collapsed[i].className = 'm-dox-expansible';
-        </script>
+        <h1>
+          <span class="m-breadcrumb"><a href="namespacemodbus.html">modbus</a>::</span>IException <span class="m-thin">class</span>
+        </h1>
+        <p>Interface for all the exception types.</p>
+        <div class="m-block m-default">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#derived-classes">Derived classes</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+<p>This class contains the <code class="m-code"><span class="n">std</span><span class="o">::</span><span class="n">string</span></code> of the exception message in order to have copyable without any issues of strings getting destroyed.</p><p>All the errors you can have in <a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a> inherits from this class.</p><aside class="m-note m-default"><h4>See also</h4><p><a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a></p></aside>
+        <section id="derived-classes">
+          <h2><a href="#derived-classes">Derived classes</a></h2>
+          <dl class="m-dox">
+            <dt>
+              class <a href="classmodbus_1_1ConnectionException.html" class="m-dox">ConnectionException</a>
+            </dt>
+            <dd>Connection error.</dd>
+            <dt>
+              class <a href="classmodbus_1_1MalformedModbusResponseException.html" class="m-dox">MalformedModbusResponseException</a>
+            </dt>
+            <dd>Malformed Modbus response error.</dd>
+            <dt>
+              class <a href="classmodbus_1_1ModbusException.html" class="m-dox">ModbusException</a>
+            </dt>
+            <dd>Modbus exception error.</dd>
+            <dt>
+              class <a href="classmodbus_1_1TimeoutException.html" class="m-dox">TimeoutException</a>
+            </dt>
+            <dd>Timeout error.</dd>
+          </dl>
+        </section>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+          <dl class="m-dox">
+            <dt>
+              <span class="m-dox-wrap-bumper"><a href="#a24181f5eb12ac27ea91f52f3c3d61869" class="m-dox">IException</a>(</span><span class="m-dox-wrap">const std::string&amp; message) <span class="m-label m-flat m-info">explicit</span> </span>
+            </dt>
+            <dd>Constructor.</dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-dox">
+            <dt>
+              <span class="m-dox-wrap-bumper">auto <a href="#a5fb70b8e74d78329f065c1941d452e64" class="m-dox">get_message</a>(</span><span class="m-dox-wrap">) const -&gt; const std::string&amp;</span>
+            </dt>
+            <dd>Get the error message.</dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-dox-details" id="a24181f5eb12ac27ea91f52f3c3d61869"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper"> modbus::<wbr />IException::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a24181f5eb12ac27ea91f52f3c3d61869" class="m-dox-self">IException</a>(</span><span class="m-dox-wrap">const std::string&amp; message) <span class="m-label m-info">explicit</span> </span></span>
+            </h3>
+            <p>Constructor.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">message</td>
+                  <td>Message describing the error</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-dox-details" id="a5fb70b8e74d78329f065c1941d452e64"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper">const std::string&amp; modbus::<wbr />IException::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a5fb70b8e74d78329f065c1941d452e64" class="m-dox-self">get_message</a>(</span><span class="m-dox-wrap">) const</span></span>
+            </h3>
+            <p>Get the error message.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>Error message as string</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+        </section>
       </div>
     </div>
   </div>

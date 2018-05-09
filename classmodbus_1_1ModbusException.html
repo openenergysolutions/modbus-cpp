@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>modbus::LoggerFactory class | modbus-cpp</title>
+  <title>modbus::ModbusException class | modbus-cpp</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+doxygen.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -44,111 +44,115 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="namespacemodbus.html">modbus</a>::</span>LoggerFactory <span class="m-thin">class</span>
+          <span class="m-breadcrumb"><a href="namespacemodbus.html">modbus</a>::</span>ModbusException <span class="m-thin">class</span>
         </h1>
-        <p>Factory of loggers.</p>
+        <p>Modbus exception error.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
+                <li><a href="#base-classes">Base classes</a></li>
                 <li><a href="#pub-static-methods">Public static functions</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
           </ul>
         </div>
-<p>Creates loggers using <a href="https://github.com/gabime/spdlog">spdlog</a>. Note that the spdlog is completely private dependency and you don&#x27;t need it, except if you compile from the sources.</p><p>If you are already using spdlog in your application, you can use <a href="classmodbus_1_1LoggerFactory.html#a64d7a82d654471713fcf1a5ba8ef04fc" class="m-dox">create_custom_logger(std::<wbr />shared_ptr&lt;spdlog::<wbr />logger&gt; custom_logger)</a> to use an existing logger.</p><aside class="m-note m-default"><h4>See also</h4><p><a href="classmodbus_1_1IModbusManager.html" class="m-dox">IModbusManager</a></p></aside>
+<p>This error is generated whenever a Modbus exception is received from the wire. Modbus exception errors are characterized by having the most significant bit of the function code set to 1. Refer to the Modbus documentation as well as the device documentation for further details.</p><aside class="m-note m-default"><h4>See also</h4><p><a href="namespacemodbus.html#adf87eec37b2090ed0de1c9b28eb747a6" class="m-dox">ExceptionType</a></p></aside>
+        <section id="base-classes">
+          <h2><a href="#base-classes">Base classes</a></h2>
+          <dl class="m-dox">
+            <dt>
+              class <a href="classmodbus_1_1IException.html" class="m-dox">IException</a>
+            </dt>
+            <dd>Interface for all the exception types.</dd>
+          </dl>
+        </section>
         <section id="pub-static-methods">
           <h2><a href="#pub-static-methods">Public static functions</a></h2>
           <dl class="m-dox">
             <dt>
-              <span class="m-dox-wrap-bumper">static auto <a href="#aea726478e6797341d6e1cabe6c0c8cec" class="m-dox">create_console_logger</a>(</span><span class="m-dox-wrap">const std::string&amp; name) -&gt; std::shared_ptr&lt;Logger&gt;</span>
+              <span class="m-dox-wrap-bumper">static auto <a href="#ac0902a7df7e2a45665f23b20c72757f3" class="m-dox">get_message</a>(</span><span class="m-dox-wrap">const <a href="namespacemodbus.html#adf87eec37b2090ed0de1c9b28eb747a6" class="m-dox">ExceptionType</a>&amp; exception_type) -&gt; std::string</span>
             </dt>
-            <dd>Creates a console logger.</dd>
+            <dd>Retrieve the human-readable message from an <a href="namespacemodbus.html#adf87eec37b2090ed0de1c9b28eb747a6" class="m-dox">ExceptionType</a>.</dd>
+          </dl>
+        </section>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+          <dl class="m-dox">
             <dt>
-              <span class="m-dox-wrap-bumper">static auto <a href="#ac56fd8e79678acf0a59b5a7eafbfd5f6" class="m-dox">create_null_logger</a>(</span><span class="m-dox-wrap">const std::string&amp; name) -&gt; std::shared_ptr&lt;Logger&gt;</span>
+              <span class="m-dox-wrap-bumper"><a href="#a503eec31cf1120c78722a932a158614c" class="m-dox">ModbusException</a>(</span><span class="m-dox-wrap">const <a href="namespacemodbus.html#adf87eec37b2090ed0de1c9b28eb747a6" class="m-dox">ExceptionType</a>&amp; exception_type) <span class="m-label m-flat m-info">explicit</span> </span>
             </dt>
-            <dd>Creates a logger that simply drops all the messages.</dd>
+            <dd>Constructor.</dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-dox">
             <dt>
-              <span class="m-dox-wrap-bumper">static auto <a href="#a64d7a82d654471713fcf1a5ba8ef04fc" class="m-dox">create_custom_logger</a>(</span><span class="m-dox-wrap">std::shared_ptr&lt;spdlog::logger&gt; custom_logger) -&gt; std::shared_ptr&lt;Logger&gt;</span>
+              <span class="m-dox-wrap-bumper">auto <a href="#a287aeb0e398e910f8896bed8b2b85c22" class="m-dox">get_exception_type</a>(</span><span class="m-dox-wrap">) const -&gt; const <a href="namespacemodbus.html#adf87eec37b2090ed0de1c9b28eb747a6" class="m-dox">ExceptionType</a>&amp;</span>
             </dt>
-            <dd>Creates a logger from a custom logger.</dd>
+            <dd>Get the Modbus exception type associated with the error.</dd>
           </dl>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-dox-details" id="aea726478e6797341d6e1cabe6c0c8cec"><div>
+          <section class="m-dox-details" id="ac0902a7df7e2a45665f23b20c72757f3"><div>
             <h3>
-              <span class="m-dox-wrap-bumper">static std::shared_ptr&lt;Logger&gt; modbus::<wbr />LoggerFactory::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#aea726478e6797341d6e1cabe6c0c8cec" class="m-dox-self">create_console_logger</a>(</span><span class="m-dox-wrap">const std::string&amp; name)</span></span>
+              <span class="m-dox-wrap-bumper">static std::string modbus::<wbr />ModbusException::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#ac0902a7df7e2a45665f23b20c72757f3" class="m-dox-self">get_message</a>(</span><span class="m-dox-wrap">const <a href="namespacemodbus.html#adf87eec37b2090ed0de1c9b28eb747a6" class="m-dox">ExceptionType</a>&amp; exception_type)</span></span>
             </h3>
-            <p>Creates a console logger.</p>
+            <p>Retrieve the human-readable message from an <a href="namespacemodbus.html#adf87eec37b2090ed0de1c9b28eb747a6" class="m-dox">ExceptionType</a>.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
               </thead>
               <tbody>
                 <tr>
-                  <td style="width: 1%">name</td>
-                  <td>Name associated with the logger</td>
+                  <td style="width: 1%">exception_type</td>
+                  <td>Modbus exception type</td>
                 </tr>
               </tbody>
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>Shared pointer of the logger</td>
+                  <td>Human-readable error message</td>
                 </tr>
               </tfoot>
             </table>
-<p>The console logger will be colored and is completely thread-safe. It uses <code class="m-code"><span class="n">spdlog</span><span class="o">::</span><span class="n">stdout_color_mt</span></code> under the hood.</p>
           </div></section>
-          <section class="m-dox-details" id="ac56fd8e79678acf0a59b5a7eafbfd5f6"><div>
+          <section class="m-dox-details" id="a503eec31cf1120c78722a932a158614c"><div>
             <h3>
-              <span class="m-dox-wrap-bumper">static std::shared_ptr&lt;Logger&gt; modbus::<wbr />LoggerFactory::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#ac56fd8e79678acf0a59b5a7eafbfd5f6" class="m-dox-self">create_null_logger</a>(</span><span class="m-dox-wrap">const std::string&amp; name)</span></span>
+              <span class="m-dox-wrap-bumper"> modbus::<wbr />ModbusException::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a503eec31cf1120c78722a932a158614c" class="m-dox-self">ModbusException</a>(</span><span class="m-dox-wrap">const <a href="namespacemodbus.html#adf87eec37b2090ed0de1c9b28eb747a6" class="m-dox">ExceptionType</a>&amp; exception_type) <span class="m-label m-info">explicit</span> </span></span>
             </h3>
-            <p>Creates a logger that simply drops all the messages.</p>
+            <p>Constructor.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
               </thead>
               <tbody>
                 <tr>
-                  <td style="width: 1%">name</td>
-                  <td>name associated with the logger</td>
+                  <td style="width: 1%">exception_type</td>
+                  <td>Modbus exception type</td>
                 </tr>
               </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>Shared pointer of the logger</td>
-                </tr>
-              </tfoot>
             </table>
-<p>This logger is useful if you don&#x27;t want to provide logging (e.g. in tests). It simply ignores all the messages passed to it. It uses a <code class="m-code"><span class="n">spdlog</span><span class="o">::</span><span class="n">sinks</span><span class="o">::</span><span class="n">null_sink_st</span></code> under the hood.</p>
           </div></section>
-          <section class="m-dox-details" id="a64d7a82d654471713fcf1a5ba8ef04fc"><div>
+          <section class="m-dox-details" id="a287aeb0e398e910f8896bed8b2b85c22"><div>
             <h3>
-              <span class="m-dox-wrap-bumper">static std::shared_ptr&lt;Logger&gt; modbus::<wbr />LoggerFactory::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a64d7a82d654471713fcf1a5ba8ef04fc" class="m-dox-self">create_custom_logger</a>(</span><span class="m-dox-wrap">std::shared_ptr&lt;spdlog::logger&gt; custom_logger)</span></span>
+              <span class="m-dox-wrap-bumper">const <a href="namespacemodbus.html#adf87eec37b2090ed0de1c9b28eb747a6" class="m-dox">ExceptionType</a>&amp; modbus::<wbr />ModbusException::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a287aeb0e398e910f8896bed8b2b85c22" class="m-dox-self">get_exception_type</a>(</span><span class="m-dox-wrap">) const</span></span>
             </h3>
-            <p>Creates a logger from a custom logger.</p>
+            <p>Get the Modbus exception type associated with the error.</p>
             <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">custom_logger</td>
-                  <td>Shared pointer to a <code class="m-code"><span class="n">spdlog</span><span class="o">::</span><span class="n">logger</span></code> logger</td>
-                </tr>
-              </tbody>
               <tfoot>
                 <tr>
-                  <th>Returns</th>
-                  <td>Shared pointer of the logger</td>
+                  <th style="width: 1%">Returns</th>
+                  <td>Modbus exception type</td>
                 </tr>
               </tfoot>
             </table>
-<p>Use this method if you already use spdlog and want to use a custom logger.</p>
           </div></section>
         </section>
       </div>

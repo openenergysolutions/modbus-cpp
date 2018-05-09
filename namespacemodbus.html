@@ -52,6 +52,9 @@
               Reference
               <ul>
                 <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#enum-members">Enums</a></li>
+                <li><a href="#typedef-members">Typedefs</a></li>
+                <li><a href="#func-members">Functions</a></li>
               </ul>
             </li>
           </ul>
@@ -61,19 +64,329 @@
           <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-dox">
             <dt>
+              class <a href="classmodbus_1_1ConnectionException.html" class="m-dox">ConnectionException</a>
+            </dt>
+            <dd>Connection error.</dd>
+            <dt>
               <div class="m-dox-template">template&lt;typename T&gt;</div>
               class <a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a>
             </dt>
             <dd>Expected type often used in return values and callbacks.</dd>
             <dt>
+              class <a href="classmodbus_1_1IChannel.html" class="m-dox">IChannel</a>
+            </dt>
+            <dd>Communication channel to a Modbus device.</dd>
+            <dt>
+              class <a href="classmodbus_1_1IException.html" class="m-dox">IException</a>
+            </dt>
+            <dd>Interface for all the exception types.</dd>
+            <dt>
               class <a href="classmodbus_1_1IModbusManager.html" class="m-dox">IModbusManager</a>
             </dt>
             <dd>Main entry point of modbus-cpp.</dd>
             <dt>
+              class <a href="classmodbus_1_1Ipv4Endpoint.html" class="m-dox">Ipv4Endpoint</a>
+            </dt>
+            <dd>IPv4 endpoint representation.</dd>
+            <dt>
+              class <a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">IScheduledRequest</a>
+            </dt>
+            <dd>Scheduled request.</dd>
+            <dt>
+              class <a href="classmodbus_1_1ISession.html" class="m-dox">ISession</a>
+            </dt>
+            <dd>Communication session with a Modbus device.</dd>
+            <dt>
+              class <a href="classmodbus_1_1ISessionResponseHandler.html" class="m-dox">ISessionResponseHandler</a>
+            </dt>
+            <dd>Response handler for scheduled requests.</dd>
+            <dt>
               class <a href="classmodbus_1_1LoggerFactory.html" class="m-dox">LoggerFactory</a>
             </dt>
             <dd>Factory of loggers.</dd>
+            <dt>
+              class <a href="classmodbus_1_1MalformedModbusResponseException.html" class="m-dox">MalformedModbusResponseException</a>
+            </dt>
+            <dd>Malformed Modbus response error.</dd>
+            <dt>
+              class <a href="classmodbus_1_1ModbusException.html" class="m-dox">ModbusException</a>
+            </dt>
+            <dd>Modbus exception error.</dd>
+            <dt>
+              struct <a href="structmodbus_1_1ReadHoldingRegistersRequest.html" class="m-dox">ReadHoldingRegistersRequest</a>
+            </dt>
+            <dd>Read Holding Registers request message.</dd>
+            <dt>
+              struct <a href="structmodbus_1_1ReadHoldingRegistersResponse.html" class="m-dox">ReadHoldingRegistersResponse</a>
+            </dt>
+            <dd>Read Holding Registers response message.</dd>
+            <dt>
+              struct <a href="structmodbus_1_1ReadInputRegistersRequest.html" class="m-dox">ReadInputRegistersRequest</a>
+            </dt>
+            <dd>Read Input Registers request message.</dd>
+            <dt>
+              struct <a href="structmodbus_1_1ReadInputRegistersResponse.html" class="m-dox">ReadInputRegistersResponse</a>
+            </dt>
+            <dd>Read Input Registers response message.</dd>
+            <dt>
+              struct <a href="structmodbus_1_1RegisterValue.html" class="m-dox">RegisterValue</a>
+            </dt>
+            <dd>Represent a register address and its value.</dd>
+            <dt>
+              class <a href="classmodbus_1_1TimeoutException.html" class="m-dox">TimeoutException</a>
+            </dt>
+            <dd>Timeout error.</dd>
+            <dt>
+              class <a href="classmodbus_1_1UnitIdentifier.html" class="m-dox">UnitIdentifier</a>
+            </dt>
+            <dd>Modbus unit identifier.</dd>
+            <dt>
+              struct <a href="structmodbus_1_1WriteMultipleRegistersRequest.html" class="m-dox">WriteMultipleRegistersRequest</a>
+            </dt>
+            <dd>Write multiple registers request message.</dd>
+            <dt>
+              struct <a href="structmodbus_1_1WriteMultipleRegistersResponse.html" class="m-dox">WriteMultipleRegistersResponse</a>
+            </dt>
+            <dd>Write multiple registers response message.</dd>
+            <dt>
+              struct <a href="structmodbus_1_1WriteSingleRegisterRequest.html" class="m-dox">WriteSingleRegisterRequest</a>
+            </dt>
+            <dd>Write Single Register request message.</dd>
+            <dt>
+              struct <a href="structmodbus_1_1WriteSingleRegisterResponse.html" class="m-dox">WriteSingleRegisterResponse</a>
+            </dt>
+            <dd>Write single register response message.</dd>
           </dl>
+        </section>
+        <section id="enum-members">
+          <h2><a href="#enum-members">Enums</a></h2>
+          <dl class="m-dox">
+            <dt>
+              <span class="m-dox-wrap-bumper">enum class <a href="#adf87eec37b2090ed0de1c9b28eb747a6" class="m-dox">ExceptionType</a> { </span><span class="m-dox-wrap"><a href="#adf87eec37b2090ed0de1c9b28eb747a6a96e6b9462fdd161d848d2a1714261b62" class="m-dox">IllegalFunction</a> = 0x01,
+              <a href="#adf87eec37b2090ed0de1c9b28eb747a6af711c751bc9816ca88fb335db483b363" class="m-dox">IllegalDataAddress</a> = 0x02,
+              <a href="#adf87eec37b2090ed0de1c9b28eb747a6a41751d1ddc9a916501da3e1cb06ec2f2" class="m-dox">IllegalDataValue</a> = 0x03,
+              <a href="#adf87eec37b2090ed0de1c9b28eb747a6a6480410b70813f5405b7d4b8e0d53a0d" class="m-dox">ServerDeviceFailure</a> = 0x04,
+              <a href="#adf87eec37b2090ed0de1c9b28eb747a6add279c1edcfbecb780a4a20917a766c1" class="m-dox">Acknowledge</a> = 0x05,
+              <a href="#adf87eec37b2090ed0de1c9b28eb747a6a97b877eed08eda539d0e16db9c2e136f" class="m-dox">ServerDeviceBusy</a> = 0x06,
+              <a href="#adf87eec37b2090ed0de1c9b28eb747a6a1c620be3fe90a9aa5719a8a1731d20b4" class="m-dox">MemoryParityError</a> = 0x07,
+              <a href="#adf87eec37b2090ed0de1c9b28eb747a6a804d7a0d60f27ae6df9e210a80b255ad" class="m-dox">GatewayPathUnavailable</a> = 0x0A,
+              <a href="#adf87eec37b2090ed0de1c9b28eb747a6aff4d4bda2221b81bb11cbdb21a426900" class="m-dox">GatewayTargetDeviceFailedToRespond</a> = 0x0B,
+              <a href="#adf87eec37b2090ed0de1c9b28eb747a6a88183b946cc5f0e8c96b2e66e1c74a7e" class="m-dox">Unknown</a> }</span>
+            </dt>
+            <dd>Modbus exception type.</dd>
+          </dl>
+        </section>
+        <section id="typedef-members">
+          <h2><a href="#typedef-members">Typedefs</a></h2>
+          <dl class="m-dox">
+            <dt>
+              using <a href="#a7364f7cc8148937aaf5b230ef23192cb" class="m-dox">Address</a> = uint16_t
+            </dt>
+            <dd>Address of a register.</dd>
+            <dt>
+              <div class="m-dox-template">template&lt;typename TResponse&gt;</div>
+              using <a href="#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a> = std::function&lt;void(const <a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a>&lt;TResponse&gt;&amp;)&gt;
+            </dt>
+            <dd>Response handler used in callbacks.</dd>
+          </dl>
+        </section>
+        <section id="func-members">
+          <h2><a href="#func-members">Functions</a></h2>
+          <dl class="m-dox">
+            <dt>
+              <span class="m-dox-wrap-bumper">auto <a href="#a009b0e5713262259c047b214f4f81874" class="m-dox">operator&lt;&lt;</a>(</span><span class="m-dox-wrap">std::ostream&amp; stream,
+              const <a href="classmodbus_1_1UnitIdentifier.html" class="m-dox">UnitIdentifier</a>&amp; unit_id) -&gt; std::ostream&amp;</span>
+            </dt>
+            <dd>Format a unit identifier.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper">auto <a href="#a59f3c10334756c93d09d1610f8943af1" class="m-dox">parse_exception_type</a>(</span><span class="m-dox-wrap">uint8_t data) -&gt; <a href="namespacemodbus.html#adf87eec37b2090ed0de1c9b28eb747a6" class="m-dox">ExceptionType</a></span>
+            </dt>
+            <dd>Parse a Modbus exception from an 8-bit value.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper">auto <a href="#ac3c6b408fe17681b247499afe54f4ada" class="m-dox">operator&lt;&lt;</a>(</span><span class="m-dox-wrap">std::ostream&amp; stream,
+              const <a href="namespacemodbus.html#adf87eec37b2090ed0de1c9b28eb747a6" class="m-dox">ExceptionType</a>&amp; exception_type) -&gt; std::ostream&amp;</span>
+            </dt>
+            <dd>Format a unit identifier.</dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Enum documentation</h2>
+          <section class="m-dox-details" id="adf87eec37b2090ed0de1c9b28eb747a6"><div>
+            <h3>
+              enum class modbus::<wbr /><a href="#adf87eec37b2090ed0de1c9b28eb747a6" class="m-dox-self">ExceptionType</a>
+            </h3>
+            <p>Modbus exception type.</p>
+<p>See section <em>7: MODBUS Exception Responses</em> for more details about the exception.</p>
+            <table class="m-table m-fullwidth m-flat m-dox">
+              <thead><tr><th style="width: 1%">Enumerators</th><th></th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><a href="#adf87eec37b2090ed0de1c9b28eb747a6a96e6b9462fdd161d848d2a1714261b62" class="m-dox-self" name="adf87eec37b2090ed0de1c9b28eb747a6a96e6b9462fdd161d848d2a1714261b62">IllegalFunction</a></td>
+                  <td>
+<p><code class="m-code"><span class="mh">0x01</span></code> Illegal function</p><p>Function is not allowed on the slave, or the slave is not in a state where it can respond to this type of request.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a href="#adf87eec37b2090ed0de1c9b28eb747a6af711c751bc9816ca88fb335db483b363" class="m-dox-self" name="adf87eec37b2090ed0de1c9b28eb747a6af711c751bc9816ca88fb335db483b363">IllegalDataAddress</a></td>
+                  <td>
+<p><code class="m-code"><span class="mh">0x02</span></code> Illegal data address</p><p>The address range does not fit in the device mapping.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a href="#adf87eec37b2090ed0de1c9b28eb747a6a41751d1ddc9a916501da3e1cb06ec2f2" class="m-dox-self" name="adf87eec37b2090ed0de1c9b28eb747a6a41751d1ddc9a916501da3e1cb06ec2f2">IllegalDataValue</a></td>
+                  <td>
+<p><code class="m-code"><span class="mh">0x03</span></code> Illegal data value</p><p>A value in the query is not valid (e.g. length not set properly). It does <em>not</em> mean the value is outside the expectation of the application program.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a href="#adf87eec37b2090ed0de1c9b28eb747a6a6480410b70813f5405b7d4b8e0d53a0d" class="m-dox-self" name="adf87eec37b2090ed0de1c9b28eb747a6a6480410b70813f5405b7d4b8e0d53a0d">ServerDeviceFailure</a></td>
+                  <td>
+<p><code class="m-code"><span class="mh">0x04</span></code> Server device failure</p><p>An unknown error occured on the slave device.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a href="#adf87eec37b2090ed0de1c9b28eb747a6add279c1edcfbecb780a4a20917a766c1" class="m-dox-self" name="adf87eec37b2090ed0de1c9b28eb747a6add279c1edcfbecb780a4a20917a766c1">Acknowledge</a></td>
+                  <td>
+<p><code class="m-code"><span class="mh">0x05</span></code> Acknowledge</p><p>The request was accepted, but it requires a long processing type.</p><p>Used with programming commands (not supported by this library)</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a href="#adf87eec37b2090ed0de1c9b28eb747a6a97b877eed08eda539d0e16db9c2e136f" class="m-dox-self" name="adf87eec37b2090ed0de1c9b28eb747a6a97b877eed08eda539d0e16db9c2e136f">ServerDeviceBusy</a></td>
+                  <td>
+<p><code class="m-code"><span class="mh">0x06</span></code> Server device busy</p><p>The server is already processing a long-duration program.</p><p>Used with programming commands (not supported by this library)</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a href="#adf87eec37b2090ed0de1c9b28eb747a6a1c620be3fe90a9aa5719a8a1731d20b4" class="m-dox-self" name="adf87eec37b2090ed0de1c9b28eb747a6a1c620be3fe90a9aa5719a8a1731d20b4">MemoryParityError</a></td>
+                  <td>
+<p><code class="m-code"><span class="mh">0x07</span></code> Memory parity error</p><p>The extended file area failed to pass a consistency check.</p><p>Used with function codes <code class="m-code"><span class="mh">0x20</span></code> and <code class="m-code"><span class="mh">0x21</span></code> (not supported by this library)</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a href="#adf87eec37b2090ed0de1c9b28eb747a6a804d7a0d60f27ae6df9e210a80b255ad" class="m-dox-self" name="adf87eec37b2090ed0de1c9b28eb747a6a804d7a0d60f27ae6df9e210a80b255ad">GatewayPathUnavailable</a></td>
+                  <td>
+<p><code class="m-code"><span class="mh">0x0A</span></code> Gateway path unavailable</p><p>When use with a gateway, the gateway could not map the input port to the output port.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a href="#adf87eec37b2090ed0de1c9b28eb747a6aff4d4bda2221b81bb11cbdb21a426900" class="m-dox-self" name="adf87eec37b2090ed0de1c9b28eb747a6aff4d4bda2221b81bb11cbdb21a426900">GatewayTargetDeviceFailedToRespond</a></td>
+                  <td>
+<p><code class="m-code"><span class="mh">0x0B</span></code> Gateway target device failed to respond</p><p>When use with a gateway, no response was received from the target device.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a href="#adf87eec37b2090ed0de1c9b28eb747a6a88183b946cc5f0e8c96b2e66e1c74a7e" class="m-dox-self" name="adf87eec37b2090ed0de1c9b28eb747a6a88183b946cc5f0e8c96b2e66e1c74a7e">Unknown</a></td>
+                  <td>
+<p>Unknown Modbus exception.</p><p>Notify the vendor it should not respond with this message.</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+        </section>
+        <section>
+          <h2>Typedef documentation</h2>
+          <section class="m-dox-details" id="a7364f7cc8148937aaf5b230ef23192cb"><div>
+            <h3>
+              using modbus::<wbr /><a href="#a7364f7cc8148937aaf5b230ef23192cb" class="m-dox-self">Address</a> = uint16_t
+            </h3>
+            <p>Address of a register.</p>
+<p>This is a 16-bit value.</p><p>See section <em>4.4: MODBUS Addressing model</em> of the Modbus documentation for more details about the addressing model of Modbus.</p><aside class="m-note m-default"><h4>See also</h4><p><a href="structmodbus_1_1RegisterValue.html" class="m-dox">RegisterValue</a>, <a href="structmodbus_1_1ReadHoldingRegistersRequest.html" class="m-dox">ReadHoldingRegistersRequest</a>, <a href="structmodbus_1_1ReadInputRegistersRequest.html" class="m-dox">ReadInputRegistersRequest</a>, <a href="structmodbus_1_1WriteMultipleRegistersRequest.html" class="m-dox">WriteMultipleRegistersRequest</a>, <a href="structmodbus_1_1WriteMultipleRegistersResponse.html" class="m-dox">WriteMultipleRegistersResponse</a></p></aside>
+          </div></section>
+          <section class="m-dox-details" id="ae26a7c8960d3836689c36527823b249c"><div>
+            <h3>
+              <div class="m-dox-template">
+                template&lt;typename TResponse&gt;
+              </div>
+              using modbus::<wbr /><a href="#ae26a7c8960d3836689c36527823b249c" class="m-dox-self">ResponseHandler</a> = std::function&lt;void(const <a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a>&lt;TResponse&gt;&amp;)&gt;
+            </h3>
+            <p>Response handler used in callbacks.</p>
+<p>The response handler will be called with the expected response. Be sure to check that the expectation is valid with <a href="classmodbus_1_1Expected.html#ab7eb91ad6172997fad1046a7e2195112" class="m-dox">Expected::<wbr />is_valid()</a> before using it.</p><aside class="m-note m-danger"><h4>Warning</h4><p>All the response handlers are called from background threads created by the <a href="classmodbus_1_1IModbusManager.html" class="m-dox">IModbusManager</a>. Therefore, all response handlers <em>should not block</em> in any way. Otherwise, you risk having other channels not performing their tasks because the thread is blocked or even deadlocks. Also, be sure to use the appropriate mechanisms to eliminate the risks of race conditions in the user code.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a href="classmodbus_1_1ISession.html" class="m-dox">ISession</a></p></aside>
+          </div></section>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-dox-details" id="a009b0e5713262259c047b214f4f81874"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper">std::ostream&amp; modbus::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a009b0e5713262259c047b214f4f81874" class="m-dox-self">operator&lt;&lt;</a>(</span><span class="m-dox-wrap">std::ostream&amp; stream,
+              const <a href="classmodbus_1_1UnitIdentifier.html" class="m-dox">UnitIdentifier</a>&amp; unit_id)</span></span>
+            </h3>
+            <p>Format a unit identifier.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">stream</td>
+                  <td>Stream to write to</td>
+                </tr>
+                <tr>
+                  <td>unit_id</td>
+                  <td>Unit identifier to write</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>Stream passed in for method chaining</td>
+                </tr>
+              </tfoot>
+            </table>
+<p>This function is useful for logging purposes.</p>
+          </div></section>
+          <section class="m-dox-details" id="a59f3c10334756c93d09d1610f8943af1"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper"><a href="namespacemodbus.html#adf87eec37b2090ed0de1c9b28eb747a6" class="m-dox">ExceptionType</a> modbus::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a59f3c10334756c93d09d1610f8943af1" class="m-dox-self">parse_exception_type</a>(</span><span class="m-dox-wrap">uint8_t data)</span></span>
+            </h3>
+            <p>Parse a Modbus exception from an 8-bit value.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">data</td>
+                  <td>8-bit value to parse</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>Modbus exception (<a href="namespacemodbus.html#adf87eec37b2090ed0de1c9b28eb747a6a88183b946cc5f0e8c96b2e66e1c74a7e" class="m-dox">ExceptionType::<wbr />Unknown</a> if the exception is unknown)</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-dox-details" id="ac3c6b408fe17681b247499afe54f4ada"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper">std::ostream&amp; modbus::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#ac3c6b408fe17681b247499afe54f4ada" class="m-dox-self">operator&lt;&lt;</a>(</span><span class="m-dox-wrap">std::ostream&amp; stream,
+              const <a href="namespacemodbus.html#adf87eec37b2090ed0de1c9b28eb747a6" class="m-dox">ExceptionType</a>&amp; exception_type)</span></span>
+            </h3>
+            <p>Format a unit identifier.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">stream</td>
+                  <td>Stream to write to</td>
+                </tr>
+                <tr>
+                  <td>exception_type</td>
+                  <td>Modbus exception type</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>Stream passed in for method chaining</td>
+                </tr>
+              </tfoot>
+            </table>
+<p>This function is useful for logging purposes.</p>
+          </div></section>
         </section>
       </div>
     </div>
@@ -112,7 +425,7 @@
   <div class="m-container">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <p>modbus-cpp. Created by <a href="http://doxygen.org/">Doxygen</a> 1.8.13 and <a href="http://mcss.mosra.cz/">m.css</a>.</p>
+        <p>modbus-cpp. Created by <a href="http://doxygen.org/">Doxygen</a> 1.8.14 and <a href="http://mcss.mosra.cz/">m.css</a>.</p>
       </div>
     </div>
   </div>

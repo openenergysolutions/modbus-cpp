@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>modbus-cpp</title>
+  <title>modbus::MalformedModbusResponseException class | modbus-cpp</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+doxygen.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -43,24 +43,61 @@
   <div class="m-container m-container-inflatable">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <h1>Modules</h2>
-        <ul class="m-dox">
-        </ul>
-        <script>
-        function toggle(e) {
-            e.parentElement.className = e.parentElement.className == 'm-dox-collapsible' ?
-                'm-dox-expansible' : 'm-dox-collapsible';
-            return false;
-        }
-        /* Collapse all nodes marked as such. Doing it via JS instead of directly in
-           markup so disabling it doesn't harm usability. The list is somehow
-           regenerated on every iteration and shrinks as I change the classes. It's not
-           documented anywhere and I'm not sure if this is the same across browsers, so
-           I am going backwards in that list to be sure.  */
-        var collapsed = document.getElementsByClassName("collapsed");
-        for(var i = collapsed.length - 1; i >= 0; --i)
-            collapsed[i].className = 'm-dox-expansible';
-        </script>
+        <h1>
+          <span class="m-breadcrumb"><a href="namespacemodbus.html">modbus</a>::</span>MalformedModbusResponseException <span class="m-thin">class</span>
+        </h1>
+        <p>Malformed Modbus response error.</p>
+        <div class="m-block m-default">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#base-classes">Base classes</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+<p>This error is generated when a malformed response is received. Check the associated message with <a href="classmodbus_1_1IException.html#a5fb70b8e74d78329f065c1941d452e64" class="m-dox">IException::<wbr />get_message()</a> for more details about the error. The vendor of the faulty device should be notified of the faulty response.</p>
+        <section id="base-classes">
+          <h2><a href="#base-classes">Base classes</a></h2>
+          <dl class="m-dox">
+            <dt>
+              class <a href="classmodbus_1_1IException.html" class="m-dox">IException</a>
+            </dt>
+            <dd>Interface for all the exception types.</dd>
+          </dl>
+        </section>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+          <dl class="m-dox">
+            <dt>
+              <span class="m-dox-wrap-bumper"><a href="#a2b4c80f1c3258f2b0c78a068134588d8" class="m-dox">MalformedModbusResponseException</a>(</span><span class="m-dox-wrap">const std::string&amp; message) <span class="m-label m-flat m-info">explicit</span> </span>
+            </dt>
+            <dd>Constructor.</dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-dox-details" id="a2b4c80f1c3258f2b0c78a068134588d8"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper"> modbus::<wbr />MalformedModbusResponseException::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a2b4c80f1c3258f2b0c78a068134588d8" class="m-dox-self">MalformedModbusResponseException</a>(</span><span class="m-dox-wrap">const std::string&amp; message) <span class="m-label m-info">explicit</span> </span></span>
+            </h3>
+            <p>Constructor.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">message</td>
+                  <td>Message describing the exception</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+        </section>
       </div>
     </div>
   </div>

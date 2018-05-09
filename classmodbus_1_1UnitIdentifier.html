@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>modbus::LoggerFactory class | modbus-cpp</title>
+  <title>modbus::UnitIdentifier class | modbus-cpp</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+doxygen.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -44,9 +44,9 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="namespacemodbus.html">modbus</a>::</span>LoggerFactory <span class="m-thin">class</span>
+          <span class="m-breadcrumb"><a href="namespacemodbus.html">modbus</a>::</span>UnitIdentifier <span class="m-thin">class</span>
         </h1>
-        <p>Factory of loggers.</p>
+        <p>Modbus unit identifier.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -54,101 +54,142 @@
               Reference
               <ul>
                 <li><a href="#pub-static-methods">Public static functions</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
           </ul>
         </div>
-<p>Creates loggers using <a href="https://github.com/gabime/spdlog">spdlog</a>. Note that the spdlog is completely private dependency and you don&#x27;t need it, except if you compile from the sources.</p><p>If you are already using spdlog in your application, you can use <a href="classmodbus_1_1LoggerFactory.html#a64d7a82d654471713fcf1a5ba8ef04fc" class="m-dox">create_custom_logger(std::<wbr />shared_ptr&lt;spdlog::<wbr />logger&gt; custom_logger)</a> to use an existing logger.</p><aside class="m-note m-default"><h4>See also</h4><p><a href="classmodbus_1_1IModbusManager.html" class="m-dox">IModbusManager</a></p></aside>
+<p>Represents the 8-bit unit identifier used in the MBAP messages. When sending a request, this identifier must fit with the one reported by the slave. This feature is mainly used in Modbus+ and Modbus serial lines. However, it must be set properly on TCP/IP only sessions too.</p><aside class="m-note m-default"><h4>See also</h4><p><a href="classmodbus_1_1IChannel.html#a759f7a97ff4334ace3b71ce2bfcc4465" class="m-dox">IChannel::<wbr />create_session()</a></p></aside>
         <section id="pub-static-methods">
           <h2><a href="#pub-static-methods">Public static functions</a></h2>
           <dl class="m-dox">
             <dt>
-              <span class="m-dox-wrap-bumper">static auto <a href="#aea726478e6797341d6e1cabe6c0c8cec" class="m-dox">create_console_logger</a>(</span><span class="m-dox-wrap">const std::string&amp; name) -&gt; std::shared_ptr&lt;Logger&gt;</span>
+              <span class="m-dox-wrap-bumper">static auto <a href="#a763705f3ddc1c9277de4c18a40f3efd5" class="m-dox">default_unit_identifier</a>(</span><span class="m-dox-wrap">) -&gt; <a href="classmodbus_1_1UnitIdentifier.html" class="m-dox">UnitIdentifier</a></span>
             </dt>
-            <dd>Creates a console logger.</dd>
+            <dd>Returns the default unit identifier.</dd>
+          </dl>
+        </section>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+          <dl class="m-dox">
             <dt>
-              <span class="m-dox-wrap-bumper">static auto <a href="#ac56fd8e79678acf0a59b5a7eafbfd5f6" class="m-dox">create_null_logger</a>(</span><span class="m-dox-wrap">const std::string&amp; name) -&gt; std::shared_ptr&lt;Logger&gt;</span>
+              <span class="m-dox-wrap-bumper"><a href="#a686cca354d91543f3c5ba2eb1bb33be3" class="m-dox">UnitIdentifier</a>(</span><span class="m-dox-wrap">uint8_t value)</span>
             </dt>
-            <dd>Creates a logger that simply drops all the messages.</dd>
+            <dd>Constructor.</dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-dox">
             <dt>
-              <span class="m-dox-wrap-bumper">static auto <a href="#a64d7a82d654471713fcf1a5ba8ef04fc" class="m-dox">create_custom_logger</a>(</span><span class="m-dox-wrap">std::shared_ptr&lt;spdlog::logger&gt; custom_logger) -&gt; std::shared_ptr&lt;Logger&gt;</span>
+              <span class="m-dox-wrap-bumper">auto <a href="#a49cd87c920575992c491a6a8d6f852b6" class="m-dox">get_value</a>(</span><span class="m-dox-wrap">) const -&gt; uint8_t</span>
             </dt>
-            <dd>Creates a logger from a custom logger.</dd>
+            <dd>Get the 8-bit value of the unit identifier.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper">auto <a href="#a5f1ceac336981e92aeb4ab9a8630c98e" class="m-dox">operator==</a>(</span><span class="m-dox-wrap">const <a href="classmodbus_1_1UnitIdentifier.html" class="m-dox">UnitIdentifier</a>&amp; other) const -&gt; bool</span>
+            </dt>
+            <dd>Check if two unit identifiers are identical.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper">auto <a href="#a3597e49257e08387dc3e133f7a40a0f4" class="m-dox">operator!=</a>(</span><span class="m-dox-wrap">const <a href="classmodbus_1_1UnitIdentifier.html" class="m-dox">UnitIdentifier</a>&amp; other) const -&gt; bool</span>
+            </dt>
+            <dd>Check if two unit identifiers are different.</dd>
           </dl>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-dox-details" id="aea726478e6797341d6e1cabe6c0c8cec"><div>
+          <section class="m-dox-details" id="a763705f3ddc1c9277de4c18a40f3efd5"><div>
             <h3>
-              <span class="m-dox-wrap-bumper">static std::shared_ptr&lt;Logger&gt; modbus::<wbr />LoggerFactory::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#aea726478e6797341d6e1cabe6c0c8cec" class="m-dox-self">create_console_logger</a>(</span><span class="m-dox-wrap">const std::string&amp; name)</span></span>
+              <span class="m-dox-wrap-bumper">static <a href="classmodbus_1_1UnitIdentifier.html" class="m-dox">UnitIdentifier</a> modbus::<wbr />UnitIdentifier::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a763705f3ddc1c9277de4c18a40f3efd5" class="m-dox-self">default_unit_identifier</a>(</span><span class="m-dox-wrap">)</span></span>
             </h3>
-            <p>Creates a console logger.</p>
+            <p>Returns the default unit identifier.</p>
             <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">name</td>
-                  <td>Name associated with the logger</td>
-                </tr>
-              </tbody>
               <tfoot>
                 <tr>
-                  <th>Returns</th>
-                  <td>Shared pointer of the logger</td>
+                  <th style="width: 1%">Returns</th>
+                  <td>Default unit identifier instance</td>
                 </tr>
               </tfoot>
             </table>
-<p>The console logger will be colored and is completely thread-safe. It uses <code class="m-code"><span class="n">spdlog</span><span class="o">::</span><span class="n">stdout_color_mt</span></code> under the hood.</p>
+<p>Its value is <code class="m-code"><span class="mh">0xFF</span></code>.</p>
           </div></section>
-          <section class="m-dox-details" id="ac56fd8e79678acf0a59b5a7eafbfd5f6"><div>
+          <section class="m-dox-details" id="a686cca354d91543f3c5ba2eb1bb33be3"><div>
             <h3>
-              <span class="m-dox-wrap-bumper">static std::shared_ptr&lt;Logger&gt; modbus::<wbr />LoggerFactory::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#ac56fd8e79678acf0a59b5a7eafbfd5f6" class="m-dox-self">create_null_logger</a>(</span><span class="m-dox-wrap">const std::string&amp; name)</span></span>
+              <span class="m-dox-wrap-bumper"> modbus::<wbr />UnitIdentifier::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a686cca354d91543f3c5ba2eb1bb33be3" class="m-dox-self">UnitIdentifier</a>(</span><span class="m-dox-wrap">uint8_t value)</span></span>
             </h3>
-            <p>Creates a logger that simply drops all the messages.</p>
+            <p>Constructor.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
               </thead>
               <tbody>
                 <tr>
-                  <td style="width: 1%">name</td>
-                  <td>name associated with the logger</td>
+                  <td style="width: 1%">value</td>
+                  <td>Unit identifier 8-bit value</td>
                 </tr>
               </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>Shared pointer of the logger</td>
-                </tr>
-              </tfoot>
             </table>
-<p>This logger is useful if you don&#x27;t want to provide logging (e.g. in tests). It simply ignores all the messages passed to it. It uses a <code class="m-code"><span class="n">spdlog</span><span class="o">::</span><span class="n">sinks</span><span class="o">::</span><span class="n">null_sink_st</span></code> under the hood.</p>
+<aside class="m-note m-default"><h4>See also</h4><p><a href="classmodbus_1_1UnitIdentifier.html#a763705f3ddc1c9277de4c18a40f3efd5" class="m-dox">default_<wbr />unit_<wbr />identifier()</a></p></aside>
           </div></section>
-          <section class="m-dox-details" id="a64d7a82d654471713fcf1a5ba8ef04fc"><div>
+          <section class="m-dox-details" id="a49cd87c920575992c491a6a8d6f852b6"><div>
             <h3>
-              <span class="m-dox-wrap-bumper">static std::shared_ptr&lt;Logger&gt; modbus::<wbr />LoggerFactory::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a64d7a82d654471713fcf1a5ba8ef04fc" class="m-dox-self">create_custom_logger</a>(</span><span class="m-dox-wrap">std::shared_ptr&lt;spdlog::logger&gt; custom_logger)</span></span>
+              <span class="m-dox-wrap-bumper">uint8_t modbus::<wbr />UnitIdentifier::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a49cd87c920575992c491a6a8d6f852b6" class="m-dox-self">get_value</a>(</span><span class="m-dox-wrap">) const</span></span>
             </h3>
-            <p>Creates a logger from a custom logger.</p>
+            <p>Get the 8-bit value of the unit identifier.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>8-bit value of the unit identifier</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-dox-details" id="a5f1ceac336981e92aeb4ab9a8630c98e"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper">bool modbus::<wbr />UnitIdentifier::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a5f1ceac336981e92aeb4ab9a8630c98e" class="m-dox-self">operator==</a>(</span><span class="m-dox-wrap">const <a href="classmodbus_1_1UnitIdentifier.html" class="m-dox">UnitIdentifier</a>&amp; other) const</span></span>
+            </h3>
+            <p>Check if two unit identifiers are identical.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
               </thead>
               <tbody>
                 <tr>
-                  <td style="width: 1%">custom_logger</td>
-                  <td>Shared pointer to a <code class="m-code"><span class="n">spdlog</span><span class="o">::</span><span class="n">logger</span></code> logger</td>
+                  <td style="width: 1%">other</td>
+                  <td>Other unit identifier to compare</td>
                 </tr>
               </tbody>
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>Shared pointer of the logger</td>
+                  <td><code class="m-code"><span class="nb">true</span></code> if the unit identifiers are the same, <code class="m-code"><span class="nb">false</span></code> otherwise</td>
                 </tr>
               </tfoot>
             </table>
-<p>Use this method if you already use spdlog and want to use a custom logger.</p>
+          </div></section>
+          <section class="m-dox-details" id="a3597e49257e08387dc3e133f7a40a0f4"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper">bool modbus::<wbr />UnitIdentifier::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a3597e49257e08387dc3e133f7a40a0f4" class="m-dox-self">operator!=</a>(</span><span class="m-dox-wrap">const <a href="classmodbus_1_1UnitIdentifier.html" class="m-dox">UnitIdentifier</a>&amp; other) const</span></span>
+            </h3>
+            <p>Check if two unit identifiers are different.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">other</td>
+                  <td>Other unit identifier to compare</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td><code class="m-code"><span class="nb">true</span></code> if the unit identifiers are different, <code class="m-code"><span class="nb">false</span></code> otherwise</td>
+                </tr>
+              </tfoot>
+            </table>
           </div></section>
         </section>
       </div>
