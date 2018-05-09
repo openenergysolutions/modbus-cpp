@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>modbus-cpp</title>
+  <title>MODBUS-CPP | modbus-cpp</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+doxygen.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -44,8 +44,10 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          modbus-cpp
+          MODBUS-CPP
         </h1>
+<p>MODBUS-CPP library is a modern C++ library for communicating with Modbus devices by TCP/IP. It is designed to be simple to use, typesafe and to have great performance.</p><section id="mainpage-feature"><h2><a href="#mainpage-feature">Features</a></h2><ul><li>Support of common function codes:<ul><li><code class="m-code"><span class="mh">0x03</span></code> Read Holding Registers</li><li><code class="m-code"><span class="mh">0x04</span></code> Read Input Registers</li><li><code class="m-code"><span class="mh">0x06</span></code> Write Single Register</li><li><code class="m-code"><span class="mh">0x10</span></code> Write Multiple Registers</li></ul></li><li>Support for all exception codes</li><li>Automatic scheduling of register polls</li><li>Asynchronous request handling by worker threads using <a href="https://github.com/chriskohlhoff/asio">asio</a></li><li>Logging using <a href="https://github.com/gabime/spdlog">spdlog</a></li></ul></section><section id="mainpage-build"><h2><a href="#mainpage-build">Building</a></h2><p>The following dependencies are needed to build the library:</p><ul><li>A modern C++ compiler fully supporting C++14 standard. This library is continously tested with GCC 6.4.0 and LLVM/Clang 5.0.0. It is also regularly built using Microsoft Visual Studio 2017.</li><li><a href="https://cmake.org/">CMake 3.8+</a></li><li>A git client supporting submodules (1.5.3+)</li></ul><p>To build the library, follow these steps:</p><ul><li>Clone the repository recursively with <code>git clone <a href="https://github.com/aegis4ics/modbus-cpp.git">https:/<wbr />/<wbr />github.com/<wbr />aegis4ics/<wbr />modbus-cpp.git</a> --recursive</code></li><li>Create a <code>build</code> directory inside the project.</li><li>Inside the build directory, configure the project using <code>cmake ..</code> or the interactive <code>ccmake ..</code> The default options should work out of the box.</li><li>Build the project with <code>cmake --build .</code></li></ul><section id="mainpage-building-cmake"><h3><a href="#mainpage-building-cmake">CMake usage</a></h3><p>The following CMake cache variables can be tuned to control the building of the library:</p><ul><li><code>MODBUS_BUILD_TESTS</code>: Set to <code>ON</code> to build the unit tests and the performance tests should be built. These tests will appear as <code>modbus_tests</code> and <code>modbus_perf_tests</code> targets respectively.</li><li><code>MODBUS_BUILD_EXAMPLE</code>: Set to <code>ON</code> to build the example application. The example will appear as <code>modbus_example</code> target.</li></ul><p>By default, these variables will be set to <code>ON</code> when building only this library, and to <code>OFF</code> if the project is added with <code>add_subdirectory</code>.</p><p>To use this library in a project, it is recommend to simply add this repository as a submodule, then add this project in CMake with <code>add_subdirectory</code>. Then, the target <code>modbus-cpp</code> will be available to link with. For example, <code>foo</code> project can use MODBUS-CPP by doing this in its <code>CMakeLists.txt</code>.</p><pre class="m-code"><span class="nb">add_subdirectory</span><span class="p">(</span><span class="s">./modbus-cpp</span><span class="p">)</span>
+<span class="nb">add_executable</span><span class="p">(</span><span class="s">foo</span> <span class="s">PRIVATE</span> <span class="s">modbus-cpp</span><span class="p">)</span></pre></section></section>
       </div>
     </div>
   </div>
@@ -83,7 +85,7 @@
   <div class="m-container">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <p>modbus-cpp. Created by <a href="http://doxygen.org/">Doxygen</a> 0 and <a href="http://mcss.mosra.cz/">m.css</a>.</p>
+        <p>modbus-cpp. Created by <a href="http://doxygen.org/">Doxygen</a> 1.8.14 and <a href="http://mcss.mosra.cz/">m.css</a>.</p>
       </div>
     </div>
   </div>
