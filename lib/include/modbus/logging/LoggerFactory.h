@@ -1,6 +1,10 @@
 #ifndef MODBUS_LOGGERFACTORY_H
 #define MODBUS_LOGGERFACTORY_H
 
+/** @file
+ * @brief Class @ref modbus::LoggerFactory
+ */
+
 #include <memory>
 #include <string>
 

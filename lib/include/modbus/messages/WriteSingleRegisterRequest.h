@@ -1,6 +1,10 @@
 #ifndef MODBUS_WRITESINGLEREGISTERREQUEST_H
 #define MODBUS_WRITESINGLEREGISTERREQUEST_H
 
+/** @file
+ * @brief Struct @ref modbus::WriteSingleRegisterRequest
+ */
+
 #include "modbus/messages/RegisterValue.h"
 
 namespace modbus

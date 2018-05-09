@@ -1,6 +1,10 @@
 #ifndef MODBUS_ISCHEDULEDREQUEST_H
 #define MODBUS_ISCHEDULEDREQUEST_H
 
+/** @file
+ * @brief Interface @ref modbus::IScheduledRequest
+ */
+
 #include <memory>
 
 #include "exe4cpp/Typedefs.h"

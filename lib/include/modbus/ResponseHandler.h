@@ -1,6 +1,10 @@
 #ifndef MODBUS_RESPONSEHANDLER_H
 #define MODBUS_RESPONSEHANDLER_H
 
+/** @file
+* @brief Typedef @ref modbus::ResponseHandler
+*/
+
 #include <functional>
 
 #include "modbus/Expected.h"

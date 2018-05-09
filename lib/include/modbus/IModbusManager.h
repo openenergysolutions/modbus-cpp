@@ -1,16 +1,15 @@
 #ifndef MODBUS_IMODBUSMANAGER_H
 #define MODBUS_IMODBUSMANAGER_H
 
+/** @file
+* @brief Interface @ref modbus::IModbusManager
+*/
+
 #include <string>
 #include <memory>
 #include "modbus/channel/IChannel.h"
 #include "modbus/Ipv4Endpoint.h"
 
-/**
- * @brief modbus-cpp main namespace.
- *
- * See @ref IModbusManager for the entrypoint of the library.
- */
 namespace modbus
 {
 

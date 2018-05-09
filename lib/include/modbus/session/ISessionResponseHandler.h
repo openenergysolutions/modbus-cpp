@@ -1,6 +1,10 @@
 #ifndef MODBUS_ISESSIONRESPONSEHANDLER_H
 #define MODBUS_ISESSIONRESPONSEHANDLER_H
 
+/** @file
+ * @brief Interface @ref modbus::ISessionResponseHandler
+ */
+
 #include "modbus/exceptions/IException.h"
 #include "modbus/messages/ReadHoldingRegistersResponse.h"
 #include "modbus/messages/ReadInputRegistersResponse.h"

@@ -1,6 +1,10 @@
 #ifndef MODBUS_MALFORMEDMODBUSRESPONSEEXCEPTION_H
 #define MODBUS_MALFORMEDMODBUSRESPONSEEXCEPTION_H
 
+/** @file
+ * @brief Class @ref modbus::MalformedModbusResponseException
+ */
+
 #include "modbus/exceptions/IException.h"
 
 namespace modbus

@@ -1,6 +1,10 @@
 #ifndef MODBUS_EXPECTED_H
 #define MODBUS_EXPECTED_H
 
+/** @file
+ * @brief Class @ref modbus::Expected
+ */
+
 #include <algorithm>
 #include <exception>
 #include <stdexcept>

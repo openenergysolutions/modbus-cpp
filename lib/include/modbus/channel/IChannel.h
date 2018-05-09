@@ -1,6 +1,10 @@
 #ifndef MODBUS_ICHANNEL_H
 #define MODBUS_ICHANNEL_H
 
+/** @file
+ * @brief Interface @ref modbus::IChannel
+ */
+
 #include <memory>
 #include "exe4cpp/Typedefs.h"
 #include "modbus/channel/UnitIdentifier.h"

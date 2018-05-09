@@ -1,6 +1,10 @@
 #ifndef MODBUS_READHOLDINGREGISTERSRESPONSE_H
 #define MODBUS_READHOLDINGREGISTERSRESPONSE_H
 
+/** @file
+ * @brief Struct @ref modbus::ReadHoldingRegistersResponse
+ */
+
 #include <vector>
 #include "modbus/messages/RegisterValue.h"
 

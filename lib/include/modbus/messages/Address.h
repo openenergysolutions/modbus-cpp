@@ -1,6 +1,10 @@
 #ifndef MODBUS_ADDRESS_H
 #define MODBUS_ADDRESS_H
 
+/** @file
+ * @brief Typedef @ref modbus::Address
+ */
+
 #include <cstdint>
 
 namespace modbus

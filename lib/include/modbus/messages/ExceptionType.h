@@ -1,6 +1,10 @@
 #ifndef MODBUS_EXCEPTIONTYPE_H
 #define MODBUS_EXCEPTIONTYPE_H
 
+/** @file
+ * @brief Enum @ref modbus::ExceptionType and function @ref modbus::parse_exception_type()
+ */
+
 #include <ostream>
 
 namespace modbus

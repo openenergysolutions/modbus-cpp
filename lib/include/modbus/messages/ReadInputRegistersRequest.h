@@ -1,6 +1,10 @@
 #ifndef MODBUS_READINPUTREGISTERSREQUEST_H
 #define MODBUS_READINPUTREGISTERSREQUEST_H
 
+/** @file
+ * @brief Struct @ref modbus::ReadInputRegistersRequest
+ */
+
 #include "modbus/messages/Address.h"
 
 namespace modbus

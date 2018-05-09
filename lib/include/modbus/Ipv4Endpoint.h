@@ -1,6 +1,10 @@
 #ifndef MODBUS_IPV4ENDPOINT_H
 #define MODBUS_IPV4ENDPOINT_H
 
+/** @file
+* @brief Class @ref modbus::Ipv4Endpoint
+*/
+
 #include <cstdint>
 #include <string>
 

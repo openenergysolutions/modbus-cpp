@@ -4,6 +4,10 @@
 #include <cstdint>
 #include <ostream>
 
+/** @file
+ * @brief Class @ref modbus::UnitIdentifier
+ */
+
 namespace modbus
 {
 

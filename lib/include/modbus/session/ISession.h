@@ -1,6 +1,10 @@
 #ifndef MODBUS_ISESSION_H
 #define MODBUS_ISESSION_H
 
+/** @file
+ * @brief Interface @ref modbus::ISession
+ */
+
 #include <memory>
 
 #include "exe4cpp/Timer.h"

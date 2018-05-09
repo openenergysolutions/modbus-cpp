@@ -1,6 +1,10 @@
 #ifndef MODBUS_MODBUSEXCEPTION_H
 #define MODBUS_MODBUSEXCEPTION_H
 
+/** @file
+ * @brief Class @ref modbus::ModbusException
+ */
+
 #include <sstream>
 #include "modbus/exceptions/IException.h"
 #include "modbus/messages/ExceptionType.h"

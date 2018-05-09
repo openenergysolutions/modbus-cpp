@@ -1,6 +1,10 @@
 #ifndef MODBUS_WRITEMULTIPLEREGISTERSRESPONSE_H
 #define MODBUS_WRITEMULTIPLEREGISTERSRESPONSE_H
 
+/** @file
+ * @brief Struct @ref modbus::WriteMultipleRegistersResponse
+ */
+
 #include "modbus/messages/Address.h"
 
 namespace modbus
