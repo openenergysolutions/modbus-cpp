@@ -95,17 +95,17 @@ void ChannelTcp::on_receive(const ser4cpp::rseq_t& data)
     m_parser.parse(data);
 }
 
-void ChannelTcp::on_error()
+void ChannelTcp::on_error(const std::string& message)
 {
     m_logger->error("Error from TCP connection, cancelling all pending requests.");
 
     m_parser.reset();
 
-    cancel_all_pending_requests();
+    cancel_all_pending_requests(message);
 
     if(m_current_request)
     {
-        m_current_request->response_handler(Expected<ser4cpp::rseq_t>::from_exception(ConnectionException{}));
+        m_current_request->response_handler(Expected<ser4cpp::rseq_t>::from_exception(ConnectionException{message}));
         cancel_current_request();
     }
 }
@@ -185,11 +185,11 @@ void ChannelTcp::cancel_current_request()
     }
 }
 
-void ChannelTcp::cancel_all_pending_requests()
+void ChannelTcp::cancel_all_pending_requests(const std::string& message)
 {
     for(auto& req : m_pending_requests)
     {
-        req->response_handler(Expected<ser4cpp::rseq_t>::from_exception(ConnectionException{}));
+        req->response_handler(Expected<ser4cpp::rseq_t>::from_exception(ConnectionException{message}));
     }
 
     m_pending_requests.clear();

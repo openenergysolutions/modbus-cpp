@@ -38,7 +38,7 @@ private:
 
     void begin_read();
     void send_buffer();
-    void send_error();
+    void send_error(const std::string& message);
 
     std::shared_ptr<Logger> m_logger;
     Ipv4Endpoint m_ip_endpoint;

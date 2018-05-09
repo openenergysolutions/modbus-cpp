@@ -113,7 +113,7 @@ TEST_CASE("ChannelTcp")
             executor->run_many(3);
             REQUIRE(tcp_connection->get_num_requests() == 1);
 
-            channel->on_error();
+            channel->on_error("");
             executor->run_one();
 
             REQUIRE(tcp_connection->get_num_requests() == 1);
@@ -182,7 +182,7 @@ TEST_CASE("ChannelTcp")
             executor->run_one();
             REQUIRE(tcp_connection->get_num_requests() == 1);
 
-            channel->on_error();
+            channel->on_error("");
             executor->run_one();
 
             REQUIRE(num_handler_success == 0);
@@ -198,7 +198,7 @@ TEST_CASE("ChannelTcp")
             executor->run_many(3);
             REQUIRE(tcp_connection->get_num_requests() == 1);
 
-            channel->on_error();
+            channel->on_error("");
             executor->run_one();
 
             REQUIRE(num_handler_success == 0);
