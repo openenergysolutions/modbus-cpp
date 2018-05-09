@@ -2,3 +2,7 @@
 GENERATE_HTML           = NO
 GENERATE_XML            = YES
 XML_PROGRAMLISTING      = NO
+M_LINKS_NAVBAR1 = "namespaces" \
+                  "annotated" \
+                  "files dir_ca58a6e1d1ad7199b06ec1997943b0e2 dir_f0b4abc89894b7a59cdcc1b56ad2fa78 dir_5039506f8dbbf25081fc49328f198ec6 dir_4dd40bef6cea24abf09d91015e01f4b5 dir_5e0ccf84f1afa1ec87f338ca918e19f4"
+M_LINKS_NAVBAR2 =
