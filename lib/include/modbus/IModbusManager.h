@@ -8,7 +8,7 @@
 #include <string>
 #include <memory>
 #include "modbus/channel/IChannel.h"
-#include "modbus/Ipv4Endpoint.h"
+#include "modbus/channel/Ipv4Endpoint.h"
 
 namespace modbus
 {

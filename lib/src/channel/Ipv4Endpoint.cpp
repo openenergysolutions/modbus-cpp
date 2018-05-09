@@ -1,4 +1,4 @@
-#include "modbus/Ipv4Endpoint.h"
+#include "modbus/channel/Ipv4Endpoint.h"
 
 namespace modbus
 {

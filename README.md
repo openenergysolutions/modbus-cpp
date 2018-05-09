@@ -50,5 +50,5 @@ To build the documentation with the [custom theme](http://mcss.mosra.cz/doxygen/
 
 A Docker image with all the required dependency is available here: https://hub.docker.com/r/emgre/circleci-doxygen/
 
-To build the documentation, simply run `deps/m.css/doxygen/dox2html5.py Doxyfile-mcss`. The documentation will be generated in
+To build the documentation with the theme, simply run `deps/m.css/doxygen/dox2html5.py Doxyfile-mcss`. The documentation will be generated in
 the `build/doc` folder.

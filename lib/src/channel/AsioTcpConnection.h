@@ -5,7 +5,7 @@
 #include "exe4cpp/asio/StrandExecutor.h"
 #include "ser4cpp/container/Buffer.h"
 
-#include "modbus/Ipv4Endpoint.h"
+#include "modbus/channel/Ipv4Endpoint.h"
 #include "logging/Logger.h"
 #include "channel/ITcpConnection.h"
 

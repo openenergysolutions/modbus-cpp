@@ -1,7 +1,7 @@
 #include "ModbusManagerImpl.h"
 
 #include "exe4cpp/asio/StrandExecutor.h"
-#include "modbus/Ipv4Endpoint.h"
+#include "modbus/channel/Ipv4Endpoint.h"
 #include "channel/ChannelTcp.h"
 #include "channel/AsioTcpConnection.h"
 #include "logging/Logger.h"
