@@ -22,8 +22,6 @@ namespace modbus
  */
 class UnitIdentifier
 {
-    constexpr static uint8_t DefaultUnitIdentifier = 0xFF;
-
 public:
     /**
      * @brief Returns the default unit identifier
@@ -31,38 +29,45 @@ public:
      *
      * Its value is @cpp 0xFF @ce.
      */
-    static UnitIdentifier default_unit_identifier()
-    {
-        return UnitIdentifier(DefaultUnitIdentifier);
-    }
+    static constexpr UnitIdentifier default_unit_identifier() { return UnitIdentifier{0xFF}; };
 
-public:
     /**
      * @brief Constructor
      * @param value Unit identifier 8-bit value
      * @see @ref default_unit_identifier()
      */
-    UnitIdentifier(uint8_t value);
+    constexpr UnitIdentifier(uint8_t value)
+        : m_value(value)
+    {}
 
     /**
      * @brief Get the 8-bit value of the unit identifier
      * @return 8-bit value of the unit identifier
      */
-    uint8_t get_value() const;
+    constexpr uint8_t get_value() const
+    {
+        return m_value;
+    }
 
     /**
      * @brief Check if two unit identifiers are identical
      * @param other Other unit identifier to compare
      * @return @cpp true @ce if the unit identifiers are the same, @cpp false @ce otherwise
      */
-    bool operator==(const UnitIdentifier& other) const;
+    constexpr bool operator==(const UnitIdentifier& other) const
+    {
+        return m_value == other.m_value;
+    }
 
     /**
      * @brief Check if two unit identifiers are different
      * @param other Other unit identifier to compare
      * @return @cpp true @ce if the unit identifiers are different, @cpp false @ce otherwise
      */
-    bool operator!=(const UnitIdentifier& other) const;
+    constexpr bool operator!=(const UnitIdentifier& other) const
+    {
+        return m_value != other.m_value;
+    }
 
 private:
     uint8_t m_value;
