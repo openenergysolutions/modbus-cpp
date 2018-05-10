@@ -115,3 +115,6 @@ workflows:
             - build-gcc-release
             - build-clang-debug
             - build-clang-release
+          filters:
+            branches:
+              only: master
