@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>modbus/channel/IChannel.h file | modbus-cpp</title>
+  <title>Building | modbus-cpp</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+doxygen.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -27,7 +27,7 @@
             <li>
               <a href="pages.html">Pages</a>
               <ol>
-                <li><a href="Building.html">Building</a></li>
+                <li><a href="Building.html" id="m-navbar-current">Building</a></li>
                 <li><a href="Example.html">Example</a></li>
               </ol>
             </li>
@@ -59,37 +59,11 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_1d7f61a2333bdd8cffe1da0eb623d0f9.html">modbus</a>/</span><span class="m-breadcrumb"><a href="dir_ca58a6e1d1ad7199b06ec1997943b0e2.html">channel</a>/</span>IChannel.h <span class="m-thin">file</span>
+          Building
         </h1>
-        <p>Interface <a href="classmodbus_1_1IChannel.html" class="m-dox">modbus::<wbr />IChannel</a>.</p>
-        <div class="m-block m-default">
-          <h3>Contents</h3>
-          <ul>
-            <li>
-              Reference
-              <ul>
-                <li><a href="#namespaces">Namespaces</a></li>
-                <li><a href="#nested-classes">Classes</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-        <section id="namespaces">
-          <h2><a href="#namespaces">Namespaces</a></h2>
-          <dl class="m-dox">
-            <dt>namespace <a href="namespacemodbus.html" class="m-dox">modbus</a></dt>
-            <dd>modbus-cpp main namespace.</dd>
-          </dl>
-        </section>
-        <section id="nested-classes">
-          <h2><a href="#nested-classes">Classes</a></h2>
-          <dl class="m-dox">
-            <dt>
-              class <a href="classmodbus_1_1IChannel.html" class="m-dox">modbus::IChannel</a>
-            </dt>
-            <dd>Communication channel to a Modbus device.</dd>
-          </dl>
-        </section>
+        <p>This page presents the building instructions.</p>
+<section id="building-dependencies"><h2><a href="#building-dependencies">Dependencies</a></h2><p>The following dependencies are needed to build the library:</p><ul><li>A modern C++ compiler fully supporting C++14 standard. This library is continously tested with GCC 6.4.0 and LLVM/Clang 5.0.0. It is also regularly built using Microsoft Visual Studio 2017.</li><li><a href="https://cmake.org/">CMake 3.8+</a></li><li>A git client supporting submodules (1.5.3+)</li></ul></section><section id="building-build"><h2><a href="#building-build">Build</a></h2><p>To build the library, follow these steps:</p><ul><li>Clone the repository recursively with <code>git clone <a href="https://github.com/aegis4ics/modbus-cpp.git">https:/<wbr />/<wbr />github.com/<wbr />aegis4ics/<wbr />modbus-cpp.git</a> --recursive</code></li><li>Create a <code>build</code> directory inside the project.</li><li>Inside the build directory, configure the project using <code>cmake ..</code> or the interactive <code>ccmake ..</code> The default options should work out of the box.</li><li>Build the project with <code>cmake --build .</code></li></ul></section><section id="building-cmake"><h2><a href="#building-cmake">CMake usage</a></h2><p>The following CMake cache variables can be tuned to control the building of the library:</p><ul><li><code>MODBUS_BUILD_TESTS</code>: Set to <code>ON</code> to build the unit tests and the performance tests should be built. These tests will appear as <code>modbus_tests</code> and <code>modbus_perf_tests</code> targets respectively.</li><li><code>MODBUS_BUILD_EXAMPLE</code>: Set to <code>ON</code> to build the example application. The example will appear as <code>modbus_example</code> target.</li></ul><p>By default, these variables will be set to <code>ON</code> when building only this library, and to <code>OFF</code> if the project is added with <code>add_subdirectory</code>.</p><p>To use this library in a project, it is recommend to simply add this repository as a submodule, then add this project in CMake with <code>add_subdirectory</code>. Then, the target <code>modbus-cpp</code> will be available to link with. For example, <code>foo</code> project can use MODBUS-CPP by doing this in its <code>CMakeLists.txt</code>.</p><pre class="m-code"><span class="nb">add_subdirectory</span><span class="p">(</span><span class="s">./modbus-cpp</span><span class="p">)</span>
+<span class="nb">add_executable</span><span class="p">(</span><span class="s">foo</span> <span class="s">PRIVATE</span> <span class="s">modbus-cpp</span><span class="p">)</span></pre></section>
       </div>
     </div>
   </div>
