@@ -25,7 +25,7 @@ ChannelTcp::ChannelTcp(std::shared_ptr<exe4cpp::IExecutor> executor,
 }
 
 std::shared_ptr<ISession> ChannelTcp::create_session(const UnitIdentifier& unit_identifier,
-                                                     const exe4cpp::duration_t& default_timeout,
+                                                     const duration_t& default_timeout,
                                                      std::shared_ptr<ISessionResponseHandler> session_response_handler)
 {
     std::shared_ptr<ISession> session;
@@ -46,7 +46,7 @@ std::shared_ptr<ISession> ChannelTcp::create_session(const UnitIdentifier& unit_
 
 void ChannelTcp::send_request(const UnitIdentifier& unit_identifier,
                               const IRequest& request,
-                              const exe4cpp::duration_t& timeout,
+                              const duration_t& timeout,
                               ResponseHandler<ser4cpp::rseq_t> response_handler)
 {
 

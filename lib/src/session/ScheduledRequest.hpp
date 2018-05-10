@@ -15,8 +15,8 @@ ScheduledRequest<TRequest, TResponse>::ScheduledRequest(std::shared_ptr<ISession
                                                         std::shared_ptr<ISessionResponseHandler> session_response_handler,
                                                         std::shared_ptr<exe4cpp::IExecutor> executor,
                                                         const TRequest& request,
-                                                        const exe4cpp::duration_t& timeout,
-                                                        const exe4cpp::duration_t& frequency)
+                                                        const duration_t& timeout,
+                                                        const duration_t& frequency)
     : m_session{session},
       m_session_response_handler{session_response_handler},
       m_executor{executor},
@@ -54,7 +54,7 @@ void ScheduledRequest<TRequest, TResponse>::stop()
 }
 
 template<typename TRequest, typename TResponse>
-void ScheduledRequest<TRequest, TResponse>::set_frequency(const exe4cpp::duration_t& frequency)
+void ScheduledRequest<TRequest, TResponse>::set_frequency(const duration_t& frequency)
 {
     m_executor->post([=, self = shared_from_this()]() {
         m_frequency = frequency;
@@ -62,7 +62,7 @@ void ScheduledRequest<TRequest, TResponse>::set_frequency(const exe4cpp::duratio
 };
 
 template<typename TRequest, typename TResponse>
-exe4cpp::duration_t ScheduledRequest<TRequest, TResponse>::get_frequency() const
+duration_t ScheduledRequest<TRequest, TResponse>::get_frequency() const
 {
     return m_frequency;
 };

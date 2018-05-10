@@ -3,7 +3,9 @@ cmake_minimum_required (VERSION 3.8)
 set(modbus_public_headers
     ./include/modbus/Expected.h
     ./include/modbus/IModbusManager.h
+    ./include/modbus/ITimer.h
     ./include/modbus/ResponseHandler.h
+    ./include/modbus/Typedefs.h
 
     ./include/modbus/channel/IChannel.h
     ./include/modbus/channel/Ipv4Endpoint.h
@@ -36,6 +38,7 @@ set(modbus_public_headers
 
 set(modbus_private_headers
     ./src/ModbusManagerImpl.h
+    ./src/TimerWrapper.h
 
     ./src/channel/AsioTcpConnection.h
     ./src/channel/ChannelTcp.h
@@ -70,6 +73,7 @@ set(modbus_private_headers
 set(modbus_src
     ./src/IModbusManager.cpp
     ./src/ModbusManagerImpl.cpp
+    ./src/TimerWrapper.cpp
 
     ./src/channel/AsioTcpConnection.cpp
     ./src/channel/ChannelTcp.cpp
@@ -98,10 +102,7 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${modbus_public_headers} ${m
 
 add_library(modbus-cpp ${modbus_public_headers} ${modbus_private_headers} ${modbus_src})
 target_compile_features(modbus-cpp PRIVATE cxx_std_14)
-target_link_libraries(modbus-cpp
-    PUBLIC exe4cpp
-    PRIVATE asio spdlog ser4cpp
-)
+target_link_libraries(modbus-cpp PRIVATE asio spdlog exe4cpp ser4cpp)
 target_include_directories(modbus-cpp
     PUBLIC ./include
     PRIVATE ./src

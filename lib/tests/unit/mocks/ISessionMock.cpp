@@ -1,8 +1,7 @@
 #include "mocks/ISessionMock.h"
 
 ISessionMock::ISessionMock()
-    :m_shutdown_called{false},
-     m_num_read_holding_registers_request_sent{0},
+    :m_num_read_holding_registers_request_sent{0},
      m_last_read_holding_registers_request_handler{nullptr}
 {
 
@@ -10,7 +9,7 @@ ISessionMock::ISessionMock()
 
 void ISessionMock::shutdown()
 {
-    m_shutdown_called = true;
+
 }
 
 // One-time requests
@@ -21,7 +20,7 @@ void ISessionMock::send_request(const modbus::ReadHoldingRegistersRequest& reque
 }
 
 void ISessionMock::send_request(const modbus::ReadHoldingRegistersRequest& request,
-                                const exe4cpp::duration_t& timeout,
+                                const modbus::duration_t& timeout,
                                 modbus::ResponseHandler<modbus::ReadHoldingRegistersResponse> handler)
 {
     ++m_num_read_holding_registers_request_sent;
@@ -35,7 +34,7 @@ void ISessionMock::send_request(const modbus::ReadInputRegistersRequest& request
 }
 
 void ISessionMock::send_request(const modbus::ReadInputRegistersRequest& request,
-                                const exe4cpp::duration_t& timeout,
+                                const modbus::duration_t& timeout,
                                 modbus::ResponseHandler<modbus::ReadInputRegistersResponse> handler)
 {
 
@@ -48,7 +47,7 @@ void ISessionMock::send_request(const modbus::WriteSingleRegisterRequest& reques
 }
 
 void ISessionMock::send_request(const modbus::WriteSingleRegisterRequest& request,
-                                const exe4cpp::duration_t& timeout,
+                                const modbus::duration_t& timeout,
                                 modbus::ResponseHandler<modbus::WriteSingleRegisterResponse> handler)
 {
 
@@ -61,7 +60,7 @@ void ISessionMock::send_request(const modbus::WriteMultipleRegistersRequest& req
 }
 
 void ISessionMock::send_request(const modbus::WriteMultipleRegistersRequest& request,
-                                const exe4cpp::duration_t& timeout,
+                                const modbus::duration_t& timeout,
                                 modbus::ResponseHandler<modbus::WriteMultipleRegistersResponse> handler)
 {
 
@@ -69,34 +68,29 @@ void ISessionMock::send_request(const modbus::WriteMultipleRegistersRequest& req
 
 // Scheduled requests
 std::shared_ptr<modbus::IScheduledRequest> ISessionMock::schedule_request(const modbus::ReadHoldingRegistersRequest& request,
-                                                                          const exe4cpp::duration_t& frequency)
+                                                                          const modbus::duration_t& frequency)
 {
     return nullptr;
 }
 
 std::shared_ptr<modbus::IScheduledRequest> ISessionMock::schedule_request(const modbus::ReadHoldingRegistersRequest& request,
-                                                                          const exe4cpp::duration_t& timeout,
-                                                                          const exe4cpp::duration_t& frequency)
+                                                                          const modbus::duration_t& timeout,
+                                                                          const modbus::duration_t& frequency)
 {
     return nullptr;
 }
 
 std::shared_ptr<modbus::IScheduledRequest> ISessionMock::schedule_request(const modbus::ReadInputRegistersRequest& request,
-                                                                          const exe4cpp::duration_t& frequency)
+                                                                          const modbus::duration_t& frequency)
 {
     return nullptr;
 }
 
 std::shared_ptr<modbus::IScheduledRequest> ISessionMock::schedule_request(const modbus::ReadInputRegistersRequest& request,
-                                                                          const exe4cpp::duration_t& timeout,
-                                                                          const exe4cpp::duration_t& frequency)
+                                                                          const modbus::duration_t& timeout,
+                                                                          const modbus::duration_t& frequency)
 {
     return nullptr;
-}
-
-bool ISessionMock::is_shutdown_called() const
-{
-    return m_shutdown_called;
 }
 
 unsigned int ISessionMock::get_num_read_holding_registers_request_sent() const
@@ -109,10 +103,12 @@ modbus::ResponseHandler<modbus::ReadHoldingRegistersResponse> ISessionMock::get_
     return m_last_read_holding_registers_request_handler;
 }
 
-exe4cpp::Timer ISessionMock::start(const exe4cpp::duration_t &duration, const exe4cpp::action_t &action) {
-    throw std::logic_error("not implemented");
+std::unique_ptr<modbus::ITimer> ISessionMock::start(const modbus::duration_t &duration, const modbus::action_t &action)
+{
+    return nullptr;
 }
 
-exe4cpp::Timer ISessionMock::start(const exe4cpp::steady_time_t &expiration, const exe4cpp::action_t &action) {
-    throw std::logic_error("not implemented");
+std::unique_ptr<modbus::ITimer> ISessionMock::start(const modbus::steady_time_t &expiration, const modbus::action_t &action)
+{
+    return nullptr;
 }

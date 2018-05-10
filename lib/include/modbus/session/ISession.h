@@ -7,10 +7,9 @@
 
 #include <memory>
 
-#include "exe4cpp/Timer.h"
-#include "exe4cpp/Typedefs.h"
-
+#include "modbus/ITimer.h"
 #include "modbus/ResponseHandler.h"
+#include "modbus/Typedefs.h"
 #include "modbus/messages/ReadHoldingRegistersRequest.h"
 #include "modbus/messages/ReadHoldingRegistersResponse.h"
 #include "modbus/messages/ReadInputRegistersRequest.h"
@@ -44,8 +43,8 @@ namespace modbus
  * The default timeout is configured in @ref IChannel::create_session().
  *
  * This class provides access to timer in order to implement custom polling strategies. See
- * @ref start(const exe4cpp::duration_t& duration, const exe4cpp::action_t& action) and
- * @ref start(const exe4cpp::steady_time_t& expiration, const exe4cpp::action_t& action) for
+ * @ref start(const duration_t& duration, const action_t& action) and
+ * @ref start(const steady_time_t& expiration, const action_t& action) for
  * more details.
  *
  * @warning All the response handlers are called from background threads created by
@@ -103,7 +102,7 @@ public:
      * @param handler Handler called when the response is received
      */
     virtual void send_request(const ReadHoldingRegistersRequest& request,
-                              const exe4cpp::duration_t& timeout,
+                              const duration_t& timeout,
                               ResponseHandler<ReadHoldingRegistersResponse> handler) = 0;
 
     /**
@@ -122,7 +121,7 @@ public:
      * @param handler Handler called when the response is received
      */
     virtual void send_request(const ReadInputRegistersRequest& request,
-                              const exe4cpp::duration_t& timeout,
+                              const duration_t& timeout,
                               ResponseHandler<ReadInputRegistersResponse> handler) = 0;
 
     /**
@@ -141,7 +140,7 @@ public:
      * @param handler Handler called when the response is received
      */
     virtual void send_request(const WriteSingleRegisterRequest& request,
-                              const exe4cpp::duration_t& timeout,
+                              const duration_t& timeout,
                               ResponseHandler<WriteSingleRegisterResponse> handler) = 0;
 
     /**
@@ -160,7 +159,7 @@ public:
      * @param handler Handler called when the response is received
      */
     virtual void send_request(const WriteMultipleRegistersRequest& request,
-                              const exe4cpp::duration_t& timeout,
+                              const duration_t& timeout,
                               ResponseHandler<WriteMultipleRegistersResponse> handler) = 0;
 
     // ===== Scheduled requests =====
@@ -175,7 +174,7 @@ public:
      * @note This method uses the default timout value set in @ref IChannel::create_session.
      */
     virtual std::shared_ptr<IScheduledRequest> schedule_request(const ReadHoldingRegistersRequest& request,
-                                                                const exe4cpp::duration_t& frequency) = 0;
+                                                                const duration_t& frequency) = 0;
     /**
      * @brief Schedule a Read Holding Registers request to be send periodically to the device
      * @param request Request to send periodically
@@ -186,8 +185,8 @@ public:
      * be called everytime a response is received.
      */
     virtual std::shared_ptr<IScheduledRequest> schedule_request(const ReadHoldingRegistersRequest& request,
-                                                                const exe4cpp::duration_t& timeout,
-                                                                const exe4cpp::duration_t& frequency) = 0;
+                                                                const duration_t& timeout,
+                                                                const duration_t& frequency) = 0;
 
     /**
      * @brief Schedule a Read Input Registers request to be send periodically to the device
@@ -200,7 +199,7 @@ public:
      * @note This method uses the default timout value set in @ref IChannel::create_session.
      */
     virtual std::shared_ptr<IScheduledRequest> schedule_request(const ReadInputRegistersRequest& request,
-                                                                const exe4cpp::duration_t& frequency) = 0;
+                                                                const duration_t& frequency) = 0;
     /**
      * @brief Schedule a Read Input Registers request to be send periodically to the device
      * @param request Request to send periodically
@@ -211,25 +210,25 @@ public:
      * be called everytime a response is received.
      */
     virtual std::shared_ptr<IScheduledRequest> schedule_request(const ReadInputRegistersRequest& request,
-                                                                const exe4cpp::duration_t& timeout,
-                                                                const exe4cpp::duration_t& frequency) = 0;
+                                                                const duration_t& timeout,
+                                                                const duration_t& frequency) = 0;
 
     // ===== Underlying timer access =====
     /**
      * @brief Start a new timer based on relative time duration
      * @param duration  Relative time duration
      * @param action    Action to perform when the timer elapses
-     * @return Timer instance to manipulate
+     * @return ITimer instance to manipulate
      */
-    virtual exe4cpp::Timer start(const exe4cpp::duration_t& duration, const exe4cpp::action_t& action) = 0;
+    virtual std::unique_ptr<ITimer> start(const duration_t& duration, const action_t& action) = 0;
 
     /**
      * @brief Start a new timer based on an absolute timestamp
      * @param expiration    Timestamp after which the timer is considered elapsed
      * @param action        Action to perform when the timer elapses
-     * @return Timer instance to manipulate
+     * @return ITimer instance to manipulate
      */
-    virtual exe4cpp::Timer start(const exe4cpp::steady_time_t& expiration, const exe4cpp::action_t& action) = 0;
+    virtual std::unique_ptr<ITimer> start(const steady_time_t& expiration, const action_t& action) = 0;
 };
 
 } // namespace modbus
