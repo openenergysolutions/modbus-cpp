@@ -8,7 +8,7 @@
 #include "exe4cpp/asio/StrandExecutor.h"
 #include "ser4cpp/container/StaticBuffer.h"
 
-#include "modbus/Ipv4Endpoint.h"
+#include "modbus/channel/Ipv4Endpoint.h"
 #include "modbus/logging/LoggerFactory.h"
 #include "channel/AsioTcpConnection.h"
 #include "mocks/AsioTcpConnectionWrapper.h"

@@ -15,10 +15,10 @@ set(modbus_tests_headers
 
 set(modbus_tests_src
     ./main.cpp
-    ./Ipv4EndpointTest.cpp
 
     ./channel/AsioTcpConnectionTest.cpp
     ./channel/ChannelTcpTest.cpp
+    ./channel/Ipv4EndpointTest.cpp
     ./channel/MbapMessageTest.cpp
     ./channel/MbapParserTest.cpp
     ./channel/TransactionIdentifierTest.cpp

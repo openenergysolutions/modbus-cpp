@@ -80,6 +80,27 @@ jobs:
           name: Test
           command: ctest -VV .
           working_directory: build
+  build-doc:
+      docker:
+        - image: emgre/circleci-doxygen:0.0.2
+      steps:
+        - add_ssh_keys:
+            fingerprints:
+              - "72:a7:84:8d:f6:c0:55:b1:03:67:77:a0:98:ec:d7:b7"
+        - checkout
+        - run:
+            name: Initialize m.css submodule
+            command: git submodule update --init deps/m.css
+        - run:
+            name: Clone gh-pages branch
+            command: git clone -b gh-pages $CIRCLE_REPOSITORY_URL build/doc/html
+        - run:
+            name: Build documentation
+            command: python3 deps/m.css/doxygen/dox2html5.py Doxyfile-mcss
+        - run:
+            name: Push documentation to GitHub Pages
+            command: sh ../../../.circleci/push-doc-to-gh-pages.sh
+            working_directory: build/doc/html
 workflows:
   version: 2
   build_and_test:
@@ -88,3 +109,12 @@ workflows:
       - build-gcc-release
       - build-clang-debug
       - build-clang-release
+      - build-doc:
+          requires:
+            - build-gcc-debug
+            - build-gcc-release
+            - build-clang-debug
+            - build-clang-release
+          filters:
+            branches:
+              only: master

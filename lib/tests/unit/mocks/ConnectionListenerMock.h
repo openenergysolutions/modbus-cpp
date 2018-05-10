@@ -13,7 +13,7 @@ public:
 
     void on_write_done() override;
     void on_receive(const ser4cpp::rseq_t& data) override;
-    void on_error() override;
+    void on_error(const std::string& message) override;
 
     bool wait_for_write_done();
 

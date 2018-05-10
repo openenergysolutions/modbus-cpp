@@ -3,10 +3,10 @@ cmake_minimum_required (VERSION 3.8)
 set(modbus_public_headers
     ./include/modbus/Expected.h
     ./include/modbus/IModbusManager.h
-    ./include/modbus/Ipv4Endpoint.h
     ./include/modbus/ResponseHandler.h
 
     ./include/modbus/channel/IChannel.h
+    ./include/modbus/channel/Ipv4Endpoint.h
     ./include/modbus/channel/UnitIdentifier.h
 
     ./include/modbus/exceptions/ConnectionException.h
@@ -69,11 +69,11 @@ set(modbus_private_headers
 
 set(modbus_src
     ./src/IModbusManager.cpp
-    ./src/Ipv4Endpoint.cpp
     ./src/ModbusManagerImpl.cpp
 
-    ./src/channel/ChannelTcp.cpp
     ./src/channel/AsioTcpConnection.cpp
+    ./src/channel/ChannelTcp.cpp
+    ./src/channel/Ipv4Endpoint.cpp
     ./src/channel/MbapMessage.cpp
     ./src/channel/MbapParser.cpp
     ./src/channel/TransactionIdentifier.cpp

@@ -1,0 +1,29 @@
+/** @namespace modbus
+ * @brief modbus-cpp main namespace.
+ *
+ * See @ref IModbusManager for the entrypoint of the library.
+ */
+
+/** @dir modbus
+ * @brief Contains all the modbus-cpp library public API
+ */
+
+/** @dir modbus/channel
+* @brief Contains everything related to channel handling
+*/
+
+/** @dir modbus/exceptions
+* @brief Contains all the exceptions that can be passed by @ref modbus::Expected
+*/
+
+/** @dir modbus/logging
+* @brief Contains everything related to logging
+*/
+
+/** @dir modbus/messages
+* @brief Contains all the messages that can be sent by the library
+*/
+
+/** @dir modbus/session
+* @brief Contains everything related to session handling and scheduled requests
+*/

@@ -39,7 +39,7 @@ public:
 
     // Connection listener
     void on_receive(const ser4cpp::rseq_t& data) override;
-    void on_error() override;
+    void on_error(const std::string& message) override;
 
     // MBAP sink
     void on_mbap_message(const MbapMessage& message) override;
@@ -47,7 +47,7 @@ public:
 private:
     void check_pending_requests();
     void cancel_current_request();
-    void cancel_all_pending_requests();
+    void cancel_all_pending_requests(const std::string& message);
 
     std::shared_ptr<exe4cpp::IExecutor> m_executor;
     std::shared_ptr<Logger> m_logger;

@@ -23,7 +23,7 @@ void ConnectionListenerMock::on_receive(const ser4cpp::rseq_t& data)
     m_data_cv.notify_all();
 }
 
-void ConnectionListenerMock::on_error()
+void ConnectionListenerMock::on_error(const std::string& message)
 {
     std::lock_guard<std::mutex> lock{m_error_lock};
     m_pending_error = true;

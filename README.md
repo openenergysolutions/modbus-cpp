@@ -34,3 +34,21 @@ load(Count) ->
     modbus_tcp_server:start_link([{port, Port}, {callback, modbus_demo_callback}]),
     load(Count + 1).
 ```
+
+## Documentation
+The documentation of the `master` branch is available online here: https://aegis4ics.github.io/modbus-cpp/
+
+To build the basic Doxygen documentation, simply run `doxygen` in the root directory of the repository.
+The documentation will be generated in the `build/doc` folder.
+
+To build the documentation with the [custom theme](http://mcss.mosra.cz/doxygen/), the following dependencies are needed:
+* Doxygen 1.8.14 or higher
+* Python 3.6
+* Jinja2 (installable by `pip`)
+* Pygments (installable by `pip`)
+* m.css submodule (available in this repository)
+
+A Docker image with all the required dependency is available here: https://hub.docker.com/r/emgre/circleci-doxygen/
+
+To build the documentation with the theme, simply run `deps/m.css/doxygen/dox2html5.py Doxyfile-mcss`. The documentation will be generated in
+the `build/doc` folder.

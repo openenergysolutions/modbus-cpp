@@ -5,7 +5,7 @@
 #include "exe4cpp/asio/StrandExecutor.h"
 #include "ser4cpp/container/Buffer.h"
 
-#include "modbus/Ipv4Endpoint.h"
+#include "modbus/channel/Ipv4Endpoint.h"
 #include "logging/Logger.h"
 #include "channel/ITcpConnection.h"
 
@@ -38,7 +38,7 @@ private:
 
     void begin_read();
     void send_buffer();
-    void send_error();
+    void send_error(const std::string& message);
 
     std::shared_ptr<Logger> m_logger;
     Ipv4Endpoint m_ip_endpoint;

@@ -1,0 +1,66 @@
+/** @mainpage MODBUS-CPP
+
+MODBUS-CPP library is a modern C++ library for communicating with Modbus devices
+by TCP/IP. It is designed to be simple to use, typesafe and to have great performance.
+
+@section mainpage-feature Features
+
+-   Support of common function codes:
+    -   @cpp 0x03 @ce Read Holding Registers
+    -   @cpp 0x04 @ce Read Input Registers
+    -   @cpp 0x06 @ce Write Single Register
+    -   @cpp 0x10 @ce Write Multiple Registers
+-   Support for all exception codes
+-   Automatic scheduling of register polls
+-   Asynchronous request handling by worker threads using <a href="https://github.com/chriskohlhoff/asio">asio</a>
+-   Logging using <a href="https://github.com/gabime/spdlog">spdlog</a>
+
+@section mainpage-building Building
+
+This library uses <a href="https://cmake.org/">CMake</a> as a build tool. Detailed
+instructions to build the library are available on the @ref Building page. I you
+already have some basic experience with CMake, it should be very straightforward.
+
+@section mainpage-usage Usage
+
+To learn how to use the library, it is recommended to have a look at the example project. The
+@ref Example page presents the code and a detailed walktrough of it. It makes use of all
+the functionalities of the library.
+
+After reading the example and playing with it, a quick scan trough the documentation can help
+gain understanding of the library. It is recommended to start with the @ref modbus::IModbusManager class
+documentation, since it represents the main entrypoint of the library. The reader can proceed with
+@ref modbus::IChannel and @ref modbus::ISession to learn how to create a session with a Modbus device and
+send requests to it.
+
+@subsection mainpage-usage-threading-model Note about the threading model
+
+This library uses a pool of background threads created by @ref modbus::IModbusManager to execute the
+asynchronous operations. All the public API's methods are thread-safe. However, client code must
+be cautious in the response handlers.
+
+@warning All the response handlers are called from background threads created by the @ref modbus::IModbusManager.
+Therefore, all response handlers *should not block* in any way. Otherwise, you risk having other channels
+not performing their tasks because the thread is blocked or even deadlocks. Also, be sure to use the
+appropriate mechanisms to eliminate the risks of race conditions in the user code. See @ref modbus::IModbusManager
+and @ref modbus::ResponseHandler for more details.
+
+@subsection mainpage-usage-resource-releasing Resource releasing
+
+Because of the asynchronous model used in this library, resource releasing may seem odd to certain users.
+@ref modbus::IModbusManager, @ref modbus::IChannel and @ref modbus::ISession usually returns
+@cpp std::shared_ptr @ce. These shared pointers are always owned by the parent that created it. For
+example, @ref modbus::IModbusManager owns all the @ref modbus::IChannel pointers it has created. Therefore,
+even if the client code releases all the pointer, the channel will stay alive until
+@ref modbus::IModbusManager::shutdown() is called (or its destructor).
+
+It is guaranteed that when @ref modbus::IModbusManager shuts down, all the associated resources will
+be *gracefully* shutdown and disposed, and all the background threads will be joined appropriately.
+Once again, it is important that all the response handlers must *not* block. Otherwise, the shutdown
+sequence may generate a deadlock.
+
+@section mainpage-license License
+
+License to be determined.
+
+*/

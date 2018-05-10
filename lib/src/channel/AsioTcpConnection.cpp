@@ -70,7 +70,7 @@ void AsioTcpConnection::resolve_handler(const asio::error_code& ec, asio::ip::tc
     {
         m_logger->error("IP resolver error: {}", ec.message());
         m_current_connection_status = ConnectionStatus::NotConnected;
-        send_error();
+        send_error(ec.message());
         return;
     }
 
@@ -87,7 +87,7 @@ void AsioTcpConnection::connect_handler(const asio::error_code& ec)
     {
         m_logger->error("Connection error: {}", ec.message());
         close();
-        send_error();
+        send_error(ec.message());
         return;
     }
 
@@ -104,7 +104,7 @@ void AsioTcpConnection::read_handler(const asio::error_code& ec, std::size_t byt
     {
         m_logger->error("Read error: {}", ec.message());
         close();
-        send_error();
+        send_error(ec.message());
         return;
     }
 
@@ -125,7 +125,7 @@ void AsioTcpConnection::write_handler(const std::error_code& ec, std::size_t byt
     {
         m_logger->error("Write error: {}", ec.message());
         close();
-        send_error();
+        send_error(ec.message());
         return;
     }
 
@@ -159,12 +159,12 @@ void AsioTcpConnection::send_buffer()
     }
 }
 
-void AsioTcpConnection::send_error()
+void AsioTcpConnection::send_error(const std::string& message)
 {
     auto connection_listener = m_connection_listener.lock();
     if(connection_listener)
     {
-        connection_listener->on_error();
+        connection_listener->on_error(message);
     }
 }
 

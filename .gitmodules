@@ -13,3 +13,6 @@
 [submodule "deps/ser4cpp"]
 	path = deps/ser4cpp
 	url = https://github.com/automatak/ser4cpp.git
+[submodule "deps/m.css"]
+	path = deps/m.css
+	url = https://github.com/mosra/m.css
