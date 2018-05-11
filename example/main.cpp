@@ -2,34 +2,11 @@
 #include <memory>
 
 #include "modbus/IModbusManager.h"
+#include "modbus/exceptions/IException.h"
+#include "modbus/exceptions/TimeoutException.h"
 #include "modbus/logging/LoggerFactory.h"
 
 using namespace modbus;
-
-class MySessionResponseHandler : public ISessionResponseHandler
-{
-public:
-    void on_response(const ReadHoldingRegistersResponse& response) override
-    {
-        // A scheduled response was received
-        for(auto& value : response.values)
-        {
-            std::cout << value.address << ": " << value.value <<  std::endl;
-        }
-    }
-
-    void on_exception(const IException& exception) override
-    {
-        // A scheduled request produced an exception
-        std::cout << "Error: " << exception.get_message() << " received." << std::endl;
-    }
-
-    void on_timeout() override
-    {
-        // A scheduled request timed-out
-        std::cout << "Timeout" << std::endl;
-    }
-};
 
 int main(int argc, char* argv[])
 {
@@ -48,13 +25,15 @@ int main(int argc, char* argv[])
     // Create a session with a specific unit identifier
     // Users will mainly play with the session to obtain what they want
     auto session = channel->create_session(UnitIdentifier{0x01},
-                                           std::chrono::seconds(3),
-                                           std::make_shared<MySessionResponseHandler>());
+                                           std::chrono::seconds(3));
 
     // Schedule a recurring request
-    // All the scheduled requests will be handled by the ISessionResponseHandler registered on session creation
     ReadHoldingRegistersRequest req{ 0x0024, 59 };
-    auto scheduled_req = session->schedule_request(req, std::chrono::seconds(2));
+    auto scheduled_req = session->schedule_request(req,
+                                                   std::chrono::seconds(2),
+                                                   [](Expected<ReadHoldingRegistersResponse> response) {
+        std::cout << "Scheduled request received response." << std::endl;
+    });
 
     while (true)
     {
@@ -72,7 +51,16 @@ int main(int argc, char* argv[])
                 // If the exception is set, then an error occured
                 if (!response.is_valid())
                 {
-                    std::cout << response.get_exception<IException>().get_message() << std::endl;
+                    // Check for specific error instance
+                    if(response.has_exception<TimeoutException>())
+                    {
+                        std::cout << "Timeout reached." << std::endl;
+                    }
+                    else
+                    {
+                        // IException is the base class of all the errors
+                        std::cout << response.get_exception<IException>().get_message() << std::endl;
+                    }
                     return;
                 }
 
@@ -131,6 +119,4 @@ int main(int argc, char* argv[])
             break;
         }
     }
-
-    return 0;
 }

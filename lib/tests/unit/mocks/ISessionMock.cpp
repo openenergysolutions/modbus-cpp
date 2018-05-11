@@ -68,27 +68,31 @@ void ISessionMock::send_request(const modbus::WriteMultipleRegistersRequest& req
 
 // Scheduled requests
 std::shared_ptr<modbus::IScheduledRequest> ISessionMock::schedule_request(const modbus::ReadHoldingRegistersRequest& request,
-                                                                          const modbus::duration_t& frequency)
+                                                                          const modbus::duration_t& frequency,
+                                                                          modbus::ResponseHandler<modbus::ReadHoldingRegistersResponse> handler)
 {
     return nullptr;
 }
 
 std::shared_ptr<modbus::IScheduledRequest> ISessionMock::schedule_request(const modbus::ReadHoldingRegistersRequest& request,
                                                                           const modbus::duration_t& timeout,
-                                                                          const modbus::duration_t& frequency)
+                                                                          const modbus::duration_t& frequency,
+                                                                          modbus::ResponseHandler<modbus::ReadHoldingRegistersResponse> handler)
 {
     return nullptr;
 }
 
 std::shared_ptr<modbus::IScheduledRequest> ISessionMock::schedule_request(const modbus::ReadInputRegistersRequest& request,
-                                                                          const modbus::duration_t& frequency)
+                                                                          const modbus::duration_t& frequency,
+                                                                          modbus::ResponseHandler<modbus::ReadInputRegistersResponse> handler)
 {
     return nullptr;
 }
 
 std::shared_ptr<modbus::IScheduledRequest> ISessionMock::schedule_request(const modbus::ReadInputRegistersRequest& request,
                                                                           const modbus::duration_t& timeout,
-                                                                          const modbus::duration_t& frequency)
+                                                                          const modbus::duration_t& frequency,
+                                                                          modbus::ResponseHandler<modbus::ReadInputRegistersResponse> handler)
 {
     return nullptr;
 }

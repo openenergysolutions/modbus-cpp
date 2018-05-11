@@ -1,6 +1,5 @@
 #include "session/SessionImpl.h"
 
-#include "modbus/session/ISessionResponseHandler.h"
 #include "TimerWrapper.h"
 #include "messages/ReadHoldingRegistersRequestImpl.h"
 #include "messages/ReadHoldingRegistersResponseImpl.h"
@@ -20,14 +19,12 @@ SessionImpl::SessionImpl(std::shared_ptr<exe4cpp::IExecutor> executor,
                          std::shared_ptr<Logger> logger,
                          std::shared_ptr<IChannelImpl> channel,
                          const UnitIdentifier& unit_identifier,
-                         const duration_t& default_timeout,
-                         std::shared_ptr<ISessionResponseHandler> session_response_handler)
+                         const duration_t& default_timeout)
 : m_executor{executor},
   m_logger{logger},
   m_channel{channel},
   m_unit_identifier{unit_identifier},
-  m_default_timeout{default_timeout},
-  m_session_response_handler{session_response_handler}
+  m_default_timeout{default_timeout}
 {
 
 }
@@ -97,33 +94,39 @@ void SessionImpl::send_request(const WriteMultipleRegistersRequest& request,
 }
 
 std::shared_ptr<IScheduledRequest> SessionImpl::schedule_request(const ReadHoldingRegistersRequest& request,
-                                                                 const duration_t& frequency)
+                                                                 const duration_t& frequency,
+                                                                 ResponseHandler<ReadHoldingRegistersResponse> handler)
 {
-    return schedule_request(request, m_default_timeout, frequency);
+    return schedule_request(request, m_default_timeout, frequency, handler);
 }
 
 std::shared_ptr<IScheduledRequest> SessionImpl::schedule_request(const ReadHoldingRegistersRequest& request,
                                                                  const duration_t& timeout,
-                                                                 const duration_t& frequency)
+                                                                 const duration_t& frequency,
+                                                                 ResponseHandler<ReadHoldingRegistersResponse> handler)
 {
     return meta_schedule_request<ReadHoldingRegistersRequest, ReadHoldingRegistersResponse>(request,
                                                                                             timeout,
-                                                                                            frequency);
+                                                                                            frequency,
+                                                                                            handler);
 }
 
 std::shared_ptr<IScheduledRequest> SessionImpl::schedule_request(const ReadInputRegistersRequest& request,
-                                                                 const duration_t& frequency)
+                                                                 const duration_t& frequency,
+                                                                 ResponseHandler<ReadInputRegistersResponse> handler)
 {
-    return schedule_request(request, m_default_timeout, frequency);
+    return schedule_request(request, m_default_timeout, frequency, handler);
 }
 
 std::shared_ptr<IScheduledRequest> SessionImpl::schedule_request(const ReadInputRegistersRequest& request,
                                                                  const duration_t& timeout,
-                                                                 const duration_t& frequency)
+                                                                 const duration_t& frequency,
+                                                                 ResponseHandler<ReadInputRegistersResponse> handler)
 {
     return meta_schedule_request<ReadInputRegistersRequest, ReadInputRegistersResponse>(request,
                                                                                         timeout,
-                                                                                        frequency);
+                                                                                        frequency,
+                                                                                        handler);
 }
 
 std::unique_ptr<ITimer> SessionImpl::start(const duration_t& duration, const action_t& action)
@@ -158,10 +161,11 @@ void SessionImpl::meta_send_request(const TRequest& request,
 template<typename TRequest, typename TResponse>
 std::shared_ptr<IScheduledRequest> SessionImpl::meta_schedule_request(const TRequest& request,
                                                                       const duration_t& timeout,
-                                                                      const duration_t& frequency)
+                                                                      const duration_t& frequency,
+                                                                      ResponseHandler<TResponse> handler)
 {
     auto scheduled_request = std::make_shared<ScheduledRequest<TRequest, TResponse>>(shared_from_this(),
-                                                                                     m_session_response_handler,
+                                                                                     handler,
                                                                                      m_executor,
                                                                                      request,
                                                                                      timeout,

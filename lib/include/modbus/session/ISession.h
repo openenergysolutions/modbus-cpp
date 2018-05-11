@@ -35,9 +35,6 @@ namespace modbus
  * with a gateway, you can have a single channel to the gateway and multiple sessions for each slave devices
  * connected to the gateway. The unit identifier for each device is set in @ref IChannel::create_session().
  *
- * All the responses of the scheduled requests are sent to the @ref ISessionResponseHandler registered
- * in @ref IChannel::create_session().
- *
  * For details on the polling behavior, see @ref IScheduledRequest.
  *
  * The default timeout is configured in @ref IChannel::create_session().
@@ -54,7 +51,7 @@ namespace modbus
  * to eliminate the risks of race conditions in the user code. See @ref IModbusManager and
  * @ref ResponseHandler for more details.
  *
- * @see @ref IModbusManager, @ref IChannel, @ref ISessionResponseHandler
+ * @see @ref IModbusManager, @ref IChannel
  */
 class ISession : public std::enable_shared_from_this<ISession>
 {
@@ -167,51 +164,47 @@ public:
      * @brief Schedule a Read Holding Registers request to be send periodically to the device
      * @param request Request to send periodically
      * @param frequency Frequency to send the request
-     *
-     * The @ref ISessionResponseHandler registered in @ref IChannel::create_session() will
-     * be called everytime a response is received.
+     * @param handler Handler called when the response is received
      *
      * @note This method uses the default timout value set in @ref IChannel::create_session.
      */
     virtual std::shared_ptr<IScheduledRequest> schedule_request(const ReadHoldingRegistersRequest& request,
-                                                                const duration_t& frequency) = 0;
+                                                                const duration_t& frequency,
+                                                                ResponseHandler<ReadHoldingRegistersResponse> handler) = 0;
     /**
      * @brief Schedule a Read Holding Registers request to be send periodically to the device
      * @param request Request to send periodically
      * @param timeout Maximum time to wait for a response
      * @param frequency Frequency to send the request
-     *
-     * The @ref ISessionResponseHandler registered in @ref IChannel::create_session() will
-     * be called everytime a response is received.
+     * @param handler Handler called when the response is received
      */
     virtual std::shared_ptr<IScheduledRequest> schedule_request(const ReadHoldingRegistersRequest& request,
                                                                 const duration_t& timeout,
-                                                                const duration_t& frequency) = 0;
+                                                                const duration_t& frequency,
+                                                                ResponseHandler<ReadHoldingRegistersResponse> handler) = 0;
 
     /**
      * @brief Schedule a Read Input Registers request to be send periodically to the device
      * @param request Request to send periodically
      * @param frequency Frequency to send the request
-     *
-     * The @ref ISessionResponseHandler registered in @ref IChannel::create_session() will
-     * be called everytime a response is received.
+     * @param handler Handler called when the response is received
      *
      * @note This method uses the default timout value set in @ref IChannel::create_session.
      */
     virtual std::shared_ptr<IScheduledRequest> schedule_request(const ReadInputRegistersRequest& request,
-                                                                const duration_t& frequency) = 0;
+                                                                const duration_t& frequency,
+                                                                ResponseHandler<ReadInputRegistersResponse> handler) = 0;
     /**
      * @brief Schedule a Read Input Registers request to be send periodically to the device
      * @param request Request to send periodically
      * @param timeout Maximum time to wait for a response
      * @param frequency Frequency to send the request
-     *
-     * The @ref ISessionResponseHandler registered in @ref IChannel::create_session() will
-     * be called everytime a response is received.
+     * @param handler Handler called when the response is received
      */
     virtual std::shared_ptr<IScheduledRequest> schedule_request(const ReadInputRegistersRequest& request,
                                                                 const duration_t& timeout,
-                                                                const duration_t& frequency) = 0;
+                                                                const duration_t& frequency,
+                                                                ResponseHandler<ReadInputRegistersResponse> handler) = 0;
 
     // ===== Underlying timer access =====
     /**

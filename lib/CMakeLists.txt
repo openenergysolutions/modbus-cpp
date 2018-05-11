@@ -33,7 +33,6 @@ set(modbus_public_headers
 
     ./include/modbus/session/IScheduledRequest.h
     ./include/modbus/session/ISession.h
-    ./include/modbus/session/ISessionResponseHandler.h
 )
 
 set(modbus_private_headers

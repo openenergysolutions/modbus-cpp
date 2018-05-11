@@ -13,7 +13,6 @@ namespace modbus
 
 class Logger;
 class IChannelImpl;
-class ISessionResponseHandler;
 class UnitIdentifier;
 
 class SessionImpl final : public ISession
@@ -23,8 +22,7 @@ public:
                 std::shared_ptr<Logger> logger,
                 std::shared_ptr<IChannelImpl> channel,
                 const UnitIdentifier& unit_identifier,
-                const duration_t& default_timeout,
-                std::shared_ptr<ISessionResponseHandler> session_response_handler);
+                const duration_t& default_timeout);
     ~SessionImpl() = default;
 
     void shutdown() override;
@@ -57,16 +55,20 @@ public:
 
     // Scheduled requests
     std::shared_ptr<IScheduledRequest> schedule_request(const ReadHoldingRegistersRequest& request,
-                                                        const duration_t& frequency) override;
+                                                        const duration_t& frequency,
+                                                        ResponseHandler<ReadHoldingRegistersResponse> handler) override;
     std::shared_ptr<IScheduledRequest> schedule_request(const ReadHoldingRegistersRequest& request,
                                                         const duration_t& timeout,
-                                                        const duration_t& frequency) override;
+                                                        const duration_t& frequency,
+                                                        ResponseHandler<ReadHoldingRegistersResponse> handler) override;
 
     std::shared_ptr<IScheduledRequest> schedule_request(const ReadInputRegistersRequest& request,
-                                                        const duration_t& frequency) override;
+                                                        const duration_t& frequency,
+                                                        ResponseHandler<ReadInputRegistersResponse> handler) override;
     std::shared_ptr<IScheduledRequest> schedule_request(const ReadInputRegistersRequest& request,
                                                         const duration_t& timeout,
-                                                        const duration_t& frequency) override;
+                                                        const duration_t& frequency,
+                                                        ResponseHandler<ReadInputRegistersResponse> handler) override;
 
 
     std::unique_ptr<ITimer> start(const duration_t& duration, const action_t& action) override;
@@ -81,14 +83,14 @@ private:
     template<typename TRequest, typename TResponse>
     std::shared_ptr<IScheduledRequest> meta_schedule_request(const TRequest& request,
                                                              const duration_t& timeout,
-                                                             const duration_t& frequency);
+                                                             const duration_t& frequency,
+                                                             ResponseHandler<TResponse> handler);
 
     std::shared_ptr<exe4cpp::IExecutor> m_executor;
     std::shared_ptr<Logger> m_logger;
     std::shared_ptr<IChannelImpl> m_channel;
     UnitIdentifier m_unit_identifier;
     duration_t m_default_timeout;
-    std::shared_ptr<ISessionResponseHandler> m_session_response_handler;
 
     std::vector<std::shared_ptr<IScheduledRequest>> m_scheduled_requests;
 };

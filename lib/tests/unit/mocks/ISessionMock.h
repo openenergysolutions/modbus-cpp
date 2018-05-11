@@ -37,16 +37,20 @@ public:
 
     // Scheduled requests
     std::shared_ptr<modbus::IScheduledRequest> schedule_request(const modbus::ReadHoldingRegistersRequest& request,
-                                                                const modbus::duration_t& frequency) override;
+                                                                const modbus::duration_t& frequency,
+                                                                modbus::ResponseHandler<modbus::ReadHoldingRegistersResponse> handler) override;
     std::shared_ptr<modbus::IScheduledRequest> schedule_request(const modbus::ReadHoldingRegistersRequest& request,
                                                                 const modbus::duration_t& timeout,
-                                                                const modbus::duration_t& frequency) override;
+                                                                const modbus::duration_t& frequency,
+                                                                modbus::ResponseHandler<modbus::ReadHoldingRegistersResponse> handler) override;
 
     std::shared_ptr<modbus::IScheduledRequest> schedule_request(const modbus::ReadInputRegistersRequest& request,
-                                                                const modbus::duration_t& frequency) override;
+                                                                const modbus::duration_t& frequency,
+                                                                modbus::ResponseHandler<modbus::ReadInputRegistersResponse> handler) override;
     std::shared_ptr<modbus::IScheduledRequest> schedule_request(const modbus::ReadInputRegistersRequest& request,
                                                                 const modbus::duration_t& timeout,
-                                                                const modbus::duration_t& frequency) override;
+                                                                const modbus::duration_t& frequency,
+                                                                modbus::ResponseHandler<modbus::ReadInputRegistersResponse> handler) override;
 
     std::unique_ptr<modbus::ITimer> start(const modbus::duration_t &duration, const modbus::action_t &action) override;
     std::unique_ptr<modbus::ITimer> start(const modbus::steady_time_t &expiration, const modbus::action_t &action) override;
