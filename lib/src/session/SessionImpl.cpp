@@ -1,6 +1,10 @@
 #include "session/SessionImpl.h"
 
 #include "TimerWrapper.h"
+#include "messages/ReadCoilsRequestImpl.h"
+#include "messages/ReadCoilsResponseImpl.h"
+#include "messages/ReadDiscreteInputsRequestImpl.h"
+#include "messages/ReadDiscreteInputsResponseImpl.h"
 #include "messages/ReadHoldingRegistersRequestImpl.h"
 #include "messages/ReadHoldingRegistersResponseImpl.h"
 #include "messages/ReadInputRegistersRequestImpl.h"
@@ -39,6 +43,32 @@ void SessionImpl::shutdown()
 
         m_scheduled_requests.clear();
     });
+}
+
+void SessionImpl::send_request(const ReadCoilsRequest& request,
+                               ResponseHandler<ReadCoilsResponse> handler)
+{
+    send_request(request, m_default_timeout, handler);
+}
+
+void SessionImpl::send_request(const ReadCoilsRequest& request,
+                               const duration_t& timeout,
+                               ResponseHandler<ReadCoilsResponse> handler)
+{
+    meta_send_request<ReadCoilsRequestImpl, ReadCoilsResponseImpl>(request, timeout, handler);
+}
+
+void SessionImpl::send_request(const ReadDiscreteInputsRequest& request,
+                               ResponseHandler<ReadDiscreteInputsResponse> handler)
+{
+    send_request(request, m_default_timeout, handler);
+}
+
+void SessionImpl::send_request(const ReadDiscreteInputsRequest& request,
+                               const duration_t& timeout,
+                               ResponseHandler<ReadDiscreteInputsResponse> handler)
+{
+    meta_send_request<ReadDiscreteInputsRequestImpl, ReadDiscreteInputsResponseImpl>(request, timeout, handler);
 }
 
 void SessionImpl::send_request(const ReadHoldingRegistersRequest& request,
@@ -93,6 +123,39 @@ void SessionImpl::send_request(const WriteMultipleRegistersRequest& request,
     meta_send_request<WriteMultipleRegistersRequestImpl, WriteMultipleRegistersResponseImpl>(request, timeout, handler);
 }
 
+std::shared_ptr<IScheduledRequest> SessionImpl::schedule_request(const ReadCoilsRequest& request,
+                                                                 const duration_t& frequency,
+                                                                 ResponseHandler<ReadCoilsResponse> handler)
+{
+    return schedule_request(request, m_default_timeout, frequency, handler);
+}
+
+std::shared_ptr<IScheduledRequest> SessionImpl::schedule_request(const ReadCoilsRequest& request,
+                                                                 const duration_t& timeout,
+                                                                 const duration_t& frequency,
+                                                                 ResponseHandler<ReadCoilsResponse> handler)
+{
+    return meta_schedule_request(request,
+                                 timeout,
+                                 frequency,
+                                 handler);
+}
+
+std::shared_ptr<IScheduledRequest> SessionImpl::schedule_request(const ReadDiscreteInputsRequest& request,
+                                                                 const duration_t& frequency,
+                                                                 ResponseHandler<ReadDiscreteInputsResponse> handler)
+{
+    return schedule_request(request, m_default_timeout, frequency, handler);
+}
+
+std::shared_ptr<IScheduledRequest> SessionImpl::schedule_request(const ReadDiscreteInputsRequest& request,
+                                                                 const duration_t& timeout,
+                                                                 const duration_t& frequency,
+                                                                 ResponseHandler<ReadDiscreteInputsResponse> handler)
+{
+    return meta_schedule_request(request, timeout, frequency, handler);
+}
+
 std::shared_ptr<IScheduledRequest> SessionImpl::schedule_request(const ReadHoldingRegistersRequest& request,
                                                                  const duration_t& frequency,
                                                                  ResponseHandler<ReadHoldingRegistersResponse> handler)
@@ -105,10 +168,7 @@ std::shared_ptr<IScheduledRequest> SessionImpl::schedule_request(const ReadHoldi
                                                                  const duration_t& frequency,
                                                                  ResponseHandler<ReadHoldingRegistersResponse> handler)
 {
-    return meta_schedule_request<ReadHoldingRegistersRequest, ReadHoldingRegistersResponse>(request,
-                                                                                            timeout,
-                                                                                            frequency,
-                                                                                            handler);
+    return meta_schedule_request(request, timeout, frequency, handler);
 }
 
 std::shared_ptr<IScheduledRequest> SessionImpl::schedule_request(const ReadInputRegistersRequest& request,
@@ -123,10 +183,7 @@ std::shared_ptr<IScheduledRequest> SessionImpl::schedule_request(const ReadInput
                                                                  const duration_t& frequency,
                                                                  ResponseHandler<ReadInputRegistersResponse> handler)
 {
-    return meta_schedule_request<ReadInputRegistersRequest, ReadInputRegistersResponse>(request,
-                                                                                        timeout,
-                                                                                        frequency,
-                                                                                        handler);
+    return meta_schedule_request(request, timeout, frequency, handler);
 }
 
 std::unique_ptr<ITimer> SessionImpl::start(const duration_t& duration, const action_t& action)
@@ -153,7 +210,7 @@ void SessionImpl::meta_send_request(const TRequest& request,
         }
         else
         {
-            handler(TResponseImpl::parse(request, response.get()));
+            handler(TResponseImpl::parse(request_impl, response.get()));
         }
     });
 }

@@ -11,6 +11,18 @@ public:
     void shutdown() override;
 
     // One-time requests
+    void send_request(const modbus::ReadCoilsRequest& request,
+                      modbus::ResponseHandler<modbus::ReadCoilsResponse> handler) override;
+    void send_request(const modbus::ReadCoilsRequest& request,
+                      const modbus::duration_t& timeout,
+                      modbus::ResponseHandler<modbus::ReadCoilsResponse> handler) override;
+
+    void send_request(const modbus::ReadDiscreteInputsRequest& request,
+                      modbus::ResponseHandler<modbus::ReadDiscreteInputsResponse> handler) override;
+    void send_request(const modbus::ReadDiscreteInputsRequest& request,
+                      const modbus::duration_t& timeout,
+                      modbus::ResponseHandler<modbus::ReadDiscreteInputsResponse> handler) override;
+
     void send_request(const modbus::ReadHoldingRegistersRequest& request,
                       modbus::ResponseHandler<modbus::ReadHoldingRegistersResponse> handler) override;
     void send_request(const modbus::ReadHoldingRegistersRequest& request,
@@ -36,6 +48,22 @@ public:
                       modbus::ResponseHandler<modbus::WriteMultipleRegistersResponse> handler) override;
 
     // Scheduled requests
+    std::shared_ptr<modbus::IScheduledRequest> schedule_request(const modbus::ReadCoilsRequest& request,
+                                                                const modbus::duration_t& frequency,
+                                                                modbus::ResponseHandler<modbus::ReadCoilsResponse> handler) override;
+    std::shared_ptr<modbus::IScheduledRequest> schedule_request(const modbus::ReadCoilsRequest& request,
+                                                                const modbus::duration_t& timeout,
+                                                                const modbus::duration_t& frequency,
+                                                                modbus::ResponseHandler<modbus::ReadCoilsResponse> handler) override;
+
+    std::shared_ptr<modbus::IScheduledRequest> schedule_request(const modbus::ReadDiscreteInputsRequest& request,
+                                                                const modbus::duration_t& frequency,
+                                                                modbus::ResponseHandler<modbus::ReadDiscreteInputsResponse> handler) override;
+    std::shared_ptr<modbus::IScheduledRequest> schedule_request(const modbus::ReadDiscreteInputsRequest& request,
+                                                                const modbus::duration_t& timeout,
+                                                                const modbus::duration_t& frequency,
+                                                                modbus::ResponseHandler<modbus::ReadDiscreteInputsResponse> handler) override;
+
     std::shared_ptr<modbus::IScheduledRequest> schedule_request(const modbus::ReadHoldingRegistersRequest& request,
                                                                 const modbus::duration_t& frequency,
                                                                 modbus::ResponseHandler<modbus::ReadHoldingRegistersResponse> handler) override;

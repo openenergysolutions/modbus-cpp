@@ -21,11 +21,16 @@ set(modbus_public_headers
 
     ./include/modbus/messages/Address.h
     ./include/modbus/messages/ExceptionType.h
+    ./include/modbus/messages/ReadCoilsRequest.h
+    ./include/modbus/messages/ReadCoilsResponse.h
+    ./include/modbus/messages/ReadDiscreteInputsRequest.h
+    ./include/modbus/messages/ReadDiscreteInputsResponse.h
     ./include/modbus/messages/ReadHoldingRegistersRequest.h
     ./include/modbus/messages/ReadHoldingRegistersResponse.h
     ./include/modbus/messages/ReadInputRegistersRequest.h
     ./include/modbus/messages/ReadInputRegistersResponse.h
     ./include/modbus/messages/RegisterValue.h
+    ./include/modbus/messages/SingleBitValue.h
     ./include/modbus/messages/WriteMultipleRegistersRequest.h
     ./include/modbus/messages/WriteMultipleRegistersResponse.h
     ./include/modbus/messages/WriteSingleRegisterRequest.h
@@ -54,6 +59,12 @@ set(modbus_private_headers
 
     ./src/messages/IRequest.h
     ./src/messages/IResponse.h
+    ./src/messages/ReadBitsRequestImpl.h
+    ./src/messages/ReadBitsResponseImpl.h
+    ./src/messages/ReadCoilsRequestImpl.h
+    ./src/messages/ReadCoilsResponseImpl.h
+    ./src/messages/ReadDiscreteInputsRequestImpl.h
+    ./src/messages/ReadDiscreteInputsResponseImpl.h
     ./src/messages/ReadHoldingRegistersRequestImpl.h
     ./src/messages/ReadHoldingRegistersResponseImpl.h
     ./src/messages/ReadInputRegistersRequestImpl.h
@@ -86,6 +97,8 @@ set(modbus_src
 
     ./src/messages/ExceptionType.cpp
     ./src/messages/IResponse.cpp
+    ./src/messages/ReadBitsRequestImpl.cpp
+    ./src/messages/ReadBitsResponseImpl.cpp
     ./src/messages/ReadRegistersRequestImpl.cpp
     ./src/messages/ReadRegistersResponseImpl.cpp
     ./src/messages/WriteMultipleRegistersRequestImpl.cpp

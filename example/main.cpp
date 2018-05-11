@@ -46,8 +46,8 @@ int main(int argc, char* argv[])
         {
             // Send a request and print the result
             // You can override the default timeout value set when creating the session
-            ReadHoldingRegistersRequest req{ 0x0024, 59 };
-            session->send_request(req, std::chrono::seconds(3), [](const Expected<ReadHoldingRegistersResponse>& response) {
+            ReadCoilsRequest req{ 0x0024, 120 };
+            session->send_request(req, std::chrono::seconds(3), [](const Expected<ReadCoilsResponse>& response) {
                 // If the exception is set, then an error occured
                 if (!response.is_valid())
                 {

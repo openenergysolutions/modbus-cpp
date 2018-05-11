@@ -10,6 +10,10 @@
 #include "modbus/ITimer.h"
 #include "modbus/ResponseHandler.h"
 #include "modbus/Typedefs.h"
+#include "modbus/messages/ReadCoilsRequest.h"
+#include "modbus/messages/ReadCoilsResponse.h"
+#include "modbus/messages/ReadDiscreteInputsRequest.h"
+#include "modbus/messages/ReadDiscreteInputsResponse.h"
 #include "modbus/messages/ReadHoldingRegistersRequest.h"
 #include "modbus/messages/ReadHoldingRegistersResponse.h"
 #include "modbus/messages/ReadInputRegistersRequest.h"
@@ -83,6 +87,44 @@ public:
     virtual void shutdown() = 0;
 
     // ===== One-time requests =====
+    /**
+    * @brief Send a Read Coils request to the device
+    * @param request Request to send
+    * @param handler Handler called when the response is received
+    *
+    * @note This method uses the default timout value set in @ref IChannel::create_session.
+    */
+    virtual void send_request(const ReadCoilsRequest& request,
+                              ResponseHandler<ReadCoilsResponse> handler) = 0;
+    /**
+     * @brief Send a Read Coils request to the device
+     * @param request Request to send
+     * @param timeout Maximum time to wait for a response
+     * @param handler Handler called when the response is received
+     */
+    virtual void send_request(const ReadCoilsRequest& request,
+                              const duration_t& timeout,
+                              ResponseHandler<ReadCoilsResponse> handler) = 0;
+
+    /**
+     * @brief Send a Read Discrete Inputs request to the device
+     * @param request Request to send
+     * @param handler Handler called when the response is received
+     *
+     * @note This method uses the default timout value set in @ref IChannel::create_session.
+     */
+    virtual void send_request(const ReadDiscreteInputsRequest& request,
+                              ResponseHandler<ReadDiscreteInputsResponse> handler) = 0;
+    /**
+     * @brief Send a Read Discrete Inputs request to the device
+     * @param request Request to send
+     * @param timeout Maximum time to wait for a response
+     * @param handler Handler called when the response is received
+     */
+    virtual void send_request(const ReadDiscreteInputsRequest& request,
+                              const duration_t& timeout,
+                              ResponseHandler<ReadDiscreteInputsResponse> handler) = 0;
+
     /**
      * @brief Send a Read Holding Registers request to the device
      * @param request Request to send
@@ -160,6 +202,52 @@ public:
                               ResponseHandler<WriteMultipleRegistersResponse> handler) = 0;
 
     // ===== Scheduled requests =====
+    /**
+    * @brief Schedule a Read Coils request to be send periodically to the device
+    * @param request Request to send periodically
+    * @param frequency Frequency to send the request
+    * @param handler Handler called when the response is received
+    *
+    * @note This method uses the default timout value set in @ref IChannel::create_session.
+    */
+    virtual std::shared_ptr<IScheduledRequest> schedule_request(const ReadCoilsRequest& request,
+                                                                const duration_t& frequency,
+                                                                ResponseHandler<ReadCoilsResponse> handler) = 0;
+    /**
+     * @brief Schedule a Read Coils request to be send periodically to the device
+     * @param request Request to send periodically
+     * @param timeout Maximum time to wait for a response
+     * @param frequency Frequency to send the request
+     * @param handler Handler called when the response is received
+     */
+    virtual std::shared_ptr<IScheduledRequest> schedule_request(const ReadCoilsRequest& request,
+                                                                const duration_t& timeout,
+                                                                const duration_t& frequency,
+                                                                ResponseHandler<ReadCoilsResponse> handler) = 0;
+
+    /**
+     * @brief Schedule a Read Discrete Inputs request to be send periodically to the device
+     * @param request Request to send periodically
+     * @param frequency Frequency to send the request
+     * @param handler Handler called when the response is received
+     *
+     * @note This method uses the default timout value set in @ref IChannel::create_session.
+     */
+    virtual std::shared_ptr<IScheduledRequest> schedule_request(const ReadDiscreteInputsRequest& request,
+                                                                const duration_t& frequency,
+                                                                ResponseHandler<ReadDiscreteInputsResponse> handler) = 0;
+    /**
+     * @brief Schedule a Read Discrete Inputs request to be send periodically to the device
+     * @param request Request to send periodically
+     * @param timeout Maximum time to wait for a response
+     * @param frequency Frequency to send the request
+     * @param handler Handler called when the response is received
+     */
+    virtual std::shared_ptr<IScheduledRequest> schedule_request(const ReadDiscreteInputsRequest& request,
+                                                                const duration_t& timeout,
+                                                                const duration_t& frequency,
+                                                                ResponseHandler<ReadDiscreteInputsResponse> handler) = 0;
+
     /**
      * @brief Schedule a Read Holding Registers request to be send periodically to the device
      * @param request Request to send periodically

@@ -13,6 +13,32 @@ void ISessionMock::shutdown()
 }
 
 // One-time requests
+void ISessionMock::send_request(const modbus::ReadCoilsRequest& request,
+                                modbus::ResponseHandler<modbus::ReadCoilsResponse> handler)
+{
+
+}
+
+void ISessionMock::send_request(const modbus::ReadCoilsRequest& request,
+                                const modbus::duration_t& timeout,
+                                modbus::ResponseHandler<modbus::ReadCoilsResponse> handler)
+{
+
+}
+
+void ISessionMock::send_request(const modbus::ReadDiscreteInputsRequest& request,
+                                modbus::ResponseHandler<modbus::ReadDiscreteInputsResponse> handler)
+{
+
+}
+
+void ISessionMock::send_request(const modbus::ReadDiscreteInputsRequest& request,
+                                const modbus::duration_t& timeout,
+                                modbus::ResponseHandler<modbus::ReadDiscreteInputsResponse> handler)
+{
+
+}
+
 void ISessionMock::send_request(const modbus::ReadHoldingRegistersRequest& request,
                                 modbus::ResponseHandler<modbus::ReadHoldingRegistersResponse> handler)
 {
@@ -67,6 +93,36 @@ void ISessionMock::send_request(const modbus::WriteMultipleRegistersRequest& req
 }
 
 // Scheduled requests
+std::shared_ptr<modbus::IScheduledRequest> ISessionMock::schedule_request(const modbus::ReadCoilsRequest& request,
+                                                                          const modbus::duration_t& frequency,
+                                                                          modbus::ResponseHandler<modbus::ReadCoilsResponse> handler)
+{
+    return nullptr;
+}
+
+std::shared_ptr<modbus::IScheduledRequest> ISessionMock::schedule_request(const modbus::ReadCoilsRequest& request,
+                                                                          const modbus::duration_t& timeout,
+                                                                          const modbus::duration_t& frequency,
+                                                                          modbus::ResponseHandler<modbus::ReadCoilsResponse> handler)
+{
+    return nullptr;
+}
+
+std::shared_ptr<modbus::IScheduledRequest> ISessionMock::schedule_request(const modbus::ReadDiscreteInputsRequest& request,
+                                                                          const modbus::duration_t& frequency,
+                                                                          modbus::ResponseHandler<modbus::ReadDiscreteInputsResponse> handler)
+{
+    return nullptr;
+}
+
+std::shared_ptr<modbus::IScheduledRequest> ISessionMock::schedule_request(const modbus::ReadDiscreteInputsRequest& request,
+                                                                          const modbus::duration_t& timeout,
+                                                                          const modbus::duration_t& frequency,
+                                                                          modbus::ResponseHandler<modbus::ReadDiscreteInputsResponse> handler)
+{
+    return nullptr;
+}
+
 std::shared_ptr<modbus::IScheduledRequest> ISessionMock::schedule_request(const modbus::ReadHoldingRegistersRequest& request,
                                                                           const modbus::duration_t& frequency,
                                                                           modbus::ResponseHandler<modbus::ReadHoldingRegistersResponse> handler)
