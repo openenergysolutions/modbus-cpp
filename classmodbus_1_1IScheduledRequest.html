@@ -100,11 +100,11 @@
             </dt>
             <dd>Check if a scheduled request is currently running.</dd>
             <dt>
-              <span class="m-dox-wrap-bumper">void <a href="#a2544ac2d5e742a0c7f53f1952aca5b53" class="m-dox">set_frequency</a>(</span><span class="m-dox-wrap">const exe4cpp::duration_t&amp; frequency) <span class="m-label m-flat m-warning">pure virtual</span></span>
+              <span class="m-dox-wrap-bumper">void <a href="#a0f6cd6c20d5b9fd015929831feb4fd15" class="m-dox">set_frequency</a>(</span><span class="m-dox-wrap">const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; frequency) <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Modify the frequency of the polling.</dd>
             <dt>
-              <span class="m-dox-wrap-bumper">auto <a href="#adf77ec29799032718d4a79c573cf3f12" class="m-dox">get_frequency</a>(</span><span class="m-dox-wrap">) const -&gt; exe4cpp::duration_t <span class="m-label m-flat m-warning">pure virtual</span></span>
+              <span class="m-dox-wrap-bumper">auto <a href="#a3ab77de600b13c3b89ba56a24ffdac8e" class="m-dox">get_frequency</a>(</span><span class="m-dox-wrap">) const -&gt; <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a> <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Retrieve the frequency of the polling.</dd>
           </dl>
@@ -146,9 +146,9 @@
             </table>
 <aside class="m-note m-info"><h4>Note</h4><p>When callind <a href="classmodbus_1_1IScheduledRequest.html#a97d478886ef36d250123c8a1e08a8392" class="m-dox">start()</a>, a following call to this method may still return <code class="m-code"><span class="nb">false</span></code>. This is due to the fact that <a href="classmodbus_1_1IScheduledRequest.html#a97d478886ef36d250123c8a1e08a8392" class="m-dox">start()</a> actually modifies the running state in a background thread.</p></aside>
           </div></section>
-          <section class="m-dox-details" id="a2544ac2d5e742a0c7f53f1952aca5b53"><div>
+          <section class="m-dox-details" id="a0f6cd6c20d5b9fd015929831feb4fd15"><div>
             <h3>
-              <span class="m-dox-wrap-bumper">void modbus::<wbr />IScheduledRequest::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a2544ac2d5e742a0c7f53f1952aca5b53" class="m-dox-self">set_frequency</a>(</span><span class="m-dox-wrap">const exe4cpp::duration_t&amp; frequency) <span class="m-label m-warning">pure virtual</span></span></span>
+              <span class="m-dox-wrap-bumper">void modbus::<wbr />IScheduledRequest::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a0f6cd6c20d5b9fd015929831feb4fd15" class="m-dox-self">set_frequency</a>(</span><span class="m-dox-wrap">const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; frequency) <span class="m-label m-warning">pure virtual</span></span></span>
             </h3>
             <p>Modify the frequency of the polling.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -164,9 +164,9 @@
             </table>
 <aside class="m-note m-info"><h4>Note</h4><p>The new frequency will be effective after the <em>next</em> polling. In other words, the timer used between polls is <em>not</em> modified by this method until it elapses.</p></aside>
           </div></section>
-          <section class="m-dox-details" id="adf77ec29799032718d4a79c573cf3f12"><div>
+          <section class="m-dox-details" id="a3ab77de600b13c3b89ba56a24ffdac8e"><div>
             <h3>
-              <span class="m-dox-wrap-bumper">exe4cpp::duration_t modbus::<wbr />IScheduledRequest::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#adf77ec29799032718d4a79c573cf3f12" class="m-dox-self">get_frequency</a>(</span><span class="m-dox-wrap">) const <span class="m-label m-warning">pure virtual</span></span></span>
+              <span class="m-dox-wrap-bumper"><a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a> modbus::<wbr />IScheduledRequest::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a3ab77de600b13c3b89ba56a24ffdac8e" class="m-dox-self">get_frequency</a>(</span><span class="m-dox-wrap">) const <span class="m-label m-warning">pure virtual</span></span></span>
             </h3>
             <p>Retrieve the frequency of the polling.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -177,7 +177,7 @@
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-info"><h4>Note</h4><p>When callind <a href="classmodbus_1_1IScheduledRequest.html#a2544ac2d5e742a0c7f53f1952aca5b53" class="m-dox">set_<wbr />frequency()</a>, a following call to this method may still return the old value. This is due to the fact that <a href="classmodbus_1_1IScheduledRequest.html#a2544ac2d5e742a0c7f53f1952aca5b53" class="m-dox">set_<wbr />frequency()</a> actually modifies the frequency in a background thread.</p></aside>
+<aside class="m-note m-info"><h4>Note</h4><p>When callind <a href="classmodbus_1_1IScheduledRequest.html#a0f6cd6c20d5b9fd015929831feb4fd15" class="m-dox">set_<wbr />frequency()</a>, a following call to this method may still return the old value. This is due to the fact that <a href="classmodbus_1_1IScheduledRequest.html#a0f6cd6c20d5b9fd015929831feb4fd15" class="m-dox">set_<wbr />frequency()</a> actually modifies the frequency in a background thread.</p></aside>
           </div></section>
         </section>
       </div>

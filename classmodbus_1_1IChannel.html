@@ -74,7 +74,7 @@
             </li>
           </ul>
         </div>
-<p>This class represents a channel of communication with a Modbus device. It is responsible for holding the physical connection, serializing the PDU in ADU and sequencing the outstanding requests.</p><p>You cannot send requests directly from this class. You must create a session with the <a href="classmodbus_1_1IChannel.html#a759f7a97ff4334ace3b71ce2bfcc4465" class="m-dox">create_<wbr />session()</a> methods and send the requests from the returned <a href="classmodbus_1_1ISession.html" class="m-dox">ISession</a>.</p><p>An instance of this class can be obtained via <a href="classmodbus_1_1IModbusManager.html#a45535fc7201915b5955e9ddac3db5717" class="m-dox">IModbusManager::<wbr />create_tcp_channel()</a>.</p><aside class="m-note m-info"><h4>Note</h4><p>Currently, the TCP channel supports only one outstanding request, meaning that the requests are always sent sequentially. Therefore, before sending a new request, the channel waits for the response of the previous request or its timeout.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a href="classmodbus_1_1IModbusManager.html" class="m-dox">IModbusManager</a>, <a href="classmodbus_1_1ISession.html" class="m-dox">ISession</a></p></aside>
+<p>This class represents a channel of communication with a Modbus device. It is responsible for holding the physical connection, serializing the PDU in ADU and sequencing the outstanding requests.</p><p>You cannot send requests directly from this class. You must create a session with the <a href="classmodbus_1_1IChannel.html#a7a08094f7c9c754b3887e43a980cf2a6" class="m-dox">create_<wbr />session()</a> methods and send the requests from the returned <a href="classmodbus_1_1ISession.html" class="m-dox">ISession</a>.</p><p>An instance of this class can be obtained via <a href="classmodbus_1_1IModbusManager.html#a45535fc7201915b5955e9ddac3db5717" class="m-dox">IModbusManager::<wbr />create_tcp_channel()</a>.</p><aside class="m-note m-info"><h4>Note</h4><p>Currently, the TCP channel supports only one outstanding request, meaning that the requests are always sent sequentially. Therefore, before sending a new request, the channel waits for the response of the previous request or its timeout.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a href="classmodbus_1_1IModbusManager.html" class="m-dox">IModbusManager</a>, <a href="classmodbus_1_1ISession.html" class="m-dox">ISession</a></p></aside>
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-dox">
@@ -88,9 +88,8 @@
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-dox">
             <dt>
-              <span class="m-dox-wrap-bumper">auto <a href="#a759f7a97ff4334ace3b71ce2bfcc4465" class="m-dox">create_session</a>(</span><span class="m-dox-wrap">const <a href="classmodbus_1_1UnitIdentifier.html" class="m-dox">UnitIdentifier</a>&amp; unit_identifier,
-              const exe4cpp::duration_t&amp; default_timeout,
-              std::shared_ptr&lt;<a href="classmodbus_1_1ISessionResponseHandler.html" class="m-dox">ISessionResponseHandler</a>&gt; session_response_handler) -&gt; std::shared_ptr&lt;<a href="classmodbus_1_1ISession.html" class="m-dox">ISession</a>&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
+              <span class="m-dox-wrap-bumper">auto <a href="#a7a08094f7c9c754b3887e43a980cf2a6" class="m-dox">create_session</a>(</span><span class="m-dox-wrap">const <a href="classmodbus_1_1UnitIdentifier.html" class="m-dox">UnitIdentifier</a>&amp; unit_identifier,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; default_timeout) -&gt; std::shared_ptr&lt;<a href="classmodbus_1_1ISession.html" class="m-dox">ISession</a>&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Create a session using the channel.</dd>
             <dt>
@@ -108,11 +107,10 @@
             <p>Destructor.</p>
 <aside class="m-note m-danger"><h4>Warning</h4><p>This destructor should never be called from user code. <a href="classmodbus_1_1IModbusManager.html" class="m-dox">IModbusManager</a> will hold a shared pointer to every channels it has created and will release them in <a href="classmodbus_1_1IModbusManager.html#ae57c5cb74f6f170be0d5c014af3d96fa" class="m-dox">IModbusManager::<wbr />shutdown()</a>.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a href="classmodbus_1_1IModbusManager.html#ae57c5cb74f6f170be0d5c014af3d96fa" class="m-dox">IModbusManager::<wbr />shutdown()</a>, <a href="classmodbus_1_1IChannel.html#a6dc7e28ac6fe71e597a609fb167512bf" class="m-dox">shutdown()</a></p></aside>
           </div></section>
-          <section class="m-dox-details" id="a759f7a97ff4334ace3b71ce2bfcc4465"><div>
+          <section class="m-dox-details" id="a7a08094f7c9c754b3887e43a980cf2a6"><div>
             <h3>
-              <span class="m-dox-wrap-bumper">std::shared_ptr&lt;<a href="classmodbus_1_1ISession.html" class="m-dox">ISession</a>&gt; modbus::<wbr />IChannel::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a759f7a97ff4334ace3b71ce2bfcc4465" class="m-dox-self">create_session</a>(</span><span class="m-dox-wrap">const <a href="classmodbus_1_1UnitIdentifier.html" class="m-dox">UnitIdentifier</a>&amp; unit_identifier,
-              const exe4cpp::duration_t&amp; default_timeout,
-              std::shared_ptr&lt;<a href="classmodbus_1_1ISessionResponseHandler.html" class="m-dox">ISessionResponseHandler</a>&gt; session_response_handler) <span class="m-label m-warning">pure virtual</span></span></span>
+              <span class="m-dox-wrap-bumper">std::shared_ptr&lt;<a href="classmodbus_1_1ISession.html" class="m-dox">ISession</a>&gt; modbus::<wbr />IChannel::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a7a08094f7c9c754b3887e43a980cf2a6" class="m-dox-self">create_session</a>(</span><span class="m-dox-wrap">const <a href="classmodbus_1_1UnitIdentifier.html" class="m-dox">UnitIdentifier</a>&amp; unit_identifier,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; default_timeout) <span class="m-label m-warning">pure virtual</span></span></span>
             </h3>
             <p>Create a session using the channel.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -127,10 +125,6 @@
                 <tr>
                   <td>default_timeout</td>
                   <td>Default timeout of requests sent on the wire</td>
-                </tr>
-                <tr>
-                  <td>session_response_handler</td>
-                  <td>Global session response handler called on responses of scheduled response. This parameter can be a <code class="m-code"><span class="k">nullptr</span></code> if no request will be scheduled.</td>
                 </tr>
               </tbody>
               <tfoot>

@@ -74,7 +74,7 @@
             </li>
           </ul>
         </div>
-<p>This class represents a session for communicatiing with a Modbus device. This is the class you&#x27;ll be using to send requests to the device and schedule them for periodic polling.</p><p>An instance of this class can be obtained via <a href="classmodbus_1_1IChannel.html#a759f7a97ff4334ace3b71ce2bfcc4465" class="m-dox">IChannel::<wbr />create_session()</a>.</p><p>It is possible to have multiple sessions on a single channel. For example, if you are communicating with a gateway, you can have a single channel to the gateway and multiple sessions for each slave devices connected to the gateway. The unit identifier for each device is set in <a href="classmodbus_1_1IChannel.html#a759f7a97ff4334ace3b71ce2bfcc4465" class="m-dox">IChannel::<wbr />create_session()</a>.</p><p>All the responses of the scheduled requests are sent to the <a href="classmodbus_1_1ISessionResponseHandler.html" class="m-dox">ISessionResponseHandler</a> registered in <a href="classmodbus_1_1IChannel.html#a759f7a97ff4334ace3b71ce2bfcc4465" class="m-dox">IChannel::<wbr />create_session()</a>.</p><p>For details on the polling behavior, see <a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">IScheduledRequest</a>.</p><p>The default timeout is configured in <a href="classmodbus_1_1IChannel.html#a759f7a97ff4334ace3b71ce2bfcc4465" class="m-dox">IChannel::<wbr />create_session()</a>.</p><p>This class provides access to timer in order to implement custom polling strategies. See <a href="classmodbus_1_1ISession.html#af9d69abea7da84aebb5f41c4f258f4b7" class="m-dox">start(const exe4cpp::<wbr />duration_t&amp; duration, const exe4cpp::<wbr />action_t&amp; action)</a> and <a href="classmodbus_1_1ISession.html#afc46945c196f91e106c2f3b36b9d3aaf" class="m-dox">start(const exe4cpp::<wbr />steady_time_t&amp; expiration, const exe4cpp::<wbr />action_t&amp; action)</a> for more details.</p><aside class="m-note m-danger"><h4>Warning</h4><p>All the response handlers are called from background threads created by the <a href="classmodbus_1_1IModbusManager.html" class="m-dox">IModbusManager</a>. Therefore, all response handlers <em>should not block</em> in any way. Otherwise, you risk having other channels not performing their tasks because the thread is blocked or even deadlocks. Also, be sure to use the appropriate mechanisms to eliminate the risks of race conditions in the user code. See <a href="classmodbus_1_1IModbusManager.html" class="m-dox">IModbusManager</a> and <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a> for more details.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a href="classmodbus_1_1IModbusManager.html" class="m-dox">IModbusManager</a>, <a href="classmodbus_1_1IChannel.html" class="m-dox">IChannel</a>, <a href="classmodbus_1_1ISessionResponseHandler.html" class="m-dox">ISessionResponseHandler</a></p></aside>
+<p>This class represents a session for communicatiing with a Modbus device. This is the class you&#x27;ll be using to send requests to the device and schedule them for periodic polling.</p><p>An instance of this class can be obtained via <a href="classmodbus_1_1IChannel.html#a7a08094f7c9c754b3887e43a980cf2a6" class="m-dox">IChannel::<wbr />create_session()</a>.</p><p>It is possible to have multiple sessions on a single channel. For example, if you are communicating with a gateway, you can have a single channel to the gateway and multiple sessions for each slave devices connected to the gateway. The unit identifier for each device is set in <a href="classmodbus_1_1IChannel.html#a7a08094f7c9c754b3887e43a980cf2a6" class="m-dox">IChannel::<wbr />create_session()</a>.</p><p>For details on the polling behavior, see <a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">IScheduledRequest</a>.</p><p>The default timeout is configured in <a href="classmodbus_1_1IChannel.html#a7a08094f7c9c754b3887e43a980cf2a6" class="m-dox">IChannel::<wbr />create_session()</a>.</p><p>This class provides access to timer in order to implement custom polling strategies. See <a href="classmodbus_1_1ISession.html#ae90f67bdb4bfb29a21aa30d2ce701a08" class="m-dox">start(const duration_<wbr />t&amp; duration, const action_<wbr />t&amp; action)</a> and <a href="classmodbus_1_1ISession.html#a60c3d498aef2094bc1736b269b36b518" class="m-dox">start(const steady_<wbr />time_<wbr />t&amp; expiration, const action_<wbr />t&amp; action)</a> for more details.</p><aside class="m-note m-danger"><h4>Warning</h4><p>All the response handlers are called from background threads created by the <a href="classmodbus_1_1IModbusManager.html" class="m-dox">IModbusManager</a>. Therefore, all response handlers <em>should not block</em> in any way. Otherwise, you risk having other channels not performing their tasks because the thread is blocked or even deadlocks. Also, be sure to use the appropriate mechanisms to eliminate the risks of race conditions in the user code. See <a href="classmodbus_1_1IModbusManager.html" class="m-dox">IModbusManager</a> and <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a> for more details.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a href="classmodbus_1_1IModbusManager.html" class="m-dox">IModbusManager</a>, <a href="classmodbus_1_1IChannel.html" class="m-dox">IChannel</a></p></aside>
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-dox">
@@ -97,8 +97,8 @@
             </dt>
             <dd>Send a Read Holding Registers request to the device.</dd>
             <dt>
-              <span class="m-dox-wrap-bumper">void <a href="#aa8b57665a13c0d24393a6b24f3648884" class="m-dox">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadHoldingRegistersRequest.html" class="m-dox">ReadHoldingRegistersRequest</a>&amp; request,
-              const exe4cpp::duration_t&amp; timeout,
+              <span class="m-dox-wrap-bumper">void <a href="#a133be5783eee4f588611282d74e55d6b" class="m-dox">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadHoldingRegistersRequest.html" class="m-dox">ReadHoldingRegistersRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; timeout,
               <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1ReadHoldingRegistersResponse.html" class="m-dox">ReadHoldingRegistersResponse</a>&gt; handler) <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Send a Read Holding Registers request to the device.</dd>
@@ -108,8 +108,8 @@
             </dt>
             <dd>Send a Read Input Registers request to the device.</dd>
             <dt>
-              <span class="m-dox-wrap-bumper">void <a href="#a6bc3e0249f91aa3ad7658772d51a81c1" class="m-dox">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadInputRegistersRequest.html" class="m-dox">ReadInputRegistersRequest</a>&amp; request,
-              const exe4cpp::duration_t&amp; timeout,
+              <span class="m-dox-wrap-bumper">void <a href="#a63d7a1ac85746812fcd7f43ba730f3c2" class="m-dox">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadInputRegistersRequest.html" class="m-dox">ReadInputRegistersRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; timeout,
               <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1ReadInputRegistersResponse.html" class="m-dox">ReadInputRegistersResponse</a>&gt; handler) <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Send a Read Input Registers request to the device.</dd>
@@ -119,8 +119,8 @@
             </dt>
             <dd>Send a Write Single Register request to the device.</dd>
             <dt>
-              <span class="m-dox-wrap-bumper">void <a href="#a1c1ff812b7f5c1bfac5afed59a213ee0" class="m-dox">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1WriteSingleRegisterRequest.html" class="m-dox">WriteSingleRegisterRequest</a>&amp; request,
-              const exe4cpp::duration_t&amp; timeout,
+              <span class="m-dox-wrap-bumper">void <a href="#a4761693afa24ba8950fa8ba2946478e1" class="m-dox">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1WriteSingleRegisterRequest.html" class="m-dox">WriteSingleRegisterRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; timeout,
               <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1WriteSingleRegisterResponse.html" class="m-dox">WriteSingleRegisterResponse</a>&gt; handler) <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Send a Write Single Register request to the device.</dd>
@@ -130,41 +130,45 @@
             </dt>
             <dd>Send a Write Multiple Registers request to the device.</dd>
             <dt>
-              <span class="m-dox-wrap-bumper">void <a href="#a15eb46d8fb273d54c7fe666b4cbf2079" class="m-dox">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1WriteMultipleRegistersRequest.html" class="m-dox">WriteMultipleRegistersRequest</a>&amp; request,
-              const exe4cpp::duration_t&amp; timeout,
+              <span class="m-dox-wrap-bumper">void <a href="#ade0d68f190f2e6f5496f3e03e2b6a61d" class="m-dox">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1WriteMultipleRegistersRequest.html" class="m-dox">WriteMultipleRegistersRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; timeout,
               <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1WriteMultipleRegistersResponse.html" class="m-dox">WriteMultipleRegistersResponse</a>&gt; handler) <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Send a Write Multiple Registers request to the device.</dd>
             <dt>
-              <span class="m-dox-wrap-bumper">auto <a href="#aa4ed0b21c6a0a14927410e8ddbcdbd20" class="m-dox">schedule_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadHoldingRegistersRequest.html" class="m-dox">ReadHoldingRegistersRequest</a>&amp; request,
-              const exe4cpp::duration_t&amp; frequency) -&gt; std::shared_ptr&lt;<a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">IScheduledRequest</a>&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
+              <span class="m-dox-wrap-bumper">auto <a href="#abbadc363a6510559cae229288ef2a7d8" class="m-dox">schedule_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadHoldingRegistersRequest.html" class="m-dox">ReadHoldingRegistersRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; frequency,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1ReadHoldingRegistersResponse.html" class="m-dox">ReadHoldingRegistersResponse</a>&gt; handler) -&gt; std::shared_ptr&lt;<a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">IScheduledRequest</a>&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Schedule a Read Holding Registers request to be send periodically to the device.</dd>
             <dt>
-              <span class="m-dox-wrap-bumper">auto <a href="#af92e25419cfa23c12eb671820f691a06" class="m-dox">schedule_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadHoldingRegistersRequest.html" class="m-dox">ReadHoldingRegistersRequest</a>&amp; request,
-              const exe4cpp::duration_t&amp; timeout,
-              const exe4cpp::duration_t&amp; frequency) -&gt; std::shared_ptr&lt;<a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">IScheduledRequest</a>&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
+              <span class="m-dox-wrap-bumper">auto <a href="#ad8360f0e12ef440314d860941aa0ca2e" class="m-dox">schedule_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadHoldingRegistersRequest.html" class="m-dox">ReadHoldingRegistersRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; timeout,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; frequency,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1ReadHoldingRegistersResponse.html" class="m-dox">ReadHoldingRegistersResponse</a>&gt; handler) -&gt; std::shared_ptr&lt;<a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">IScheduledRequest</a>&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Schedule a Read Holding Registers request to be send periodically to the device.</dd>
             <dt>
-              <span class="m-dox-wrap-bumper">auto <a href="#a488895f61ff5aca6d1ef79d9c04215d0" class="m-dox">schedule_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadInputRegistersRequest.html" class="m-dox">ReadInputRegistersRequest</a>&amp; request,
-              const exe4cpp::duration_t&amp; frequency) -&gt; std::shared_ptr&lt;<a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">IScheduledRequest</a>&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
+              <span class="m-dox-wrap-bumper">auto <a href="#a01c5d05db18d5843ecad676ec7e15424" class="m-dox">schedule_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadInputRegistersRequest.html" class="m-dox">ReadInputRegistersRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; frequency,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1ReadInputRegistersResponse.html" class="m-dox">ReadInputRegistersResponse</a>&gt; handler) -&gt; std::shared_ptr&lt;<a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">IScheduledRequest</a>&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Schedule a Read Input Registers request to be send periodically to the device.</dd>
             <dt>
-              <span class="m-dox-wrap-bumper">auto <a href="#a8941931822e6f0248aecb1ad85280be8" class="m-dox">schedule_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadInputRegistersRequest.html" class="m-dox">ReadInputRegistersRequest</a>&amp; request,
-              const exe4cpp::duration_t&amp; timeout,
-              const exe4cpp::duration_t&amp; frequency) -&gt; std::shared_ptr&lt;<a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">IScheduledRequest</a>&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
+              <span class="m-dox-wrap-bumper">auto <a href="#a6df04d1aba863886ed7c2abd0a91d520" class="m-dox">schedule_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadInputRegistersRequest.html" class="m-dox">ReadInputRegistersRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; timeout,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; frequency,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1ReadInputRegistersResponse.html" class="m-dox">ReadInputRegistersResponse</a>&gt; handler) -&gt; std::shared_ptr&lt;<a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">IScheduledRequest</a>&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Schedule a Read Input Registers request to be send periodically to the device.</dd>
             <dt>
-              <span class="m-dox-wrap-bumper">auto <a href="#af9d69abea7da84aebb5f41c4f258f4b7" class="m-dox">start</a>(</span><span class="m-dox-wrap">const exe4cpp::duration_t&amp; duration,
-              const exe4cpp::action_t&amp; action) -&gt; exe4cpp::Timer <span class="m-label m-flat m-warning">pure virtual</span></span>
+              <span class="m-dox-wrap-bumper">auto <a href="#ae90f67bdb4bfb29a21aa30d2ce701a08" class="m-dox">start</a>(</span><span class="m-dox-wrap">const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; duration,
+              const <a href="namespacemodbus.html#add248d995c4d55585688a47e72df44f6" class="m-dox">action_<wbr />t</a>&amp; action) -&gt; std::unique_ptr&lt;<a href="classmodbus_1_1ITimer.html" class="m-dox">ITimer</a>&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Start a new timer based on relative time duration.</dd>
             <dt>
-              <span class="m-dox-wrap-bumper">auto <a href="#afc46945c196f91e106c2f3b36b9d3aaf" class="m-dox">start</a>(</span><span class="m-dox-wrap">const exe4cpp::steady_time_t&amp; expiration,
-              const exe4cpp::action_t&amp; action) -&gt; exe4cpp::Timer <span class="m-label m-flat m-warning">pure virtual</span></span>
+              <span class="m-dox-wrap-bumper">auto <a href="#a60c3d498aef2094bc1736b269b36b518" class="m-dox">start</a>(</span><span class="m-dox-wrap">const <a href="namespacemodbus.html#a478257da6b17b597077cc17ddb848b31" class="m-dox">steady_<wbr />time_<wbr />t</a>&amp; expiration,
+              const <a href="namespacemodbus.html#add248d995c4d55585688a47e72df44f6" class="m-dox">action_<wbr />t</a>&amp; action) -&gt; std::unique_ptr&lt;<a href="classmodbus_1_1ITimer.html" class="m-dox">ITimer</a>&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Start a new timer based on an absolute timestamp.</dd>
           </dl>
@@ -206,12 +210,12 @@
                 </tr>
               </tbody>
             </table>
-<aside class="m-note m-info"><h4>Note</h4><p>This method uses the default timout value set in <a href="classmodbus_1_1IChannel.html#a759f7a97ff4334ace3b71ce2bfcc4465" class="m-dox">IChannel::<wbr />create_session</a>.</p></aside>
+<aside class="m-note m-info"><h4>Note</h4><p>This method uses the default timout value set in <a href="classmodbus_1_1IChannel.html#a7a08094f7c9c754b3887e43a980cf2a6" class="m-dox">IChannel::<wbr />create_session</a>.</p></aside>
           </div></section>
-          <section class="m-dox-details" id="aa8b57665a13c0d24393a6b24f3648884"><div>
+          <section class="m-dox-details" id="a133be5783eee4f588611282d74e55d6b"><div>
             <h3>
-              <span class="m-dox-wrap-bumper">void modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#aa8b57665a13c0d24393a6b24f3648884" class="m-dox-self">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadHoldingRegistersRequest.html" class="m-dox">ReadHoldingRegistersRequest</a>&amp; request,
-              const exe4cpp::duration_t&amp; timeout,
+              <span class="m-dox-wrap-bumper">void modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a133be5783eee4f588611282d74e55d6b" class="m-dox-self">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadHoldingRegistersRequest.html" class="m-dox">ReadHoldingRegistersRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; timeout,
               <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1ReadHoldingRegistersResponse.html" class="m-dox">ReadHoldingRegistersResponse</a>&gt; handler) <span class="m-label m-warning">pure virtual</span></span></span>
             </h3>
             <p>Send a Read Holding Registers request to the device.</p>
@@ -256,12 +260,12 @@
                 </tr>
               </tbody>
             </table>
-<aside class="m-note m-info"><h4>Note</h4><p>This method uses the default timout value set in <a href="classmodbus_1_1IChannel.html#a759f7a97ff4334ace3b71ce2bfcc4465" class="m-dox">IChannel::<wbr />create_session</a>.</p></aside>
+<aside class="m-note m-info"><h4>Note</h4><p>This method uses the default timout value set in <a href="classmodbus_1_1IChannel.html#a7a08094f7c9c754b3887e43a980cf2a6" class="m-dox">IChannel::<wbr />create_session</a>.</p></aside>
           </div></section>
-          <section class="m-dox-details" id="a6bc3e0249f91aa3ad7658772d51a81c1"><div>
+          <section class="m-dox-details" id="a63d7a1ac85746812fcd7f43ba730f3c2"><div>
             <h3>
-              <span class="m-dox-wrap-bumper">void modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a6bc3e0249f91aa3ad7658772d51a81c1" class="m-dox-self">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadInputRegistersRequest.html" class="m-dox">ReadInputRegistersRequest</a>&amp; request,
-              const exe4cpp::duration_t&amp; timeout,
+              <span class="m-dox-wrap-bumper">void modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a63d7a1ac85746812fcd7f43ba730f3c2" class="m-dox-self">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadInputRegistersRequest.html" class="m-dox">ReadInputRegistersRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; timeout,
               <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1ReadInputRegistersResponse.html" class="m-dox">ReadInputRegistersResponse</a>&gt; handler) <span class="m-label m-warning">pure virtual</span></span></span>
             </h3>
             <p>Send a Read Input Registers request to the device.</p>
@@ -306,12 +310,12 @@
                 </tr>
               </tbody>
             </table>
-<aside class="m-note m-info"><h4>Note</h4><p>This method uses the default timout value set in <a href="classmodbus_1_1IChannel.html#a759f7a97ff4334ace3b71ce2bfcc4465" class="m-dox">IChannel::<wbr />create_session</a>.</p></aside>
+<aside class="m-note m-info"><h4>Note</h4><p>This method uses the default timout value set in <a href="classmodbus_1_1IChannel.html#a7a08094f7c9c754b3887e43a980cf2a6" class="m-dox">IChannel::<wbr />create_session</a>.</p></aside>
           </div></section>
-          <section class="m-dox-details" id="a1c1ff812b7f5c1bfac5afed59a213ee0"><div>
+          <section class="m-dox-details" id="a4761693afa24ba8950fa8ba2946478e1"><div>
             <h3>
-              <span class="m-dox-wrap-bumper">void modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a1c1ff812b7f5c1bfac5afed59a213ee0" class="m-dox-self">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1WriteSingleRegisterRequest.html" class="m-dox">WriteSingleRegisterRequest</a>&amp; request,
-              const exe4cpp::duration_t&amp; timeout,
+              <span class="m-dox-wrap-bumper">void modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a4761693afa24ba8950fa8ba2946478e1" class="m-dox-self">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1WriteSingleRegisterRequest.html" class="m-dox">WriteSingleRegisterRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; timeout,
               <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1WriteSingleRegisterResponse.html" class="m-dox">WriteSingleRegisterResponse</a>&gt; handler) <span class="m-label m-warning">pure virtual</span></span></span>
             </h3>
             <p>Send a Write Single Register request to the device.</p>
@@ -356,12 +360,12 @@
                 </tr>
               </tbody>
             </table>
-<aside class="m-note m-info"><h4>Note</h4><p>This method uses the default timout value set in <a href="classmodbus_1_1IChannel.html#a759f7a97ff4334ace3b71ce2bfcc4465" class="m-dox">IChannel::<wbr />create_session</a>.</p></aside>
+<aside class="m-note m-info"><h4>Note</h4><p>This method uses the default timout value set in <a href="classmodbus_1_1IChannel.html#a7a08094f7c9c754b3887e43a980cf2a6" class="m-dox">IChannel::<wbr />create_session</a>.</p></aside>
           </div></section>
-          <section class="m-dox-details" id="a15eb46d8fb273d54c7fe666b4cbf2079"><div>
+          <section class="m-dox-details" id="ade0d68f190f2e6f5496f3e03e2b6a61d"><div>
             <h3>
-              <span class="m-dox-wrap-bumper">void modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a15eb46d8fb273d54c7fe666b4cbf2079" class="m-dox-self">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1WriteMultipleRegistersRequest.html" class="m-dox">WriteMultipleRegistersRequest</a>&amp; request,
-              const exe4cpp::duration_t&amp; timeout,
+              <span class="m-dox-wrap-bumper">void modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#ade0d68f190f2e6f5496f3e03e2b6a61d" class="m-dox-self">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1WriteMultipleRegistersRequest.html" class="m-dox">WriteMultipleRegistersRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; timeout,
               <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1WriteMultipleRegistersResponse.html" class="m-dox">WriteMultipleRegistersResponse</a>&gt; handler) <span class="m-label m-warning">pure virtual</span></span></span>
             </h3>
             <p>Send a Write Multiple Registers request to the device.</p>
@@ -385,10 +389,11 @@
               </tbody>
             </table>
           </div></section>
-          <section class="m-dox-details" id="aa4ed0b21c6a0a14927410e8ddbcdbd20"><div>
+          <section class="m-dox-details" id="abbadc363a6510559cae229288ef2a7d8"><div>
             <h3>
-              <span class="m-dox-wrap-bumper">std::shared_ptr&lt;<a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">IScheduledRequest</a>&gt; modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#aa4ed0b21c6a0a14927410e8ddbcdbd20" class="m-dox-self">schedule_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadHoldingRegistersRequest.html" class="m-dox">ReadHoldingRegistersRequest</a>&amp; request,
-              const exe4cpp::duration_t&amp; frequency) <span class="m-label m-warning">pure virtual</span></span></span>
+              <span class="m-dox-wrap-bumper">std::shared_ptr&lt;<a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">IScheduledRequest</a>&gt; modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#abbadc363a6510559cae229288ef2a7d8" class="m-dox-self">schedule_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadHoldingRegistersRequest.html" class="m-dox">ReadHoldingRegistersRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; frequency,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1ReadHoldingRegistersResponse.html" class="m-dox">ReadHoldingRegistersResponse</a>&gt; handler) <span class="m-label m-warning">pure virtual</span></span></span>
             </h3>
             <p>Schedule a Read Holding Registers request to be send periodically to the device.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -404,15 +409,20 @@
                   <td>frequency</td>
                   <td>Frequency to send the request</td>
                 </tr>
+                <tr>
+                  <td>handler</td>
+                  <td>Handler called when the response is received</td>
+                </tr>
               </tbody>
             </table>
-<p>The <a href="classmodbus_1_1ISessionResponseHandler.html" class="m-dox">ISessionResponseHandler</a> registered in <a href="classmodbus_1_1IChannel.html#a759f7a97ff4334ace3b71ce2bfcc4465" class="m-dox">IChannel::<wbr />create_session()</a> will be called everytime a response is received.</p><aside class="m-note m-info"><h4>Note</h4><p>This method uses the default timout value set in <a href="classmodbus_1_1IChannel.html#a759f7a97ff4334ace3b71ce2bfcc4465" class="m-dox">IChannel::<wbr />create_session</a>.</p></aside>
+<aside class="m-note m-info"><h4>Note</h4><p>This method uses the default timout value set in <a href="classmodbus_1_1IChannel.html#a7a08094f7c9c754b3887e43a980cf2a6" class="m-dox">IChannel::<wbr />create_session</a>.</p></aside>
           </div></section>
-          <section class="m-dox-details" id="af92e25419cfa23c12eb671820f691a06"><div>
+          <section class="m-dox-details" id="ad8360f0e12ef440314d860941aa0ca2e"><div>
             <h3>
-              <span class="m-dox-wrap-bumper">std::shared_ptr&lt;<a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">IScheduledRequest</a>&gt; modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#af92e25419cfa23c12eb671820f691a06" class="m-dox-self">schedule_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadHoldingRegistersRequest.html" class="m-dox">ReadHoldingRegistersRequest</a>&amp; request,
-              const exe4cpp::duration_t&amp; timeout,
-              const exe4cpp::duration_t&amp; frequency) <span class="m-label m-warning">pure virtual</span></span></span>
+              <span class="m-dox-wrap-bumper">std::shared_ptr&lt;<a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">IScheduledRequest</a>&gt; modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#ad8360f0e12ef440314d860941aa0ca2e" class="m-dox-self">schedule_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadHoldingRegistersRequest.html" class="m-dox">ReadHoldingRegistersRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; timeout,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; frequency,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1ReadHoldingRegistersResponse.html" class="m-dox">ReadHoldingRegistersResponse</a>&gt; handler) <span class="m-label m-warning">pure virtual</span></span></span>
             </h3>
             <p>Schedule a Read Holding Registers request to be send periodically to the device.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -432,14 +442,18 @@
                   <td>frequency</td>
                   <td>Frequency to send the request</td>
                 </tr>
+                <tr>
+                  <td>handler</td>
+                  <td>Handler called when the response is received</td>
+                </tr>
               </tbody>
             </table>
-<p>The <a href="classmodbus_1_1ISessionResponseHandler.html" class="m-dox">ISessionResponseHandler</a> registered in <a href="classmodbus_1_1IChannel.html#a759f7a97ff4334ace3b71ce2bfcc4465" class="m-dox">IChannel::<wbr />create_session()</a> will be called everytime a response is received.</p>
           </div></section>
-          <section class="m-dox-details" id="a488895f61ff5aca6d1ef79d9c04215d0"><div>
+          <section class="m-dox-details" id="a01c5d05db18d5843ecad676ec7e15424"><div>
             <h3>
-              <span class="m-dox-wrap-bumper">std::shared_ptr&lt;<a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">IScheduledRequest</a>&gt; modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a488895f61ff5aca6d1ef79d9c04215d0" class="m-dox-self">schedule_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadInputRegistersRequest.html" class="m-dox">ReadInputRegistersRequest</a>&amp; request,
-              const exe4cpp::duration_t&amp; frequency) <span class="m-label m-warning">pure virtual</span></span></span>
+              <span class="m-dox-wrap-bumper">std::shared_ptr&lt;<a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">IScheduledRequest</a>&gt; modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a01c5d05db18d5843ecad676ec7e15424" class="m-dox-self">schedule_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadInputRegistersRequest.html" class="m-dox">ReadInputRegistersRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; frequency,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1ReadInputRegistersResponse.html" class="m-dox">ReadInputRegistersResponse</a>&gt; handler) <span class="m-label m-warning">pure virtual</span></span></span>
             </h3>
             <p>Schedule a Read Input Registers request to be send periodically to the device.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -455,15 +469,20 @@
                   <td>frequency</td>
                   <td>Frequency to send the request</td>
                 </tr>
+                <tr>
+                  <td>handler</td>
+                  <td>Handler called when the response is received</td>
+                </tr>
               </tbody>
             </table>
-<p>The <a href="classmodbus_1_1ISessionResponseHandler.html" class="m-dox">ISessionResponseHandler</a> registered in <a href="classmodbus_1_1IChannel.html#a759f7a97ff4334ace3b71ce2bfcc4465" class="m-dox">IChannel::<wbr />create_session()</a> will be called everytime a response is received.</p><aside class="m-note m-info"><h4>Note</h4><p>This method uses the default timout value set in <a href="classmodbus_1_1IChannel.html#a759f7a97ff4334ace3b71ce2bfcc4465" class="m-dox">IChannel::<wbr />create_session</a>.</p></aside>
+<aside class="m-note m-info"><h4>Note</h4><p>This method uses the default timout value set in <a href="classmodbus_1_1IChannel.html#a7a08094f7c9c754b3887e43a980cf2a6" class="m-dox">IChannel::<wbr />create_session</a>.</p></aside>
           </div></section>
-          <section class="m-dox-details" id="a8941931822e6f0248aecb1ad85280be8"><div>
+          <section class="m-dox-details" id="a6df04d1aba863886ed7c2abd0a91d520"><div>
             <h3>
-              <span class="m-dox-wrap-bumper">std::shared_ptr&lt;<a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">IScheduledRequest</a>&gt; modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a8941931822e6f0248aecb1ad85280be8" class="m-dox-self">schedule_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadInputRegistersRequest.html" class="m-dox">ReadInputRegistersRequest</a>&amp; request,
-              const exe4cpp::duration_t&amp; timeout,
-              const exe4cpp::duration_t&amp; frequency) <span class="m-label m-warning">pure virtual</span></span></span>
+              <span class="m-dox-wrap-bumper">std::shared_ptr&lt;<a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">IScheduledRequest</a>&gt; modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a6df04d1aba863886ed7c2abd0a91d520" class="m-dox-self">schedule_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadInputRegistersRequest.html" class="m-dox">ReadInputRegistersRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; timeout,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; frequency,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1ReadInputRegistersResponse.html" class="m-dox">ReadInputRegistersResponse</a>&gt; handler) <span class="m-label m-warning">pure virtual</span></span></span>
             </h3>
             <p>Schedule a Read Input Registers request to be send periodically to the device.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -483,14 +502,17 @@
                   <td>frequency</td>
                   <td>Frequency to send the request</td>
                 </tr>
+                <tr>
+                  <td>handler</td>
+                  <td>Handler called when the response is received</td>
+                </tr>
               </tbody>
             </table>
-<p>The <a href="classmodbus_1_1ISessionResponseHandler.html" class="m-dox">ISessionResponseHandler</a> registered in <a href="classmodbus_1_1IChannel.html#a759f7a97ff4334ace3b71ce2bfcc4465" class="m-dox">IChannel::<wbr />create_session()</a> will be called everytime a response is received.</p>
           </div></section>
-          <section class="m-dox-details" id="af9d69abea7da84aebb5f41c4f258f4b7"><div>
+          <section class="m-dox-details" id="ae90f67bdb4bfb29a21aa30d2ce701a08"><div>
             <h3>
-              <span class="m-dox-wrap-bumper">exe4cpp::Timer modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#af9d69abea7da84aebb5f41c4f258f4b7" class="m-dox-self">start</a>(</span><span class="m-dox-wrap">const exe4cpp::duration_t&amp; duration,
-              const exe4cpp::action_t&amp; action) <span class="m-label m-warning">pure virtual</span></span></span>
+              <span class="m-dox-wrap-bumper">std::unique_ptr&lt;<a href="classmodbus_1_1ITimer.html" class="m-dox">ITimer</a>&gt; modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#ae90f67bdb4bfb29a21aa30d2ce701a08" class="m-dox-self">start</a>(</span><span class="m-dox-wrap">const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; duration,
+              const <a href="namespacemodbus.html#add248d995c4d55585688a47e72df44f6" class="m-dox">action_<wbr />t</a>&amp; action) <span class="m-label m-warning">pure virtual</span></span></span>
             </h3>
             <p>Start a new timer based on relative time duration.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -510,15 +532,15 @@
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>Timer instance to manipulate</td>
+                  <td>ITimer instance to manipulate</td>
                 </tr>
               </tfoot>
             </table>
           </div></section>
-          <section class="m-dox-details" id="afc46945c196f91e106c2f3b36b9d3aaf"><div>
+          <section class="m-dox-details" id="a60c3d498aef2094bc1736b269b36b518"><div>
             <h3>
-              <span class="m-dox-wrap-bumper">exe4cpp::Timer modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#afc46945c196f91e106c2f3b36b9d3aaf" class="m-dox-self">start</a>(</span><span class="m-dox-wrap">const exe4cpp::steady_time_t&amp; expiration,
-              const exe4cpp::action_t&amp; action) <span class="m-label m-warning">pure virtual</span></span></span>
+              <span class="m-dox-wrap-bumper">std::unique_ptr&lt;<a href="classmodbus_1_1ITimer.html" class="m-dox">ITimer</a>&gt; modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a60c3d498aef2094bc1736b269b36b518" class="m-dox-self">start</a>(</span><span class="m-dox-wrap">const <a href="namespacemodbus.html#a478257da6b17b597077cc17ddb848b31" class="m-dox">steady_<wbr />time_<wbr />t</a>&amp; expiration,
+              const <a href="namespacemodbus.html#add248d995c4d55585688a47e72df44f6" class="m-dox">action_<wbr />t</a>&amp; action) <span class="m-label m-warning">pure virtual</span></span></span>
             </h3>
             <p>Start a new timer based on an absolute timestamp.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -538,7 +560,7 @@
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>Timer instance to manipulate</td>
+                  <td>ITimer instance to manipulate</td>
                 </tr>
               </tfoot>
             </table>

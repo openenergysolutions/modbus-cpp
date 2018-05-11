@@ -112,9 +112,9 @@
             </dt>
             <dd>Communication session with a Modbus device.</dd>
             <dt>
-              class <a href="classmodbus_1_1ISessionResponseHandler.html" class="m-dox">ISessionResponseHandler</a>
+              class <a href="classmodbus_1_1ITimer.html" class="m-dox">ITimer</a>
             </dt>
-            <dd>Response handler for scheduled requests.</dd>
+            <dd>Timer interface for custom polling.</dd>
             <dt>
               class <a href="classmodbus_1_1LoggerFactory.html" class="m-dox">LoggerFactory</a>
             </dt>
@@ -203,6 +203,18 @@
               using <a href="#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a> = std::function&lt;void(const <a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a>&lt;TResponse&gt;&amp;)&gt;
             </dt>
             <dd>Response handler used in callbacks.</dd>
+            <dt>
+              using <a href="#add248d995c4d55585688a47e72df44f6" class="m-dox-self" name="add248d995c4d55585688a47e72df44f6">action_t</a> = std::function&lt;void()&gt;
+            </dt>
+            <dd>A copyable void function pointer taking no argument.</dd>
+            <dt>
+              using <a href="#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox-self" name="a852e7cbb8fc0cdce0b28599d55379066">duration_t</a> = std::chrono::steady_clock::duration
+            </dt>
+            <dd>Represents relative time.</dd>
+            <dt>
+              using <a href="#a478257da6b17b597077cc17ddb848b31" class="m-dox-self" name="a478257da6b17b597077cc17ddb848b31">steady_time_t</a> = std::chrono::steady_clock::time_point
+            </dt>
+            <dd>Represents an absolute timepoint based on steady_clock.</dd>
           </dl>
         </section>
         <section id="func-members">
