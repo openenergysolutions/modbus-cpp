@@ -18,10 +18,12 @@
 #include "modbus/messages/ReadHoldingRegistersResponse.h"
 #include "modbus/messages/ReadInputRegistersRequest.h"
 #include "modbus/messages/ReadInputRegistersResponse.h"
-#include "modbus/messages/WriteSingleRegisterRequest.h"
-#include "modbus/messages/WriteSingleRegisterResponse.h"
 #include "modbus/messages/WriteMultipleRegistersRequest.h"
 #include "modbus/messages/WriteMultipleRegistersResponse.h"
+#include "modbus/messages/WriteSingleCoilRequest.h"
+#include "modbus/messages/WriteSingleCoilResponse.h"
+#include "modbus/messages/WriteSingleRegisterRequest.h"
+#include "modbus/messages/WriteSingleRegisterResponse.h"
 #include "modbus/session/IScheduledRequest.h"
 
 namespace modbus
@@ -162,6 +164,25 @@ public:
     virtual void send_request(const ReadInputRegistersRequest& request,
                               const duration_t& timeout,
                               ResponseHandler<ReadInputRegistersResponse> handler) = 0;
+
+    /**
+    * @brief Send a Write Single Coil request to the device
+    * @param request Request to send
+    * @param handler Handler called when the response is received
+    *
+    * @note This method uses the default timout value set in @ref IChannel::create_session.
+    */
+    virtual void send_request(const WriteSingleCoilRequest& request,
+                              ResponseHandler<WriteSingleCoilResponse> handler) = 0;
+    /**
+     * @brief Send a Write Single Coil request to the device
+     * @param request Request to send
+     * @param timeout Maximum time to wait for a response
+     * @param handler Handler called when the response is received
+     */
+    virtual void send_request(const WriteSingleCoilRequest& request,
+                              const duration_t& timeout,
+                              ResponseHandler<WriteSingleCoilResponse> handler) = 0;
 
     /**
      * @brief Send a Write Single Register request to the device

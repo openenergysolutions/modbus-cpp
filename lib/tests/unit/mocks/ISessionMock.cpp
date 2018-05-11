@@ -66,6 +66,19 @@ void ISessionMock::send_request(const modbus::ReadInputRegistersRequest& request
 
 }
 
+void ISessionMock::send_request(const modbus::WriteSingleCoilRequest& request,
+                                modbus::ResponseHandler<modbus::WriteSingleCoilResponse> handler)
+{
+
+}
+
+void ISessionMock::send_request(const modbus::WriteSingleCoilRequest& request,
+                                const modbus::duration_t& timeout,
+                                modbus::ResponseHandler<modbus::WriteSingleCoilResponse> handler)
+{
+
+}
+
 void ISessionMock::send_request(const modbus::WriteSingleRegisterRequest& request,
                                 modbus::ResponseHandler<modbus::WriteSingleRegisterResponse> handler)
 {

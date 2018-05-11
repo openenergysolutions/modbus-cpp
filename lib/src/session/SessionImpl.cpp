@@ -11,6 +11,8 @@
 #include "messages/ReadInputRegistersResponseImpl.h"
 #include "messages/WriteMultipleRegistersRequestImpl.h"
 #include "messages/WriteMultipleRegistersResponseImpl.h"
+#include "messages/WriteSingleCoilRequestImpl.h"
+#include "messages/WriteSingleCoilResponseImpl.h"
 #include "messages/WriteSingleRegisterRequestImpl.h"
 #include "messages/WriteSingleRegisterResponseImpl.h"
 #include "channel/IChannelImpl.h"
@@ -95,6 +97,19 @@ void SessionImpl::send_request(const ReadInputRegistersRequest& request,
                                ResponseHandler<ReadInputRegistersResponse> handler)
 {
     meta_send_request<ReadInputRegistersRequestImpl, ReadInputRegistersResponseImpl>(request, timeout, handler);
+}
+
+void SessionImpl::send_request(const WriteSingleCoilRequest& request,
+                               ResponseHandler<WriteSingleCoilResponse> handler)
+{
+    send_request(request, m_default_timeout, handler);
+}
+
+void SessionImpl::send_request(const WriteSingleCoilRequest& request,
+                               const duration_t& timeout,
+                               ResponseHandler<WriteSingleCoilResponse> handler)
+{
+    meta_send_request<WriteSingleCoilRequestImpl, WriteSingleCoilResponseImpl>(request, timeout, handler);
 }
 
 void SessionImpl::send_request(const WriteSingleRegisterRequest& request,

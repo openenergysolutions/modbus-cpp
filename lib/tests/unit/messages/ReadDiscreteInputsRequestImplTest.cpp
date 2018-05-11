@@ -29,8 +29,8 @@ TEST_CASE("ReadDiscreteInputsRequestImpl")
         REQUIRE(buffer.as_wslice()[0] == 0x02); // Function code
         REQUIRE(buffer.as_wslice()[1] == 0x12); // Starting address MSB
         REQUIRE(buffer.as_wslice()[2] == 0x34); // Starting address LSB
-        REQUIRE(buffer.as_wslice()[3] == 0x00); // Qty of registers MSB
-        REQUIRE(buffer.as_wslice()[4] == 0x04); // Qty of registers LSB
+        REQUIRE(buffer.as_wslice()[3] == 0x00); // Qty of discrete inputs MSB
+        REQUIRE(buffer.as_wslice()[4] == 0x04); // Qty of discrete inputs LSB
     }
 
     SECTION("When clone, then effectively creates a copy of the request")

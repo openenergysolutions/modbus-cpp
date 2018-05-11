@@ -52,6 +52,12 @@ public:
                       const duration_t& timeout,
                       ResponseHandler<ReadInputRegistersResponse> handler) override;
 
+    void send_request(const WriteSingleCoilRequest& request,
+                      ResponseHandler<WriteSingleCoilResponse> handler) override;
+    void send_request(const WriteSingleCoilRequest& request,
+                      const duration_t& timeout,
+                      ResponseHandler<WriteSingleCoilResponse> handler) override;
+
     void send_request(const WriteSingleRegisterRequest& request,
                       ResponseHandler<WriteSingleRegisterResponse> handler) override;
     void send_request(const WriteSingleRegisterRequest& request,

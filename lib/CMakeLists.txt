@@ -33,6 +33,8 @@ set(modbus_public_headers
     ./include/modbus/messages/SingleBitValue.h
     ./include/modbus/messages/WriteMultipleRegistersRequest.h
     ./include/modbus/messages/WriteMultipleRegistersResponse.h
+    ./include/modbus/messages/WriteSingleCoilRequest.h
+    ./include/modbus/messages/WriteSingleCoilResponse.h
     ./include/modbus/messages/WriteSingleRegisterRequest.h
     ./include/modbus/messages/WriteSingleRegisterResponse.h
 
@@ -73,6 +75,8 @@ set(modbus_private_headers
     ./src/messages/ReadRegistersResponseImpl.h
     ./src/messages/WriteMultipleRegistersRequestImpl.h
     ./src/messages/WriteMultipleRegistersResponseImpl.h
+    ./src/messages/WriteSingleCoilRequestImpl.h
+    ./src/messages/WriteSingleCoilResponseImpl.h
     ./src/messages/WriteSingleRegisterRequestImpl.h
     ./src/messages/WriteSingleRegisterResponseImpl.h
 
@@ -103,6 +107,8 @@ set(modbus_src
     ./src/messages/ReadRegistersResponseImpl.cpp
     ./src/messages/WriteMultipleRegistersRequestImpl.cpp
     ./src/messages/WriteMultipleRegistersResponseImpl.cpp
+    ./src/messages/WriteSingleCoilRequestImpl.cpp
+    ./src/messages/WriteSingleCoilResponseImpl.cpp
     ./src/messages/WriteSingleRegisterRequestImpl.cpp
     ./src/messages/WriteSingleRegisterResponseImpl.cpp
 

@@ -10,7 +10,7 @@ namespace modbus
 class WriteSingleRegisterRequestImpl : public IRequest
 {
 public:
-    WriteSingleRegisterRequestImpl(const WriteSingleRegisterRequest& request);
+    explicit WriteSingleRegisterRequestImpl(const WriteSingleRegisterRequest& request);
 
     std::unique_ptr<IRequest> clone() const override;
 
