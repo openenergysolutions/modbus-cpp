@@ -11,7 +11,6 @@ namespace modbus
 
 class IRequest;
 class ISession;
-class ISessionResponseHandler;
 
 class IChannelImpl : public IChannel
 {

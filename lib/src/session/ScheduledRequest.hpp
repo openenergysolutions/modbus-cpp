@@ -5,20 +5,19 @@
 #include "modbus/exceptions/IException.h"
 #include "modbus/exceptions/TimeoutException.h"
 #include "modbus/session/ISession.h"
-#include "modbus/session/ISessionResponseHandler.h"
 
 namespace modbus
 {
 
 template<typename TRequest, typename TResponse>
 ScheduledRequest<TRequest, TResponse>::ScheduledRequest(std::shared_ptr<ISession> session,
-                                                        std::shared_ptr<ISessionResponseHandler> session_response_handler,
+                                                        ResponseHandler<TResponse> handler,
                                                         std::shared_ptr<exe4cpp::IExecutor> executor,
                                                         const TRequest& request,
-                                                        const exe4cpp::duration_t& timeout,
-                                                        const exe4cpp::duration_t& frequency)
+                                                        const duration_t& timeout,
+                                                        const duration_t& frequency)
     : m_session{session},
-      m_session_response_handler{session_response_handler},
+      m_handler{handler},
       m_executor{executor},
       m_request{request},
       m_timeout{timeout},
@@ -54,7 +53,7 @@ void ScheduledRequest<TRequest, TResponse>::stop()
 }
 
 template<typename TRequest, typename TResponse>
-void ScheduledRequest<TRequest, TResponse>::set_frequency(const exe4cpp::duration_t& frequency)
+void ScheduledRequest<TRequest, TResponse>::set_frequency(const duration_t& frequency)
 {
     m_executor->post([=, self = shared_from_this()]() {
         m_frequency = frequency;
@@ -62,7 +61,7 @@ void ScheduledRequest<TRequest, TResponse>::set_frequency(const exe4cpp::duratio
 };
 
 template<typename TRequest, typename TResponse>
-exe4cpp::duration_t ScheduledRequest<TRequest, TResponse>::get_frequency() const
+duration_t ScheduledRequest<TRequest, TResponse>::get_frequency() const
 {
     return m_frequency;
 };
@@ -80,21 +79,7 @@ void ScheduledRequest<TRequest, TResponse>::execute()
     m_session->send_request(m_request, m_timeout, [=, self = shared_from_this()](const Expected<TResponse>& response) {
 
         // Call the response handler
-        if(m_session_response_handler)
-        {
-            if(response.is_valid())
-            {
-                m_session_response_handler->on_response(response.get());
-            }
-            else if(response.template has_exception<TimeoutException>())
-            {
-                m_session_response_handler->on_timeout();
-            }
-            else
-            {
-                m_session_response_handler->on_exception(response.template get_exception<IException>());
-            }
-        }
+        m_handler(response);
 
         if(is_running())
         {

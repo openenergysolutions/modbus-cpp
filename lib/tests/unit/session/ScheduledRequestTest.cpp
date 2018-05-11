@@ -6,7 +6,6 @@
 #include "modbus/messages/ReadHoldingRegistersRequest.h"
 #include "modbus/messages/ReadHoldingRegistersResponse.h"
 #include "mocks/ISessionMock.h"
-#include "mocks/ISessionResponseHandlerMock.h"
 #include "session/ScheduledRequest.h"
 
 using namespace modbus;
@@ -14,13 +13,31 @@ using namespace modbus;
 TEST_CASE("ScheduledRequest")
 {
     auto session = std::make_shared<ISessionMock>();
-    auto session_response_handler = std::make_shared<ISessionResponseHandlerMock>();
     auto executor = std::make_shared<exe4cpp::MockExecutor>();
     auto request = ReadHoldingRegistersRequest{Address{1}, 0x42};
     auto timeout = std::chrono::seconds(5);
     auto frequency = std::chrono::seconds(2);
+
+    // Handler
+    unsigned int num_handler_success = 0;
+    unsigned int num_handler_timeout = 0;
+    unsigned int num_handler_error = 0;
+    auto test_handler = [&] (const Expected<ReadHoldingRegistersResponse>& response) {
+        if(response.is_valid())
+        {
+            ++num_handler_success;
+        }
+        else if(response.has_exception<TimeoutException>())
+        {
+            ++num_handler_timeout;
+        }
+        else
+        {
+            ++num_handler_error;
+        }
+    };
     auto scheduled_req = std::make_shared<ScheduledRequest<ReadHoldingRegistersRequest, ReadHoldingRegistersResponse>>(session,
-                                                                                                                       session_response_handler,
+                                                                                                                       test_handler,
                                                                                                                        executor,
                                                                                                                        request,
                                                                                                                        timeout,
@@ -32,7 +49,7 @@ TEST_CASE("ScheduledRequest")
         executor->run_one();
         REQUIRE(scheduled_req->is_running() == true);
         REQUIRE(session->get_num_read_holding_registers_request_sent() == 1);
-        auto handler = session->get_last_read_holding_registers_request_handler();
+        auto session_handler = session->get_last_read_holding_registers_request_handler();
 
         SECTION("Don't re-send request until previous response was received or timed-out.")
         {
@@ -42,30 +59,36 @@ TEST_CASE("ScheduledRequest")
             REQUIRE(session->get_num_read_holding_registers_request_sent() == 1);
         }
 
-        SECTION("When proper response is received, then send it to ISessionResponseHandler.")
+        SECTION("When proper response is received, then send it to the handler.")
         {
-            handler(Expected<ReadHoldingRegistersResponse>{ReadHoldingRegistersResponse{}});
+            session_handler(Expected<ReadHoldingRegistersResponse>{ReadHoldingRegistersResponse{}});
 
-            REQUIRE(session_response_handler->get_num_read_holding_registers_response_received() == 1);
+            REQUIRE(num_handler_success == 1);
+            REQUIRE(num_handler_timeout == 0);
+            REQUIRE(num_handler_error == 0);
         }
 
-        SECTION("When exception response is received, then send it to ISessionResponseHandler.")
+        SECTION("When exception response is received, then send it to the handler.")
         {
-            handler(Expected<ReadHoldingRegistersResponse>::from_exception(ModbusException{ExceptionType::IllegalDataAddress}));
+            session_handler(Expected<ReadHoldingRegistersResponse>::from_exception(ModbusException{ExceptionType::IllegalDataAddress}));
 
-            REQUIRE(session_response_handler->get_num_exceptions_received() == 1);
+            REQUIRE(num_handler_success == 0);
+            REQUIRE(num_handler_timeout == 0);
+            REQUIRE(num_handler_error == 1);
         }
 
-        SECTION("When timeout response is received, then send it to ISessionResponseHandler.")
+        SECTION("When timeout response is received, then send it to the handler.")
         {
-            handler(Expected<ReadHoldingRegistersResponse>::from_exception(TimeoutException{}));
+            session_handler(Expected<ReadHoldingRegistersResponse>::from_exception(TimeoutException{}));
 
-            REQUIRE(session_response_handler->get_num_timeouts_received() == 1);
+            REQUIRE(num_handler_success == 0);
+            REQUIRE(num_handler_timeout == 1);
+            REQUIRE(num_handler_error == 0);
         }
 
         SECTION("When response is received, then send a request after waiting the specified timeout.")
         {
-            handler(Expected<ReadHoldingRegistersResponse>{ReadHoldingRegistersResponse{}});
+            session_handler(Expected<ReadHoldingRegistersResponse>{ReadHoldingRegistersResponse{}});
             executor->advance_time(frequency);
             executor->run_one();
 
@@ -78,7 +101,7 @@ TEST_CASE("ScheduledRequest")
             scheduled_req->set_frequency(new_frequency);
             executor->run_one();
 
-            handler(Expected<ReadHoldingRegistersResponse>{ReadHoldingRegistersResponse{}});
+            session_handler(Expected<ReadHoldingRegistersResponse>{ReadHoldingRegistersResponse{}});
 
             executor->advance_time(new_frequency);
             executor->run_one();
@@ -106,7 +129,7 @@ TEST_CASE("ScheduledRequest")
 
             SECTION("When receive response of old request, don't start the timer.")
             {
-                handler(Expected<ReadHoldingRegistersResponse>{ReadHoldingRegistersResponse{}});
+                session_handler(Expected<ReadHoldingRegistersResponse>{ReadHoldingRegistersResponse{}});
                 executor->advance_time(frequency);
                 executor->run_one();
 

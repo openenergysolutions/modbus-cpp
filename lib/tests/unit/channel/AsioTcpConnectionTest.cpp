@@ -3,11 +3,11 @@
 #include <chrono>
 #include <memory>
 
-#include "exe4cpp/Typedefs.h"
 #include "exe4cpp/asio/ThreadPool.h"
 #include "exe4cpp/asio/StrandExecutor.h"
 #include "ser4cpp/container/StaticBuffer.h"
 
+#include "modbus/Typedefs.h"
 #include "modbus/channel/Ipv4Endpoint.h"
 #include "modbus/logging/LoggerFactory.h"
 #include "channel/AsioTcpConnection.h"
@@ -38,7 +38,7 @@ void close_connection(std::shared_ptr<exe4cpp::StrandExecutor> executor, AsioTcp
 TEST_CASE("AsioTcpConnection")
 {
     constexpr unsigned short test_port = 8888;
-    constexpr exe4cpp::duration_t timeout = std::chrono::seconds(5);
+    constexpr duration_t timeout = std::chrono::seconds(5);
     ser4cpp::StaticBuffer<unsigned int, 6> test_data;
     {
         auto dest = test_data.as_wseq();

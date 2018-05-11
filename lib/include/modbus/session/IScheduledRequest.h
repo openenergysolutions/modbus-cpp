@@ -7,7 +7,7 @@
 
 #include <memory>
 
-#include "exe4cpp/Typedefs.h"
+#include "modbus/Typedefs.h"
 
 namespace modbus
 {
@@ -71,7 +71,7 @@ public:
      * @note The new frequency will be effective after the *next* polling. In other words,
      * the timer used between polls is *not* modified by this method until it elapses.
      */
-    virtual void set_frequency(const exe4cpp::duration_t& frequency) = 0;
+    virtual void set_frequency(const duration_t& frequency) = 0;
 
     /**
      * @brief Retrieve the frequency of the polling
@@ -81,7 +81,7 @@ public:
      * value. This is due to the fact that @ref set_frequency() actually modifies the frequency in
      * a background thread.
      */
-    virtual exe4cpp::duration_t get_frequency() const = 0;
+    virtual duration_t get_frequency() const = 0;
 };
 
 } // namespace modbus

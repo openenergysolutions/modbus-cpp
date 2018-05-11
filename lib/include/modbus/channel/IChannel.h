@@ -6,10 +6,9 @@
  */
 
 #include <memory>
-#include "exe4cpp/Typedefs.h"
+#include "modbus/Typedefs.h"
 #include "modbus/channel/UnitIdentifier.h"
 #include "modbus/session/ISession.h"
-#include "modbus/session/ISessionResponseHandler.h"
 
 namespace modbus
 {
@@ -50,13 +49,10 @@ public:
      * @param unit_identifier           Modbus unit identifier of the device. In TCP, this identifier is useless,
      *                                  but it must fit the slave unit identifier.
      * @param default_timeout           Default timeout of requests sent on the wire
-     * @param session_response_handler  Global session response handler called on responses of scheduled response.
-     *                                  This parameter can be a @cpp nullptr @ce if no request will be scheduled.
      * @return Shared pointer to an instance of @ref ISession
      */
     virtual std::shared_ptr<ISession> create_session(const UnitIdentifier& unit_identifier,
-                                                     const exe4cpp::duration_t& default_timeout,
-                                                     std::shared_ptr<ISessionResponseHandler> session_response_handler) = 0;
+                                                     const duration_t& default_timeout) = 0;
 
     /**
      * @brief Closes all the associated sessions.

@@ -27,8 +27,7 @@ public:
     ~ChannelTcp() = default;
 
     std::shared_ptr<ISession> create_session(const UnitIdentifier& unit_identifier,
-                                             const exe4cpp::duration_t& default_timeout,
-                                             std::shared_ptr<ISessionResponseHandler> session_response_handler) override;
+                                             const exe4cpp::duration_t& default_timeout) override;
 
     void send_request(const UnitIdentifier& unit_identifier,
                       const IRequest& request,

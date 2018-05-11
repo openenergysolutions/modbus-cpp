@@ -5,12 +5,10 @@ set(modbus_tests_headers
     ./mocks/ConnectionListenerMock.h
     ./mocks/IResponseMock.h
     ./mocks/ISessionMock.h
-    ./mocks/ISessionResponseHandlerMock.h
     ./mocks/MbapSinkMock.h
     ./mocks/RequestMock.h
     ./mocks/TcpConnectionMock.h
     ./mocks/TestServer.h
-    ./mocks/TimerMock.h
 )
 
 set(modbus_tests_src
@@ -39,12 +37,10 @@ set(modbus_tests_src
     ./mocks/ConnectionListenerMock.cpp
     ./mocks/IResponseMock.cpp
     ./mocks/ISessionMock.cpp
-    ./mocks/ISessionResponseHandlerMock.cpp
     ./mocks/MbapSinkMock.cpp
     ./mocks/RequestMock.cpp
     ./mocks/TcpConnectionMock.cpp
     ./mocks/TestServer.cpp
-    ./mocks/TimerMock.cpp
 
     ./session/ScheduledRequestTest.cpp
 )
@@ -52,7 +48,7 @@ set(modbus_tests_src
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${modbus_tests_headers} ${modbus_tests_src})
 
 add_executable(modbus_tests ${modbus_tests_headers} ${modbus_tests_src})
-target_link_libraries(modbus_tests PRIVATE modbus-cpp catch2 spdlog ser4cpp)
+target_link_libraries(modbus_tests PRIVATE modbus-cpp catch2 spdlog exe4cpp ser4cpp)
 
 target_include_directories(modbus_tests
     PRIVATE ./ ../../src
