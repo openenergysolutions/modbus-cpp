@@ -16,3 +16,6 @@
 [submodule "deps/m.css"]
 	path = deps/m.css
 	url = https://github.com/mosra/m.css
+[submodule "deps/licenseheaders"]
+	path = deps/licenseheaders
+	url = https://github.com/johann-petrak/licenseheaders.git

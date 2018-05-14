@@ -33,3 +33,21 @@ add_subdirectory(./lib)
 if(${MODBUS_BUILD_EXAMPLE})
     add_subdirectory(./example)
 endif()
+
+# Custom target for documentation and license
+find_package(PythonInterp 3)
+if(PYTHONINTERP_FOUND)
+    add_custom_target(
+        doc
+        COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/deps/m.css/doxygen/dox2html5.py" "${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile-mcss"
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+        COMMENT "Build documentation"
+    )
+
+    add_custom_target(
+        license_header
+        COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/deps/licenseheaders/licenseheaders.py" -d "${CMAKE_CURRENT_SOURCE_DIR}/lib" -t "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.md"
+        COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/deps/licenseheaders/licenseheaders.py" -d "${CMAKE_CURRENT_SOURCE_DIR}/example"  -t "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.md"
+        COMMENT "Add license to headers files"
+    )
+endif()
