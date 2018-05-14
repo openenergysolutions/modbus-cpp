@@ -92,6 +92,28 @@
             </dt>
             <dd>Cancels all pending requests and all scheduled requests.</dd>
             <dt>
+              <span class="m-dox-wrap-bumper">void <a href="#aa1a2ade908eeeca5e170adc5158b4c22" class="m-dox">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadCoilsRequest.html" class="m-dox">ReadCoilsRequest</a>&amp; request,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1ReadCoilsResponse.html" class="m-dox">ReadCoilsResponse</a>&gt; handler) <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd>Send a Read Coils request to the device.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper">void <a href="#ac1059af5f58952a14816a867cf374d03" class="m-dox">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadCoilsRequest.html" class="m-dox">ReadCoilsRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; timeout,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1ReadCoilsResponse.html" class="m-dox">ReadCoilsResponse</a>&gt; handler) <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd>Send a Read Coils request to the device.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper">void <a href="#a8b6d6754885836fe93e35d5b6e9457af" class="m-dox">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadDiscreteInputsRequest.html" class="m-dox">ReadDiscreteInputsRequest</a>&amp; request,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1ReadDiscreteInputsResponse.html" class="m-dox">ReadDiscreteInputsResponse</a>&gt; handler) <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd>Send a Read Discrete Inputs request to the device.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper">void <a href="#a7d314fb65536d037caa94b555d73392f" class="m-dox">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadDiscreteInputsRequest.html" class="m-dox">ReadDiscreteInputsRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; timeout,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1ReadDiscreteInputsResponse.html" class="m-dox">ReadDiscreteInputsResponse</a>&gt; handler) <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd>Send a Read Discrete Inputs request to the device.</dd>
+            <dt>
               <span class="m-dox-wrap-bumper">void <a href="#a2b88721bd4813487130acabc3fa4b088" class="m-dox">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadHoldingRegistersRequest.html" class="m-dox">ReadHoldingRegistersRequest</a>&amp; request,
               <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1ReadHoldingRegistersResponse.html" class="m-dox">ReadHoldingRegistersResponse</a>&gt; handler) <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
@@ -114,6 +136,17 @@
             </dt>
             <dd>Send a Read Input Registers request to the device.</dd>
             <dt>
+              <span class="m-dox-wrap-bumper">void <a href="#a1ce575fcf4a3ef8b5c2700f3978aea5d" class="m-dox">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1WriteSingleCoilRequest.html" class="m-dox">WriteSingleCoilRequest</a>&amp; request,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1WriteSingleCoilResponse.html" class="m-dox">WriteSingleCoilResponse</a>&gt; handler) <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd>Send a Write Single Coil request to the device.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper">void <a href="#a1e0c41ebcfaf090a41c0a2bfdd3c6f17" class="m-dox">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1WriteSingleCoilRequest.html" class="m-dox">WriteSingleCoilRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; timeout,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1WriteSingleCoilResponse.html" class="m-dox">WriteSingleCoilResponse</a>&gt; handler) <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd>Send a Write Single Coil request to the device.</dd>
+            <dt>
               <span class="m-dox-wrap-bumper">void <a href="#a85b74c2a8f36bf22cc8c2e224d7ae087" class="m-dox">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1WriteSingleRegisterRequest.html" class="m-dox">WriteSingleRegisterRequest</a>&amp; request,
               <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1WriteSingleRegisterResponse.html" class="m-dox">WriteSingleRegisterResponse</a>&gt; handler) <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
@@ -125,6 +158,17 @@
             </dt>
             <dd>Send a Write Single Register request to the device.</dd>
             <dt>
+              <span class="m-dox-wrap-bumper">void <a href="#a1341909c16b2d0c06a43dff48b6e10cd" class="m-dox">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1WriteMultipleCoilsRequest.html" class="m-dox">WriteMultipleCoilsRequest</a>&amp; request,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1WriteMultipleCoilsResponse.html" class="m-dox">WriteMultipleCoilsResponse</a>&gt; handler) <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd>Send a Write Multiple Coils request to the device.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper">void <a href="#a9de1616ddbea0e54d156f2a7d2de2e00" class="m-dox">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1WriteMultipleCoilsRequest.html" class="m-dox">WriteMultipleCoilsRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; timeout,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1WriteMultipleCoilsResponse.html" class="m-dox">WriteMultipleCoilsResponse</a>&gt; handler) <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd>Send a Write Multiple Coils request to the device.</dd>
+            <dt>
               <span class="m-dox-wrap-bumper">void <a href="#aed7852acb8f842b056780743c69b5f71" class="m-dox">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1WriteMultipleRegistersRequest.html" class="m-dox">WriteMultipleRegistersRequest</a>&amp; request,
               <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1WriteMultipleRegistersResponse.html" class="m-dox">WriteMultipleRegistersResponse</a>&gt; handler) <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
@@ -135,6 +179,32 @@
               <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1WriteMultipleRegistersResponse.html" class="m-dox">WriteMultipleRegistersResponse</a>&gt; handler) <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Send a Write Multiple Registers request to the device.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper">auto <a href="#ad38ab72409ff48cd302be62d86cb0990" class="m-dox">schedule_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadCoilsRequest.html" class="m-dox">ReadCoilsRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; frequency,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1ReadCoilsResponse.html" class="m-dox">ReadCoilsResponse</a>&gt; handler) -&gt; std::shared_ptr&lt;<a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">IScheduledRequest</a>&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd>Schedule a Read Coils request to be send periodically to the device.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper">auto <a href="#af145745a7e75361ede5b56c40ee671ae" class="m-dox">schedule_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadCoilsRequest.html" class="m-dox">ReadCoilsRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; timeout,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; frequency,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1ReadCoilsResponse.html" class="m-dox">ReadCoilsResponse</a>&gt; handler) -&gt; std::shared_ptr&lt;<a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">IScheduledRequest</a>&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd>Schedule a Read Coils request to be send periodically to the device.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper">auto <a href="#a0e2794f21e455b383a1b3f37c383abb8" class="m-dox">schedule_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadDiscreteInputsRequest.html" class="m-dox">ReadDiscreteInputsRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; frequency,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1ReadDiscreteInputsResponse.html" class="m-dox">ReadDiscreteInputsResponse</a>&gt; handler) -&gt; std::shared_ptr&lt;<a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">IScheduledRequest</a>&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd>Schedule a Read Discrete Inputs request to be send periodically to the device.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper">auto <a href="#aa7846a079f9f9108d9d6ef16a1b64b16" class="m-dox">schedule_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadDiscreteInputsRequest.html" class="m-dox">ReadDiscreteInputsRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; timeout,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; frequency,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1ReadDiscreteInputsResponse.html" class="m-dox">ReadDiscreteInputsResponse</a>&gt; handler) -&gt; std::shared_ptr&lt;<a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">IScheduledRequest</a>&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd>Schedule a Read Discrete Inputs request to be send periodically to the device.</dd>
             <dt>
               <span class="m-dox-wrap-bumper">auto <a href="#abbadc363a6510559cae229288ef2a7d8" class="m-dox">schedule_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadHoldingRegistersRequest.html" class="m-dox">ReadHoldingRegistersRequest</a>&amp; request,
               const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; frequency,
@@ -188,6 +258,106 @@
             </h3>
             <p>Cancels all pending requests and all scheduled requests.</p>
 <aside class="m-note m-info"><h4>Note</h4><p>This method is not usually called by user code, but by <a href="classmodbus_1_1IChannel.html#a6dc7e28ac6fe71e597a609fb167512bf" class="m-dox">IChannel::<wbr />shutdown()</a>, which is normally called by <a href="classmodbus_1_1IModbusManager.html#ae57c5cb74f6f170be0d5c014af3d96fa" class="m-dox">IModbusManager::<wbr />shutdown()</a>. It is still possible to shutdown a session manually using this method, however please note that the <a href="classmodbus_1_1IChannel.html" class="m-dox">IChannel</a> will keep holding a shared pointer to it.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>Once a session is shutdown, sending requests through it is not permitted. Sessions cannot be restarted, but you can safely create a new one via <a href="classmodbus_1_1IChannel.html" class="m-dox">IChannel</a>.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a href="classmodbus_1_1IModbusManager.html#ae57c5cb74f6f170be0d5c014af3d96fa" class="m-dox">IModbusManager::<wbr />shutdown()</a>, <a href="classmodbus_1_1IChannel.html#a6dc7e28ac6fe71e597a609fb167512bf" class="m-dox">IChannel::<wbr />shutdown()</a></p></aside>
+          </div></section>
+          <section class="m-dox-details" id="aa1a2ade908eeeca5e170adc5158b4c22"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper">void modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#aa1a2ade908eeeca5e170adc5158b4c22" class="m-dox-self">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadCoilsRequest.html" class="m-dox">ReadCoilsRequest</a>&amp; request,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1ReadCoilsResponse.html" class="m-dox">ReadCoilsResponse</a>&gt; handler) <span class="m-label m-warning">pure virtual</span></span></span>
+            </h3>
+            <p>Send a Read Coils request to the device.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">request</td>
+                  <td>Request to send</td>
+                </tr>
+                <tr>
+                  <td>handler</td>
+                  <td>Handler called when the response is received</td>
+                </tr>
+              </tbody>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>This method uses the default timout value set in <a href="classmodbus_1_1IChannel.html#a7a08094f7c9c754b3887e43a980cf2a6" class="m-dox">IChannel::<wbr />create_session</a>.</p></aside>
+          </div></section>
+          <section class="m-dox-details" id="ac1059af5f58952a14816a867cf374d03"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper">void modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#ac1059af5f58952a14816a867cf374d03" class="m-dox-self">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadCoilsRequest.html" class="m-dox">ReadCoilsRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; timeout,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1ReadCoilsResponse.html" class="m-dox">ReadCoilsResponse</a>&gt; handler) <span class="m-label m-warning">pure virtual</span></span></span>
+            </h3>
+            <p>Send a Read Coils request to the device.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">request</td>
+                  <td>Request to send</td>
+                </tr>
+                <tr>
+                  <td>timeout</td>
+                  <td>Maximum time to wait for a response</td>
+                </tr>
+                <tr>
+                  <td>handler</td>
+                  <td>Handler called when the response is received</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-dox-details" id="a8b6d6754885836fe93e35d5b6e9457af"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper">void modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a8b6d6754885836fe93e35d5b6e9457af" class="m-dox-self">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadDiscreteInputsRequest.html" class="m-dox">ReadDiscreteInputsRequest</a>&amp; request,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1ReadDiscreteInputsResponse.html" class="m-dox">ReadDiscreteInputsResponse</a>&gt; handler) <span class="m-label m-warning">pure virtual</span></span></span>
+            </h3>
+            <p>Send a Read Discrete Inputs request to the device.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">request</td>
+                  <td>Request to send</td>
+                </tr>
+                <tr>
+                  <td>handler</td>
+                  <td>Handler called when the response is received</td>
+                </tr>
+              </tbody>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>This method uses the default timout value set in <a href="classmodbus_1_1IChannel.html#a7a08094f7c9c754b3887e43a980cf2a6" class="m-dox">IChannel::<wbr />create_session</a>.</p></aside>
+          </div></section>
+          <section class="m-dox-details" id="a7d314fb65536d037caa94b555d73392f"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper">void modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a7d314fb65536d037caa94b555d73392f" class="m-dox-self">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadDiscreteInputsRequest.html" class="m-dox">ReadDiscreteInputsRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; timeout,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1ReadDiscreteInputsResponse.html" class="m-dox">ReadDiscreteInputsResponse</a>&gt; handler) <span class="m-label m-warning">pure virtual</span></span></span>
+            </h3>
+            <p>Send a Read Discrete Inputs request to the device.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">request</td>
+                  <td>Request to send</td>
+                </tr>
+                <tr>
+                  <td>timeout</td>
+                  <td>Maximum time to wait for a response</td>
+                </tr>
+                <tr>
+                  <td>handler</td>
+                  <td>Handler called when the response is received</td>
+                </tr>
+              </tbody>
+            </table>
           </div></section>
           <section class="m-dox-details" id="a2b88721bd4813487130acabc3fa4b088"><div>
             <h3>
@@ -289,6 +459,56 @@
               </tbody>
             </table>
           </div></section>
+          <section class="m-dox-details" id="a1ce575fcf4a3ef8b5c2700f3978aea5d"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper">void modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a1ce575fcf4a3ef8b5c2700f3978aea5d" class="m-dox-self">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1WriteSingleCoilRequest.html" class="m-dox">WriteSingleCoilRequest</a>&amp; request,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1WriteSingleCoilResponse.html" class="m-dox">WriteSingleCoilResponse</a>&gt; handler) <span class="m-label m-warning">pure virtual</span></span></span>
+            </h3>
+            <p>Send a Write Single Coil request to the device.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">request</td>
+                  <td>Request to send</td>
+                </tr>
+                <tr>
+                  <td>handler</td>
+                  <td>Handler called when the response is received</td>
+                </tr>
+              </tbody>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>This method uses the default timout value set in <a href="classmodbus_1_1IChannel.html#a7a08094f7c9c754b3887e43a980cf2a6" class="m-dox">IChannel::<wbr />create_session</a>.</p></aside>
+          </div></section>
+          <section class="m-dox-details" id="a1e0c41ebcfaf090a41c0a2bfdd3c6f17"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper">void modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a1e0c41ebcfaf090a41c0a2bfdd3c6f17" class="m-dox-self">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1WriteSingleCoilRequest.html" class="m-dox">WriteSingleCoilRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; timeout,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1WriteSingleCoilResponse.html" class="m-dox">WriteSingleCoilResponse</a>&gt; handler) <span class="m-label m-warning">pure virtual</span></span></span>
+            </h3>
+            <p>Send a Write Single Coil request to the device.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">request</td>
+                  <td>Request to send</td>
+                </tr>
+                <tr>
+                  <td>timeout</td>
+                  <td>Maximum time to wait for a response</td>
+                </tr>
+                <tr>
+                  <td>handler</td>
+                  <td>Handler called when the response is received</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
           <section class="m-dox-details" id="a85b74c2a8f36bf22cc8c2e224d7ae087"><div>
             <h3>
               <span class="m-dox-wrap-bumper">void modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a85b74c2a8f36bf22cc8c2e224d7ae087" class="m-dox-self">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1WriteSingleRegisterRequest.html" class="m-dox">WriteSingleRegisterRequest</a>&amp; request,
@@ -319,6 +539,56 @@
               <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1WriteSingleRegisterResponse.html" class="m-dox">WriteSingleRegisterResponse</a>&gt; handler) <span class="m-label m-warning">pure virtual</span></span></span>
             </h3>
             <p>Send a Write Single Register request to the device.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">request</td>
+                  <td>Request to send</td>
+                </tr>
+                <tr>
+                  <td>timeout</td>
+                  <td>Maximum time to wait for a response</td>
+                </tr>
+                <tr>
+                  <td>handler</td>
+                  <td>Handler called when the response is received</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-dox-details" id="a1341909c16b2d0c06a43dff48b6e10cd"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper">void modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a1341909c16b2d0c06a43dff48b6e10cd" class="m-dox-self">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1WriteMultipleCoilsRequest.html" class="m-dox">WriteMultipleCoilsRequest</a>&amp; request,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1WriteMultipleCoilsResponse.html" class="m-dox">WriteMultipleCoilsResponse</a>&gt; handler) <span class="m-label m-warning">pure virtual</span></span></span>
+            </h3>
+            <p>Send a Write Multiple Coils request to the device.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">request</td>
+                  <td>Request to send</td>
+                </tr>
+                <tr>
+                  <td>handler</td>
+                  <td>Handler called when the response is received</td>
+                </tr>
+              </tbody>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>This method uses the default timout value set in <a href="classmodbus_1_1IChannel.html#a7a08094f7c9c754b3887e43a980cf2a6" class="m-dox">IChannel::<wbr />create_session</a>.</p></aside>
+          </div></section>
+          <section class="m-dox-details" id="a9de1616ddbea0e54d156f2a7d2de2e00"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper">void modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a9de1616ddbea0e54d156f2a7d2de2e00" class="m-dox-self">send_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1WriteMultipleCoilsRequest.html" class="m-dox">WriteMultipleCoilsRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; timeout,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1WriteMultipleCoilsResponse.html" class="m-dox">WriteMultipleCoilsResponse</a>&gt; handler) <span class="m-label m-warning">pure virtual</span></span></span>
+            </h3>
+            <p>Send a Write Multiple Coils request to the device.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
@@ -381,6 +651,126 @@
                 <tr>
                   <td>timeout</td>
                   <td>Maximum time to wait for a response</td>
+                </tr>
+                <tr>
+                  <td>handler</td>
+                  <td>Handler called when the response is received</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-dox-details" id="ad38ab72409ff48cd302be62d86cb0990"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper">std::shared_ptr&lt;<a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">IScheduledRequest</a>&gt; modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#ad38ab72409ff48cd302be62d86cb0990" class="m-dox-self">schedule_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadCoilsRequest.html" class="m-dox">ReadCoilsRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; frequency,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1ReadCoilsResponse.html" class="m-dox">ReadCoilsResponse</a>&gt; handler) <span class="m-label m-warning">pure virtual</span></span></span>
+            </h3>
+            <p>Schedule a Read Coils request to be send periodically to the device.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">request</td>
+                  <td>Request to send periodically</td>
+                </tr>
+                <tr>
+                  <td>frequency</td>
+                  <td>Frequency to send the request</td>
+                </tr>
+                <tr>
+                  <td>handler</td>
+                  <td>Handler called when the response is received</td>
+                </tr>
+              </tbody>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>This method uses the default timout value set in <a href="classmodbus_1_1IChannel.html#a7a08094f7c9c754b3887e43a980cf2a6" class="m-dox">IChannel::<wbr />create_session</a>.</p></aside>
+          </div></section>
+          <section class="m-dox-details" id="af145745a7e75361ede5b56c40ee671ae"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper">std::shared_ptr&lt;<a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">IScheduledRequest</a>&gt; modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#af145745a7e75361ede5b56c40ee671ae" class="m-dox-self">schedule_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadCoilsRequest.html" class="m-dox">ReadCoilsRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; timeout,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; frequency,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1ReadCoilsResponse.html" class="m-dox">ReadCoilsResponse</a>&gt; handler) <span class="m-label m-warning">pure virtual</span></span></span>
+            </h3>
+            <p>Schedule a Read Coils request to be send periodically to the device.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">request</td>
+                  <td>Request to send periodically</td>
+                </tr>
+                <tr>
+                  <td>timeout</td>
+                  <td>Maximum time to wait for a response</td>
+                </tr>
+                <tr>
+                  <td>frequency</td>
+                  <td>Frequency to send the request</td>
+                </tr>
+                <tr>
+                  <td>handler</td>
+                  <td>Handler called when the response is received</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-dox-details" id="a0e2794f21e455b383a1b3f37c383abb8"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper">std::shared_ptr&lt;<a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">IScheduledRequest</a>&gt; modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a0e2794f21e455b383a1b3f37c383abb8" class="m-dox-self">schedule_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadDiscreteInputsRequest.html" class="m-dox">ReadDiscreteInputsRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; frequency,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1ReadDiscreteInputsResponse.html" class="m-dox">ReadDiscreteInputsResponse</a>&gt; handler) <span class="m-label m-warning">pure virtual</span></span></span>
+            </h3>
+            <p>Schedule a Read Discrete Inputs request to be send periodically to the device.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">request</td>
+                  <td>Request to send periodically</td>
+                </tr>
+                <tr>
+                  <td>frequency</td>
+                  <td>Frequency to send the request</td>
+                </tr>
+                <tr>
+                  <td>handler</td>
+                  <td>Handler called when the response is received</td>
+                </tr>
+              </tbody>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>This method uses the default timout value set in <a href="classmodbus_1_1IChannel.html#a7a08094f7c9c754b3887e43a980cf2a6" class="m-dox">IChannel::<wbr />create_session</a>.</p></aside>
+          </div></section>
+          <section class="m-dox-details" id="aa7846a079f9f9108d9d6ef16a1b64b16"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper">std::shared_ptr&lt;<a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">IScheduledRequest</a>&gt; modbus::<wbr />ISession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#aa7846a079f9f9108d9d6ef16a1b64b16" class="m-dox-self">schedule_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadDiscreteInputsRequest.html" class="m-dox">ReadDiscreteInputsRequest</a>&amp; request,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; timeout,
+              const <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">duration_<wbr />t</a>&amp; frequency,
+              <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">ResponseHandler</a>&lt;<a href="structmodbus_1_1ReadDiscreteInputsResponse.html" class="m-dox">ReadDiscreteInputsResponse</a>&gt; handler) <span class="m-label m-warning">pure virtual</span></span></span>
+            </h3>
+            <p>Schedule a Read Discrete Inputs request to be send periodically to the device.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">request</td>
+                  <td>Request to send periodically</td>
+                </tr>
+                <tr>
+                  <td>timeout</td>
+                  <td>Maximum time to wait for a response</td>
+                </tr>
+                <tr>
+                  <td>frequency</td>
+                  <td>Frequency to send the request</td>
                 </tr>
                 <tr>
                   <td>handler</td>
