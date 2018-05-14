@@ -93,7 +93,7 @@ jobs:
             command: git submodule update --init deps/m.css
         - run:
             name: Clone gh-pages branch
-            command: git clone -b gh-pages $CIRCLE_REPOSITORY_URL build/doc/html
+            command: git clone -b gh-pages-private $CIRCLE_REPOSITORY_URL build/doc/html
         - run:
             name: Build documentation
             command: python3 deps/m.css/doxygen/dox2html5.py Doxyfile-mcss

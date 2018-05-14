@@ -24,12 +24,20 @@ set(modbus_tests_src
 
     ./messages/ExceptionTypeTest.cpp
     ./messages/IResponseTest.cpp
+    ./messages/ReadCoilsRequestImplTest.cpp
+    ./messages/ReadCoilsResponseImplTest.cpp
+    ./messages/ReadDiscreteInputsRequestImplTest.cpp
+    ./messages/ReadDiscreteInputsResponseImplTest.cpp
     ./messages/ReadHoldingRegistersRequestImplTest.cpp
     ./messages/ReadHoldingRegistersResponseImplTest.cpp
     ./messages/ReadInputRegistersRequestImplTest.cpp
     ./messages/ReadInputRegistersResponseImplTest.cpp
+    ./messages/WriteMultipleCoilsRequestImplTest.cpp
+    ./messages/WriteMultipleCoilsResponseImplTest.cpp
     ./messages/WriteMultipleRegistersRequestImplTest.cpp
     ./messages/WriteMultipleRegistersResponseImplTest.cpp
+    ./messages/WriteSingleCoilRequestImplTest.cpp
+    ./messages/WriteSingleCoilResponseImplTest.cpp
     ./messages/WriteSingleRegisterRequestImplTest.cpp
     ./messages/WriteSingleRegisterResponseImplTest.cpp
 

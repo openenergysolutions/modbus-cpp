@@ -3,43 +3,43 @@
 #include <array>
 #include "modbus/exceptions/MalformedModbusResponseException.h"
 #include "modbus/exceptions/ModbusException.h"
-#include "messages/WriteSingleRegisterResponseImpl.h"
+#include "messages/WriteMultipleCoilsResponseImpl.h"
 
 using namespace modbus;
 
-TEST_CASE("WriteSingleRegisterResponse")
+TEST_CASE("WriteMultpileCoilsResponseImpl")
 {
-    const uint16_t address = 0x1234;
-    const uint16_t value = 0x6789;
-    WriteSingleRegisterRequest request{{address, value}};
-    WriteSingleRegisterRequestImpl request_impl{request};
+    const uint16_t starting_address = 0x1234;
+    const uint16_t qty_of_coils = 3;
+    WriteMultipleCoilsRequest request{starting_address};
+    WriteMultipleCoilsRequestImpl request_impl{request};
 
     SECTION("When proper response, then parse it properly")
     {
         std::array<uint8_t, 5> proper_response{{
-            0x06,       // Function code
-            0x12, 0x34, // Address
-            0x67, 0x89  // Value
+            0x0F,       // Function code
+            0x12, 0x34, // Starting address
+            0x00, 0x03  // Qty of registers
         }};
         ser4cpp::rseq_t buffer{proper_response.data(), proper_response.size()};
 
-        auto result = WriteSingleRegisterResponseImpl::parse(request_impl, buffer);
+        auto result = WriteMultipleCoilsResponseImpl::parse(request, buffer);
 
         REQUIRE(result.is_valid() == true);
         auto response = result.get();
-        REQUIRE(response.value.address == address);
-        REQUIRE(response.value.value == value);
+        REQUIRE(response.starting_address == starting_address);
+        REQUIRE(response.qty_of_coils == qty_of_coils);
     }
 
     SECTION("When exception response, then parse report exception")
     {
         std::array<uint8_t, 2> exception_response{{
-            0x86,       // Exception function code
+            0x8F,       // Exception function code
             0x02        // Illegal data address
         }};
         ser4cpp::rseq_t buffer{exception_response.data(), exception_response.size()};
 
-        auto result = WriteSingleRegisterResponseImpl::parse(request_impl, buffer);
+        auto result = WriteMultipleCoilsResponseImpl::parse(request, buffer);
 
         REQUIRE(result.has_exception<ModbusException>() == true);
         REQUIRE(result.get_exception<ModbusException>().get_exception_type() == ExceptionType::IllegalDataAddress);
@@ -47,12 +47,12 @@ TEST_CASE("WriteSingleRegisterResponse")
 
     SECTION("When too small, then return malformed exception")
     {
-        std::array<uint8_t, 1> too_small_response{ {
-            0x06 // Function code
+        std::array<uint8_t, 1> too_small_response{{
+            0x0F // Function code
         }};
         ser4cpp::rseq_t buffer{ too_small_response.data(), too_small_response.size() };
 
-        auto result = WriteSingleRegisterResponseImpl::parse(request_impl, buffer);
+        auto result = WriteMultipleCoilsResponseImpl::parse(request, buffer);
 
         REQUIRE(result.has_exception<MalformedModbusResponseException>() == true);
     }
@@ -60,14 +60,14 @@ TEST_CASE("WriteSingleRegisterResponse")
     SECTION("When too big, then return malformed exception")
     {
         std::array<uint8_t, 7> too_big_response{{
-            0x06,       // Function code
-            0x12, 0x34, // Address
-            0x67, 0x89, // Value
+            0x0F,       // Function code
+            0x12, 0x34, // Starting address
+            0x00, 0x03, // Qty of coils
             0x42, 0x42  // Junk
         }};
         ser4cpp::rseq_t buffer{ too_big_response.data(), too_big_response.size() };
 
-        auto result = WriteSingleRegisterResponseImpl::parse(request_impl, buffer);
+        auto result = WriteMultipleCoilsResponseImpl::parse(request, buffer);
 
         REQUIRE(result.has_exception<MalformedModbusResponseException>() == true);
     }

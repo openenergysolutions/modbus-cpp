@@ -27,7 +27,7 @@ TEST_CASE("ReadHoldingRegistersResponseImpl")
         }};
         ser4cpp::rseq_t buffer{proper_response.data(), proper_response.size()};
 
-        auto result = ReadHoldingRegistersResponseImpl::parse(request, buffer);
+        auto result = ReadHoldingRegistersResponseImpl::parse(request_impl, buffer);
 
         REQUIRE(result.is_valid() == true);
         auto response = result.get();
@@ -51,7 +51,7 @@ TEST_CASE("ReadHoldingRegistersResponseImpl")
         }};
         ser4cpp::rseq_t buffer{exception_response.data(), exception_response.size()};
 
-        auto result = ReadHoldingRegistersResponseImpl::parse(request, buffer);
+        auto result = ReadHoldingRegistersResponseImpl::parse(request_impl, buffer);
 
         REQUIRE(result.has_exception<ModbusException>() == true);
         REQUIRE(result.get_exception<ModbusException>().get_exception_type() == ExceptionType::IllegalDataAddress);
@@ -64,7 +64,7 @@ TEST_CASE("ReadHoldingRegistersResponseImpl")
         }};
         ser4cpp::rseq_t buffer{ wrong_size_response.data(), wrong_size_response.size() };
 
-        auto result = ReadHoldingRegistersResponseImpl::parse(request, buffer);
+        auto result = ReadHoldingRegistersResponseImpl::parse(request_impl, buffer);
 
         REQUIRE(result.has_exception<MalformedModbusResponseException>() == true);
     }
@@ -78,7 +78,7 @@ TEST_CASE("ReadHoldingRegistersResponseImpl")
         }};
         ser4cpp::rseq_t buffer{ wrong_size_response.data(), wrong_size_response.size() };
 
-        auto result = ReadHoldingRegistersResponseImpl::parse(request, buffer);
+        auto result = ReadHoldingRegistersResponseImpl::parse(request_impl, buffer);
 
         REQUIRE(result.has_exception<MalformedModbusResponseException>() == true);
     }
@@ -92,7 +92,7 @@ TEST_CASE("ReadHoldingRegistersResponseImpl")
         }};
         ser4cpp::rseq_t buffer{wrong_size_response.data(), wrong_size_response.size()};
 
-        auto result = ReadHoldingRegistersResponseImpl::parse(request, buffer);
+        auto result = ReadHoldingRegistersResponseImpl::parse(request_impl, buffer);
 
         REQUIRE(result.has_exception<MalformedModbusResponseException>() == true);
     }

@@ -12,7 +12,7 @@ template <uint8_t function_code, typename request_t>
 class ReadRegistersRequestImpl : public IRequest
 {
 public:
-    ReadRegistersRequestImpl(const request_t& request);
+    explicit ReadRegistersRequestImpl(const request_t& request);
 
     std::unique_ptr<IRequest> clone() const override;
 

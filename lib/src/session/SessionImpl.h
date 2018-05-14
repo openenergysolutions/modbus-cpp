@@ -28,6 +28,18 @@ public:
     void shutdown() override;
 
     // One-time requests
+    void send_request(const ReadCoilsRequest& request,
+                      ResponseHandler<ReadCoilsResponse> handler) override;
+    void send_request(const ReadCoilsRequest& request,
+                      const duration_t& timeout,
+                      ResponseHandler<ReadCoilsResponse> handler) override;
+
+    void send_request(const ReadDiscreteInputsRequest& request,
+                      ResponseHandler<ReadDiscreteInputsResponse> handler) override;
+    void send_request(const ReadDiscreteInputsRequest& request,
+                      const duration_t& timeout,
+                      ResponseHandler<ReadDiscreteInputsResponse> handler) override;
+
     void send_request(const ReadHoldingRegistersRequest& request,
                       ResponseHandler<ReadHoldingRegistersResponse> handler) override;
     void send_request(const ReadHoldingRegistersRequest& request,
@@ -40,11 +52,23 @@ public:
                       const duration_t& timeout,
                       ResponseHandler<ReadInputRegistersResponse> handler) override;
 
+    void send_request(const WriteSingleCoilRequest& request,
+                      ResponseHandler<WriteSingleCoilResponse> handler) override;
+    void send_request(const WriteSingleCoilRequest& request,
+                      const duration_t& timeout,
+                      ResponseHandler<WriteSingleCoilResponse> handler) override;
+
     void send_request(const WriteSingleRegisterRequest& request,
                       ResponseHandler<WriteSingleRegisterResponse> handler) override;
     void send_request(const WriteSingleRegisterRequest& request,
                       const duration_t& timeout,
                       ResponseHandler<WriteSingleRegisterResponse> handler) override;
+
+    void send_request(const WriteMultipleCoilsRequest& request,
+                      ResponseHandler<WriteMultipleCoilsResponse> handler) override;
+    void send_request(const WriteMultipleCoilsRequest& request,
+                      const duration_t& timeout,
+                      ResponseHandler<WriteMultipleCoilsResponse> handler) override;
 
     void send_request(const WriteMultipleRegistersRequest& request,
                       ResponseHandler<WriteMultipleRegistersResponse> handler) override;
@@ -54,6 +78,22 @@ public:
 
 
     // Scheduled requests
+    std::shared_ptr<IScheduledRequest> schedule_request(const ReadCoilsRequest& request,
+                                                        const duration_t& frequency,
+                                                        ResponseHandler<ReadCoilsResponse> handler) override;
+    std::shared_ptr<IScheduledRequest> schedule_request(const ReadCoilsRequest& request,
+                                                        const duration_t& timeout,
+                                                        const duration_t& frequency,
+                                                        ResponseHandler<ReadCoilsResponse> handler) override;
+
+    std::shared_ptr<IScheduledRequest> schedule_request(const ReadDiscreteInputsRequest& request,
+                                                        const duration_t& frequency,
+                                                        ResponseHandler<ReadDiscreteInputsResponse> handler) override;
+    std::shared_ptr<IScheduledRequest> schedule_request(const ReadDiscreteInputsRequest& request,
+                                                        const duration_t& timeout,
+                                                        const duration_t& frequency,
+                                                        ResponseHandler<ReadDiscreteInputsResponse> handler) override;
+
     std::shared_ptr<IScheduledRequest> schedule_request(const ReadHoldingRegistersRequest& request,
                                                         const duration_t& frequency,
                                                         ResponseHandler<ReadHoldingRegistersResponse> handler) override;
