@@ -33,15 +33,15 @@ by scheduling a @ref ReadHoldingRegistersRequest every 2 seconds. The library wi
 care of sending the request when necessary and will call the handler passed in when
 responses or errors are received.
 
-The example proceeds with the user interaction. The `a` key will send a @ref ReadCoilsRequest
+The example proceeds with the user interaction. The `r` key will send a @ref ReadCoilsRequest
 to the device. A lambda function is passed to the @ref ISession::send_request() to act as
 a response handler. Note the parameter of the lambda, a @ref Expected. It is necessary
 to check whether the response is valid or not before manipulating it. The code shows
 a basic example for logging whether or not the response is valid. The `w` key is similar
 and will send a @ref WriteMultipleRegistersRequest.
 
-The `c` key starts and stops the scheduled request by manipulating the @ref IScheduledRequest.
-The `z` key modifies the polling frequency similarly.
+The `s` key starts and stops the scheduled request by manipulating the @ref IScheduledRequest.
+The `f` key modifies the polling frequency similarly.
 
 Finally, the `q` key stops the application. Notice that no cleanup code is necessary.
 Once the @ref IModbusManager will go out of scope, its destructor will be called and

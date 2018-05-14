@@ -9,6 +9,8 @@
 #include "messages/ReadHoldingRegistersResponseImpl.h"
 #include "messages/ReadInputRegistersRequestImpl.h"
 #include "messages/ReadInputRegistersResponseImpl.h"
+#include "messages/WriteMultipleCoilsRequestImpl.h"
+#include "messages/WriteMultipleCoilsResponseImpl.h"
 #include "messages/WriteMultipleRegistersRequestImpl.h"
 #include "messages/WriteMultipleRegistersResponseImpl.h"
 #include "messages/WriteSingleCoilRequestImpl.h"
@@ -125,6 +127,19 @@ void SessionImpl::send_request(const WriteSingleRegisterRequest& request,
     meta_send_request<WriteSingleRegisterRequestImpl, WriteSingleRegisterResponseImpl>(request, timeout, handler);
 }
 
+void SessionImpl::send_request(const WriteMultipleCoilsRequest& request,
+                               ResponseHandler<WriteMultipleCoilsResponse> handler)
+{
+    send_request(request, m_default_timeout, handler);
+}
+
+void SessionImpl::send_request(const WriteMultipleCoilsRequest& request,
+                               const duration_t& timeout,
+                               ResponseHandler<WriteMultipleCoilsResponse> handler)
+{
+    meta_send_request<WriteMultipleCoilsRequestImpl, WriteMultipleCoilsResponseImpl>(request, timeout, handler);
+}
+
 void SessionImpl::send_request(const WriteMultipleRegistersRequest& request,
                                ResponseHandler<WriteMultipleRegistersResponse> handler)
 {
@@ -150,10 +165,7 @@ std::shared_ptr<IScheduledRequest> SessionImpl::schedule_request(const ReadCoils
                                                                  const duration_t& frequency,
                                                                  ResponseHandler<ReadCoilsResponse> handler)
 {
-    return meta_schedule_request(request,
-                                 timeout,
-                                 frequency,
-                                 handler);
+    return meta_schedule_request(request, timeout, frequency, handler);
 }
 
 std::shared_ptr<IScheduledRequest> SessionImpl::schedule_request(const ReadDiscreteInputsRequest& request,

@@ -42,7 +42,7 @@ int main(int argc, char* argv[])
 
         switch (cmd)
         {
-        case 'a':
+        case 'r':
         {
             // Send a request and print the result
             // You can override the default timeout value set when creating the session
@@ -87,7 +87,7 @@ int main(int argc, char* argv[])
             });
             break;
         }
-        case 'c':
+        case 's':
         {
             if(scheduled_req->is_running())
             {
@@ -99,7 +99,7 @@ int main(int argc, char* argv[])
             }
             break;
         }
-        case 'z':
+        case 'f':
         {
             if(scheduled_req->get_frequency() == std::chrono::seconds(2))
             {

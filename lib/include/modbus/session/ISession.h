@@ -18,6 +18,8 @@
 #include "modbus/messages/ReadHoldingRegistersResponse.h"
 #include "modbus/messages/ReadInputRegistersRequest.h"
 #include "modbus/messages/ReadInputRegistersResponse.h"
+#include "modbus/messages/WriteMultipleCoilsRequest.h"
+#include "modbus/messages/WriteMultipleCoilsResponse.h"
 #include "modbus/messages/WriteMultipleRegistersRequest.h"
 #include "modbus/messages/WriteMultipleRegistersResponse.h"
 #include "modbus/messages/WriteSingleCoilRequest.h"
@@ -202,6 +204,25 @@ public:
     virtual void send_request(const WriteSingleRegisterRequest& request,
                               const duration_t& timeout,
                               ResponseHandler<WriteSingleRegisterResponse> handler) = 0;
+
+    /**
+     * @brief Send a Write Multiple Coils request to the device
+     * @param request Request to send
+     * @param handler Handler called when the response is received
+     *
+     * @note This method uses the default timout value set in @ref IChannel::create_session.
+     */
+    virtual void send_request(const WriteMultipleCoilsRequest& request,
+                              ResponseHandler<WriteMultipleCoilsResponse> handler) = 0;
+    /**
+     * @brief Send a Write Multiple Coils request to the device
+     * @param request Request to send
+     * @param timeout Maximum time to wait for a response
+     * @param handler Handler called when the response is received
+     */
+    virtual void send_request(const WriteMultipleCoilsRequest& request,
+                              const duration_t& timeout,
+                              ResponseHandler<WriteMultipleCoilsResponse> handler) = 0;
 
     /**
      * @brief Send a Write Multiple Registers request to the device

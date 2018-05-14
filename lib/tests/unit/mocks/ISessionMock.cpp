@@ -92,6 +92,19 @@ void ISessionMock::send_request(const modbus::WriteSingleRegisterRequest& reques
 
 }
 
+void ISessionMock::send_request(const modbus::WriteMultipleCoilsRequest& request,
+                                modbus::ResponseHandler<modbus::WriteMultipleCoilsResponse> handler)
+{
+
+}
+
+void ISessionMock::send_request(const modbus::WriteMultipleCoilsRequest& request,
+                                const modbus::duration_t& timeout,
+                                modbus::ResponseHandler<modbus::WriteMultipleCoilsResponse> handler)
+{
+
+}
+
 void ISessionMock::send_request(const modbus::WriteMultipleRegistersRequest& request,
                                 modbus::ResponseHandler<modbus::WriteMultipleRegistersResponse> handler)
 {

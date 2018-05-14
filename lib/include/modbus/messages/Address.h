@@ -21,6 +21,7 @@ namespace modbus
  * @see @ref RegisterValue, @ref SingleBitValue,
  *      @ref ReadCoilsRequest, @ref ReadDiscreteInputsRequest,
  *      @ref ReadHoldingRegistersRequest, @ref ReadInputRegistersRequest,
+ *      @ref WriteMultipleCoilsRequest, @ref WriteMultipleCoilsResponse
  *      @ref WriteMultipleRegistersRequest, @ref WriteMultipleRegistersResponse
  */
 using Address = uint16_t;

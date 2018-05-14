@@ -13,7 +13,8 @@ namespace modbus
 /**
  * @brief Represent a coil or a discrete input address and its value
  *
- * @see @ref ReadCoilsResponse, @ref ReadDiscreteInputsResponse
+ * @see @ref ReadCoilsResponse, @ref ReadDiscreteInputsResponse,
+ *      @ref WriteSingleCoilRequest, @ref WriteSingleCoilResponse,
  */
 struct SingleBitValue
 {

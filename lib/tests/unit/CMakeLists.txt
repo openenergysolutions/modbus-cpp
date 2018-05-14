@@ -32,6 +32,8 @@ set(modbus_tests_src
     ./messages/ReadHoldingRegistersResponseImplTest.cpp
     ./messages/ReadInputRegistersRequestImplTest.cpp
     ./messages/ReadInputRegistersResponseImplTest.cpp
+    ./messages/WriteMultipleCoilsRequestImplTest.cpp
+    ./messages/WriteMultipleCoilsResponseImplTest.cpp
     ./messages/WriteMultipleRegistersRequestImplTest.cpp
     ./messages/WriteMultipleRegistersResponseImplTest.cpp
     ./messages/WriteSingleCoilRequestImplTest.cpp

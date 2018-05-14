@@ -47,6 +47,12 @@ public:
                       const modbus::duration_t& timeout,
                       modbus::ResponseHandler<modbus::WriteSingleRegisterResponse> handler) override;
 
+    void send_request(const modbus::WriteMultipleCoilsRequest& request,
+                      modbus::ResponseHandler<modbus::WriteMultipleCoilsResponse> handler) override;
+    void send_request(const modbus::WriteMultipleCoilsRequest& request,
+                      const modbus::duration_t& timeout,
+                      modbus::ResponseHandler<modbus::WriteMultipleCoilsResponse> handler) override;
+
     void send_request(const modbus::WriteMultipleRegistersRequest& request,
                       modbus::ResponseHandler<modbus::WriteMultipleRegistersResponse> handler) override;
     void send_request(const modbus::WriteMultipleRegistersRequest& request,

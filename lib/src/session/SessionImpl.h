@@ -64,6 +64,12 @@ public:
                       const duration_t& timeout,
                       ResponseHandler<WriteSingleRegisterResponse> handler) override;
 
+    void send_request(const WriteMultipleCoilsRequest& request,
+                      ResponseHandler<WriteMultipleCoilsResponse> handler) override;
+    void send_request(const WriteMultipleCoilsRequest& request,
+                      const duration_t& timeout,
+                      ResponseHandler<WriteMultipleCoilsResponse> handler) override;
+
     void send_request(const WriteMultipleRegistersRequest& request,
                       ResponseHandler<WriteMultipleRegistersResponse> handler) override;
     void send_request(const WriteMultipleRegistersRequest& request,
