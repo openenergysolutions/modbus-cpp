@@ -15,9 +15,10 @@
  */
 #include "RequestMock.h"
 
-RequestMock::RequestMock(std::size_t length, uint8_t value)
+RequestMock::RequestMock(std::size_t length, uint8_t value, bool valid)
     : m_length{length},
-      m_value{value}
+      m_value{value},
+      m_valid{valid}
 {
 
 }
@@ -25,6 +26,11 @@ RequestMock::RequestMock(std::size_t length, uint8_t value)
 std::unique_ptr<modbus::IRequest> RequestMock::clone() const
 {
     return std::make_unique<RequestMock>(*this);
+}
+
+bool RequestMock::is_valid() const
+{
+    return m_valid;
 }
 
 size_t RequestMock::get_request_length() const

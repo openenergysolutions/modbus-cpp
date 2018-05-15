@@ -13,6 +13,7 @@ set(modbus_public_headers
 
     ./include/modbus/exceptions/ConnectionException.h
     ./include/modbus/exceptions/IException.h
+    ./include/modbus/exceptions/MalformedModbusRequestException.h
     ./include/modbus/exceptions/MalformedModbusResponseException.h
     ./include/modbus/exceptions/ModbusException.h
     ./include/modbus/exceptions/TimeoutException.h

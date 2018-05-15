@@ -17,9 +17,9 @@
 
 #include "ser4cpp/container/StaticBuffer.h"
 #include "modbus/exceptions/ConnectionException.h"
+#include "modbus/exceptions/MalformedModbusRequestException.h"
 #include "modbus/exceptions/TimeoutException.h"
 #include "channel/ITcpConnection.h"
-#include "channel/PendingRequest.h"
 #include "session/SessionImpl.h"
 
 namespace modbus
@@ -63,22 +63,32 @@ void ChannelTcp::send_request(const UnitIdentifier& unit_identifier,
                               ResponseHandler<ser4cpp::rseq_t> response_handler)
 {
 
-    std::shared_ptr<IRequest> req{request.clone()};
-    m_executor->post([=, self = shared_from_this()] () {
-        if(!m_is_shutdown)
-        {
-            auto pending_request = std::make_unique<PendingRequest>(unit_identifier,
-                                                                    m_next_transaction_id,
-                                                                    *req,
-                                                                    timeout,
-                                                                    response_handler);
-            m_pending_requests.push_back(std::move(pending_request));
+    if(request.is_valid())
+    {
+        std::shared_ptr<IRequest> req{request.clone()};
+        m_executor->post([=, self = shared_from_this()]() {
+            if (!m_is_shutdown)
+            {
+                auto pending_request = std::make_unique<PendingRequest>(unit_identifier,
+                                                                        m_next_transaction_id,
+                                                                        *req,
+                                                                        timeout,
+                                                                        response_handler);
+                m_pending_requests.push_back(std::move(pending_request));
 
-            ++m_next_transaction_id;
+                ++m_next_transaction_id;
 
-            check_pending_requests();
-        }
-    });
+                check_pending_requests();
+            }
+        });
+    }
+    else
+    {
+        m_executor->post([=, self = shared_from_this()]() {
+            auto exception = Expected<ser4cpp::rseq_t>::from_exception(MalformedModbusRequestException("Modbus request is not valid."));
+            response_handler(exception);
+        });
+    }
 }
 
 void ChannelTcp::shutdown()

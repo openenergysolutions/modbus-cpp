@@ -31,6 +31,7 @@ public:
 
     std::unique_ptr<IRequest> clone() const override;
 
+    bool is_valid() const override;
     size_t get_request_length() const override;
     void build_request(ser4cpp::wseq_t& buffer) const override;
 

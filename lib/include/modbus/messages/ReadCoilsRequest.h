@@ -37,6 +37,13 @@ namespace modbus
 struct ReadCoilsRequest
 {
     /**
+     * @brief Maximum number of coils that can be requested
+     *
+     * Its value is 2000.
+     */
+    constexpr static uint16_t max_bits = 2000;
+
+    /**
      * @brief Starting address to read from
      *
      * The starting address must be in a valid range of the device.

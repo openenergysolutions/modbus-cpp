@@ -26,12 +26,8 @@ TEST_CASE("WriteSingleCoilRequestImpl")
     WriteSingleCoilRequest request{{address, true}};
     WriteSingleCoilRequestImpl request_impl{request};
 
-    SECTION("When get length, then always return 5.")
-    {
-        auto length = request_impl.get_request_length();
-
-        REQUIRE(length == 5);
-    }
+    REQUIRE(request_impl.is_valid() == true);
+    REQUIRE(request_impl.get_request_length() == 5);
 
     SECTION("When build ON request, then write appropriate values to the buffer")
     {

@@ -29,6 +29,7 @@ public:
 
     virtual std::unique_ptr<IRequest> clone() const = 0;
 
+    virtual bool is_valid() const = 0;
     virtual size_t get_request_length() const = 0;
     virtual void build_request(ser4cpp::wseq_t& buffer) const = 0;
 };

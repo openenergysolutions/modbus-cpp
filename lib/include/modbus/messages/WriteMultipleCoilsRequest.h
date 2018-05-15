@@ -38,6 +38,13 @@ namespace modbus
 struct WriteMultipleCoilsRequest
 {
     /**
+     * @brief Maximum number of coils that can be written to
+     *
+     * Its value is 2000.
+     */
+    constexpr static uint16_t max_coils = 2000;
+
+    /**
      * @brief Starting address to write to
      *
      * The starting address must be in a valid range of the device.

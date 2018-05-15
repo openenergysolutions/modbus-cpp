@@ -38,6 +38,13 @@ namespace modbus
 struct WriteMultipleRegistersRequest
 {
     /**
+     * @brief Maximum number of registers that can be written to
+     *
+     * Its value is 123.
+     */
+    constexpr static uint16_t max_registers = 123;
+
+    /**
      * @brief Starting address to write to
      *
      * The starting address must be in a valid range of the device.
