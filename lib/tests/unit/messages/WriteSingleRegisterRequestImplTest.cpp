@@ -28,12 +28,8 @@ TEST_CASE("WriteSingleRegisterRequestImpl")
     WriteSingleRegisterRequest request{{address, value}};
     WriteSingleRegisterRequestImpl request_impl{request};
 
-    SECTION("When get length, then always return 5.")
-    {
-        auto length = request_impl.get_request_length();
-
-        REQUIRE(length == 5);
-    }
+    REQUIRE(request_impl.is_valid() == true);
+    REQUIRE(request_impl.get_request_length() == 5);
 
     SECTION("When build request, then write appropriate values to the buffer")
     {

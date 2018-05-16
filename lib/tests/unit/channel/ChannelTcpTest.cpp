@@ -142,6 +142,17 @@ TEST_CASE("ChannelTcp")
 
     SECTION("Message handling")
     {
+        SECTION("When send invalid request, then don't send it and report it back")
+        {
+            auto invalid_request = RequestMock{1, 0x42, false};
+            channel->send_request(unit_id, invalid_request, timeout, test_handler);
+            executor->run_one();
+
+            REQUIRE(tcp_connection->get_num_requests() == 0);
+            REQUIRE(num_handler_success == 0);
+            REQUIRE(num_handler_error == 1);
+        }
+
         SECTION("When receive corresponding response, report it back")
         {
             channel->send_request(unit_id, request, timeout, test_handler);

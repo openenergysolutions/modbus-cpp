@@ -31,6 +31,11 @@ std::unique_ptr<IRequest> WriteSingleCoilRequestImpl::clone() const
     return std::make_unique<WriteSingleCoilRequestImpl>(m_request);
 }
 
+bool WriteSingleCoilRequestImpl::is_valid() const
+{
+    return true;
+}
+
 size_t WriteSingleCoilRequestImpl::get_request_length() const
 {
     return 5;

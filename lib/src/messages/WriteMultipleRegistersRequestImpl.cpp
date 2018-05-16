@@ -31,6 +31,12 @@ std::unique_ptr<IRequest> WriteMultipleRegistersRequestImpl::clone() const
     return std::make_unique<WriteMultipleRegistersRequestImpl>(*this);
 }
 
+bool WriteMultipleRegistersRequestImpl::is_valid() const
+{
+    return m_request.values.size() > 0 &&
+           m_request.values.size() <= m_request.max_registers;
+}
+
 size_t WriteMultipleRegistersRequestImpl::get_request_length() const
 {
     return 6 + 2 * m_request.values.size();

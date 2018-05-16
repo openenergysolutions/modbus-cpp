@@ -22,7 +22,7 @@ namespace modbus
 
 template <uint8_t function_code, typename request_t>
 ReadBitsRequestImpl<function_code, request_t>::ReadBitsRequestImpl(const request_t& request)
-        : m_request{request}
+    : m_request{request}
 {
 
 }
@@ -31,6 +31,13 @@ template <uint8_t function_code, typename request_t>
 std::unique_ptr<IRequest> ReadBitsRequestImpl<function_code, request_t>::clone() const
 {
     return std::make_unique<ReadBitsRequestImpl>(m_request);
+}
+
+template <uint8_t function_code, typename request_t>
+bool ReadBitsRequestImpl<function_code, request_t>::is_valid() const
+{
+    return m_request.qty_of_bits > 0 &&
+           m_request.qty_of_bits <= m_request.max_bits;
 }
 
 template <uint8_t function_code, typename request_t>

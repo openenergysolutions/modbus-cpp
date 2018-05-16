@@ -37,6 +37,13 @@ namespace modbus
 struct ReadHoldingRegistersRequest
 {
     /**
+     * @brief Maximum number of holding registers that can be requested
+     *
+     * Its value is 125.
+     */
+    constexpr static uint16_t max_registers = 125;
+
+    /**
      * @brief Starting address to read from
      *
      * The starting address must be in a valid range of the device.

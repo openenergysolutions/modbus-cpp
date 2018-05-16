@@ -73,30 +73,24 @@ TEST_CASE("WriteMultipleRegistersRequestImpl")
         }
     }
 
-    SECTION("Empty request")
+    SECTION("When empty request, then is invalid")
     {
-        WriteMultipleRegistersRequestImpl request_impl{request};
+        WriteMultipleRegistersRequest empty_request{starting_address, {}};
+        WriteMultipleRegistersRequestImpl emtpy_request_impl{empty_request};
 
-        SECTION("When get length, then return actual length.")
+        REQUIRE(emtpy_request_impl.is_valid() == false);
+    }
+
+    SECTION("When request too large, then is invalid")
+    {
+        std::vector<uint16_t> values;
+        for(unsigned int i = 0; i < 124; ++i)
         {
-            auto length = request_impl.get_request_length();
-
-            REQUIRE(length == 6);
+            values.emplace_back(0x42);
         }
+        WriteMultipleRegistersRequest large_request{starting_address, values};
+        WriteMultipleRegistersRequestImpl large_request_impl{large_request};
 
-        SECTION("When build request, then write appropriate values to the buffer")
-        {
-            ser4cpp::Buffer buffer{(uint32_t) request_impl.get_request_length()};
-            auto slice = buffer.as_wslice();
-
-            request_impl.build_request(slice);
-
-            REQUIRE(buffer.as_wslice()[0] == 0x10);  // Function code
-            REQUIRE(buffer.as_wslice()[1] == 0x12);  // Starting address MSB
-            REQUIRE(buffer.as_wslice()[2] == 0x34);  // Starting address LSB
-            REQUIRE(buffer.as_wslice()[3] == 0x00);  // Qty of registers value MSB
-            REQUIRE(buffer.as_wslice()[4] == 0x00);  // Qty of registers value LSB
-            REQUIRE(buffer.as_wslice()[5] == 0);     // Byte count
-        }
+        REQUIRE(large_request_impl.is_valid() == false);
     }
 }

@@ -28,6 +28,13 @@ ReadRegistersRequestImpl<function_code, request_t>::ReadRegistersRequestImpl(con
 }
 
 template <uint8_t function_code, typename request_t>
+bool ReadRegistersRequestImpl<function_code, request_t>::is_valid() const
+{
+    return m_request.qty_of_registers > 0 &&
+           m_request.qty_of_registers <= m_request.max_registers;
+}
+
+template <uint8_t function_code, typename request_t>
 std::unique_ptr<IRequest> ReadRegistersRequestImpl<function_code, request_t>::clone() const
 {
     return std::make_unique<ReadRegistersRequestImpl>(m_request);

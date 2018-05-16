@@ -21,16 +21,18 @@
 class RequestMock : public modbus::IRequest
 {
 public:
-    RequestMock(std::size_t length, uint8_t value);
+    RequestMock(std::size_t length, uint8_t value, bool valid = true);
 
     std::unique_ptr<modbus::IRequest> clone() const override;
 
+    bool is_valid() const override;
     size_t get_request_length() const override;
     void build_request(ser4cpp::wseq_t& buffer) const override;
 
 private:
     std::size_t m_length;
     uint8_t m_value;
+    bool m_valid;
 };
 
 #endif //MODBUS_REQUESTMOCK_H

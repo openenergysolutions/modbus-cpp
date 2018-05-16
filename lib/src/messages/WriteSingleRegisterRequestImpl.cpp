@@ -31,6 +31,11 @@ std::unique_ptr<IRequest> WriteSingleRegisterRequestImpl::clone() const
     return std::make_unique<WriteSingleRegisterRequestImpl>(m_request);
 }
 
+bool WriteSingleRegisterRequestImpl::is_valid() const
+{
+    return true;
+}
+
 size_t WriteSingleRegisterRequestImpl::get_request_length() const
 {
     return 5;

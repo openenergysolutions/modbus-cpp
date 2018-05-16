@@ -31,6 +31,12 @@ std::unique_ptr<IRequest> WriteMultipleCoilsRequestImpl::clone() const
     return std::make_unique<WriteMultipleCoilsRequestImpl>(*this);
 }
 
+bool WriteMultipleCoilsRequestImpl::is_valid() const
+{
+    return m_request.values.size() > 0 &&
+           m_request.values.size() <= m_request.max_coils;
+}
+
 size_t WriteMultipleCoilsRequestImpl::get_request_length() const
 {
     auto num_bytes = m_request.values.size() / 8;
