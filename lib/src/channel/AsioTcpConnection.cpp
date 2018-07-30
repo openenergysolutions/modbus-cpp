@@ -123,7 +123,7 @@ void AsioTcpConnection::read_handler(const asio::error_code& ec, std::size_t byt
         return;
     }
 
-    m_logger->info("Received {} bytes", bytes_transferred);
+    m_logger->debug("Received {} bytes", bytes_transferred);
 
     auto connection_listener = m_connection_listener.lock();
     if(connection_listener)
@@ -144,7 +144,7 @@ void AsioTcpConnection::write_handler(const std::error_code& ec, std::size_t byt
         return;
     }
 
-    m_logger->info("Sent {} bytes", bytes_transferred);
+    m_logger->debug("Sent {} bytes", bytes_transferred);
 
     m_write_buffer = nullptr;
 
