@@ -19,6 +19,7 @@ set(modbus_public_headers
     ./include/modbus/exceptions/TimeoutException.h
 
     ./include/modbus/logging/LoggerFactory.h
+    ./include/modbus/logging/LoggingLevel.h
 
     ./include/modbus/messages/Address.h
     ./include/modbus/messages/ExceptionType.h
@@ -61,6 +62,7 @@ set(modbus_private_headers
     ./src/channel/TransactionIdentifier.h
 
     ./src/logging/Logger.h
+    ./src/logging/LoggingLevelConversion.h
 
     ./src/messages/IRequest.h
     ./src/messages/IResponse.h

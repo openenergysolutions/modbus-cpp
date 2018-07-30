@@ -30,7 +30,8 @@ public:
     ~ModbusManagerImpl();
 
     std::shared_ptr<IChannel> create_tcp_channel(const std::string& name,
-                                                 const Ipv4Endpoint& endpoint) override;
+                                                 const Ipv4Endpoint& endpoint,
+                                                 const LoggingLevel level) override;
     void shutdown() override;
 
 private:

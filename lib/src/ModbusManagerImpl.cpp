@@ -38,16 +38,17 @@ ModbusManagerImpl::~ModbusManagerImpl()
 }
 
 std::shared_ptr<IChannel> ModbusManagerImpl::create_tcp_channel(const std::string& name,
-                                                                const Ipv4Endpoint& endpoint)
+                                                                const Ipv4Endpoint& endpoint,
+                                                                const LoggingLevel level)
 {
     auto executor = std::make_shared<exe4cpp::StrandExecutor>(m_io_service);
 
-    auto connection_logger = m_logger->clone(name + " - Connection");
+    auto connection_logger = m_logger->clone(name + " - Connection", level);
     auto tcp_connection = std::make_shared<AsioTcpConnection>(connection_logger,
                                                               executor,
                                                               endpoint);
 
-    auto channel = std::make_shared<ChannelTcp>(executor, m_logger->clone(name), tcp_connection);
+    auto channel = std::make_shared<ChannelTcp>(executor, m_logger->clone(name, level), tcp_connection);
 
     {
         std::lock_guard<std::mutex> lock(m_mutex);

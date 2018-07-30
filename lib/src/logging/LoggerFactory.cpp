@@ -19,13 +19,15 @@
 #include "spdlog/sinks/null_sink.h"
 
 #include "logging/Logger.h"
+#include "logging/LoggingLevelConversion.h"
 
 namespace modbus
 {
 
-std::shared_ptr<Logger> LoggerFactory::create_console_logger(const std::string& name)
+std::shared_ptr<Logger> LoggerFactory::create_console_logger(const std::string& name, const LoggingLevel level)
 {
     auto spd_logger = spdlog::stdout_color_mt(name);
+    spd_logger->set_level(to_spdlog_level(level));
     return std::make_shared<Logger>(spd_logger);
 }
 
@@ -36,8 +38,9 @@ std::shared_ptr<Logger> LoggerFactory::create_null_logger(const std::string& nam
     return std::make_shared<Logger>(spd_logger);
 }
 
-std::shared_ptr<Logger> LoggerFactory::create_custom_logger(std::shared_ptr<spdlog::logger> custom_logger)
+std::shared_ptr<Logger> LoggerFactory::create_custom_logger(std::shared_ptr<spdlog::logger> custom_logger, LoggingLevel level)
 {
+    custom_logger->set_level(to_spdlog_level(level));
     return std::make_shared<Logger>(custom_logger);
 }
 

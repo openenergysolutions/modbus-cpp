@@ -22,6 +22,7 @@
 
 #include <memory>
 #include <string>
+#include "modbus/logging/LoggingLevel.h"
 
 namespace spdlog
 {
@@ -59,12 +60,13 @@ public:
     /**
      * @brief Creates a console logger
      * @param name  Name associated with the logger
+     * @param level Logging level of this logger
      * @return Shared pointer of the logger
      *
      * The console logger will be colored and is completely thread-safe. It uses
      * @cpp spdlog::stdout_color_mt @ce under the hood.
      */
-    static std::shared_ptr<Logger> create_console_logger(const std::string& name);
+    static std::shared_ptr<Logger> create_console_logger(const std::string& name, LoggingLevel level = LoggingLevel::Info);
 
     /**
      * @brief Creates a logger that simply drops all the messages
@@ -79,11 +81,12 @@ public:
     /**
      * @brief Creates a logger from a custom logger
      * @param custom_logger Shared pointer to a @cpp spdlog::logger @ce logger
+     * @param level Logging level of this logger
      * @return Shared pointer of the logger
      *
      * Use this method if you already use spdlog and want to use a custom logger.
      */
-    static std::shared_ptr<Logger> create_custom_logger(std::shared_ptr<spdlog::logger> custom_logger);
+    static std::shared_ptr<Logger> create_custom_logger(std::shared_ptr<spdlog::logger> custom_logger, const LoggingLevel level = LoggingLevel::Info);
 };
 
 } // namespace modbus

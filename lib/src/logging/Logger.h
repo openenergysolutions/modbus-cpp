@@ -22,6 +22,9 @@
 #include "spdlog/spdlog.h"
 #include "spdlog/fmt/ostr.h"
 
+#include "modbus/logging/LoggingLevel.h"
+#include "logging/LoggingLevelConversion.h"
+
 namespace modbus
 {
 
@@ -71,6 +74,13 @@ public:
     std::shared_ptr<Logger> clone(const std::string& name)
     {
         auto spd_logger = std::make_shared<spdlog::logger>(name, m_logger_impl->sinks().begin(), m_logger_impl->sinks().end());
+        return std::make_shared<Logger>(spd_logger);
+    }
+
+    std::shared_ptr<Logger> clone(const std::string& name, LoggingLevel level)
+    {
+        auto spd_logger = std::make_shared<spdlog::logger>(name, m_logger_impl->sinks().begin(), m_logger_impl->sinks().end());
+        spd_logger->set_level(to_spdlog_level(level));
         return std::make_shared<Logger>(spd_logger);
     }
 

@@ -24,6 +24,7 @@
 #include <memory>
 #include "modbus/channel/IChannel.h"
 #include "modbus/channel/Ipv4Endpoint.h"
+#include "modbus/logging/LoggingLevel.h"
 
 namespace modbus
 {
@@ -95,6 +96,7 @@ public:
      * @brief Create a TCP channel.
      * @param name      Name associated with the channel. This name will appear in the logs.
      * @param endpoint  IPv4 endpoint to which the channel will be connected.
+     * @param level     Logging level of the channel.
      * @returns Shared pointer of a @ref IChannel instance.
      *
      * @note The returned channel instance is shared with the internal of the library. If you
@@ -102,7 +104,8 @@ public:
      * will be effectively destroyed when @ref shutdown is called.
      */
     virtual std::shared_ptr<IChannel> create_tcp_channel(const std::string& name,
-                                                         const Ipv4Endpoint& endpoint) = 0;
+                                                         const Ipv4Endpoint& endpoint,
+                                                         const LoggingLevel level = LoggingLevel::Info) = 0;
 
     /**
      * @brief Closes all the associated channels and sessions and join all the background threads.
