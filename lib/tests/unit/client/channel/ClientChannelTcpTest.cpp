@@ -21,7 +21,7 @@
 #include "modbus/logging/LoggerFactory.h"
 #include "client/channel/ClientChannelTcp.h"
 #include "mocks/RequestMock.h"
-#include "mocks/ClientTcpConnectionMock.h"
+#include "mocks/TcpConnectionMock.h"
 
 using namespace modbus;
 
@@ -62,7 +62,7 @@ TEST_CASE("ClientChannelTcp")
 
     auto executor = std::make_shared<exe4cpp::MockExecutor>();
     auto logger = LoggerFactory::create_null_logger("test");
-    auto tcp_connection = std::make_shared<ClientTcpConnectionMock>();
+    auto tcp_connection = std::make_shared<TcpConnectionMock>();
 
     auto channel = std::make_shared<ClientChannelTcp>(executor, logger, tcp_connection);
 

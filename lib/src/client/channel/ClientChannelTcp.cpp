@@ -19,7 +19,7 @@
 #include "modbus/exceptions/ConnectionException.h"
 #include "modbus/exceptions/MalformedModbusRequestException.h"
 #include "modbus/exceptions/TimeoutException.h"
-#include "client/channel/IClientTcpConnection.h"
+#include "ITcpConnection.h"
 #include "client/session/ClientSessionImpl.h"
 
 namespace modbus
@@ -27,7 +27,7 @@ namespace modbus
 
 ClientChannelTcp::ClientChannelTcp(std::shared_ptr<exe4cpp::IExecutor> executor,
                                    std::shared_ptr<Logger> logger,
-                                   std::shared_ptr<IClientTcpConnection> tcp_connection)
+                                   std::shared_ptr<ITcpConnection> tcp_connection)
     : m_executor{std::move(executor)},
       m_logger{std::move(logger)},
       m_tcp_connection{tcp_connection},

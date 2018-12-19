@@ -21,9 +21,8 @@
 #include "ser4cpp/container/Buffer.h"
 #include "exe4cpp/IExecutor.h"
 
+#include "IConnectionListener.h"
 #include "client/channel/IClientChannelImpl.h"
-#include "client/channel/IClientTcpConnection.h"
-#include "client/channel/IConnectionListener.h"
 #include "client/channel/PendingRequest.h"
 #include "messages/mbap/IMbapSink.h"
 #include "messages/mbap/MbapParser.h"
@@ -40,7 +39,7 @@ class ClientChannelTcp : public IClientChannelImpl, public IConnectionListener, 
 public:
     ClientChannelTcp(std::shared_ptr<exe4cpp::IExecutor> executor,
                      std::shared_ptr<Logger> logger,
-                     std::shared_ptr<IClientTcpConnection> tcp_connection);
+                     std::shared_ptr<ITcpConnection> tcp_connection);
     ~ClientChannelTcp() = default;
 
     std::shared_ptr<IClientSession> create_session(const UnitIdentifier& unit_identifier,
@@ -67,7 +66,7 @@ private:
 
     std::shared_ptr<exe4cpp::IExecutor> m_executor;
     std::shared_ptr<Logger> m_logger;
-    std::shared_ptr<IClientTcpConnection> m_tcp_connection;
+    std::shared_ptr<ITcpConnection> m_tcp_connection;
 
     bool m_is_shutdown;
     std::vector<std::shared_ptr<IClientSession>> m_sessions;

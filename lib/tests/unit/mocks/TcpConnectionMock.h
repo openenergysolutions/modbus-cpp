@@ -13,20 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef MODBUS_CLIENTTCPCONNECTIONMOCK_H
-#define MODBUS_CLIENTTCPCONNECTIONMOCK_H
+#ifndef MODBUS_TCPCONNECTIONMOCK_H
+#define MODBUS_TCPCONNECTIONMOCK_H
 
 #include <memory>
 #include <vector>
+
 #include "ser4cpp/container/Buffer.h"
-#include "client/channel/IClientTcpConnection.h"
+
+#include "ITcpConnection.h"
 #include "messages/mbap/IMbapSink.h"
 #include "messages/mbap/MbapParser.h"
 
-class ClientTcpConnectionMock : public modbus::IClientTcpConnection, public modbus::IMbapSink
+class TcpConnectionMock : public modbus::ITcpConnection, public modbus::IMbapSink
 {
 public:
-    ClientTcpConnectionMock();
+    TcpConnectionMock();
 
     void set_listener(std::weak_ptr<modbus::IConnectionListener> listener) override;
     void send(const ser4cpp::rseq_t& data) override;
@@ -45,4 +47,4 @@ private:
     unsigned int m_num_close;
 };
 
-#endif //MODBUS_CLIENTTCPCONNECTIONMOCK_H
+#endif //MODBUS_TCPCONNECTIONMOCK_H

@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef MODBUS_ASIOCLIENTTCPCONNECTION_H
-#define MODBUS_ASIOCLIENTTCPCONNECTION_H
+#ifndef MODBUS_ASIOSERVERTCPCONNECTION_H
+#define MODBUS_ASIOSERVERTCPCONNECTION_H
 
 #include <array>
 #include "exe4cpp/asio/StrandExecutor.h"
@@ -27,26 +27,20 @@
 namespace modbus
 {
 
-class AsioClientTcpConnection : public ITcpConnection
+class AsioServerTcpConnection : public ITcpConnection
 {
 public:
-    AsioClientTcpConnection(std::shared_ptr<Logger> logger,
-                            std::shared_ptr<exe4cpp::StrandExecutor> executor,
-                            const Ipv4Endpoint& endpoint);
+    AsioServerTcpConnection(std::shared_ptr<Logger> logger,
+                            std::shared_ptr<exe4cpp::StrandExecutor> executor);
 
     void set_listener(std::weak_ptr<IConnectionListener> listener) override;
     void send(const ser4cpp::rseq_t& data) override;
     void close() override;
 
-private:
-    enum class ConnectionStatus
-    {
-        NotConnected,
-        Connecting,
-        Connected
-    };
+    void start();
+    asio::ip::tcp::socket& get_socket();
 
-    void resolve_handler(const asio::error_code& ec, asio::ip::tcp::resolver::iterator endpoints);
+private:
     void connect_handler(const asio::error_code& ec);
     void read_handler(const asio::error_code& ec, std::size_t bytes_transferred);
     void write_handler(const asio::error_code& ec, std::size_t bytes_transferred);
@@ -56,12 +50,10 @@ private:
     void send_error(const std::string& message);
 
     std::shared_ptr<Logger> m_logger;
-    Ipv4Endpoint m_ip_endpoint;
     std::shared_ptr<exe4cpp::StrandExecutor> m_executor;
-    asio::ip::tcp::resolver m_resolver;
     asio::ip::tcp::socket m_tcp_socket;
 
-    ConnectionStatus m_current_connection_status;
+    bool m_is_connected;
     std::array<uint8_t, 4096> m_read_buffer;
     std::unique_ptr<ser4cpp::Buffer> m_write_buffer;
 
@@ -70,4 +62,4 @@ private:
 
 } // namespace modbus
 
-#endif //MODBUS_ASIOCLIENTTCPCONNECTION_H
+#endif //MODBUS_ASIOSERVERTCPCONNECTION_H

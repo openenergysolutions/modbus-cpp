@@ -13,32 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef MODBUS_ICLIENTCHANNELIMPL_H
-#define MODBUS_ICLIENTCHANNELIMPL_H
+#ifndef MODBUS_ISERVERCHANNELIMPL_H
+#define MODBUS_ISERVERCHANNELIMPL_H
 
-#include "exe4cpp/Typedefs.h"
-#include "ser4cpp/container/SequenceTypes.h"
-
-#include "modbus/client/IClientChannel.h"
-#include "modbus/client/ResponseHandler.h"
+#include "modbus/server/IServerChannel.h"
+#include "messages/mbap/MbapMessage.h"
+#include "ITcpConnection.h"
 
 namespace modbus
 {
 
-class IRequest;
-class ISession;
-
-class IClientChannelImpl : public IClientChannel
+class IServerChannelImpl : public IServerChannel
 {
 public:
-    virtual ~IClientChannelImpl() = default;
+    virtual ~IServerChannelImpl() = default;
 
-    virtual void send_request(const UnitIdentifier& unit_identifier,
-                              const IRequest& request,
-                              const exe4cpp::duration_t& timeout,
-                              ResponseHandler<ser4cpp::rseq_t> response_handler) = 0;
+    virtual void on_mbap(const MbapMessage& message, ITcpConnection& connection) = 0;
 };
 
 } // namespace modbus
 
-#endif //MODBUS_ICLIENTCHANNELIMPL_H
+#endif //MODBUS_ISERVERCHANNELIMPL_H

@@ -17,7 +17,8 @@
 #define MODBUS_ICONNECTIONLISTENER_H
 
 #include <string>
-#include <ser4cpp/container/SequenceTypes.h>
+
+#include "ser4cpp/container/SequenceTypes.h"
 
 namespace modbus
 {

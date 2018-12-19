@@ -19,7 +19,7 @@
 #include <condition_variable>
 #include <mutex>
 
-#include "client/channel/IConnectionListener.h"
+#include "IConnectionListener.h"
 
 class ConnectionListenerMock : public modbus::IConnectionListener
 {

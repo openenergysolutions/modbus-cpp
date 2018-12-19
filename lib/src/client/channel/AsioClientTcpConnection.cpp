@@ -16,7 +16,7 @@
 #include "client/channel/AsioClientTcpConnection.h"
 
 #include <functional>
-#include "client/channel/IConnectionListener.h"
+#include "IConnectionListener.h"
 
 using namespace std::placeholders;
 

@@ -43,9 +43,14 @@ set(modbus_public_headers
     ./include/modbus/messages/WriteSingleCoilResponse.h
     ./include/modbus/messages/WriteSingleRegisterRequest.h
     ./include/modbus/messages/WriteSingleRegisterResponse.h
+
+    ./include/modbus/server/IServerChannel.h
+    ./include/modbus/server/IServerSession.h
 )
 
 set(modbus_private_headers
+    ./src/IConnectionListener.h
+    ./src/ITcpConnection.h
     ./src/ModbusManagerImpl.h
     ./src/TimerWrapper.h
     ./src/TransactionIdentifier.h
@@ -53,8 +58,6 @@ set(modbus_private_headers
     ./src/client/channel/AsioClientTcpConnection.h
     ./src/client/channel/ClientChannelTcp.h
     ./src/client/channel/IClientChannelImpl.h
-    ./src/client/channel/IClientTcpConnection.h
-    ./src/client/channel/IConnectionListener.h
     ./src/client/channel/PendingRequest.h
 
     ./src/client/session/ClientSessionImpl.h
@@ -89,6 +92,11 @@ set(modbus_private_headers
     ./src/messages/mbap/IMbapSink.h
     ./src/messages/mbap/MbapMessage.h
     ./src/messages/mbap/MbapParser.h
+
+    ./src/server/channel/AsioServer.h
+    ./src/server/channel/AsioServerTcpConnection.h
+    ./src/server/channel/IServer.h
+    ./src/server/channel/IServerChannelImpl.h
 )
 
 set(modbus_src
@@ -124,6 +132,9 @@ set(modbus_src
 
     ./src/messages/mbap/MbapMessage.cpp
     ./src/messages/mbap/MbapParser.cpp
+
+    ./src/server/channel/AsioServer.cpp
+    ./src/server/channel/AsioServerTcpConnection.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${modbus_public_headers} ${modbus_private_headers} ${modbus_src})

@@ -13,29 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef MODBUS_ICLIENTTCPCONNECTION_H
-#define MODBUS_ICLIENTTCPCONNECTION_H
+#ifndef MODBUS_ISERVERCONNECTIONLISTENERBUILDERMOCK_H
+#define MODBUS_ISERVERCONNECTIONLISTENERBUILDERMOCK_H
 
-#include <memory>
+#include "server/channel/IServerConnectionListenerBuilder.h"
 
-#include "ser4cpp/container/SequenceTypes.h"
-
-namespace modbus
-{
-
-class IConnectionListener;
-class Ipv4Endpoint;
-
-class IClientTcpConnection : public std::enable_shared_from_this<IClientTcpConnection>
+class IServerConnectionListenerBuilderMock : public modbus::IServerConnectionListenerBuilder
 {
 public:
-    virtual ~IClientTcpConnection() = default;
+    IServerConnectionListenerBuilderMock();
 
-    virtual void set_listener(std::weak_ptr<IConnectionListener> listener) = 0;
-    virtual void send(const ser4cpp::rseq_t& data) = 0;
-    virtual void close() = 0;
+    std::unique_ptr<modbus::IConnectionListener> build(std::shared_ptr<modbus::ITcpConnection> connection) override;
+
+    unsigned int get_num_connections() const;
+
+private:
+    unsigned int m_num_connections;
 };
 
-} // namespace modbus
-
-#endif //MODBUS_ICLIENTTCPCONNECTION_H
+#endif //MODBUS_ISERVERCONNECTIONLISTENERBUILDERMOCK_H

@@ -13,32 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef MODBUS_ICLIENTCHANNELIMPL_H
-#define MODBUS_ICLIENTCHANNELIMPL_H
+#ifndef MODBUS_ISERVERCONNECTIONLISTENERBUILDER_H
+#define MODBUS_ISERVERCONNECTIONLISTENERBUILDER_H
 
-#include "exe4cpp/Typedefs.h"
-#include "ser4cpp/container/SequenceTypes.h"
+#include <memory>
 
-#include "modbus/client/IClientChannel.h"
-#include "modbus/client/ResponseHandler.h"
+#include "IConnectionListener.h"
+#include "ITcpConnection.h"
 
 namespace modbus
 {
 
-class IRequest;
-class ISession;
-
-class IClientChannelImpl : public IClientChannel
+class IServerConnectionListenerBuilder
 {
 public:
-    virtual ~IClientChannelImpl() = default;
+    virtual ~IServerConnectionListenerBuilder() = default;
 
-    virtual void send_request(const UnitIdentifier& unit_identifier,
-                              const IRequest& request,
-                              const exe4cpp::duration_t& timeout,
-                              ResponseHandler<ser4cpp::rseq_t> response_handler) = 0;
+    virtual std::unique_ptr<IConnectionListener> build(std::shared_ptr<ITcpConnection> connection) = 0;
 };
 
 } // namespace modbus
 
-#endif //MODBUS_ICLIENTCHANNELIMPL_H
+#endif //MODBUS_ISERVERCONNECTIONLISTENERBUILDER_H
