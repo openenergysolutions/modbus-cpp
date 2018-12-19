@@ -13,22 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef MODBUS_MBAPSINKMOCK_H
-#define MODBUS_MBAPSINKMOCK_H
+#ifndef MODBUS_ICLIENTTCPCONNECTION_H
+#define MODBUS_ICLIENTTCPCONNECTION_H
 
-#include <vector>
-#include "messages/mbap/IMbapSink.h"
+#include <memory>
 
-class MbapSinkMock : public modbus::IMbapSink
+#include "ser4cpp/container/SequenceTypes.h"
+
+namespace modbus
+{
+
+class IConnectionListener;
+class Ipv4Endpoint;
+
+class IClientTcpConnection : public std::enable_shared_from_this<IClientTcpConnection>
 {
 public:
-    void on_mbap_message(const modbus::MbapMessage& message) override;
+    virtual ~IClientTcpConnection() = default;
 
-    std::size_t get_num_messages() const;
-    const std::vector<modbus::MbapMessage>& get_messages() const;
-
-private:
-    std::vector<modbus::MbapMessage> m_messages;
+    virtual void set_listener(std::weak_ptr<IConnectionListener> listener) = 0;
+    virtual void send(const ser4cpp::rseq_t& data) = 0;
+    virtual void close() = 0;
 };
 
-#endif //MODBUS_MBAPSINKMOCK_H
+} // namespace modbus
+
+#endif //MODBUS_ICLIENTTCPCONNECTION_H

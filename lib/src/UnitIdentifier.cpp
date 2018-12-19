@@ -13,22 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef MODBUS_MBAPSINKMOCK_H
-#define MODBUS_MBAPSINKMOCK_H
+#include "modbus/UnitIdentifier.h"
 
-#include <vector>
-#include "messages/mbap/IMbapSink.h"
+#include <ios>
+#include <iomanip>
 
-class MbapSinkMock : public modbus::IMbapSink
+namespace modbus
 {
-public:
-    void on_mbap_message(const modbus::MbapMessage& message) override;
 
-    std::size_t get_num_messages() const;
-    const std::vector<modbus::MbapMessage>& get_messages() const;
+std::ostream& operator<<(std::ostream& stream, const UnitIdentifier& unit_id)
+{
+    return stream << "0x"
+                  << std::uppercase
+                  << std::setw(2) << std::setfill('0')
+                  << std::hex << (unsigned int)unit_id.get_value();
+}
 
-private:
-    std::vector<modbus::MbapMessage> m_messages;
-};
-
-#endif //MODBUS_MBAPSINKMOCK_H
+} // namespace modbus

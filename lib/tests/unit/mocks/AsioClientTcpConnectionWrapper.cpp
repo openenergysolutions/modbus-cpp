@@ -13,22 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef MODBUS_MBAPSINKMOCK_H
-#define MODBUS_MBAPSINKMOCK_H
+#include "mocks/AsioClientTcpConnectionWrapper.h"
 
-#include <vector>
-#include "messages/mbap/IMbapSink.h"
-
-class MbapSinkMock : public modbus::IMbapSink
+AsioClientTcpConnectionWrapper::AsioClientTcpConnectionWrapper(std::shared_ptr<modbus::AsioClientTcpConnection> connection)
+        : m_connection{std::move(connection)}
 {
-public:
-    void on_mbap_message(const modbus::MbapMessage& message) override;
 
-    std::size_t get_num_messages() const;
-    const std::vector<modbus::MbapMessage>& get_messages() const;
+}
 
-private:
-    std::vector<modbus::MbapMessage> m_messages;
-};
+AsioClientTcpConnectionWrapper::~AsioClientTcpConnectionWrapper()
+{
+    m_connection->close();
+}
 
-#endif //MODBUS_MBAPSINKMOCK_H
+std::shared_ptr<modbus::AsioClientTcpConnection> AsioClientTcpConnectionWrapper::get()
+{
+    return m_connection;
+}
+
+modbus::AsioClientTcpConnection* AsioClientTcpConnectionWrapper::operator->()
+{
+    return m_connection.get();
+}

@@ -13,22 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef MODBUS_MBAPSINKMOCK_H
-#define MODBUS_MBAPSINKMOCK_H
+#include "modbus/Ipv4Endpoint.h"
 
-#include <vector>
-#include "messages/mbap/IMbapSink.h"
-
-class MbapSinkMock : public modbus::IMbapSink
+namespace modbus
 {
-public:
-    void on_mbap_message(const modbus::MbapMessage& message) override;
 
-    std::size_t get_num_messages() const;
-    const std::vector<modbus::MbapMessage>& get_messages() const;
+Ipv4Endpoint::Ipv4Endpoint(const std::string& hostname, uint32_t port)
+        : m_hostname{hostname},
+          m_port{port}
+{
 
-private:
-    std::vector<modbus::MbapMessage> m_messages;
-};
+}
 
-#endif //MODBUS_MBAPSINKMOCK_H
+const std::string& Ipv4Endpoint::get_hostname() const
+{
+    return m_hostname;
+}
+
+uint32_t Ipv4Endpoint::get_port() const
+{
+    return m_port;
+}
+
+bool Ipv4Endpoint::operator==(const Ipv4Endpoint& other) const
+{
+    return m_hostname == other.m_hostname &&
+           m_port == other.m_port;
+}
+
+bool Ipv4Endpoint::operator!=(const Ipv4Endpoint& other) const
+{
+    return !(*this == other);
+}
+
+} // namespace modbus

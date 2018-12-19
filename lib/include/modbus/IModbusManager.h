@@ -22,8 +22,8 @@
 
 #include <string>
 #include <memory>
-#include "modbus/channel/IChannel.h"
-#include "modbus/channel/Ipv4Endpoint.h"
+#include "modbus/Ipv4Endpoint.h"
+#include "modbus/client/IClientChannel.h"
 #include "modbus/logging/LoggingLevel.h"
 
 namespace modbus
@@ -103,9 +103,9 @@ public:
      * release the shared pointer, it will be kept alive by the internal of the library. The channel
      * will be effectively destroyed when @ref shutdown is called.
      */
-    virtual std::shared_ptr<IChannel> create_tcp_channel(const std::string& name,
-                                                         const Ipv4Endpoint& endpoint,
-                                                         const LoggingLevel level = LoggingLevel::Info) = 0;
+    virtual std::shared_ptr<IClientChannel> create_tcp_channel(const std::string& name,
+                                                               const Ipv4Endpoint& endpoint,
+                                                               const LoggingLevel level = LoggingLevel::Info) = 0;
 
     /**
      * @brief Closes all the associated channels and sessions and join all the background threads.
