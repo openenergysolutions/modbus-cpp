@@ -18,7 +18,7 @@ if(${MODBUS_BUILD_TESTS})
 endif()
 
 # Cache variable to enable example
-set(MODBUS_BUILD_EXAMPLE ${is_root} CACHE BOOL "Build example")
+set(MODBUS_BUILD_EXAMPLES ${is_root} CACHE BOOL "Build example")
 
 # Import dependencies
 add_subdirectory(./deps/asio EXCLUDE_FROM_ALL)
@@ -30,8 +30,8 @@ add_subdirectory(./deps/spdlog EXCLUDE_FROM_ALL)
 # Add projects
 add_subdirectory(./lib)
 
-if(${MODBUS_BUILD_EXAMPLE})
-    add_subdirectory(./example)
+if(${MODBUS_BUILD_EXAMPLES})
+    add_subdirectory(./examples)
 endif()
 
 # Custom target for documentation and license

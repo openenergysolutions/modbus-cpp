@@ -97,6 +97,9 @@ set(modbus_private_headers
     ./src/server/channel/AsioServerTcpConnection.h
     ./src/server/channel/IServer.h
     ./src/server/channel/IServerChannelImpl.h
+    ./src/server/channel/ServerChannelTcp.h
+    ./src/server/channel/ServerConnectionListener.h
+    ./src/server/channel/ServerConnectionListenerBuilder.h
 )
 
 set(modbus_src
@@ -135,6 +138,9 @@ set(modbus_src
 
     ./src/server/channel/AsioServer.cpp
     ./src/server/channel/AsioServerTcpConnection.cpp
+    ./src/server/channel/ServerChannelTcp.cpp
+    ./src/server/channel/ServerConnectionListener.cpp
+    ./src/server/channel/ServerConnectionListenerBuilder.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${modbus_public_headers} ${modbus_private_headers} ${modbus_src})

@@ -29,6 +29,7 @@ public:
     virtual ~IServer() = default;
 
     virtual void start(std::shared_ptr<IServerConnectionListenerBuilder> channel) = 0;
+    virtual void shutdown() = 0;
 };
 
 } // namespace modbus

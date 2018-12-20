@@ -33,7 +33,7 @@ public:
     AsioServerTcpConnection(std::shared_ptr<Logger> logger,
                             std::shared_ptr<exe4cpp::StrandExecutor> executor);
 
-    void set_listener(std::weak_ptr<IConnectionListener> listener) override;
+    void set_listener(std::shared_ptr<IConnectionListener> listener) override;
     void send(const ser4cpp::rseq_t& data) override;
     void close() override;
 
@@ -57,7 +57,7 @@ private:
     std::array<uint8_t, 4096> m_read_buffer;
     std::unique_ptr<ser4cpp::Buffer> m_write_buffer;
 
-    std::weak_ptr<IConnectionListener> m_connection_listener;
+    std::shared_ptr<IConnectionListener> m_connection_listener;
 };
 
 } // namespace modbus

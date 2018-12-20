@@ -29,9 +29,12 @@ public:
     explicit ModbusManagerImpl(std::shared_ptr<Logger> logger, unsigned int number_of_threads);
     ~ModbusManagerImpl();
 
-    std::shared_ptr<IClientChannel> create_tcp_channel(const std::string& name,
-                                                       const Ipv4Endpoint& endpoint,
-                                                       const LoggingLevel level) override;
+    std::shared_ptr<IClientChannel> create_client_tcp_channel(const std::string& name,
+                                                              const Ipv4Endpoint& endpoint,
+                                                              const LoggingLevel level) override;
+    std::shared_ptr<IServerChannel> create_server_tcp_channel(const std::string& name,
+                                                              const Ipv4Endpoint& endpoint,
+                                                              const LoggingLevel level) override;
     void shutdown() override;
 
 private:
@@ -40,7 +43,8 @@ private:
     exe4cpp::ThreadPool m_thread_pool;
 
     std::mutex m_mutex;
-    std::vector<std::shared_ptr<IClientChannel>> m_created_channels;
+    std::vector<std::shared_ptr<IClientChannel>> m_client_channels;
+    std::vector<std::shared_ptr<IServerChannel>> m_server_channels;
 };
 
 } // namespace modbus

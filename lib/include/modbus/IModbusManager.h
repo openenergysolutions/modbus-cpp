@@ -25,6 +25,7 @@
 #include "modbus/Ipv4Endpoint.h"
 #include "modbus/client/IClientChannel.h"
 #include "modbus/logging/LoggingLevel.h"
+#include "modbus/server/IServerChannel.h"
 
 namespace modbus
 {
@@ -93,19 +94,34 @@ public:
     virtual ~IModbusManager() = default;
 
     /**
-     * @brief Create a TCP channel.
+     * @brief Create a client (master) TCP channel.
      * @param name      Name associated with the channel. This name will appear in the logs.
      * @param endpoint  IPv4 endpoint to which the channel will be connected.
      * @param level     Logging level of the channel.
-     * @returns Shared pointer of a @ref IChannel instance.
+     * @returns Shared pointer of a @ref IClientChannel instance.
      *
      * @note The returned channel instance is shared with the internal of the library. If you
      * release the shared pointer, it will be kept alive by the internal of the library. The channel
      * will be effectively destroyed when @ref shutdown is called.
      */
-    virtual std::shared_ptr<IClientChannel> create_tcp_channel(const std::string& name,
-                                                               const Ipv4Endpoint& endpoint,
-                                                               const LoggingLevel level = LoggingLevel::Info) = 0;
+    virtual std::shared_ptr<IClientChannel> create_client_tcp_channel(const std::string& name,
+                                                                      const Ipv4Endpoint& endpoint,
+                                                                      const LoggingLevel level = LoggingLevel::Info) = 0;
+
+    /**
+     * @brief Create a server (slave) TCP channel.
+     * @param name      Name associated with the channel. This name will appear in the logs.
+     * @param endpoint  IPv4 endpoint to which the channel will be listening.
+     * @param level     Logging level of the channel.
+     * @returns Shared pointer of a @ref IServerChannel instance.
+     *
+     * @note The returned channel instance is shared with the internal of the library. If you
+     * release the shared pointer, it will be kept alive by the internal of the library. The channel
+     * will be effectively destroyed when @ref shutdown is called.
+     */
+    virtual std::shared_ptr<IServerChannel> create_server_tcp_channel(const std::string& name,
+                                                                      const Ipv4Endpoint& endpoint,
+                                                                      const LoggingLevel level = LoggingLevel::Info) = 0;
 
     /**
      * @brief Closes all the associated channels and sessions and join all the background threads.

@@ -33,7 +33,7 @@ AsioServerTcpConnection::AsioServerTcpConnection(std::shared_ptr<Logger> logger,
 
 }
 
-void AsioServerTcpConnection::set_listener(std::weak_ptr<IConnectionListener> listener)
+void AsioServerTcpConnection::set_listener(std::shared_ptr<IConnectionListener> listener)
 {
     m_connection_listener = listener;
 }
@@ -90,10 +90,9 @@ void AsioServerTcpConnection::read_handler(const asio::error_code& ec, std::size
 
     m_logger->debug("Received {} bytes", bytes_transferred);
 
-    auto connection_listener = m_connection_listener.lock();
-    if(connection_listener)
+    if(m_connection_listener)
     {
-        connection_listener->on_receive(ser4cpp::rseq_t{m_read_buffer.data(), (unsigned int) bytes_transferred});
+        m_connection_listener->on_receive(ser4cpp::rseq_t{m_read_buffer.data(), (unsigned int) bytes_transferred});
     }
 
     begin_read();
@@ -113,10 +112,9 @@ void AsioServerTcpConnection::write_handler(const std::error_code& ec, std::size
 
     m_write_buffer = nullptr;
 
-    auto connection_listener = m_connection_listener.lock();
-    if(connection_listener)
+    if(m_connection_listener)
     {
-        connection_listener->on_write_done();
+        m_connection_listener->on_write_done();
     }
 }
 
@@ -141,10 +139,9 @@ void AsioServerTcpConnection::send_buffer()
 
 void AsioServerTcpConnection::send_error(const std::string& message)
 {
-    auto connection_listener = m_connection_listener.lock();
-    if(connection_listener)
+    if(m_connection_listener)
     {
-        connection_listener->on_error(message);
+        m_connection_listener->on_error(message);
     }
 }
 

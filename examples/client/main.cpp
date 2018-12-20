@@ -32,10 +32,10 @@ int main(int argc, char* argv[])
     // This will create the necessary background threads
     std::unique_ptr<IModbusManager> modbusManager = IModbusManager::create(logger);
 
-    // Create a TCP channel
+    // Create a TCP client channel
     // Each channel has its own strand of execution
-    auto channel = modbusManager->create_tcp_channel("Example channel",
-                                                     Ipv4Endpoint{ "127.0.0.1", 502 });
+    auto channel = modbusManager->create_client_tcp_channel("Example channel",
+                                                            Ipv4Endpoint{ "127.0.0.1", 502 });
 
     // Create a session with a specific unit identifier
     // Users will mainly play with the session to obtain what they want

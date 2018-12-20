@@ -23,6 +23,8 @@
 #include <memory>
 
 #include "modbus/Expected.h"
+#include "modbus/exceptions/ModbusException.h"
+#include "modbus/messages/ExceptionType.h"
 #include "modbus/messages/ReadCoilsRequest.h"
 #include "modbus/messages/ReadCoilsResponse.h"
 #include "modbus/messages/ReadDiscreteInputsRequest.h"
@@ -48,17 +50,47 @@ class IServerSession : public std::enable_shared_from_this<IServerSession>
 public:
     virtual ~IServerSession() = default;
 
-    virtual void shutdown() = 0;
+    virtual void shutdown() {};
 
-    virtual Expected<ReadCoilsResponse> on_request(const ReadCoilsRequest& request) = 0;
-    virtual Expected<ReadDiscreteInputsResponse> on_request(const ReadDiscreteInputsRequest& request) = 0;
-    virtual Expected<ReadHoldingRegistersResponse> on_request(const ReadHoldingRegistersRequest& request) = 0;
-    virtual Expected<ReadInputRegistersResponse> on_request(const ReadInputRegistersRequest& request) = 0;
+    virtual Expected<ReadCoilsResponse> on_request(const ReadCoilsRequest& request)
+    {
+        return Expected<ReadCoilsResponse>::from_exception(ModbusException{ExceptionType::IllegalFunction});
+    }
 
-    virtual Expected<WriteSingleCoilResponse> on_request(const WriteSingleCoilRequest& request) = 0;
-    virtual Expected<WriteSingleRegisterResponse> on_request(const WriteSingleRegisterRequest& request) = 0;
-    virtual Expected<WriteMultipleCoilsResponse> on_request(const WriteMultipleCoilsRequest& request) = 0;
-    virtual Expected<WriteMultipleRegistersResponse> on_request(const WriteMultipleRegistersRequest& request) = 0;
+    virtual Expected<ReadDiscreteInputsResponse> on_request(const ReadDiscreteInputsRequest& request)
+    {
+        return Expected<ReadDiscreteInputsResponse>::from_exception(ModbusException{ExceptionType::IllegalFunction});
+    }
+
+    virtual Expected<ReadHoldingRegistersResponse> on_request(const ReadHoldingRegistersRequest& request)
+    {
+        return Expected<ReadHoldingRegistersResponse>::from_exception(ModbusException{ExceptionType::IllegalFunction});
+    }
+
+    virtual Expected<ReadInputRegistersResponse> on_request(const ReadInputRegistersRequest& request)
+    {
+        return Expected<ReadInputRegistersResponse>::from_exception(ModbusException{ExceptionType::IllegalFunction});
+    }
+
+    virtual Expected<WriteSingleCoilResponse> on_request(const WriteSingleCoilRequest& request)
+    {
+        return Expected<WriteSingleCoilResponse>::from_exception(ModbusException{ExceptionType::IllegalFunction});
+    }
+
+    virtual Expected<WriteSingleRegisterResponse> on_request(const WriteSingleRegisterRequest& request)
+    {
+        return Expected<WriteSingleRegisterResponse>::from_exception(ModbusException{ExceptionType::IllegalFunction});
+    }
+
+    virtual Expected<WriteMultipleCoilsResponse> on_request(const WriteMultipleCoilsRequest& request)
+    {
+        return Expected<WriteMultipleCoilsResponse>::from_exception(ModbusException{ExceptionType::IllegalFunction});
+    }
+
+    virtual Expected<WriteMultipleRegistersResponse> on_request(const WriteMultipleRegistersRequest& request)
+    {
+        return Expected<WriteMultipleRegistersResponse>::from_exception(ModbusException{ExceptionType::IllegalFunction});
+    }
 };
 
 } // namespace modbus

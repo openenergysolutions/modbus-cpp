@@ -38,7 +38,7 @@ public:
                const unsigned int max_connections);
 
     void start(std::shared_ptr<IServerConnectionListenerBuilder> connection_listener_builder) override;
-    void shutdown();
+    void shutdown() override;
 
 private:
     void start_accept();

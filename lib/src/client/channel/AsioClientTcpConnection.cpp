@@ -36,7 +36,7 @@ AsioClientTcpConnection::AsioClientTcpConnection(std::shared_ptr<Logger> logger,
 
 }
 
-void AsioClientTcpConnection::set_listener(std::weak_ptr<IConnectionListener> listener)
+void AsioClientTcpConnection::set_listener(std::shared_ptr<IConnectionListener> listener)
 {
     m_connection_listener = listener;
 }

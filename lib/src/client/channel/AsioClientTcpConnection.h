@@ -33,8 +33,9 @@ public:
     AsioClientTcpConnection(std::shared_ptr<Logger> logger,
                             std::shared_ptr<exe4cpp::StrandExecutor> executor,
                             const Ipv4Endpoint& endpoint);
+    ~AsioClientTcpConnection() = default;
 
-    void set_listener(std::weak_ptr<IConnectionListener> listener) override;
+    void set_listener(std::shared_ptr<IConnectionListener> listener) override;
     void send(const ser4cpp::rseq_t& data) override;
     void close() override;
 

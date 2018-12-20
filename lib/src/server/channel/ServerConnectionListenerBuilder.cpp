@@ -13,26 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef MODBUS_ISERVERCHANNEL_H
-#define MODBUS_ISERVERCHANNEL_H
+#include "server/channel/ServerConnectionListenerBuilder.h"
 
-#include <memory>
-#include "modbus/UnitIdentifier.h"
-#include "modbus/server/IServerSession.h"
+#include "server/channel/ServerConnectionListener.h"
 
 namespace modbus
 {
 
-class IServerChannel : public std::enable_shared_from_this<IServerChannel>
+ServerConnectionListenerBuilder::ServerConnectionListenerBuilder(std::shared_ptr<IServerChannelImpl> channel)
+    : m_channel{std::move(channel)}
 {
-public:
-    virtual ~IServerChannel() = default;
 
-    virtual void start() = 0;
-    virtual void shutdown() = 0;
-    virtual void add_session(const UnitIdentifier& unit_identifier, std::shared_ptr<IServerSession> session) = 0;
-};
+}
+
+std::unique_ptr<IConnectionListener> ServerConnectionListenerBuilder::build(std::shared_ptr<ITcpConnection> connection)
+{
+    return std::make_unique<ServerConnectionListener>(m_channel, connection);
+}
 
 } // namespace modbus
-
-#endif //MODBUS_ISERVERCHANNEL_H

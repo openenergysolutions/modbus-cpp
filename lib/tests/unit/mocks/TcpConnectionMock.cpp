@@ -22,7 +22,7 @@ TcpConnectionMock::TcpConnectionMock()
 
 }
 
-void TcpConnectionMock::set_listener(std::weak_ptr<modbus::IConnectionListener> listener)
+void TcpConnectionMock::set_listener(std::shared_ptr<modbus::IConnectionListener> listener)
 {
 
 }

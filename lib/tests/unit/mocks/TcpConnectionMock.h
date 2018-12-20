@@ -30,7 +30,7 @@ class TcpConnectionMock : public modbus::ITcpConnection, public modbus::IMbapSin
 public:
     TcpConnectionMock();
 
-    void set_listener(std::weak_ptr<modbus::IConnectionListener> listener) override;
+    void set_listener(std::shared_ptr<modbus::IConnectionListener> listener) override;
     void send(const ser4cpp::rseq_t& data) override;
     void close() override;
 
