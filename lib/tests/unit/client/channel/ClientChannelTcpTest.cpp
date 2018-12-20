@@ -20,7 +20,7 @@
 #include "modbus/exceptions/TimeoutException.h"
 #include "modbus/logging/LoggerFactory.h"
 #include "client/channel/ClientChannelTcp.h"
-#include "mocks/RequestMock.h"
+#include "mocks/IMessageMock.h"
 #include "mocks/TcpConnectionMock.h"
 
 using namespace modbus;
@@ -28,7 +28,7 @@ using namespace modbus;
 void receive(std::shared_ptr<ClientChannelTcp> channel,
              const UnitIdentifier& unit_id,
              const TransactionIdentifier transaction_id,
-             const IRequest& request)
+             const IMessage& request)
 {
     ser4cpp::Buffer buffer{260};
     auto view = buffer.as_wslice();
@@ -39,7 +39,7 @@ void receive(std::shared_ptr<ClientChannelTcp> channel,
 TEST_CASE("ClientChannelTcp")
 {
     auto unit_id = UnitIdentifier::default_unit_identifier();
-    auto request = RequestMock{1, 0x42};
+    auto request = IMessageMock{1, 0x42};
     auto timeout = std::chrono::seconds(5);
 
     unsigned int num_handler_success = 0;
@@ -90,9 +90,9 @@ TEST_CASE("ClientChannelTcp")
 
         SECTION("When send multiple requests, then requests are sent in order")
         {
-            channel->send_request(unit_id, RequestMock{1, 0x01}, timeout, test_handler);
-            channel->send_request(unit_id, RequestMock{1, 0x02}, timeout, test_handler);
-            channel->send_request(unit_id, RequestMock{1, 0x03}, timeout, test_handler);
+            channel->send_request(unit_id, IMessageMock{1, 0x01}, timeout, test_handler);
+            channel->send_request(unit_id, IMessageMock{1, 0x02}, timeout, test_handler);
+            channel->send_request(unit_id, IMessageMock{1, 0x03}, timeout, test_handler);
             executor->run_many(3);
 
             REQUIRE(tcp_connection->get_num_requests() == 1);
@@ -122,9 +122,9 @@ TEST_CASE("ClientChannelTcp")
 
         SECTION("When connection error, then discard all pending requests")
         {
-            channel->send_request(unit_id, RequestMock{1, 0x01}, timeout, test_handler);
-            channel->send_request(unit_id, RequestMock{1, 0x02}, timeout, test_handler);
-            channel->send_request(unit_id, RequestMock{1, 0x03}, timeout, test_handler);
+            channel->send_request(unit_id, IMessageMock{1, 0x01}, timeout, test_handler);
+            channel->send_request(unit_id, IMessageMock{1, 0x02}, timeout, test_handler);
+            channel->send_request(unit_id, IMessageMock{1, 0x03}, timeout, test_handler);
             executor->run_many(3);
             REQUIRE(tcp_connection->get_num_requests() == 1);
 
@@ -133,7 +133,7 @@ TEST_CASE("ClientChannelTcp")
 
             REQUIRE(tcp_connection->get_num_requests() == 1);
 
-            channel->send_request(unit_id, RequestMock{1, 0x04}, timeout, test_handler);
+            channel->send_request(unit_id, IMessageMock{1, 0x04}, timeout, test_handler);
             executor->run_one();
             REQUIRE(tcp_connection->get_num_requests() == 2);
             REQUIRE(tcp_connection->get_requests()[1].data[0] == 0x04);
@@ -144,7 +144,7 @@ TEST_CASE("ClientChannelTcp")
     {
         SECTION("When send invalid request, then don't send it and report it back")
         {
-            auto invalid_request = RequestMock{1, 0x42, false};
+            auto invalid_request = IMessageMock{1, 0x42, false};
             channel->send_request(unit_id, invalid_request, timeout, test_handler);
             executor->run_one();
 
@@ -218,9 +218,9 @@ TEST_CASE("ClientChannelTcp")
 
         SECTION("When connection error, then report error to all pending requests")
         {
-            channel->send_request(unit_id, RequestMock{1, 0x01}, timeout, test_handler);
-            channel->send_request(unit_id, RequestMock{1, 0x02}, timeout, test_handler);
-            channel->send_request(unit_id, RequestMock{1, 0x03}, timeout, test_handler);
+            channel->send_request(unit_id, IMessageMock{1, 0x01}, timeout, test_handler);
+            channel->send_request(unit_id, IMessageMock{1, 0x02}, timeout, test_handler);
+            channel->send_request(unit_id, IMessageMock{1, 0x03}, timeout, test_handler);
             executor->run_many(3);
             REQUIRE(tcp_connection->get_num_requests() == 1);
 

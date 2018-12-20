@@ -15,6 +15,12 @@
  */
 #include "server/channel/ServerChannelTcp.h"
 
+#include "ser4cpp/container/SequenceTypes.h"
+#include "ser4cpp/container/StaticBuffer.h"
+#include "ser4cpp/serialization/BigEndian.h"
+
+#include "messages/ReadCoilsRequestImpl.h"
+#include "messages/ReadCoilsResponseImpl.h"
 #include "server/channel/ServerConnectionListenerBuilder.h"
 
 namespace modbus
@@ -47,6 +53,7 @@ void ServerChannelTcp::shutdown()
     {
         session.second->shutdown();
     }
+    m_sessions.clear();
 }
 
 void ServerChannelTcp::add_session(const UnitIdentifier& unit_identifier, std::shared_ptr<IServerSession> session)
@@ -61,12 +68,61 @@ void ServerChannelTcp::on_mbap(const MbapMessage& message, ITcpConnection& conne
     auto it = m_sessions.find(message.unit_id);
     if(it != m_sessions.end())
     {
-        // TODO: Parse the message and send it to the session
+        auto view = message.data;
+        if(view.length() < 1)
+        {
+            m_logger->warn("Received invalid message.");
+            return;
+        }
+
+        uint8_t function_code;
+        ser4cpp::UInt8::read_from(view, function_code);
+        switch(function_code)
+        {
+        case 0x01:
+            process_message<ReadCoilsRequestImpl, ReadCoilsResponseImpl>(it->second, message, connection);
+            break;
+        default:
+            m_logger->warn("Received unsupported function code: {}", function_code);
+            // TODO: return appropriate response
+        }
     }
     else
     {
-        m_logger->warn("Received message for unknow unit: {}", message.unit_id);
+        m_logger->warn("Received message for unknown unit: {}", message.unit_id);
     }
+}
+
+template<typename TRequest, typename TResponse>
+void ServerChannelTcp::process_message(std::shared_ptr<IServerSession> session, const MbapMessage& message, ITcpConnection& connection)
+{
+    // Parse the request
+    auto parse_result = TRequest::parse(message.data);
+    if(!parse_result.is_valid())
+    {
+        m_logger->warn("Received invalid message.");
+        return;
+    }
+    auto request = parse_result.get();
+
+    // Ask the session what to return
+    auto response_result = session->on_request(request);
+    if(!response_result.is_valid())
+    {
+        // TODO: do something
+        return;
+    }
+    auto response = response_result.get();
+
+    // Build the response and send it to the connection
+    TResponse formatted_response{response};
+    ser4cpp::StaticBuffer<uint32_t, 260> buffer;
+    auto response_view = buffer.as_wseq();
+    auto serialized_request = MbapMessage::build_message(message.unit_id,
+                                                         message.transaction_id,
+                                                         formatted_response,
+                                                         response_view);
+    connection.send(serialized_request);
 }
 
 } // namespace modbus

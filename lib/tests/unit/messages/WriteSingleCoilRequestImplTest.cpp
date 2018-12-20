@@ -27,14 +27,14 @@ TEST_CASE("WriteSingleCoilRequestImpl")
     WriteSingleCoilRequestImpl request_impl{request};
 
     REQUIRE(request_impl.is_valid() == true);
-    REQUIRE(request_impl.get_request_length() == 5);
+    REQUIRE(request_impl.get_message_length() == 5);
 
     SECTION("When build ON request, then write appropriate values to the buffer")
     {
-        ser4cpp::Buffer buffer{(uint32_t)request_impl.get_request_length()};
+        ser4cpp::Buffer buffer{(uint32_t)request_impl.get_message_length()};
         auto slice = buffer.as_wslice();
 
-        request_impl.build_request(slice);
+        request_impl.build_message(slice);
 
         REQUIRE(buffer.as_wslice()[0] == 0x05); // Function code
         REQUIRE(buffer.as_wslice()[1] == 0x12); // Address MSB
@@ -48,10 +48,10 @@ TEST_CASE("WriteSingleCoilRequestImpl")
         WriteSingleCoilRequest off_request{{address, false}};
         WriteSingleCoilRequestImpl off_request_impl{off_request};
 
-        ser4cpp::Buffer buffer{(uint32_t)off_request_impl.get_request_length()};
+        ser4cpp::Buffer buffer{(uint32_t)off_request_impl.get_message_length()};
         auto slice = buffer.as_wslice();
 
-        off_request_impl.build_request(slice);
+        off_request_impl.build_message(slice);
 
         REQUIRE(buffer.as_wslice()[0] == 0x05); // Function code
         REQUIRE(buffer.as_wslice()[1] == 0x12); // Address MSB

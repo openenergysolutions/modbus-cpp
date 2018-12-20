@@ -25,12 +25,7 @@ using namespace modbus;
 
 class CustomSession : public IServerSession
 {
-    void shutdown()
-    {
-
-    }
-
-    Expected<ReadCoilsResponse> on_request(const ReadCoilsRequest& request)
+    Expected<ReadCoilsResponse> on_request(const ReadCoilsRequest& request) override
     {
         SingleBitValue value{};
         value.address = 16;

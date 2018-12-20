@@ -33,17 +33,17 @@ TEST_CASE("WriteMultipleCoilsRequestImpl")
 
         SECTION("When get length, then return actual length.")
         {
-            auto length = request_impl.get_request_length();
+            auto length = request_impl.get_message_length();
 
             REQUIRE(length == 6 + 1);
         }
 
         SECTION("When build request, then write appropriate values to the buffer")
         {
-            ser4cpp::Buffer buffer{(uint32_t) request_impl.get_request_length()};
+            ser4cpp::Buffer buffer{(uint32_t) request_impl.get_message_length()};
             auto slice = buffer.as_wslice();
 
-            request_impl.build_request(slice);
+            request_impl.build_message(slice);
 
             REQUIRE(buffer.as_wslice()[0] == 0x0F);  // Function code
             REQUIRE(buffer.as_wslice()[1] == 0x12);  // Starting address MSB
@@ -74,17 +74,17 @@ TEST_CASE("WriteMultipleCoilsRequestImpl")
 
         SECTION("When get length, then return actual length.")
         {
-            auto length = request_impl.get_request_length();
+            auto length = request_impl.get_message_length();
 
             REQUIRE(length == 6 + 2);
         }
 
         SECTION("When build request, then write appropriate values to the buffer")
         {
-            ser4cpp::Buffer buffer{(uint32_t) request_impl.get_request_length()};
+            ser4cpp::Buffer buffer{(uint32_t) request_impl.get_message_length()};
             auto slice = buffer.as_wslice();
 
-            request_impl.build_request(slice);
+            request_impl.build_message(slice);
 
             REQUIRE(buffer.as_wslice()[0] == 0x0F);  // Function code
             REQUIRE(buffer.as_wslice()[1] == 0x12);  // Starting address MSB

@@ -21,7 +21,7 @@
 #include "modbus/UnitIdentifier.h"
 #include "modbus/client/ResponseHandler.h"
 #include "TransactionIdentifier.h"
-#include "messages/IRequest.h"
+#include "messages/IMessage.h"
 
 namespace modbus
 {
@@ -30,7 +30,7 @@ struct PendingRequest
 {
    PendingRequest(const UnitIdentifier& unit_id,
                   const TransactionIdentifier& transaction_id,
-                  const IRequest& request,
+                  const IMessage& request,
                   const exe4cpp::duration_t& timeout,
                   ResponseHandler<ser4cpp::rseq_t> response_handler)
            : unit_id{unit_id},
@@ -44,7 +44,7 @@ struct PendingRequest
 
     UnitIdentifier unit_id;
     TransactionIdentifier transaction_id;
-    std::unique_ptr<IRequest> request;
+    std::unique_ptr<IMessage> request;
     exe4cpp::duration_t timeout;
     ResponseHandler<ser4cpp::rseq_t> response_handler;
 };

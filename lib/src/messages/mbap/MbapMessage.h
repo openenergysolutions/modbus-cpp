@@ -20,7 +20,7 @@
 
 #include "modbus/UnitIdentifier.h"
 #include "TransactionIdentifier.h"
-#include "messages/IRequest.h"
+#include "messages/IMessage.h"
 
 namespace modbus
 {
@@ -29,7 +29,7 @@ struct MbapMessage
 {
     static ser4cpp::rseq_t build_message(UnitIdentifier unit_id,
                                          TransactionIdentifier transaction_id,
-                                         const IRequest& request,
+                                         const IMessage& message,
                                          ser4cpp::wseq_t& buffer);
 
     MbapMessage(UnitIdentifier unit_id,

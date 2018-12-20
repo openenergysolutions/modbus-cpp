@@ -18,7 +18,7 @@
 #include <array>
 #include "ser4cpp/container/Buffer.h"
 #include "messages/mbap/MbapMessage.h"
-#include "mocks/RequestMock.h"
+#include "mocks/IMessageMock.h"
 
 using namespace modbus;
 
@@ -26,7 +26,7 @@ TEST_CASE("MbapMessage")
 {
     UnitIdentifier unit_id{0x42};
     TransactionIdentifier transaction_id{0x1234};
-    RequestMock request{2, 0x76};
+    IMessageMock request{2, 0x76};
     std::array<uint8_t, 9> raw_request_data{{
             0x12, 0x34, // Transaction Identifier
             0x00, 0x00, // Protocol Identifier
@@ -58,7 +58,7 @@ TEST_CASE("MbapMessage")
     SECTION("When build message of size 0, then appropriately build the message")
     {
         ser4cpp::Buffer buffer{260};
-        RequestMock empty_request{0, 0x42};
+        IMessageMock empty_request{0, 0x42};
         auto write_buffer = buffer.as_wslice();
         auto result = MbapMessage::build_message(unit_id, transaction_id, empty_request, write_buffer);
 
@@ -75,7 +75,7 @@ TEST_CASE("MbapMessage")
     SECTION("When build message of size greater than the limit, then stop writing after the limit")
     {
         ser4cpp::Buffer buffer{260};
-        RequestMock big_request{400, 0x42};
+        IMessageMock big_request{400, 0x42};
         auto write_buffer = buffer.as_wslice();
         auto result = MbapMessage::build_message(unit_id, transaction_id, big_request, write_buffer);
 

@@ -26,7 +26,7 @@ WriteSingleRegisterRequestImpl::WriteSingleRegisterRequestImpl(const WriteSingle
 
 }
 
-std::unique_ptr<IRequest> WriteSingleRegisterRequestImpl::clone() const
+std::unique_ptr<IMessage> WriteSingleRegisterRequestImpl::clone() const
 {
     return std::make_unique<WriteSingleRegisterRequestImpl>(m_request);
 }
@@ -36,12 +36,12 @@ bool WriteSingleRegisterRequestImpl::is_valid() const
     return true;
 }
 
-size_t WriteSingleRegisterRequestImpl::get_request_length() const
+size_t WriteSingleRegisterRequestImpl::get_message_length() const
 {
     return 5;
 }
 
-void WriteSingleRegisterRequestImpl::build_request(ser4cpp::wseq_t& buffer) const
+void WriteSingleRegisterRequestImpl::build_message(ser4cpp::wseq_t& buffer) const
 {
     ser4cpp::UInt8::write_to(buffer, 0x06); // Function code
     ser4cpp::UInt16::write_to(buffer, m_request.value.address); // Address

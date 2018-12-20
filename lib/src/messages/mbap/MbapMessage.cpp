@@ -32,10 +32,10 @@ MbapMessage::MbapMessage(UnitIdentifier unit_id,
 
 ser4cpp::rseq_t MbapMessage::build_message(UnitIdentifier unit_id,
                                            TransactionIdentifier transaction_id,
-                                           const IRequest& request,
+                                           const IMessage& message,
                                            ser4cpp::wseq_t& buffer)
 {
-    auto length = request.get_request_length();
+    auto length = message.get_message_length();
     if(length > 253)
     {
         length = 253;
@@ -47,7 +47,7 @@ ser4cpp::rseq_t MbapMessage::build_message(UnitIdentifier unit_id,
     ser4cpp::UInt16::write_to(buffer, 0x0000);
     ser4cpp::UInt16::write_to(buffer, (uint16_t)(length + 1));
     ser4cpp::UInt8::write_to(buffer, unit_id.get_value());
-    request.build_request(buffer);
+    message.build_message(buffer);
 
     return result;
 }

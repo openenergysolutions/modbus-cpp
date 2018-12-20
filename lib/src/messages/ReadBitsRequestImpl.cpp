@@ -16,6 +16,7 @@
 #include "messages/ReadBitsRequestImpl.h"
 
 #include "ser4cpp/serialization/BigEndian.h"
+#include "modbus/exceptions/MalformedModbusRequestException.h"
 
 namespace modbus
 {
@@ -28,7 +29,7 @@ ReadBitsRequestImpl<function_code, request_t>::ReadBitsRequestImpl(const request
 }
 
 template <uint8_t function_code, typename request_t>
-std::unique_ptr<IRequest> ReadBitsRequestImpl<function_code, request_t>::clone() const
+std::unique_ptr<IMessage> ReadBitsRequestImpl<function_code, request_t>::clone() const
 {
     return std::make_unique<ReadBitsRequestImpl>(m_request);
 }
@@ -41,13 +42,13 @@ bool ReadBitsRequestImpl<function_code, request_t>::is_valid() const
 }
 
 template <uint8_t function_code, typename request_t>
-size_t ReadBitsRequestImpl<function_code, request_t>::get_request_length() const
+size_t ReadBitsRequestImpl<function_code, request_t>::get_message_length() const
 {
     return 5;
 }
 
 template <uint8_t function_code, typename request_t>
-void ReadBitsRequestImpl<function_code, request_t>::build_request(ser4cpp::wseq_t& buffer) const
+void ReadBitsRequestImpl<function_code, request_t>::build_message(ser4cpp::wseq_t& buffer) const
 {
     ser4cpp::UInt8::write_to(buffer, function_code); // Function code
     ser4cpp::UInt16::write_to(buffer, m_request.starting_address); // Starting address
@@ -58,6 +59,39 @@ template <uint8_t function_code, typename request_t>
 const request_t& ReadBitsRequestImpl<function_code, request_t>::get_request() const
 {
     return m_request;
+}
+
+template <uint8_t function_code, typename request_t>
+Expected<request_t> ReadBitsRequestImpl<function_code, request_t>::parse(const ser4cpp::rseq_t& data)
+{
+    auto view = data;
+
+    // Check length
+    if(view.length() != 5)
+    {
+        return Expected<request_t>::from_exception(MalformedModbusRequestException{"Request does not have the expected length."});
+    }
+
+    // Check the function code
+    uint8_t read_function_code;
+    ser4cpp::UInt8::read_from(view, read_function_code);
+    if(read_function_code != function_code)
+    {
+        return Expected<request_t>::from_exception(MalformedModbusRequestException{"Unexpected function code."});
+    }
+
+    // Read starting address
+    uint16_t starting_address;
+    ser4cpp::UInt16::read_from(view, starting_address);
+
+    // Read quantity of coils
+    uint16_t qty_of_bits;
+    ser4cpp::UInt16::read_from(view, qty_of_bits);
+    
+    request_t request;
+    request.starting_address = starting_address;
+    request.qty_of_bits = qty_of_bits;
+    return Expected<request_t>(request);
 }
 
 template class ReadBitsRequestImpl<0x01, ReadCoilsRequest>;

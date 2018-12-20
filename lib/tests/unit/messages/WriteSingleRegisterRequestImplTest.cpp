@@ -29,14 +29,14 @@ TEST_CASE("WriteSingleRegisterRequestImpl")
     WriteSingleRegisterRequestImpl request_impl{request};
 
     REQUIRE(request_impl.is_valid() == true);
-    REQUIRE(request_impl.get_request_length() == 5);
+    REQUIRE(request_impl.get_message_length() == 5);
 
     SECTION("When build request, then write appropriate values to the buffer")
     {
-        ser4cpp::Buffer buffer{(uint32_t)request_impl.get_request_length()};
+        ser4cpp::Buffer buffer{(uint32_t)request_impl.get_message_length()};
         auto slice = buffer.as_wslice();
 
-        request_impl.build_request(slice);
+        request_impl.build_message(slice);
 
         REQUIRE(buffer.as_wslice()[0] == 0x06); // Function code
         REQUIRE(buffer.as_wslice()[1] == 0x12); // Address MSB

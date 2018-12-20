@@ -27,7 +27,7 @@
 #include "messages/mbap/IMbapSink.h"
 #include "messages/mbap/MbapParser.h"
 #include "logging/Logger.h"
-#include "messages/IRequest.h"
+#include "messages/IMessage.h"
 
 namespace modbus
 {
@@ -46,7 +46,7 @@ public:
                                                    const exe4cpp::duration_t& default_timeout) override;
 
     void send_request(const UnitIdentifier& unit_identifier,
-                      const IRequest& request,
+                      const IMessage& request,
                       const exe4cpp::duration_t& timeout,
                       ResponseHandler<ser4cpp::rseq_t> response_handler) override;
 

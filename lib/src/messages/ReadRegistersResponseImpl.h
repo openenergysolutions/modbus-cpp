@@ -21,14 +21,14 @@
 #include "modbus/messages/ReadHoldingRegistersResponse.h"
 #include "modbus/messages/ReadInputRegistersRequest.h"
 #include "modbus/messages/ReadInputRegistersResponse.h"
-#include "messages/IResponse.h"
+#include "messages/IMessage.h"
 #include "messages/ReadRegistersRequestImpl.h"
 
 namespace modbus
 {
 
 template <uint8_t function_code, typename request_t, typename response_t>
-class ReadRegistersResponseImpl : public IResponse
+class ReadRegistersResponseImpl : public IMessage
 {
 public:
     static Expected<response_t> parse(const ReadRegistersRequestImpl<function_code, request_t>& req,

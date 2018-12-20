@@ -18,11 +18,11 @@
 #include <array>
 #include "modbus/exceptions/MalformedModbusResponseException.h"
 #include "modbus/exceptions/ModbusException.h"
-#include "mocks/IResponseMock.h"
+#include "mocks/IMessageMock.h"
 
 using namespace modbus;
 
-TEST_CASE("IResponse")
+TEST_CASE("IMessage")
 {
     uint8_t function_code = 0x03;
 
@@ -34,7 +34,7 @@ TEST_CASE("IResponse")
         }};
         ser4cpp::rseq_t buffer{good_function_code.data(), good_function_code.size()};
 
-        auto result = IResponseMock::parse_function_code(function_code, buffer);
+        auto result = IMessageMock::parse_function_code(function_code, buffer);
 
         REQUIRE(result.is_valid() == true);
         REQUIRE(buffer[0] == 0x42);
@@ -44,7 +44,7 @@ TEST_CASE("IResponse")
     {
         auto data = ser4cpp::rseq_t::empty();
 
-        auto result = IResponseMock::parse_function_code(function_code, data);
+        auto result = IMessageMock::parse_function_code(function_code, data);
 
         REQUIRE(result.has_exception<MalformedModbusResponseException>() == true);
     }
@@ -57,7 +57,7 @@ TEST_CASE("IResponse")
         }};
         ser4cpp::rseq_t buffer{wrong_function_code.data(), wrong_function_code.size()};
 
-        auto result = IResponseMock::parse_function_code(function_code, buffer);
+        auto result = IMessageMock::parse_function_code(function_code, buffer);
 
         REQUIRE(result.has_exception<MalformedModbusResponseException>() == true);
     }
@@ -70,7 +70,7 @@ TEST_CASE("IResponse")
         }};
         ser4cpp::rseq_t buffer{wrong_exception_function_code.data(), wrong_exception_function_code.size()};
 
-        auto result = IResponseMock::parse_function_code(function_code, buffer);
+        auto result = IMessageMock::parse_function_code(function_code, buffer);
 
         REQUIRE(result.has_exception<MalformedModbusResponseException>() == true);
     }
@@ -83,7 +83,7 @@ TEST_CASE("IResponse")
         }};
         ser4cpp::rseq_t buffer{exception_function_code_invalid_length.data(), exception_function_code_invalid_length.size()};
 
-        auto result = IResponseMock::parse_function_code(function_code, buffer);
+        auto result = IMessageMock::parse_function_code(function_code, buffer);
 
         REQUIRE(result.has_exception<MalformedModbusResponseException>() == true);
     }
@@ -95,7 +95,7 @@ TEST_CASE("IResponse")
         }};
         ser4cpp::rseq_t buffer{exception_function_without_code.data(), exception_function_without_code.size()};
 
-        auto result = IResponseMock::parse_function_code(function_code, buffer);
+        auto result = IMessageMock::parse_function_code(function_code, buffer);
 
         REQUIRE(result.has_exception<MalformedModbusResponseException>() == true);
     }
@@ -108,7 +108,7 @@ TEST_CASE("IResponse")
         }};
         ser4cpp::rseq_t buffer{exception_function_code.data(), exception_function_code.size()};
 
-        auto result = IResponseMock::parse_function_code(function_code, buffer);
+        auto result = IMessageMock::parse_function_code(function_code, buffer);
 
         REQUIRE(result.has_exception<ModbusException>() == true);
         REQUIRE(result.get_exception<ModbusException>().get_exception_type() == ExceptionType::IllegalDataAddress);

@@ -26,7 +26,7 @@ WriteMultipleCoilsRequestImpl::WriteMultipleCoilsRequestImpl(const WriteMultiple
 
 }
 
-std::unique_ptr<IRequest> WriteMultipleCoilsRequestImpl::clone() const
+std::unique_ptr<IMessage> WriteMultipleCoilsRequestImpl::clone() const
 {
     return std::make_unique<WriteMultipleCoilsRequestImpl>(*this);
 }
@@ -37,7 +37,7 @@ bool WriteMultipleCoilsRequestImpl::is_valid() const
            m_request.values.size() <= m_request.max_coils;
 }
 
-size_t WriteMultipleCoilsRequestImpl::get_request_length() const
+size_t WriteMultipleCoilsRequestImpl::get_message_length() const
 {
     auto num_bytes = m_request.values.size() / 8;
     if (m_request.values.size() % 8 != 0)
@@ -48,7 +48,7 @@ size_t WriteMultipleCoilsRequestImpl::get_request_length() const
     return 6 + num_bytes;
 }
 
-void WriteMultipleCoilsRequestImpl::build_request(ser4cpp::wseq_t& buffer) const
+void WriteMultipleCoilsRequestImpl::build_message(ser4cpp::wseq_t& buffer) const
 {
     auto num_bytes = m_request.values.size() / 8;
     if (m_request.values.size() % 8 != 0)

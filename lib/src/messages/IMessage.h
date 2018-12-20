@@ -13,19 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef MODBUS_IRESPONSE_H
-#define MODBUS_IRESPONSE_H
+#ifndef MODBUS_IMESSAGE_H
+#define MODBUS_IMESSAGE_H
 
+#include <memory>
 #include "ser4cpp/container/SequenceTypes.h"
 #include "modbus/Expected.h"
 
 namespace modbus
 {
 
-class IResponse
+class IMessage
 {
 public:
-    virtual ~IResponse() = default;
+    virtual ~IMessage() = default;
+
+    virtual std::unique_ptr<IMessage> clone() const = 0;
+
+    virtual bool is_valid() const = 0;
+    virtual size_t get_message_length() const = 0;
+    virtual void build_message(ser4cpp::wseq_t& buffer) const = 0;
 
 protected:
     static Expected<bool> parse_function_code(uint8_t function_code, ser4cpp::rseq_t& data);
@@ -33,4 +40,4 @@ protected:
 
 } // namespace modbus
 
-#endif //MODBUS_IRESPONSE_H
+#endif //MODBUS_IMESSAGE_H

@@ -19,13 +19,13 @@
 #include <vector>
 #include "modbus/Expected.h"
 #include "modbus/messages/WriteMultipleRegistersResponse.h"
-#include "messages/IResponse.h"
+#include "messages/IMessage.h"
 #include "messages/WriteMultipleRegistersRequestImpl.h"
 
 namespace modbus
 {
 
-class WriteMultipleRegistersResponseImpl : public IResponse
+class WriteMultipleRegistersResponseImpl : public IMessage
 {
 public:
     static Expected<WriteMultipleRegistersResponse> parse(const WriteMultipleRegistersRequestImpl& req,

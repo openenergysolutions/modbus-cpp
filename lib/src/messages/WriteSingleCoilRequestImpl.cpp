@@ -26,7 +26,7 @@ WriteSingleCoilRequestImpl::WriteSingleCoilRequestImpl(const WriteSingleCoilRequ
 
 }
 
-std::unique_ptr<IRequest> WriteSingleCoilRequestImpl::clone() const
+std::unique_ptr<IMessage> WriteSingleCoilRequestImpl::clone() const
 {
     return std::make_unique<WriteSingleCoilRequestImpl>(m_request);
 }
@@ -36,12 +36,12 @@ bool WriteSingleCoilRequestImpl::is_valid() const
     return true;
 }
 
-size_t WriteSingleCoilRequestImpl::get_request_length() const
+size_t WriteSingleCoilRequestImpl::get_message_length() const
 {
     return 5;
 }
 
-void WriteSingleCoilRequestImpl::build_request(ser4cpp::wseq_t& buffer) const
+void WriteSingleCoilRequestImpl::build_message(ser4cpp::wseq_t& buffer) const
 {
     ser4cpp::UInt8::write_to(buffer, 0x05); // Function code
     ser4cpp::UInt16::write_to(buffer, m_request.value.address); // Address

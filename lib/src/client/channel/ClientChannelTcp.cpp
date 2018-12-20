@@ -58,14 +58,14 @@ std::shared_ptr<IClientSession> ClientChannelTcp::create_session(const UnitIdent
 }
 
 void ClientChannelTcp::send_request(const UnitIdentifier& unit_identifier,
-                                    const IRequest& request,
+                                    const IMessage& request,
                                     const duration_t& timeout,
                                     ResponseHandler<ser4cpp::rseq_t> response_handler)
 {
 
     if(request.is_valid())
     {
-        std::shared_ptr<IRequest> req{request.clone()};
+        std::shared_ptr<IMessage> req{request.clone()};
         m_executor->post([=, self = shared_from_this()]() {
             if (!m_is_shutdown)
             {
@@ -172,7 +172,7 @@ void ClientChannelTcp::check_pending_requests()
                        m_current_request->unit_id,
                        m_current_request->transaction_id,
                        std::chrono::duration_cast<std::chrono::milliseconds>(m_current_request->timeout).count(),
-                       m_current_request->request->get_request_length());
+                       m_current_request->request->get_message_length());
 
         ser4cpp::StaticBuffer<uint32_t, 260> buffer;
         auto view = buffer.as_wseq();

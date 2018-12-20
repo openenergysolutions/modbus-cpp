@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "RequestMock.h"
+#include "IMessageMock.h"
 
-RequestMock::RequestMock(std::size_t length, uint8_t value, bool valid)
+IMessageMock::IMessageMock(std::size_t length, uint8_t value, bool valid)
     : m_length{length},
       m_value{value},
       m_valid{valid}
@@ -23,25 +23,30 @@ RequestMock::RequestMock(std::size_t length, uint8_t value, bool valid)
 
 }
 
-std::unique_ptr<modbus::IRequest> RequestMock::clone() const
+std::unique_ptr<modbus::IMessage> IMessageMock::clone() const
 {
-    return std::make_unique<RequestMock>(*this);
+    return std::make_unique<IMessageMock>(*this);
 }
 
-bool RequestMock::is_valid() const
+bool IMessageMock::is_valid() const
 {
     return m_valid;
 }
 
-size_t RequestMock::get_request_length() const
+size_t IMessageMock::get_message_length() const
 {
     return m_length;
 }
 
-void RequestMock::build_request(ser4cpp::wseq_t& buffer) const
+void IMessageMock::build_message(ser4cpp::wseq_t& buffer) const
 {
     for(std::size_t i = 0; i < m_length; ++i)
     {
         buffer.put(m_value);
     }
+}
+
+modbus::Expected<bool> IMessageMock::parse_function_code(uint8_t function_code, ser4cpp::rseq_t& data)
+{
+    return IMessage::parse_function_code(function_code, data);
 }

@@ -3,11 +3,10 @@ cmake_minimum_required (VERSION 3.8)
 set(modbus_tests_headers
     ./mocks/AsioClientTcpConnectionWrapper.h
     ./mocks/ConnectionListenerMock.h
-    ./mocks/IResponseMock.h
-    ./mocks/IServerConnectionListenerBuilderMock.h
     ./mocks/IClientSessionMock.h
+    ./mocks/IMessageMock.h
+    ./mocks/IServerConnectionListenerBuilderMock.h
     ./mocks/MbapSinkMock.h
-    ./mocks/RequestMock.h
     ./mocks/TcpConnectionMock.h
     ./mocks/TestServer.h
 )
@@ -25,7 +24,7 @@ set(modbus_tests_src
     ./client/session/ScheduledRequestTest.cpp
 
     ./messages/ExceptionTypeTest.cpp
-    ./messages/IResponseTest.cpp
+    ./messages/IMessageTest.cpp
     ./messages/ReadCoilsRequestImplTest.cpp
     ./messages/ReadCoilsResponseImplTest.cpp
     ./messages/ReadDiscreteInputsRequestImplTest.cpp
@@ -48,11 +47,10 @@ set(modbus_tests_src
 
     ./mocks/AsioClientTcpConnectionWrapper.cpp
     ./mocks/ConnectionListenerMock.cpp
-    ./mocks/IResponseMock.cpp
-    ./mocks/IServerConnectionListenerBuilderMock.cpp
+    ./mocks/IMessageMock.cpp
     ./mocks/IClientSessionMock.cpp
+    ./mocks/IServerConnectionListenerBuilderMock.cpp
     ./mocks/MbapSinkMock.cpp
-    ./mocks/RequestMock.cpp
     ./mocks/TcpConnectionMock.cpp
     ./mocks/TestServer.cpp
 

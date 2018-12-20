@@ -49,6 +49,7 @@ int main(int argc, char* argv[])
                                                    [](Expected<ReadHoldingRegistersResponse> response) {
         std::cout << "Scheduled request received response." << std::endl;
     });
+    scheduled_req->stop();
 
     while (true)
     {
@@ -61,7 +62,7 @@ int main(int argc, char* argv[])
         {
             // Send a request and print the result
             // You can override the default timeout value set when creating the session
-            ReadCoilsRequest req{ 0x0024, 120 };
+            ReadCoilsRequest req{ 0x0024, 1 };
             session->send_request(req, std::chrono::seconds(3), [](const Expected<ReadCoilsResponse>& response) {
                 // If the exception is set, then an error occured
                 if (!response.is_valid())

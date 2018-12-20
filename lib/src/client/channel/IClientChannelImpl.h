@@ -25,7 +25,7 @@
 namespace modbus
 {
 
-class IRequest;
+class IMessage;
 class ISession;
 
 class IClientChannelImpl : public IClientChannel
@@ -34,7 +34,7 @@ public:
     virtual ~IClientChannelImpl() = default;
 
     virtual void send_request(const UnitIdentifier& unit_identifier,
-                              const IRequest& request,
+                              const IMessage& request,
                               const exe4cpp::duration_t& timeout,
                               ResponseHandler<ser4cpp::rseq_t> response_handler) = 0;
 };

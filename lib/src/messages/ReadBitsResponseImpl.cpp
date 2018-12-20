@@ -22,6 +22,65 @@ namespace modbus
 {
 
 template <uint8_t function_code, typename request_t, typename response_t>
+ReadBitsResponseImpl<function_code, request_t, response_t>::ReadBitsResponseImpl(const response_t& request)
+    : m_response{request}
+{
+
+}
+
+template <uint8_t function_code, typename request_t, typename response_t>
+std::unique_ptr<IMessage> ReadBitsResponseImpl<function_code, request_t, response_t>::clone() const
+{
+    return std::make_unique<ReadBitsResponseImpl>(m_response);
+}
+
+template <uint8_t function_code, typename request_t, typename response_t>
+bool ReadBitsResponseImpl<function_code, request_t, response_t>::is_valid() const
+{
+    // TODO: implement this
+    return true;
+}
+
+template <uint8_t function_code, typename request_t, typename response_t>
+size_t ReadBitsResponseImpl<function_code, request_t, response_t>::get_message_length() const
+{
+    auto num_bytes = m_response.values.size() / 8;
+    if(m_response.values.size() % 8 != 0)
+    {
+        ++num_bytes;
+    }
+    return 2 + num_bytes;
+}
+
+template <uint8_t function_code, typename request_t, typename response_t>
+void ReadBitsResponseImpl<function_code, request_t, response_t>::build_message(ser4cpp::wseq_t& buffer) const
+{
+    ser4cpp::UInt8::write_to(buffer, function_code); // Function code
+    ser4cpp::UInt8::write_to(buffer, static_cast<uint8_t>(get_message_length() - 2)); // Byte count
+
+    // Write the bytes of data
+    uint8_t current_byte = 0x00;
+    uint8_t current_offset = 0;
+    for(auto& value : m_response.values)
+    {
+        current_byte |= static_cast<uint8_t>(1) << current_offset;
+        ++current_offset;
+
+        if(current_offset == 8)
+        {
+            ser4cpp::UInt8::write_to(buffer, current_byte);
+            current_byte = 0x00;
+            current_offset = 0;
+        }
+    }
+    // Write final byte (if necessary)
+    if(current_offset != 0)
+    {
+        ser4cpp::UInt8::write_to(buffer, current_byte);
+    }
+}
+
+template <uint8_t function_code, typename request_t, typename response_t>
 Expected<response_t>
 ReadBitsResponseImpl<function_code, request_t, response_t>::parse(const ReadBitsRequestImpl<function_code, request_t>& req,
                                                                   const ser4cpp::rseq_t& data)

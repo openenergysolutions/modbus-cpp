@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "messages/IResponse.h"
+#include "messages/IMessage.h"
 
 #include "ser4cpp/serialization/BigEndian.h"
 #include "modbus/exceptions/MalformedModbusResponseException.h"
@@ -22,7 +22,7 @@
 namespace modbus
 {
 
-Expected<bool> IResponse::parse_function_code(uint8_t function_code, ser4cpp::rseq_t& data)
+Expected<bool> IMessage::parse_function_code(uint8_t function_code, ser4cpp::rseq_t& data)
 {
     // Check length for at least a function code
     if(data.length() < 1)

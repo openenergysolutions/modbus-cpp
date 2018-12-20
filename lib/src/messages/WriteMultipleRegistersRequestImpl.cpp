@@ -26,7 +26,7 @@ WriteMultipleRegistersRequestImpl::WriteMultipleRegistersRequestImpl(const Write
 
 }
 
-std::unique_ptr<IRequest> WriteMultipleRegistersRequestImpl::clone() const
+std::unique_ptr<IMessage> WriteMultipleRegistersRequestImpl::clone() const
 {
     return std::make_unique<WriteMultipleRegistersRequestImpl>(*this);
 }
@@ -37,12 +37,12 @@ bool WriteMultipleRegistersRequestImpl::is_valid() const
            m_request.values.size() <= m_request.max_registers;
 }
 
-size_t WriteMultipleRegistersRequestImpl::get_request_length() const
+size_t WriteMultipleRegistersRequestImpl::get_message_length() const
 {
     return 6 + 2 * m_request.values.size();
 }
 
-void WriteMultipleRegistersRequestImpl::build_request(ser4cpp::wseq_t& buffer) const
+void WriteMultipleRegistersRequestImpl::build_message(ser4cpp::wseq_t& buffer) const
 {
     ser4cpp::UInt8::write_to(buffer, 0x10); // Function code
     ser4cpp::UInt16::write_to(buffer, m_request.starting_address); // Starting address

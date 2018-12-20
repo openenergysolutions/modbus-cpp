@@ -42,6 +42,9 @@ public:
     void on_mbap(const MbapMessage& message, ITcpConnection& connection) final;
 
 private:
+    template<typename TRequest, typename TResponse>
+    void process_message(std::shared_ptr<IServerSession> session, const MbapMessage& message, ITcpConnection& connection);
+
     std::shared_ptr<Logger> m_logger;
     std::shared_ptr<exe4cpp::StrandExecutor> m_executor;
     std::shared_ptr<IServer> m_server;

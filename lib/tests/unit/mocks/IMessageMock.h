@@ -13,27 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef MODBUS_IREQUEST_H
-#define MODBUS_IREQUEST_H
+#ifndef MODBUS_REQUESTMOCK_H
+#define MODBUS_REQUESTMOCK_H
 
-#include <memory>
-#include "ser4cpp/container/SequenceTypes.h"
+#include "messages/IMessage.h"
 
-namespace modbus
-{
-
-class IRequest
+class IMessageMock : public modbus::IMessage
 {
 public:
-    virtual ~IRequest() = default;
+    IMessageMock(std::size_t length, uint8_t value, bool valid = true);
 
-    virtual std::unique_ptr<IRequest> clone() const = 0;
+    std::unique_ptr<modbus::IMessage> clone() const override;
 
-    virtual bool is_valid() const = 0;
-    virtual size_t get_request_length() const = 0;
-    virtual void build_request(ser4cpp::wseq_t& buffer) const = 0;
+    bool is_valid() const override;
+    size_t get_message_length() const override;
+    void build_message(ser4cpp::wseq_t& buffer) const override;
+
+public:
+    static modbus::Expected<bool> parse_function_code(uint8_t function_code, ser4cpp::rseq_t& data);
+
+private:
+    std::size_t m_length;
+    uint8_t m_value;
+    bool m_valid;
 };
 
-} // namespace modbus
-
-#endif //MODBUS_IREQUEST_H
+#endif //MODBUS_REQUESTMOCK_H
