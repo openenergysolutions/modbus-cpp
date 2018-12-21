@@ -13,26 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef MODBUS_SERVERCONNECTIONLISTENERBUILDER_H
-#define MODBUS_SERVERCONNECTIONLISTENERBUILDER_H
+#ifndef MODBUS_ASIOSERVERWRAPPER_H
+#define MODBUS_ASIOSERVERWRAPPER_H
 
-#include "server/channel/IServerChannelImpl.h"
-#include "server/channel/IServerConnectionListenerBuilder.h"
+#include <memory>
 
-namespace modbus
-{
+#include "server/channel/AsioServer.h"
 
-class ServerConnectionListenerBuilder : public IServerConnectionListenerBuilder
+class AsioServerWrapper
 {
 public:
-    ServerConnectionListenerBuilder(std::weak_ptr<IServerChannelImpl> channel);
+    AsioServerWrapper(std::shared_ptr<modbus::AsioServer> server);
+    ~AsioServerWrapper();
 
-    std::unique_ptr<IConnectionListener> build(std::shared_ptr<ITcpConnection> connection) override;
+    std::shared_ptr<modbus::AsioServer> get();
+    modbus::AsioServer* operator->();
 
 private:
-    std::weak_ptr<IServerChannelImpl> m_channel;
+    std::shared_ptr<modbus::AsioServer> m_server;
 };
 
-} // namespace modbus
-
-#endif //MODBUS_SERVERCONNECTIONLISTENERBUILDER_H
+#endif //MODBUS_ASIOSERVERWRAPPER_H

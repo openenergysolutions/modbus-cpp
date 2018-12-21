@@ -40,38 +40,43 @@ class CustomSession : public IServerSession
 
 int main(int argc, char* argv[])
 {
-    // Create a console logger
-    auto logger = modbus::LoggerFactory::create_console_logger("Hello");
-
-    // Create the modbus manager
-    // This will create the necessary background threads
-    std::unique_ptr<IModbusManager> modbusManager = IModbusManager::create(logger);
-
-    // Create a TCP server channel
-    // Each channel has its own strand of execution
-    auto channel = modbusManager->create_server_tcp_channel("Example channel",
-                                                            Ipv4Endpoint{ "127.0.0.1", 502 });
-
-    // Create a custom session and add it to the channel
-    auto session = std::make_shared<CustomSession>();
-    channel->add_session(UnitIdentifier{0x01}, session);
-
-    // Start the server
-    channel->start();
-
-    while (true)
     {
-        char cmd;
-        std::cin >> cmd;
+        // Create a console logger
+        auto logger = modbus::LoggerFactory::create_console_logger("Hello");
 
-        switch (cmd)
+        // Create the modbus manager
+        // This will create the necessary background threads
+        std::unique_ptr<IModbusManager> modbusManager = IModbusManager::create(logger);
+
+        // Create a TCP server channel
+        // Each channel has its own strand of execution
+        auto channel = modbusManager->create_server_tcp_channel("Example channel",
+            Ipv4Endpoint{ "127.0.0.1", 502 });
+
+        // Create a custom session and add it to the channel
+        auto session = std::make_shared<CustomSession>();
+        channel->add_session(UnitIdentifier{ 0x01 }, session);
+
+        // Start the server
+        channel->start();
+
+        while (true)
         {
-        case 'q':
-            // Quit
-            return 0;
+            char cmd;
+            std::cin >> cmd;
 
-        default:
-            break;
+            switch (cmd)
+            {
+            case 'q':
+                // Quit
+                goto exit;
+
+            default:
+                break;
+            }
         }
     }
+
+exit:
+    return 0;
 }

@@ -20,8 +20,8 @@
 namespace modbus
 {
 
-ServerConnectionListenerBuilder::ServerConnectionListenerBuilder(std::shared_ptr<IServerChannelImpl> channel)
-    : m_channel{std::move(channel)}
+ServerConnectionListenerBuilder::ServerConnectionListenerBuilder(std::weak_ptr<IServerChannelImpl> channel)
+    : m_channel{channel}
 {
 
 }

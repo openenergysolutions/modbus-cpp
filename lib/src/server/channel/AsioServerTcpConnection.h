@@ -27,11 +27,14 @@
 namespace modbus
 {
 
+class AsioServer;
+
 class AsioServerTcpConnection : public ITcpConnection
 {
 public:
     AsioServerTcpConnection(std::shared_ptr<Logger> logger,
-                            std::shared_ptr<exe4cpp::StrandExecutor> executor);
+                            std::shared_ptr<exe4cpp::StrandExecutor> executor,
+                            std::weak_ptr<AsioServer> server);
 
     void set_listener(std::shared_ptr<IConnectionListener> listener) override;
     void send(const ser4cpp::rseq_t& data) override;
@@ -48,9 +51,11 @@ private:
     void begin_read();
     void send_buffer();
     void send_error(const std::string& message);
+    void notify_close();
 
     std::shared_ptr<Logger> m_logger;
     std::shared_ptr<exe4cpp::StrandExecutor> m_executor;
+    std::weak_ptr<AsioServer> m_server;
     asio::ip::tcp::socket m_tcp_socket;
 
     bool m_is_connected;

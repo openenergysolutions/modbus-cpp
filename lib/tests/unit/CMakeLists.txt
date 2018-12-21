@@ -2,6 +2,7 @@ cmake_minimum_required (VERSION 3.8)
 
 set(modbus_tests_headers
     ./mocks/AsioClientTcpConnectionWrapper.h
+    ./mocks/AsioServerWrapper.h
     ./mocks/ConnectionListenerMock.h
     ./mocks/IClientSessionMock.h
     ./mocks/IMessageMock.h
@@ -46,6 +47,7 @@ set(modbus_tests_src
     ./messages/mbap/MbapParserTest.cpp
 
     ./mocks/AsioClientTcpConnectionWrapper.cpp
+    ./mocks/AsioServerWrapper.cpp
     ./mocks/ConnectionListenerMock.cpp
     ./mocks/IMessageMock.cpp
     ./mocks/IClientSessionMock.cpp

@@ -17,6 +17,7 @@
 
 #include <functional>
 #include "IConnectionListener.h"
+#include "server/channel/AsioServer.h"
 
 using namespace std::placeholders;
 
@@ -24,9 +25,11 @@ namespace modbus
 {
 
 AsioServerTcpConnection::AsioServerTcpConnection(std::shared_ptr<Logger> logger,
-                                                 std::shared_ptr<exe4cpp::StrandExecutor> executor)
+                                                 std::shared_ptr<exe4cpp::StrandExecutor> executor,
+                                                 std::weak_ptr<AsioServer> server)
         : m_logger{logger},
           m_executor{executor},
+          m_server{server},
           m_tcp_socket{*executor->get_service()},
           m_is_connected{false}
 {
@@ -60,6 +63,7 @@ void AsioServerTcpConnection::close()
             std::error_code ec;
             m_tcp_socket.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
             m_tcp_socket.close(ec);
+            notify_close();
         }
     });
 }
@@ -142,6 +146,17 @@ void AsioServerTcpConnection::send_error(const std::string& message)
     if(m_connection_listener)
     {
         m_connection_listener->on_error(message);
+    }
+
+    notify_close();
+}
+
+void AsioServerTcpConnection::notify_close()
+{
+    auto server = m_server.lock();
+    if(server)
+    {
+        server->remove_connection(std::dynamic_pointer_cast<AsioServerTcpConnection>(shared_from_this()));
     }
 }
 

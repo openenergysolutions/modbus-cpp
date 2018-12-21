@@ -30,8 +30,8 @@ namespace modbus
 class ServerConnectionListener : public IConnectionListener, public IMbapSink
 {
 public:
-    ServerConnectionListener(std::shared_ptr<IServerChannelImpl> channel,
-                             std::shared_ptr<ITcpConnection> connection);
+    ServerConnectionListener(std::weak_ptr<IServerChannelImpl> channel,
+                             std::weak_ptr<ITcpConnection> connection);
 
     // IConnectionListener
     void on_write_done() override;
@@ -42,8 +42,8 @@ public:
     void on_mbap_message(const MbapMessage& message) override;
 
 private:
-    std::shared_ptr<IServerChannelImpl> m_channel;
-    std::shared_ptr<ITcpConnection> m_connection;
+    std::weak_ptr<IServerChannelImpl> m_channel;
+    std::weak_ptr<ITcpConnection> m_connection;
     MbapParser m_parser;
 };
 

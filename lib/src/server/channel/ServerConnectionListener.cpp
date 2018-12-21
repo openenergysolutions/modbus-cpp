@@ -3,10 +3,10 @@
 namespace modbus
 {
 
-ServerConnectionListener::ServerConnectionListener(std::shared_ptr<IServerChannelImpl> channel,
-                                                   std::shared_ptr<ITcpConnection> connection)
-    : m_channel{std::move(channel)},
-      m_connection{std::move(connection)},
+ServerConnectionListener::ServerConnectionListener(std::weak_ptr<IServerChannelImpl> channel,
+                                                   std::weak_ptr<ITcpConnection> connection)
+    : m_channel{channel},
+      m_connection{connection},
       m_parser{this}
 {
 
@@ -29,7 +29,12 @@ void ServerConnectionListener::on_error(const std::string& message)
 
 void ServerConnectionListener::on_mbap_message(const MbapMessage& message)
 {
-    m_channel->on_mbap(message, *m_connection);
+    auto channel = m_channel.lock();
+    auto connection = m_connection.lock();
+    if(channel && connection)
+    {
+        channel->on_mbap(message, *connection);
+    }
 }
 
 } // namespace modbus

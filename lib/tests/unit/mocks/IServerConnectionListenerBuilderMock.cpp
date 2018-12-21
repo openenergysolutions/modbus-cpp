@@ -19,18 +19,34 @@
 
 using namespace modbus;
 
-IServerConnectionListenerBuilderMock::IServerConnectionListenerBuilderMock()
-    : m_num_connections{0}
+IServerConnectionListenerBuilderMock::IServerConnectionListenerBuilderMock(exe4cpp::duration_t timeout)
+    : m_timeout{timeout},
+      m_pending_connection{false},
+      m_num_connections{0}
 {
 
 }
 
 std::unique_ptr<IConnectionListener> IServerConnectionListenerBuilderMock::build(std::shared_ptr<ITcpConnection> connection)
 {
+    std::lock_guard<std::mutex> lock(m_connection_lock);
+    ++m_num_connections;
+    m_pending_connection = true;
+    m_connection_cv.notify_all();
+
     return std::make_unique<ConnectionListenerMock>();
 }
 
 unsigned int IServerConnectionListenerBuilderMock::get_num_connections() const
 {
     return m_num_connections;
+}
+
+bool  IServerConnectionListenerBuilderMock::wait_for_connection()
+{
+    std::unique_lock<std::mutex> lock(m_connection_lock);
+    auto result = m_connection_cv.wait_for(lock, m_timeout, [=]() { return m_pending_connection; });
+    m_pending_connection = false;
+
+    return result;
 }

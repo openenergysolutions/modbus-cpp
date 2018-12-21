@@ -16,18 +16,27 @@
 #ifndef MODBUS_ISERVERCONNECTIONLISTENERBUILDERMOCK_H
 #define MODBUS_ISERVERCONNECTIONLISTENERBUILDERMOCK_H
 
+#include <condition_variable>
+#include <mutex>
+#include "exe4cpp/Typedefs.h"
+
 #include "server/channel/IServerConnectionListenerBuilder.h"
 
 class IServerConnectionListenerBuilderMock : public modbus::IServerConnectionListenerBuilder
 {
 public:
-    IServerConnectionListenerBuilderMock();
+    IServerConnectionListenerBuilderMock(exe4cpp::duration_t timeout);
 
     std::unique_ptr<modbus::IConnectionListener> build(std::shared_ptr<modbus::ITcpConnection> connection) override;
 
     unsigned int get_num_connections() const;
+    bool wait_for_connection();
 
 private:
+    exe4cpp::duration_t m_timeout;
+    std::mutex m_connection_lock;
+    std::condition_variable m_connection_cv;
+    bool m_pending_connection;
     unsigned int m_num_connections;
 };
 

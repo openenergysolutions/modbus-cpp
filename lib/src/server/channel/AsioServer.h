@@ -36,9 +36,14 @@ public:
                std::shared_ptr<exe4cpp::StrandExecutor> executor,
                const Ipv4Endpoint& endpoint,
                const unsigned int max_connections);
+    virtual ~AsioServer();
 
     void start(std::shared_ptr<IServerConnectionListenerBuilder> connection_listener_builder) override;
     void shutdown() override;
+
+    void remove_connection(std::shared_ptr<AsioServerTcpConnection> connection);
+
+    size_t get_num_connections() const;
 
 private:
     void start_accept();
@@ -49,7 +54,8 @@ private:
     unsigned int m_max_connections;
     asio::ip::tcp::acceptor m_tcp_acceptor;
     std::shared_ptr<IServerConnectionListenerBuilder> m_connection_listener_builder;
-    std::list<std::weak_ptr<AsioServerTcpConnection>> m_connections;
+    std::list<std::shared_ptr<AsioServerTcpConnection>> m_connections;
+    unsigned int m_num_connections;
 };
 
 } // namespace modbus
