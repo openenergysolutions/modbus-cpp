@@ -26,7 +26,7 @@ ServerConnectionListenerBuilder::ServerConnectionListenerBuilder(std::weak_ptr<I
 
 }
 
-std::unique_ptr<IConnectionListener> ServerConnectionListenerBuilder::build(std::shared_ptr<ITcpConnection> connection)
+std::unique_ptr<IConnectionListener> ServerConnectionListenerBuilder::build(std::weak_ptr<ITcpConnection> connection)
 {
     return std::make_unique<ServerConnectionListener>(m_channel, connection);
 }

@@ -30,3 +30,11 @@ std::ostream& operator<<(std::ostream& stream, const UnitIdentifier& unit_id)
 }
 
 } // namespace modbus
+
+namespace std
+{
+    size_t hash<modbus::UnitIdentifier>::operator()(const modbus::UnitIdentifier& unit_identifier) const
+    {
+        return hash<unsigned int>()(unit_identifier.get_value());
+    }
+} // namespace std

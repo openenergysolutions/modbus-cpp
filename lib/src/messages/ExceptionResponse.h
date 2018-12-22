@@ -13,26 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef MODBUS_SERVERCONNECTIONLISTENERBUILDER_H
-#define MODBUS_SERVERCONNECTIONLISTENERBUILDER_H
+#ifndef MODBUS_EXCEPTIONRESPONSE_H
+#define MODBUS_EXCEPTIONRESPONSE_H
 
-#include "server/channel/IServerChannelImpl.h"
-#include "server/channel/IServerConnectionListenerBuilder.h"
+#include "modbus/messages/ExceptionType.h"
+#include "messages/IMessage.h"
 
 namespace modbus
 {
 
-class ServerConnectionListenerBuilder : public IServerConnectionListenerBuilder
+class ExceptionResponse : public IMessage
 {
 public:
-    ServerConnectionListenerBuilder(std::weak_ptr<IServerChannelImpl> channel);
+    ExceptionResponse(uint8_t function_code, const ExceptionType& exception);
 
-    std::unique_ptr<IConnectionListener> build(std::weak_ptr<ITcpConnection> connection) override;
+    std::unique_ptr<IMessage> clone() const override;
+
+    bool is_valid() const override;
+    size_t get_message_length() const override;
+    void build_message(ser4cpp::wseq_t& buffer) const override;
 
 private:
-    std::weak_ptr<IServerChannelImpl> m_channel;
+    uint8_t m_function_code;
+    ExceptionType m_exception;
 };
 
 } // namespace modbus
 
-#endif //MODBUS_SERVERCONNECTIONLISTENERBUILDER_H
+#endif //MODBUS_EXCEPTIONRESPONSE_H

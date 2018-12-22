@@ -66,6 +66,7 @@ set(modbus_private_headers
     ./src/logging/Logger.h
     ./src/logging/LoggingLevelConversion.h
 
+    ./src/messages/ExceptionResponse.h
     ./src/messages/IMessage.h
     ./src/messages/ReadBitsRequestImpl.h
     ./src/messages/ReadBitsResponseImpl.h
@@ -118,6 +119,7 @@ set(modbus_src
     ./src/logging/LoggerFactory.cpp
 
     ./src/messages/ExceptionType.cpp
+    ./src/messages/ExceptionResponse.cpp
     ./src/messages/IMessage.cpp
     ./src/messages/ReadBitsRequestImpl.cpp
     ./src/messages/ReadBitsResponseImpl.cpp

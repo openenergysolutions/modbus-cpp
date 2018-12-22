@@ -14,7 +14,7 @@ ServerConnectionListener::ServerConnectionListener(std::weak_ptr<IServerChannelI
 
 void ServerConnectionListener::on_write_done()
 {
-
+    // Not used
 }
 
 void ServerConnectionListener::on_receive(const ser4cpp::rseq_t& data)
@@ -24,7 +24,7 @@ void ServerConnectionListener::on_receive(const ser4cpp::rseq_t& data)
 
 void ServerConnectionListener::on_error(const std::string& message)
 {
-
+    m_parser.reset();
 }
 
 void ServerConnectionListener::on_mbap_message(const MbapMessage& message)

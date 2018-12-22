@@ -27,7 +27,7 @@ IServerConnectionListenerBuilderMock::IServerConnectionListenerBuilderMock(exe4c
 
 }
 
-std::unique_ptr<IConnectionListener> IServerConnectionListenerBuilderMock::build(std::shared_ptr<ITcpConnection> connection)
+std::unique_ptr<IConnectionListener> IServerConnectionListenerBuilderMock::build(std::weak_ptr<ITcpConnection> connection)
 {
     std::lock_guard<std::mutex> lock(m_connection_lock);
     ++m_num_connections;

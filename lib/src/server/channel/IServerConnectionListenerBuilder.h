@@ -29,7 +29,7 @@ class IServerConnectionListenerBuilder
 public:
     virtual ~IServerConnectionListenerBuilder() = default;
 
-    virtual std::unique_ptr<IConnectionListener> build(std::shared_ptr<ITcpConnection> connection) = 0;
+    virtual std::unique_ptr<IConnectionListener> build(std::weak_ptr<ITcpConnection> connection) = 0;
 };
 
 } // namespace modbus

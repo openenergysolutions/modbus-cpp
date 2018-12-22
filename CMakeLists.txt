@@ -26,6 +26,7 @@ add_subdirectory(./deps/catch2 EXCLUDE_FROM_ALL)
 add_subdirectory(./deps/ser4cpp EXCLUDE_FROM_ALL)
 add_subdirectory(./deps/exe4cpp EXCLUDE_FROM_ALL)
 add_subdirectory(./deps/spdlog EXCLUDE_FROM_ALL)
+add_subdirectory(./deps/trompeloeil EXCLUDE_FROM_ALL)
 
 # Add projects
 add_subdirectory(./lib)

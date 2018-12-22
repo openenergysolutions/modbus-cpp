@@ -19,6 +19,7 @@
 #include "ser4cpp/container/StaticBuffer.h"
 #include "ser4cpp/serialization/BigEndian.h"
 
+#include "messages/ExceptionResponse.h"
 #include "messages/ReadCoilsRequestImpl.h"
 #include "messages/ReadCoilsResponseImpl.h"
 #include "server/channel/ServerConnectionListenerBuilder.h"
@@ -27,11 +28,12 @@ namespace modbus
 {
 
 ServerChannelTcp::ServerChannelTcp(std::shared_ptr<Logger> logger,
-                                   std::shared_ptr<exe4cpp::StrandExecutor> executor,
+                                   std::shared_ptr<exe4cpp::IExecutor> executor,
                                    std::shared_ptr<IServer> server)
     : m_logger{std::move(logger)},
       m_executor{std::move(executor)},
-      m_server{std::move(server)}
+      m_server{std::move(server)},
+      m_is_started{false}
 {
 
 }
@@ -43,12 +45,20 @@ ServerChannelTcp::~ServerChannelTcp()
 
 void ServerChannelTcp::start()
 {
-    m_server->start(std::make_shared<ServerConnectionListenerBuilder>(std::dynamic_pointer_cast<ServerChannelTcp>(shared_from_this())));
+    m_executor->post([=, self=shared_from_this()] {
+        m_server->start(std::make_shared<ServerConnectionListenerBuilder>(std::dynamic_pointer_cast<ServerChannelTcp>(shared_from_this())));
+        m_is_started = true;
+    });
 }
 
 void ServerChannelTcp::shutdown()
 {
-    m_server->shutdown();
+    if(m_is_started)
+    {
+        m_server->shutdown();
+        m_is_started = false;
+    }
+    
     for(auto session : m_sessions)
     {
         session.second->shutdown();
@@ -58,7 +68,7 @@ void ServerChannelTcp::shutdown()
 
 void ServerChannelTcp::add_session(const UnitIdentifier& unit_identifier, std::shared_ptr<IServerSession> session)
 {
-    m_executor->post([=]() {
+    m_executor->post([=, self=shared_from_this()]() {
         m_sessions.insert({unit_identifier, session});
     });
 }
@@ -80,11 +90,11 @@ void ServerChannelTcp::on_mbap(const MbapMessage& message, ITcpConnection& conne
         switch(function_code)
         {
         case 0x01:
-            process_message<ReadCoilsRequestImpl, ReadCoilsResponseImpl>(it->second, message, connection);
+            process_message<ReadCoilsRequestImpl, ReadCoilsResponseImpl>(it->second, message, function_code, connection);
             break;
         default:
             m_logger->warn("Received unsupported function code: {}", function_code);
-            // TODO: return appropriate response
+            send_message(connection, message.unit_id, message.transaction_id, ExceptionResponse{function_code, ExceptionType::IllegalFunction});
         }
     }
     else
@@ -94,7 +104,10 @@ void ServerChannelTcp::on_mbap(const MbapMessage& message, ITcpConnection& conne
 }
 
 template<typename TRequest, typename TResponse>
-void ServerChannelTcp::process_message(std::shared_ptr<IServerSession> session, const MbapMessage& message, ITcpConnection& connection)
+void ServerChannelTcp::process_message(std::shared_ptr<IServerSession> session,
+                                       const MbapMessage& message,
+                                       uint8_t function_code,
+                                       ITcpConnection& connection)
 {
     // Parse the request
     auto parse_result = TRequest::parse(message.data);
@@ -109,18 +122,36 @@ void ServerChannelTcp::process_message(std::shared_ptr<IServerSession> session, 
     auto response_result = session->on_request(request);
     if(!response_result.is_valid())
     {
-        // TODO: do something
+        // If the user returned a Modbus exception, then send the exception
+        if(response_result.has_exception<ModbusException>())
+        {
+            auto exception = response_result.get_exception<ModbusException>();
+            ExceptionResponse response{function_code, exception.get_exception_type()};
+            send_message(connection, message.unit_id, message.transaction_id, response);
+        }
+
+        // Otherwise, we send nothing
         return;
     }
-    auto response = response_result.get();
 
-    // Build the response and send it to the connection
+    // Build the response
+    auto response = response_result.get();
     TResponse formatted_response{response};
+
+    // Send the response to the connection
+    send_message(connection, message.unit_id, message.transaction_id, formatted_response);
+}
+
+void ServerChannelTcp::send_message(ITcpConnection& connection,
+                                    const UnitIdentifier& unit_id,
+                                    const TransactionIdentifier& transaction_id,
+                                    const IMessage& message)
+{
     ser4cpp::StaticBuffer<uint32_t, 260> buffer;
     auto response_view = buffer.as_wseq();
-    auto serialized_request = MbapMessage::build_message(message.unit_id,
-                                                         message.transaction_id,
-                                                         formatted_response,
+    auto serialized_request = MbapMessage::build_message(unit_id,
+                                                         transaction_id,
+                                                         message,
                                                          response_view);
     connection.send(serialized_request);
 }

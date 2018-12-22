@@ -32,7 +32,7 @@ class ServerChannelTcp final : public IServerChannelImpl
 {
 public:
     ServerChannelTcp(std::shared_ptr<Logger> logger,
-                     std::shared_ptr<exe4cpp::StrandExecutor> executor,
+                     std::shared_ptr<exe4cpp::IExecutor> executor,
                      std::shared_ptr<IServer> server);
     ~ServerChannelTcp();
 
@@ -43,11 +43,20 @@ public:
 
 private:
     template<typename TRequest, typename TResponse>
-    void process_message(std::shared_ptr<IServerSession> session, const MbapMessage& message, ITcpConnection& connection);
+    void process_message(std::shared_ptr<IServerSession> session,
+                         const MbapMessage& message,
+                         uint8_t function_code,
+                         ITcpConnection& connection);
+    void send_message(ITcpConnection& connection,
+                      const UnitIdentifier& unit_id,
+                      const TransactionIdentifier& transaction_id,
+                      const IMessage& message);
 
     std::shared_ptr<Logger> m_logger;
-    std::shared_ptr<exe4cpp::StrandExecutor> m_executor;
+    std::shared_ptr<exe4cpp::IExecutor> m_executor;
     std::shared_ptr<IServer> m_server;
+
+    bool m_is_started;
     std::unordered_map<UnitIdentifier, std::shared_ptr<IServerSession>> m_sessions;
 };
 

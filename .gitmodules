@@ -19,3 +19,6 @@
 [submodule "deps/licenseheaders"]
 	path = deps/licenseheaders
 	url = https://github.com/johann-petrak/licenseheaders.git
+[submodule "deps/trompeloeil/trompeloeil"]
+	path = deps/trompeloeil/trompeloeil
+	url = https://github.com/rollbear/trompeloeil.git

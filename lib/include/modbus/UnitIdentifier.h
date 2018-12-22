@@ -105,11 +105,8 @@ namespace std
     template<>
     struct hash<modbus::UnitIdentifier>
     {
-        size_t operator()(const modbus::UnitIdentifier& unit_identifier) const
-        {
-            return hash<unsigned int>()(unit_identifier.get_value());
-        }
+        size_t operator()(const modbus::UnitIdentifier& unit_identifier) const;
     };
-}
+} // namespace std
 
 #endif //MODBUS_UNITIDENTIFIER_H

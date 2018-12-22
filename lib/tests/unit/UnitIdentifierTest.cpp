@@ -65,4 +65,20 @@ TEST_CASE("UnitIdentifier")
             REQUIRE(oss.str() == "0x4C");
         }
     }
+
+    SECTION("std::hash returns same value when unit identifiers are equal")
+    {
+        UnitIdentifier first_unit_identifier{0x42};
+        UnitIdentifier second_unit_identifier{0x42};
+
+        REQUIRE(std::hash<UnitIdentifier>()(first_unit_identifier) == std::hash<UnitIdentifier>()(second_unit_identifier));
+    }
+
+    SECTION("std::hash returns different values when unit identifiers are different")
+    {
+        UnitIdentifier first_unit_identifier{0x22};
+        UnitIdentifier second_unit_identifier{0x42};
+
+        REQUIRE(std::hash<UnitIdentifier>()(first_unit_identifier) != std::hash<UnitIdentifier>()(second_unit_identifier));
+    }
 }

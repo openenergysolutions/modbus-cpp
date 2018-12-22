@@ -13,26 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef MODBUS_SERVERCONNECTIONLISTENERBUILDER_H
-#define MODBUS_SERVERCONNECTIONLISTENERBUILDER_H
+#ifndef MODBUS_ISERVERMOCK_H
+#define MODBUS_ISERVERMOCK_H
 
-#include "server/channel/IServerChannelImpl.h"
-#include "server/channel/IServerConnectionListenerBuilder.h"
+#include "trompeloeil.hpp"
 
-namespace modbus
-{
+#include "server/channel/IServer.h"
 
-class ServerConnectionListenerBuilder : public IServerConnectionListenerBuilder
+extern template struct trompeloeil::reporter<trompeloeil::specialized>;
+
+class IServerMock : public modbus::IServer
 {
 public:
-    ServerConnectionListenerBuilder(std::weak_ptr<IServerChannelImpl> channel);
-
-    std::unique_ptr<IConnectionListener> build(std::weak_ptr<ITcpConnection> connection) override;
-
-private:
-    std::weak_ptr<IServerChannelImpl> m_channel;
+    MAKE_MOCK1(start, void(std::shared_ptr<modbus::IServerConnectionListenerBuilder>), override);
+    MAKE_MOCK0(shutdown, void(), override);
 };
 
-} // namespace modbus
-
-#endif //MODBUS_SERVERCONNECTIONLISTENERBUILDER_H
+#endif //MODBUS_ISERVERMOCK_H

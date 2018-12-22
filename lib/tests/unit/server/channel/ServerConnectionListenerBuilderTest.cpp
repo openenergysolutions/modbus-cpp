@@ -13,29 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#define CATCH_CONFIG_MAIN
 #include "catch.hpp"
-#include "trompeloeil.hpp"
 
-namespace trompeloeil
-{
+#include <memory>
 
-template <>
-void reporter<specialized>::send(severity s, const char* file, unsigned long line, const char* msg)
+#include "server/channel/ServerConnectionListener.h"
+#include "server/channel/ServerConnectionListenerBuilder.h"
+#include "mocks/IServerChannelImplMock.h"
+#include "mocks/TcpConnectionMock.h"
+
+using namespace modbus;
+
+TEST_CASE("ServerConnectionListenerBuilder")
 {
-    std::ostringstream os;
-    if (line) os << file << ':' << line << '\n';
-    os << msg;
-    auto failure = os.str();
-    if (s == severity::fatal)
+    auto channel = std::make_shared<IServerChannelImplMock>();
+    auto connection = std::make_shared<TcpConnectionMock>();
+    ServerConnectionListenerBuilder builder{channel};
+
+    SECTION("When build, then return an instance of ServerConnectionListenerBuilder")
     {
-        FAIL(failure);
-    }
-    else
-    {
-        CAPTURE(failure);
-        CHECK(failure.empty());
+        auto result = builder.build(connection);
+
+        REQUIRE(dynamic_cast<ServerConnectionListener*>(result.get()) != nullptr);
     }
 }
-
-} // namespace trompeloeil

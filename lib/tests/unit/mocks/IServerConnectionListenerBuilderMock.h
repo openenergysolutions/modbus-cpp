@@ -27,7 +27,7 @@ class IServerConnectionListenerBuilderMock : public modbus::IServerConnectionLis
 public:
     IServerConnectionListenerBuilderMock(exe4cpp::duration_t timeout);
 
-    std::unique_ptr<modbus::IConnectionListener> build(std::shared_ptr<modbus::ITcpConnection> connection) override;
+    std::unique_ptr<modbus::IConnectionListener> build(std::weak_ptr<modbus::ITcpConnection> connection) override;
 
     unsigned int get_num_connections() const;
     bool wait_for_connection();

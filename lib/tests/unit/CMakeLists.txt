@@ -6,7 +6,10 @@ set(modbus_tests_headers
     ./mocks/ConnectionListenerMock.h
     ./mocks/IClientSessionMock.h
     ./mocks/IMessageMock.h
+    ./mocks/IServerChannelImplMock.h
     ./mocks/IServerConnectionListenerBuilderMock.h
+    ./mocks/IServerMock.h
+    ./mocks/IServerSessionMock.h
     ./mocks/MbapSinkMock.h
     ./mocks/TcpConnectionMock.h
     ./mocks/TestServer.h
@@ -24,6 +27,7 @@ set(modbus_tests_src
 
     ./client/session/ScheduledRequestTest.cpp
 
+    ./messages/ExceptionResponseTest.cpp
     ./messages/ExceptionTypeTest.cpp
     ./messages/IMessageTest.cpp
     ./messages/ReadCoilsRequestImplTest.cpp
@@ -51,18 +55,22 @@ set(modbus_tests_src
     ./mocks/ConnectionListenerMock.cpp
     ./mocks/IMessageMock.cpp
     ./mocks/IClientSessionMock.cpp
+    ./mocks/IServerChannelImplMock.cpp
     ./mocks/IServerConnectionListenerBuilderMock.cpp
     ./mocks/MbapSinkMock.cpp
     ./mocks/TcpConnectionMock.cpp
     ./mocks/TestServer.cpp
 
     ./server/channel/AsioServerTest.cpp
+    ./server/channel/ServerChannelTcpTest.cpp
+    ./server/channel/ServerConnectionListenerBuilderTest.cpp
+    ./server/channel/ServerConnectionListenerTest.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${modbus_tests_headers} ${modbus_tests_src})
 
 add_executable(modbus_tests ${modbus_tests_headers} ${modbus_tests_src})
-target_link_libraries(modbus_tests PRIVATE modbus-cpp catch2 spdlog exe4cpp ser4cpp)
+target_link_libraries(modbus_tests PRIVATE modbus-cpp catch2 trompeloeil spdlog exe4cpp ser4cpp)
 
 target_include_directories(modbus_tests
     PRIVATE ./ ../../src
