@@ -22,6 +22,12 @@
 #include "messages/ExceptionResponse.h"
 #include "messages/ReadCoilsRequestImpl.h"
 #include "messages/ReadCoilsResponseImpl.h"
+#include "messages/ReadDiscreteInputsRequestImpl.h"
+#include "messages/ReadDiscreteInputsResponseImpl.h"
+#include "messages/ReadHoldingRegistersRequestImpl.h"
+#include "messages/ReadHoldingRegistersResponseImpl.h"
+#include "messages/ReadInputRegistersRequestImpl.h"
+#include "messages/ReadInputRegistersResponseImpl.h"
 #include "server/channel/ServerConnectionListenerBuilder.h"
 
 namespace modbus
@@ -91,6 +97,15 @@ void ServerChannelTcp::on_mbap(const MbapMessage& message, ITcpConnection& conne
         {
         case 0x01:
             process_message<ReadCoilsRequestImpl, ReadCoilsResponseImpl>(it->second, message, function_code, connection);
+            break;
+        case 0x02:
+            process_message<ReadDiscreteInputsRequestImpl, ReadDiscreteInputsResponseImpl>(it->second, message, function_code, connection);
+            break;
+        case 0x03:
+            process_message<ReadHoldingRegistersRequestImpl, ReadHoldingRegistersResponseImpl>(it->second, message, function_code, connection);
+            break;
+        case 0x04:
+            process_message<ReadInputRegistersRequestImpl, ReadInputRegistersResponseImpl>(it->second, message, function_code, connection);
             break;
         default:
             m_logger->warn("Received unsupported function code: {}", function_code);

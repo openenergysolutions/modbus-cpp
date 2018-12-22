@@ -15,7 +15,9 @@
  */
 #include "catch.hpp"
 
+#include <array>
 #include "ser4cpp/container/Buffer.h"
+#include "modbus/exceptions/MalformedModbusRequestException.h"
 #include "messages/ReadDiscreteInputsRequestImpl.h"
 
 using namespace modbus;
@@ -73,5 +75,51 @@ TEST_CASE("ReadDiscreteInputsRequestImpl")
         ReadDiscreteInputsRequestImpl request_impl(request);
 
         REQUIRE(request_impl.is_valid() == false);
+    }
+
+    SECTION("Parse")
+    {
+        SECTION("When proper request, then parse it properly") {
+            std::array<uint8_t, 5> proper_request{{
+                0x02,       // Function code
+                0x12, 0x34, // Starting address
+                0x01, 0x23, // Quantity of outputs
+            }};
+            ser4cpp::rseq_t buffer{proper_request.data(), proper_request.size()};
+
+            auto result = ReadDiscreteInputsRequestImpl::parse(buffer);
+
+            REQUIRE(result.is_valid() == true);
+            auto request = result.get();
+            REQUIRE(request.starting_address == 0x1234);
+            REQUIRE(request.qty_of_bits == 0x0123);
+        }
+
+        SECTION("When wrong size request, then return malformed exception")
+        {
+            std::array<uint8_t, 3> wrong_size_request{{
+                0x02, // Function code
+                0x42, 0x42 // Random data
+            }};
+            ser4cpp::rseq_t buffer{wrong_size_request.data(), wrong_size_request.size()};
+
+            auto result = ReadDiscreteInputsRequestImpl::parse(buffer);
+
+            REQUIRE(result.has_exception<MalformedModbusRequestException>() == true);
+        }
+
+        SECTION("When wrong function code, then return malformed exception")
+        {
+            std::array<uint8_t, 5> wrong_function_code_request{{
+                0x42,       // Wrong function code
+                0x12, 0x34, // Starting address
+                0x01, 0x23, // Quantity of outputs
+            }};
+            ser4cpp::rseq_t buffer{wrong_function_code_request.data(), wrong_function_code_request.size()};
+
+            auto result = ReadDiscreteInputsRequestImpl::parse(buffer);
+
+            REQUIRE(result.has_exception<MalformedModbusRequestException>() == true);
+        }
     }
 }

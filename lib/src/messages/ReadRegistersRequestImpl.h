@@ -37,6 +37,9 @@ public:
 
     const request_t& get_request() const;
 
+public:
+    static Expected<request_t> parse(const ser4cpp::rseq_t& data);
+
 private:
     request_t m_request;
 };

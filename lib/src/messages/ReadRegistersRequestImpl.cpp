@@ -16,6 +16,7 @@
 #include "messages/ReadRegistersRequestImpl.h"
 
 #include "ser4cpp/serialization/BigEndian.h"
+#include "modbus/exceptions/MalformedModbusRequestException.h"
 
 namespace modbus
 {
@@ -58,6 +59,39 @@ template <uint8_t function_code, typename request_t>
 const request_t& ReadRegistersRequestImpl<function_code, request_t>::get_request() const
 {
     return m_request;
+}
+
+template <uint8_t function_code, typename request_t>
+Expected<request_t> ReadRegistersRequestImpl<function_code, request_t>::parse(const ser4cpp::rseq_t& data)
+{
+    auto view = data;
+
+    // Check length
+    if(view.length() != 5)
+    {
+        return Expected<request_t>::from_exception(MalformedModbusRequestException{"Request does not have the expected length."});
+    }
+
+    // Check the function code
+    uint8_t read_function_code;
+    ser4cpp::UInt8::read_from(view, read_function_code);
+    if(read_function_code != function_code)
+    {
+        return Expected<request_t>::from_exception(MalformedModbusRequestException{"Unexpected function code."});
+    }
+
+    // Read starting address
+    uint16_t starting_address;
+    ser4cpp::UInt16::read_from(view, starting_address);
+
+    // Read quantity of registers
+    uint16_t qty_of_registers;
+    ser4cpp::UInt16::read_from(view, qty_of_registers);
+    
+    request_t request;
+    request.starting_address = starting_address;
+    request.qty_of_registers = qty_of_registers;
+    return Expected<request_t>(request);
 }
 
 template class ReadRegistersRequestImpl<0x03, ReadHoldingRegistersRequest>;

@@ -84,7 +84,7 @@ Expected<request_t> ReadBitsRequestImpl<function_code, request_t>::parse(const s
     uint16_t starting_address;
     ser4cpp::UInt16::read_from(view, starting_address);
 
-    // Read quantity of coils
+    // Read quantity of bits
     uint16_t qty_of_bits;
     ser4cpp::UInt16::read_from(view, qty_of_bits);
     

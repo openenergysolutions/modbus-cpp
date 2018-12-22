@@ -22,7 +22,13 @@
 
 #include "modbus/logging/LoggerFactory.h"
 #include "modbus/messages/ReadCoilsResponse.h"
+#include "modbus/messages/ReadDiscreteInputsResponse.h"
+#include "modbus/messages/ReadHoldingRegistersResponse.h"
+#include "modbus/messages/ReadInputRegistersResponse.h"
 #include "messages/ReadCoilsRequestImpl.h"
+#include "messages/ReadDiscreteInputsRequestImpl.h"
+#include "messages/ReadHoldingRegistersRequestImpl.h"
+#include "messages/ReadInputRegistersRequestImpl.h"
 #include "server/channel/ServerChannelTcp.h"
 #include "server/channel/ServerConnectionListenerBuilder.h"
 #include "mocks/IServerMock.h"
@@ -165,6 +171,90 @@ TEST_CASE("ServerChannelTcp")
                              connection);
 
                 check_response_and_exception_code(connection, unit_id, transaction_id, 0x81, 0x02);
+            }
+
+            SECTION("When receive a ReadDiscreteInputsRequest, then send appropriate response")
+            {
+                REQUIRE_CALL(*session, on_request(ANY(ReadDiscreteInputsRequest)))
+                    .RETURN(ReadDiscreteInputsResponse{});
+
+                send_message(unit_id,
+                             transaction_id,
+                             ReadDiscreteInputsRequestImpl{ReadDiscreteInputsRequest{}},
+                             channel,
+                             connection);
+
+                check_response_and_function_code(connection, unit_id, transaction_id, 0x02);
+            }
+
+            SECTION("When receive a ReadDiscreteInputsRequest and session returns exception, then send Modbus exception")
+            {
+                REQUIRE_CALL(*session, on_request(ANY(ReadDiscreteInputsRequest)))
+                    .RETURN(Expected<ReadDiscreteInputsResponse>::from_exception(ModbusException{ExceptionType::IllegalDataAddress}));
+
+                send_message(unit_id,
+                             transaction_id,
+                             ReadDiscreteInputsRequestImpl{ReadDiscreteInputsRequest{}},
+                             channel,
+                             connection);
+
+                check_response_and_exception_code(connection, unit_id, transaction_id, 0x82, 0x02);
+            }
+
+            SECTION("When receive a ReadHoldingRegistersRequest, then send appropriate response")
+            {
+                REQUIRE_CALL(*session, on_request(ANY(ReadHoldingRegistersRequest)))
+                    .RETURN(ReadHoldingRegistersResponse{});
+
+                send_message(unit_id,
+                             transaction_id,
+                             ReadHoldingRegistersRequestImpl{ReadHoldingRegistersRequest{}},
+                             channel,
+                             connection);
+
+                check_response_and_function_code(connection, unit_id, transaction_id, 0x03);
+            }
+
+            SECTION("When receive a ReadHoldingRegistersRequest and session returns exception, then send Modbus exception")
+            {
+                REQUIRE_CALL(*session, on_request(ANY(ReadHoldingRegistersRequest)))
+                    .RETURN(Expected<ReadHoldingRegistersResponse>::from_exception(ModbusException{ExceptionType::IllegalDataAddress}));
+
+                send_message(unit_id,
+                             transaction_id,
+                             ReadHoldingRegistersRequestImpl{ReadHoldingRegistersRequest{}},
+                             channel,
+                             connection);
+
+                check_response_and_exception_code(connection, unit_id, transaction_id, 0x83, 0x02);
+            }
+
+            SECTION("When receive a ReadInputRegistersRequest, then send appropriate response")
+            {
+                REQUIRE_CALL(*session, on_request(ANY(ReadInputRegistersRequest)))
+                    .RETURN(ReadInputRegistersResponse{});
+
+                send_message(unit_id,
+                             transaction_id,
+                             ReadInputRegistersRequestImpl{ReadInputRegistersRequest{}},
+                             channel,
+                             connection);
+
+                check_response_and_function_code(connection, unit_id, transaction_id, 0x04);
+            }
+
+            SECTION("When receive a ReadInputRegistersRequest and session returns exception, then send Modbus exception")
+            {
+                REQUIRE_CALL(*session, on_request(ANY(ReadInputRegistersRequest)))
+                    .RETURN(Expected<ReadInputRegistersResponse>::from_exception(ModbusException{ExceptionType::IllegalDataAddress}));
+
+                send_message(unit_id,
+                             transaction_id,
+                             ReadInputRegistersRequestImpl{ReadInputRegistersRequest{}},
+                             channel,
+                             connection);
+
+                check_response_and_exception_code(connection, unit_id, transaction_id, 0x84, 0x02);
             }
         }
     }
