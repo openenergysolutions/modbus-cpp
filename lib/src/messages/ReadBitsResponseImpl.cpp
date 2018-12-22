@@ -37,7 +37,6 @@ std::unique_ptr<IMessage> ReadBitsResponseImpl<function_code, request_t, respons
 template <uint8_t function_code, typename request_t, typename response_t>
 bool ReadBitsResponseImpl<function_code, request_t, response_t>::is_valid() const
 {
-    // TODO: implement this
     return true;
 }
 
@@ -63,7 +62,10 @@ void ReadBitsResponseImpl<function_code, request_t, response_t>::build_message(s
     uint8_t current_offset = 0;
     for(auto& value : m_response.values)
     {
-        current_byte |= static_cast<uint8_t>(1) << current_offset;
+        if(value.value)
+        {
+            current_byte |= static_cast<uint8_t>(1) << current_offset;
+        }
         ++current_offset;
 
         if(current_offset == 8)
