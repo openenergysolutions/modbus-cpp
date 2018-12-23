@@ -35,6 +35,9 @@ public:
 
     const WriteSingleRegisterRequest& get_request() const;
 
+public:
+    static Expected<WriteSingleRegisterRequest> parse(const ser4cpp::rseq_t& data);
+
 private:
     WriteSingleRegisterRequest m_request;
 };

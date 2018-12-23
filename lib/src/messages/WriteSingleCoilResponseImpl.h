@@ -28,8 +28,20 @@ namespace modbus
 class WriteSingleCoilResponseImpl : public IMessage
 {
 public:
+    explicit WriteSingleCoilResponseImpl(const WriteSingleCoilResponse& response);
+
+    std::unique_ptr<IMessage> clone() const override;
+
+    bool is_valid() const override;
+    size_t get_message_length() const override;
+    void build_message(ser4cpp::wseq_t& buffer) const override;
+
+public:
     static Expected<WriteSingleCoilResponse> parse(const WriteSingleCoilRequestImpl& req,
                                                    const ser4cpp::rseq_t& data);
+
+private:
+    WriteSingleCoilResponse m_response;
 };
 
 } // namespace modbus

@@ -16,6 +16,7 @@
 #include "messages/WriteSingleCoilRequestImpl.h"
 
 #include "ser4cpp/serialization/BigEndian.h"
+#include "modbus/exceptions/MalformedModbusRequestException.h"
 
 namespace modbus
 {
@@ -57,6 +58,53 @@ void WriteSingleCoilRequestImpl::build_message(ser4cpp::wseq_t& buffer) const
 const WriteSingleCoilRequest& WriteSingleCoilRequestImpl::get_request() const
 {
     return m_request;
+}
+
+Expected<WriteSingleCoilRequest> WriteSingleCoilRequestImpl::parse(const ser4cpp::rseq_t& data)
+{
+    auto view = data;
+
+    // Check length
+    if(view.length() != 5)
+    {
+        return Expected<WriteSingleCoilRequest>::from_exception(MalformedModbusRequestException{"Invalid request size."});
+    }
+
+    // Check function code and Modbus exceptions
+    uint8_t function_code;
+    ser4cpp::UInt8::read_from(view, function_code);
+    if(function_code != 0x05)
+    {
+        return Expected<WriteSingleCoilRequest>::from_exception(MalformedModbusRequestException{"Invalid function code size."});
+    }    
+
+    // Read address
+    uint16_t address;
+    ser4cpp::UInt16::read_from(view, address);
+
+    // Read value
+    uint16_t value;
+    ser4cpp::UInt16::read_from(view, value);
+
+    // Convert to boolean value
+    bool bool_value;
+    switch(value)
+    {
+        case WriteSingleCoilRequestImpl::ON:
+            bool_value = true;
+            break;
+
+        case WriteSingleCoilRequestImpl::OFF:
+            bool_value = false;
+            break;
+
+        default:
+            return Expected<WriteSingleCoilRequest>::from_exception(MalformedModbusRequestException{"Invalid coil state."});
+    }
+
+    // Return result
+    WriteSingleCoilRequest response{SingleBitValue{address, bool_value}};
+    return Expected<WriteSingleCoilRequest>(response);
 }
 
 } // namespace modbus

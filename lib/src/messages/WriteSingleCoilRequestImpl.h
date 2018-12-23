@@ -38,6 +38,9 @@ public:
 
     const WriteSingleCoilRequest& get_request() const;
 
+public:
+    static Expected<WriteSingleCoilRequest> parse(const ser4cpp::rseq_t& data);
+
 private:
     WriteSingleCoilRequest m_request;
 };

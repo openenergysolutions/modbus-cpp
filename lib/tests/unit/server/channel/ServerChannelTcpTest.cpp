@@ -25,10 +25,14 @@
 #include "modbus/messages/ReadDiscreteInputsResponse.h"
 #include "modbus/messages/ReadHoldingRegistersResponse.h"
 #include "modbus/messages/ReadInputRegistersResponse.h"
+#include "modbus/messages/WriteSingleCoilResponse.h"
+#include "modbus/messages/WriteSingleRegisterResponse.h"
 #include "messages/ReadCoilsRequestImpl.h"
 #include "messages/ReadDiscreteInputsRequestImpl.h"
 #include "messages/ReadHoldingRegistersRequestImpl.h"
 #include "messages/ReadInputRegistersRequestImpl.h"
+#include "messages/WriteSingleCoilRequestImpl.h"
+#include "messages/WriteSingleRegisterRequestImpl.h"
 #include "server/channel/ServerChannelTcp.h"
 #include "server/channel/ServerConnectionListenerBuilder.h"
 #include "mocks/IServerMock.h"
@@ -255,6 +259,62 @@ TEST_CASE("ServerChannelTcp")
                              connection);
 
                 check_response_and_exception_code(connection, unit_id, transaction_id, 0x84, 0x02);
+            }
+
+            SECTION("When receive a WriteSingleCoilRequest, then send appropriate response")
+            {
+                REQUIRE_CALL(*session, on_request(ANY(WriteSingleCoilRequest)))
+                    .RETURN(WriteSingleCoilResponse{});
+
+                send_message(unit_id,
+                             transaction_id,
+                             WriteSingleCoilRequestImpl{WriteSingleCoilRequest{}},
+                             channel,
+                             connection);
+
+                check_response_and_function_code(connection, unit_id, transaction_id, 0x05);
+            }
+
+            SECTION("When receive a WriteSingleCoilRequest and session returns exception, then send Modbus exception")
+            {
+                REQUIRE_CALL(*session, on_request(ANY(WriteSingleCoilRequest)))
+                    .RETURN(Expected<WriteSingleCoilResponse>::from_exception(ModbusException{ExceptionType::IllegalDataAddress}));
+
+                send_message(unit_id,
+                             transaction_id,
+                             WriteSingleCoilRequestImpl{WriteSingleCoilRequest{}},
+                             channel,
+                             connection);
+
+                check_response_and_exception_code(connection, unit_id, transaction_id, 0x85, 0x02);
+            }
+
+            SECTION("When receive a WriteSingleRegisterRequest, then send appropriate response")
+            {
+                REQUIRE_CALL(*session, on_request(ANY(WriteSingleRegisterRequest)))
+                    .RETURN(WriteSingleRegisterResponse{});
+
+                send_message(unit_id,
+                             transaction_id,
+                             WriteSingleRegisterRequestImpl{WriteSingleRegisterRequest{}},
+                             channel,
+                             connection);
+
+                check_response_and_function_code(connection, unit_id, transaction_id, 0x06);
+            }
+
+            SECTION("When receive a WriteSingleRegisterRequest and session returns exception, then send Modbus exception")
+            {
+                REQUIRE_CALL(*session, on_request(ANY(WriteSingleRegisterRequest)))
+                    .RETURN(Expected<WriteSingleRegisterResponse>::from_exception(ModbusException{ExceptionType::IllegalDataAddress}));
+
+                send_message(unit_id,
+                             transaction_id,
+                             WriteSingleRegisterRequestImpl{WriteSingleRegisterRequest{}},
+                             channel,
+                             connection);
+
+                check_response_and_exception_code(connection, unit_id, transaction_id, 0x86, 0x02);
             }
         }
     }

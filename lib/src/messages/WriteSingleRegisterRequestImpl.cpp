@@ -16,6 +16,7 @@
 #include "messages/WriteSingleRegisterRequestImpl.h"
 
 #include "ser4cpp/serialization/BigEndian.h"
+#include "modbus/exceptions/MalformedModbusRequestException.h"
 
 namespace modbus
 {
@@ -51,6 +52,37 @@ void WriteSingleRegisterRequestImpl::build_message(ser4cpp::wseq_t& buffer) cons
 const WriteSingleRegisterRequest& WriteSingleRegisterRequestImpl::get_request() const
 {
     return m_request;
+}
+
+Expected<WriteSingleRegisterRequest> WriteSingleRegisterRequestImpl::parse(const ser4cpp::rseq_t& data)
+{
+    auto view = data;
+
+    // Check length
+    if(view.length() != 5)
+    {
+        return Expected<WriteSingleRegisterRequest>::from_exception(MalformedModbusRequestException{"Invalid response size."});
+    }
+
+    // Check function code and Modbus exceptions
+    uint8_t function_code;
+    ser4cpp::UInt8::read_from(view, function_code);
+    if(function_code != 0x06)
+    {
+        return Expected<WriteSingleRegisterRequest>::from_exception(MalformedModbusRequestException{"Invalid function code."});
+    }    
+
+    // Read address
+    uint16_t address;
+    ser4cpp::UInt16::read_from(view, address);
+
+    // Read value
+    uint16_t value;
+    ser4cpp::UInt16::read_from(view, value);
+
+    // Return result
+    WriteSingleRegisterRequest response{RegisterValue{address, value}};
+    return Expected<WriteSingleRegisterRequest>(response);
 }
 
 } // namespace modbus

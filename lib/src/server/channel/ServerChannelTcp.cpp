@@ -28,6 +28,10 @@
 #include "messages/ReadHoldingRegistersResponseImpl.h"
 #include "messages/ReadInputRegistersRequestImpl.h"
 #include "messages/ReadInputRegistersResponseImpl.h"
+#include "messages/WriteSingleCoilRequestImpl.h"
+#include "messages/WriteSingleCoilResponseImpl.h"
+#include "messages/WriteSingleRegisterRequestImpl.h"
+#include "messages/WriteSingleRegisterResponseImpl.h"
 #include "server/channel/ServerConnectionListenerBuilder.h"
 
 namespace modbus
@@ -106,6 +110,12 @@ void ServerChannelTcp::on_mbap(const MbapMessage& message, ITcpConnection& conne
             break;
         case 0x04:
             process_message<ReadInputRegistersRequestImpl, ReadInputRegistersResponseImpl>(it->second, message, function_code, connection);
+            break;
+        case 0x05:
+            process_message<WriteSingleCoilRequestImpl, WriteSingleCoilResponseImpl>(it->second, message, function_code, connection);
+            break;
+        case 0x06:
+            process_message<WriteSingleRegisterRequestImpl, WriteSingleRegisterResponseImpl>(it->second, message, function_code, connection);
             break;
         default:
             m_logger->warn("Received unsupported function code: {}", function_code);

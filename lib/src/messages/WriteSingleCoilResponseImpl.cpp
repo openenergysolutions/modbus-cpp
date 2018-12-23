@@ -21,6 +21,40 @@
 namespace modbus
 {
 
+WriteSingleCoilResponseImpl::WriteSingleCoilResponseImpl(const WriteSingleCoilResponse& response)
+    : m_response{response}
+{
+
+}
+
+std::unique_ptr<IMessage> WriteSingleCoilResponseImpl::clone() const
+{
+    return std::make_unique<WriteSingleCoilResponseImpl>(m_response);
+}
+
+bool WriteSingleCoilResponseImpl::is_valid() const
+{
+    return true;
+}
+
+size_t WriteSingleCoilResponseImpl::get_message_length() const
+{
+    return 5;
+}
+
+void WriteSingleCoilResponseImpl::build_message(ser4cpp::wseq_t& buffer) const
+{
+    ser4cpp::UInt8::write_to(buffer, 0x05); // Function code
+    ser4cpp::UInt16::write_to(buffer, m_response.value.address); // Address
+
+    auto value = WriteSingleCoilRequestImpl::OFF;
+    if(m_response.value.value == true)
+    {
+        value = WriteSingleCoilRequestImpl::ON;
+    }
+    ser4cpp::UInt16::write_to(buffer, value); // Value
+}
+
 Expected<WriteSingleCoilResponse> WriteSingleCoilResponseImpl::parse(const WriteSingleCoilRequestImpl& req,
                                                                      const ser4cpp::rseq_t& data)
 {
