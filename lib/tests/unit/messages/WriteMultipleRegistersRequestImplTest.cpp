@@ -15,8 +15,10 @@
  */
 #include "catch.hpp"
 
+#include <array>
 #include <memory>
 #include "ser4cpp/container/Buffer.h"
+#include "modbus/exceptions/MalformedModbusRequestException.h"
 #include "messages/WriteMultipleRegistersRequestImpl.h"
 
 using namespace modbus;
@@ -92,5 +94,108 @@ TEST_CASE("WriteMultipleRegistersRequestImpl")
         WriteMultipleRegistersRequestImpl large_request_impl{large_request};
 
         REQUIRE(large_request_impl.is_valid() == false);
+    }
+
+    SECTION("Parse")
+    {
+        SECTION("When proper request, then parse it properly") {
+            std::array<uint8_t, 10> proper_request{{
+                0x10,       // Function code
+                0x12, 0x34, // Starting address
+                0x00, 0x02, // Quantity of registers (2)
+                0x04,       // Byte count (4)
+                0x12, 0x34,
+                0x56, 0x78  // Register values
+            }};
+            ser4cpp::rseq_t buffer{proper_request.data(), proper_request.size()};
+
+            auto result = WriteMultipleRegistersRequestImpl::parse(buffer);
+
+            REQUIRE(result.is_valid() == true);
+
+            auto response = result.get();
+            REQUIRE(response.starting_address == 0x1234);
+
+            auto values = response.values;
+            REQUIRE(values.size() == 2);
+            REQUIRE(values[0] == 0x1234);
+            REQUIRE(values[1] == 0x5678);
+        }
+
+        SECTION("When mismatch between quantity of registers and byte count, then parse report exception") {
+            std::array<uint8_t, 10> mismatch_request{{
+                0x10,       // Function code
+                0x12, 0x34, // Starting address
+                0x00, 0x02, // Quantity of registers (2)
+                0x02,       // Byte count (2, should be 4)
+                0x42, 0x42,
+                0x42, 0x42  // Register values
+            }};
+            ser4cpp::rseq_t buffer{mismatch_request.data(), mismatch_request.size()};
+
+            auto result = WriteMultipleRegistersRequestImpl::parse(buffer);
+
+            REQUIRE(result.has_exception<MalformedModbusRequestException>() == true);
+        }
+
+        SECTION("When mismatch between byte count and actual byte count, then parse report exception") {
+            std::array<uint8_t, 11> mismatch_request{{
+                0x10,       // Function code
+                0x12, 0x34, // Starting address
+                0x00, 0x02, // Quantity of registers (2)
+                0x04,       // Byte count (4)
+                0x42, 0x42,
+                0x42, 0x42,
+                0x42         // Extra register values
+            }};
+            ser4cpp::rseq_t buffer{mismatch_request.data(), mismatch_request.size()};
+
+            auto result = WriteMultipleRegistersRequestImpl::parse(buffer);
+
+            REQUIRE(result.has_exception<MalformedModbusRequestException>() == true);
+        }
+
+        SECTION("When invalid quantity of registers, then parse report exception") {
+            std::array<uint8_t, 254> invalid_quantity_of_registers_request{{
+                0x10,       // Function code
+                0x12, 0x34, // Starting address
+                0x00, 0x7C, // Invalid quantity of registers (124)
+                0xF8,       // Byte count (248)
+            }};
+            ser4cpp::rseq_t buffer{invalid_quantity_of_registers_request.data(), invalid_quantity_of_registers_request.size()};
+
+            auto result = WriteMultipleRegistersRequestImpl::parse(buffer);
+
+            REQUIRE(result.has_exception<MalformedModbusRequestException>() == true);
+        }
+
+        SECTION("When invalid function code, then parse report exception") {
+            std::array<uint8_t, 10> invalid_function_code_request{{
+                0x42,       // Function code
+                0x12, 0x34, // Starting address
+                0x00, 0x02, // Quantity of registers (12)
+                0x04,       // Byte count (4)
+                0x42, 0x42,
+                0x42, 0x42  // Register values
+            }};
+            ser4cpp::rseq_t buffer{invalid_function_code_request.data(), invalid_function_code_request.size()};
+
+            auto result = WriteMultipleRegistersRequestImpl::parse(buffer);
+
+            REQUIRE(result.has_exception<MalformedModbusRequestException>() == true);
+        }
+
+        SECTION("When request is too short, then parse report exception") {
+            std::array<uint8_t, 5> too_short_request{{
+                0x10,       // Function code
+                0x12, 0x34, // Starting address
+                0x00, 0x02, // Quantity of registers (2)
+            }};
+            ser4cpp::rseq_t buffer{too_short_request.data(), too_short_request.size()};
+
+            auto result = WriteMultipleRegistersRequestImpl::parse(buffer);
+
+            REQUIRE(result.has_exception<MalformedModbusRequestException>() == true);
+        }
     }
 }

@@ -36,6 +36,9 @@ public:
 
     const WriteMultipleRegistersRequest& get_request() const;
 
+public:
+    static Expected<WriteMultipleRegistersRequest> parse(const ser4cpp::rseq_t& data);
+
 private:
     WriteMultipleRegistersRequest m_request;
 };

@@ -21,6 +21,34 @@
 namespace modbus
 {
 
+WriteMultipleCoilsResponseImpl::WriteMultipleCoilsResponseImpl(const WriteMultipleCoilsResponse& response)
+    : m_response{response}
+{
+
+}
+
+std::unique_ptr<IMessage> WriteMultipleCoilsResponseImpl::clone() const
+{
+    return std::make_unique<WriteMultipleCoilsResponseImpl>(m_response);
+}
+
+bool WriteMultipleCoilsResponseImpl::is_valid() const
+{
+    return m_response.qty_of_coils >= 1 && m_response.qty_of_coils <= WriteMultipleCoilsRequest::max_coils;
+}
+
+size_t WriteMultipleCoilsResponseImpl::get_message_length() const
+{
+    return 5;
+}
+
+void WriteMultipleCoilsResponseImpl::build_message(ser4cpp::wseq_t& buffer) const
+{
+    ser4cpp::UInt8::write_to(buffer, 0x0F); // Function code
+    ser4cpp::UInt16::write_to(buffer, m_response.starting_address); // Starting address
+    ser4cpp::UInt16::write_to(buffer, m_response.qty_of_coils); // Quantity of coils
+}
+
 Expected<WriteMultipleCoilsResponse> WriteMultipleCoilsResponseImpl::parse(const WriteMultipleCoilsRequestImpl& req,
                                                                            const ser4cpp::rseq_t& data)
 {

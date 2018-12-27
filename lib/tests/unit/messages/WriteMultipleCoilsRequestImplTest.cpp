@@ -15,8 +15,10 @@
  */
 #include "catch.hpp"
 
+#include <array>
 #include <memory>
 #include "ser4cpp/container/Buffer.h"
+#include "modbus/exceptions/MalformedModbusRequestException.h"
 #include "messages/WriteMultipleCoilsRequestImpl.h"
 
 using namespace modbus;
@@ -116,5 +118,152 @@ TEST_CASE("WriteMultipleCoilsRequestImpl")
         WriteMultipleCoilsRequestImpl large_request_impl{large_request};
 
         REQUIRE(large_request_impl.is_valid() == false);
+    }
+
+    SECTION("Parse")
+    {
+        SECTION("When proper request, then parse it properly") {
+            std::array<uint8_t, 8> proper_request{{
+                0x0F,       // Function code
+                0x12, 0x34, // Starting address
+                0x00, 0x0C, // Quantity of outputs (12)
+                0x02,       // Byte count
+                0b01010101, 0b11110101, // Outputs value
+            }};
+            ser4cpp::rseq_t buffer{proper_request.data(), proper_request.size()};
+
+            auto result = WriteMultipleCoilsRequestImpl::parse(buffer);
+
+            REQUIRE(result.is_valid() == true);
+
+            auto response = result.get();
+            REQUIRE(response.starting_address == 0x1234);
+
+            auto values = response.values;
+            REQUIRE(values.size() == 12);
+            REQUIRE(values[0] == true);
+            REQUIRE(values[1] == false);
+            REQUIRE(values[2] == true);
+            REQUIRE(values[3] == false);
+            REQUIRE(values[4] == true);
+            REQUIRE(values[5] == false);
+            REQUIRE(values[6] == true);
+            REQUIRE(values[7] == false);
+            REQUIRE(values[8] == true);
+            REQUIRE(values[9] == false);
+            REQUIRE(values[10] == true);
+            REQUIRE(values[11] == false);
+        }
+
+        SECTION("When proper request with quantity of outputs multiple of 8, then parse it properly") {
+            std::array<uint8_t, 8> proper_request{{
+                0x0F,       // Function code
+                0x12, 0x34, // Starting address
+                0x00, 0x10, // Quantity of outputs (16)
+                0x02,       // Byte count
+                0b01010101, 0b11110101, // Outputs value
+            }};
+            ser4cpp::rseq_t buffer{proper_request.data(), proper_request.size()};
+
+            auto result = WriteMultipleCoilsRequestImpl::parse(buffer);
+
+            REQUIRE(result.is_valid() == true);
+
+            auto response = result.get();
+            REQUIRE(response.starting_address == 0x1234);
+
+            auto values = response.values;
+            REQUIRE(values.size() == 16);
+            REQUIRE(values[0] == true);
+            REQUIRE(values[1] == false);
+            REQUIRE(values[2] == true);
+            REQUIRE(values[3] == false);
+            REQUIRE(values[4] == true);
+            REQUIRE(values[5] == false);
+            REQUIRE(values[6] == true);
+            REQUIRE(values[7] == false);
+            REQUIRE(values[8] == true);
+            REQUIRE(values[9] == false);
+            REQUIRE(values[10] == true);
+            REQUIRE(values[11] == false);
+            REQUIRE(values[12] == true);
+            REQUIRE(values[13] == true);
+            REQUIRE(values[14] == true);
+            REQUIRE(values[15] == true);
+        }
+
+        SECTION("When mismatch between quantity of outputs and byte count, then parse report exception") {
+            std::array<uint8_t, 10> mismatch_request{{
+                0x0F,       // Function code
+                0x12, 0x34, // Starting address
+                0x00, 0x1F, // Quantity of outputs (31)
+                0x02,       // Byte count (2, should be 4)
+                0x42, 0x42,
+                0x42, 0x42  // Output values
+            }};
+            ser4cpp::rseq_t buffer{mismatch_request.data(), mismatch_request.size()};
+
+            auto result = WriteMultipleCoilsRequestImpl::parse(buffer);
+
+            REQUIRE(result.has_exception<MalformedModbusRequestException>() == true);
+        }
+
+        SECTION("When mismatch between byte count and actual byte count, then parse report exception") {
+            std::array<uint8_t, 10> mismatch_request{{
+                0x0F,       // Function code
+                0x12, 0x34, // Starting address
+                0x00, 0x0C, // Quantity of outputs (12)
+                0x02,       // Byte count
+                0x42, 0x42,
+                0x42, 0x42  // Output values (should only be 2 bytes)
+            }};
+            ser4cpp::rseq_t buffer{mismatch_request.data(), mismatch_request.size()};
+
+            auto result = WriteMultipleCoilsRequestImpl::parse(buffer);
+
+            REQUIRE(result.has_exception<MalformedModbusRequestException>() == true);
+        }
+
+        SECTION("When invalid quantity of outputs, then parse report exception") {
+            std::array<uint8_t, 257> invalid_quantity_of_outputs_request{{
+                0x0F,       // Function code
+                0x12, 0x34, // Starting address
+                0x07, 0xB1, // Invalid quantity of outputs (2001)
+                0xFB,       // Byte count (251)
+            }};
+            ser4cpp::rseq_t buffer{invalid_quantity_of_outputs_request.data(), invalid_quantity_of_outputs_request.size()};
+
+            auto result = WriteMultipleCoilsRequestImpl::parse(buffer);
+
+            REQUIRE(result.has_exception<MalformedModbusRequestException>() == true);
+        }
+
+        SECTION("When invalid function code, then parse report exception") {
+            std::array<uint8_t, 8> invalid_function_code_request{{
+                0x42,       // Function code
+                0x12, 0x34, // Starting address
+                0x00, 0x0C, // Quantity of outputs (12)
+                0x02,       // Byte count
+                0b01010101, 0b11110101, // Outputs value
+            }};
+            ser4cpp::rseq_t buffer{invalid_function_code_request.data(), invalid_function_code_request.size()};
+
+            auto result = WriteMultipleCoilsRequestImpl::parse(buffer);
+
+            REQUIRE(result.has_exception<MalformedModbusRequestException>() == true);
+        }
+
+        SECTION("When request is too short, then parse report exception") {
+            std::array<uint8_t, 5> too_short_request{{
+                0x0F,       // Function code
+                0x12, 0x34, // Starting address
+                0x00, 0x0C, // Quantity of outputs (12)
+            }};
+            ser4cpp::rseq_t buffer{too_short_request.data(), too_short_request.size()};
+
+            auto result = WriteMultipleCoilsRequestImpl::parse(buffer);
+
+            REQUIRE(result.has_exception<MalformedModbusRequestException>() == true);
+        }
     }
 }

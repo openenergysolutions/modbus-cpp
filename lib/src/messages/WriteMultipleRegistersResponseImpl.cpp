@@ -21,6 +21,34 @@
 namespace modbus
 {
 
+WriteMultipleRegistersResponseImpl::WriteMultipleRegistersResponseImpl(const WriteMultipleRegistersResponse& response)
+    : m_response{response}
+{
+
+}
+
+std::unique_ptr<IMessage> WriteMultipleRegistersResponseImpl::clone() const
+{
+    return std::make_unique<WriteMultipleRegistersResponseImpl>(*this);
+}
+
+bool WriteMultipleRegistersResponseImpl::is_valid() const
+{
+    return m_response.qty_of_registers >= 1 && m_response.qty_of_registers <= WriteMultipleRegistersRequest::max_registers;
+}
+
+size_t WriteMultipleRegistersResponseImpl::get_message_length() const
+{
+    return 5;
+}
+
+void WriteMultipleRegistersResponseImpl::build_message(ser4cpp::wseq_t& buffer) const
+{
+    ser4cpp::UInt8::write_to(buffer, 0x10); // Function code
+    ser4cpp::UInt16::write_to(buffer, m_response.starting_address); // Starting address
+    ser4cpp::UInt16::write_to(buffer, static_cast<uint16_t>(m_response.qty_of_registers)); // Qty of registers
+}
+
 Expected<WriteMultipleRegistersResponse> WriteMultipleRegistersResponseImpl::parse(const WriteMultipleRegistersRequestImpl& req,
                                                                                    const ser4cpp::rseq_t& data)
 {

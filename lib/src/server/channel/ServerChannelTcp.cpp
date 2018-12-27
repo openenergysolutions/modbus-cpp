@@ -28,6 +28,10 @@
 #include "messages/ReadHoldingRegistersResponseImpl.h"
 #include "messages/ReadInputRegistersRequestImpl.h"
 #include "messages/ReadInputRegistersResponseImpl.h"
+#include "messages/WriteMultipleCoilsRequestImpl.h"
+#include "messages/WriteMultipleCoilsResponseImpl.h"
+#include "messages/WriteMultipleRegistersRequestImpl.h"
+#include "messages/WriteMultipleRegistersResponseImpl.h"
 #include "messages/WriteSingleCoilRequestImpl.h"
 #include "messages/WriteSingleCoilResponseImpl.h"
 #include "messages/WriteSingleRegisterRequestImpl.h"
@@ -116,6 +120,12 @@ void ServerChannelTcp::on_mbap(const MbapMessage& message, ITcpConnection& conne
             break;
         case 0x06:
             process_message<WriteSingleRegisterRequestImpl, WriteSingleRegisterResponseImpl>(it->second, message, function_code, connection);
+            break;
+        case 0x0F:
+            process_message<WriteMultipleCoilsRequestImpl, WriteMultipleCoilsResponseImpl>(it->second, message, function_code, connection);
+            break;
+        case 0x10:
+            process_message<WriteMultipleRegistersRequestImpl, WriteMultipleRegistersResponseImpl>(it->second, message, function_code, connection);
             break;
         default:
             m_logger->warn("Received unsupported function code: {}", function_code);

@@ -25,12 +25,16 @@
 #include "modbus/messages/ReadDiscreteInputsResponse.h"
 #include "modbus/messages/ReadHoldingRegistersResponse.h"
 #include "modbus/messages/ReadInputRegistersResponse.h"
+#include "modbus/messages/WriteMultipleCoilsResponse.h"
+#include "modbus/messages/WriteMultipleRegistersResponse.h"
 #include "modbus/messages/WriteSingleCoilResponse.h"
 #include "modbus/messages/WriteSingleRegisterResponse.h"
 #include "messages/ReadCoilsRequestImpl.h"
 #include "messages/ReadDiscreteInputsRequestImpl.h"
 #include "messages/ReadHoldingRegistersRequestImpl.h"
 #include "messages/ReadInputRegistersRequestImpl.h"
+#include "messages/WriteMultipleCoilsRequestImpl.h"
+#include "messages/WriteMultipleRegistersRequestImpl.h"
 #include "messages/WriteSingleCoilRequestImpl.h"
 #include "messages/WriteSingleRegisterRequestImpl.h"
 #include "server/channel/ServerChannelTcp.h"
@@ -315,6 +319,62 @@ TEST_CASE("ServerChannelTcp")
                              connection);
 
                 check_response_and_exception_code(connection, unit_id, transaction_id, 0x86, 0x02);
+            }
+
+            SECTION("When receive a WriteMultipleCoilsRequest, then send appropriate response")
+            {
+                REQUIRE_CALL(*session, on_request(ANY(WriteMultipleCoilsRequest)))
+                    .RETURN(WriteMultipleCoilsResponse{});
+
+                send_message(unit_id,
+                             transaction_id,
+                             WriteMultipleCoilsRequestImpl{WriteMultipleCoilsRequest{0x1234, {true, false}}},
+                             channel,
+                             connection);
+
+                check_response_and_function_code(connection, unit_id, transaction_id, 0x0F);
+            }
+
+            SECTION("When receive a WriteMultipleCoilsRequest and session returns exception, then send Modbus exception")
+            {
+                REQUIRE_CALL(*session, on_request(ANY(WriteMultipleCoilsRequest)))
+                    .RETURN(Expected<WriteMultipleCoilsResponse>::from_exception(ModbusException{ExceptionType::IllegalDataAddress}));
+
+                send_message(unit_id,
+                             transaction_id,
+                             WriteMultipleCoilsRequestImpl{WriteMultipleCoilsRequest{0x1234, {true, false}}},
+                             channel,
+                             connection);
+
+                check_response_and_exception_code(connection, unit_id, transaction_id, 0x8F, 0x02);
+            }
+
+            SECTION("When receive a WriteMultipleRegistersRequest, then send appropriate response")
+            {
+                REQUIRE_CALL(*session, on_request(ANY(WriteMultipleRegistersRequest)))
+                    .RETURN(WriteMultipleRegistersResponse{});
+
+                send_message(unit_id,
+                             transaction_id,
+                             WriteMultipleRegistersRequestImpl{WriteMultipleRegistersRequest{0x1234, {0x1234, 0x5678}}},
+                             channel,
+                             connection);
+
+                check_response_and_function_code(connection, unit_id, transaction_id, 0x10);
+            }
+
+            SECTION("When receive a WriteMultipleRegistersRequest and session returns exception, then send Modbus exception")
+            {
+                REQUIRE_CALL(*session, on_request(ANY(WriteMultipleRegistersRequest)))
+                    .RETURN(Expected<WriteMultipleRegistersResponse>::from_exception(ModbusException{ExceptionType::IllegalDataAddress}));
+
+                send_message(unit_id,
+                             transaction_id,
+                             WriteMultipleRegistersRequestImpl{WriteMultipleRegistersRequest{0x1234, {0x1234, 0x5678}}},
+                             channel,
+                             connection);
+
+                check_response_and_exception_code(connection, unit_id, transaction_id, 0x90, 0x02);
             }
         }
     }

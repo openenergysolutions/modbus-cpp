@@ -28,8 +28,22 @@ namespace modbus
 class WriteMultipleCoilsResponseImpl : public IMessage
 {
 public:
+    WriteMultipleCoilsResponseImpl(const WriteMultipleCoilsResponse& response);
+
+    std::unique_ptr<IMessage> clone() const override;
+
+    bool is_valid() const override;
+    size_t get_message_length() const override;
+    void build_message(ser4cpp::wseq_t& buffer) const override;
+
+    const WriteMultipleCoilsResponse& get_request() const;
+
+public:
     static Expected<WriteMultipleCoilsResponse> parse(const WriteMultipleCoilsRequestImpl& req,
                                                       const ser4cpp::rseq_t& data);
+
+private:
+    WriteMultipleCoilsResponse m_response;
 };
 
 } // namespace modbus

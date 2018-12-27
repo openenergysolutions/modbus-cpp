@@ -61,7 +61,7 @@ Expected<WriteSingleRegisterRequest> WriteSingleRegisterRequestImpl::parse(const
     // Check length
     if(view.length() != 5)
     {
-        return Expected<WriteSingleRegisterRequest>::from_exception(MalformedModbusRequestException{"Invalid response size."});
+        return Expected<WriteSingleRegisterRequest>::from_exception(MalformedModbusRequestException{"Invalid request size."});
     }
 
     // Check function code and Modbus exceptions

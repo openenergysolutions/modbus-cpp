@@ -28,8 +28,22 @@ namespace modbus
 class WriteMultipleRegistersResponseImpl : public IMessage
 {
 public:
+    WriteMultipleRegistersResponseImpl(const WriteMultipleRegistersResponse& response);
+
+    std::unique_ptr<IMessage> clone() const override;
+
+    bool is_valid() const override;
+    size_t get_message_length() const override;
+    void build_message(ser4cpp::wseq_t& buffer) const override;
+
+    const WriteMultipleRegistersResponse& get_request() const;
+
+public:
     static Expected<WriteMultipleRegistersResponse> parse(const WriteMultipleRegistersRequestImpl& req,
                                                           const ser4cpp::rseq_t& data);
+
+private:
+    WriteMultipleRegistersResponse m_response;
 };
 
 } // namespace modbus

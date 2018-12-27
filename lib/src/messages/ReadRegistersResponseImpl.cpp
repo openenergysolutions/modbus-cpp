@@ -82,7 +82,7 @@ ReadRegistersResponseImpl<function_code, request_t, response_t>::parse(const Rea
     ser4cpp::UInt8::read_from(view, length);
     if(length % 2 != 0)
     {
-        return Expected<response_t>::from_exception(MalformedModbusResponseException{ "Response should contain an even number of register bytes." });
+        return Expected<response_t>::from_exception(MalformedModbusResponseException{"Response should contain an even number of register bytes."});
     }
 
     // Check that each number of registers match

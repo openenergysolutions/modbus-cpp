@@ -36,7 +36,12 @@ public:
 
     const WriteMultipleCoilsRequest& get_request() const;
 
+public:
+    static Expected<WriteMultipleCoilsRequest> parse(const ser4cpp::rseq_t& data);
+
 private:
+    static size_t get_byte_count_from_qty_of_outputs(size_t qty_of_outputs);
+
     WriteMultipleCoilsRequest m_request;
 };
 
