@@ -62,24 +62,24 @@ void ClientChannelTcp::send_request(const UnitIdentifier& unit_identifier,
                                     const duration_t& timeout,
                                     ResponseHandler<ser4cpp::rseq_t> response_handler)
 {
+    if(m_is_shutdown) return;
 
     if(request.is_valid())
     {
         std::shared_ptr<IMessage> req{request.clone()};
         m_executor->post([=, self = shared_from_this()]() {
-            if (!m_is_shutdown)
-            {
-                auto pending_request = std::make_unique<PendingRequest>(unit_identifier,
-                                                                        m_next_transaction_id,
-                                                                        *req,
-                                                                        timeout,
-                                                                        response_handler);
-                m_pending_requests.push_back(std::move(pending_request));
+            if(m_is_shutdown) return;
 
-                ++m_next_transaction_id;
+            auto pending_request = std::make_unique<PendingRequest>(unit_identifier,
+                                                                    m_next_transaction_id,
+                                                                    *req,
+                                                                    timeout,
+                                                                    response_handler);
+            m_pending_requests.push_back(std::move(pending_request));
 
-                check_pending_requests();
-            }
+            ++m_next_transaction_id;
+
+            check_pending_requests();
         });
     }
     else
@@ -93,8 +93,8 @@ void ClientChannelTcp::send_request(const UnitIdentifier& unit_identifier,
 
 void ClientChannelTcp::shutdown()
 {
-    m_logger->info("Shutting down.");
     m_executor->post([=, self = shared_from_this()] {
+        m_logger->info("Shutting down.");
         m_is_shutdown = true;
 
         for(auto& session : m_sessions)
@@ -107,12 +107,14 @@ void ClientChannelTcp::shutdown()
         m_current_request.reset(nullptr);
         m_current_timer.cancel();
 
-        m_tcp_connection->close();
+        m_tcp_connection->shutdown();
     });
 }
 
 void ClientChannelTcp::on_receive(const ser4cpp::rseq_t& data)
 {
+    if(m_is_shutdown) return;
+
     m_logger->debug("Received {} bytes of data.", data.length());
 
     m_parser.parse(data);
@@ -120,6 +122,8 @@ void ClientChannelTcp::on_receive(const ser4cpp::rseq_t& data)
 
 void ClientChannelTcp::on_error(const std::string& message)
 {
+    if(m_is_shutdown) return;
+
     m_logger->error("Error from TCP connection, cancelling all pending requests.");
 
     m_parser.reset();
@@ -135,6 +139,8 @@ void ClientChannelTcp::on_error(const std::string& message)
 
 void ClientChannelTcp::on_mbap_message(const MbapMessage& message)
 {
+    if(m_is_shutdown) return;
+    
     if(m_current_request)
     {
         if(message.transaction_id == m_current_request->transaction_id &&
@@ -163,6 +169,8 @@ void ClientChannelTcp::on_mbap_message(const MbapMessage& message)
 
 void ClientChannelTcp::check_pending_requests()
 {
+    if(m_is_shutdown) return;
+
     if(!m_current_request && !m_pending_requests.empty())
     {
         m_current_request = std::move(m_pending_requests.front());
@@ -185,6 +193,8 @@ void ClientChannelTcp::check_pending_requests()
         m_tcp_connection->send(serialized_request);
 
         m_current_timer = m_executor->start(m_current_request->timeout, [=, self = shared_from_this()]() {
+            if(m_is_shutdown) return;
+
             if (m_current_request)
             {
                 m_logger->warn("Timeout reached. UnitId: {}, TransactionId: {}.",

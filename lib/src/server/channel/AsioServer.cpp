@@ -16,13 +16,9 @@ AsioServer::AsioServer(std::shared_ptr<Logger> logger,
       m_max_connections{max_connections},
       m_tcp_acceptor{*m_executor->get_service(),
         asio::ip::tcp::endpoint{asio::ip::address::from_string(endpoint.get_hostname()), static_cast<unsigned short>(endpoint.get_port())}},
+      m_is_shutdown{false},
       m_num_connections{0}
 {
-}
-
-AsioServer::~AsioServer()
-{
-    shutdown();
 }
 
 void AsioServer::start(std::shared_ptr<IServerConnectionListenerBuilder> connection_listener_builder)
@@ -33,7 +29,19 @@ void AsioServer::start(std::shared_ptr<IServerConnectionListenerBuilder> connect
 
 void AsioServer::shutdown()
 {
-    m_tcp_acceptor.close();
+    m_executor->post([this, self=shared_from_this()] {
+        m_is_shutdown = true;
+
+        m_tcp_acceptor.close();
+
+        auto it = m_connections.begin();
+        while(it != m_connections.end())
+        {
+            (*it)->close();
+            ++it;
+        }
+        m_connections.clear();
+    });
 }
 
 void AsioServer::remove_connection(std::shared_ptr<AsioServerTcpConnection> connection)
@@ -41,6 +49,7 @@ void AsioServer::remove_connection(std::shared_ptr<AsioServerTcpConnection> conn
     auto it = std::find(m_connections.begin(), m_connections.end(), connection);
     if(it != m_connections.end())
     {
+        (*it)->close();
         m_connections.erase(it);
         --m_num_connections;
     }
@@ -53,18 +62,26 @@ size_t AsioServer::get_num_connections() const
 
 void AsioServer::start_accept()
 {
+    if(m_is_shutdown) return;
+
     m_executor->post([=, self=shared_from_this()] {
+        if(m_is_shutdown) return;
+
         auto connection = std::make_shared<AsioServerTcpConnection>(m_logger, m_executor, std::dynamic_pointer_cast<AsioServer>(shared_from_this()));
         m_connections.push_back(connection);
         m_tcp_acceptor.async_accept(connection->get_socket(),
-                                    std::bind(&AsioServer::handle_accept,
-                                    std::dynamic_pointer_cast<AsioServer>(shared_from_this()),
-                                    connection, _1));
+                                    m_executor->wrap(
+                                        std::bind(&AsioServer::handle_accept,
+                                        std::dynamic_pointer_cast<AsioServer>(shared_from_this()),
+                                        connection, _1)
+                                    ));
     });
 }
 
 void AsioServer::handle_accept(std::shared_ptr<AsioServerTcpConnection> connection, const asio::error_code& ec)
 {
+    if(m_is_shutdown) return;
+
     if(ec)
     {
         remove_connection(connection);

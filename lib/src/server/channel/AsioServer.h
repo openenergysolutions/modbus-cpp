@@ -36,7 +36,6 @@ public:
                std::shared_ptr<exe4cpp::StrandExecutor> executor,
                const Ipv4Endpoint& endpoint,
                const unsigned int max_connections);
-    virtual ~AsioServer();
 
     void start(std::shared_ptr<IServerConnectionListenerBuilder> connection_listener_builder) override;
     void shutdown() override;
@@ -52,6 +51,7 @@ private:
     std::shared_ptr<Logger> m_logger;
     std::shared_ptr<exe4cpp::StrandExecutor> m_executor;
     unsigned int m_max_connections;
+    bool m_is_shutdown;
     asio::ip::tcp::acceptor m_tcp_acceptor;
     std::shared_ptr<IServerConnectionListenerBuilder> m_connection_listener_builder;
     std::list<std::shared_ptr<AsioServerTcpConnection>> m_connections;

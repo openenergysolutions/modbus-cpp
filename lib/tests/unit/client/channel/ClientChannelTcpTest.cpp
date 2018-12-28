@@ -235,7 +235,7 @@ TEST_CASE("ClientChannelTcp")
 
     SECTION("Miscellaneous")
     {
-        SECTION("When shutdown, then discard all pending requests and close the connection")
+        SECTION("When shutdown, then discard all pending requests and shutdown the connection")
         {
             channel->send_request(unit_id, request, timeout, test_handler);
             executor->run_one();
@@ -247,7 +247,7 @@ TEST_CASE("ClientChannelTcp")
             receive(channel, unit_id, tcp_connection->get_requests()[0].transaction_id, request);
             REQUIRE(num_handler_success == 0);
             REQUIRE(num_handler_error == 0);
-            REQUIRE(tcp_connection->get_num_close() == 1);
+            REQUIRE(tcp_connection->is_shutdown_called() == true);
         }
 
         SECTION("When shutdown, refuse all requests")

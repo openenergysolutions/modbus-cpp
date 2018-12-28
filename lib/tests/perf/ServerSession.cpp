@@ -13,30 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef MODBUS_ITCPCONNECTION_H
-#define MODBUS_ITCPCONNECTION_H
+#include "ServerSession.h"
 
-#include <memory>
+using namespace modbus;
 
-#include "ser4cpp/container/SequenceTypes.h"
-
-namespace modbus
+Expected<ReadHoldingRegistersResponse> ServerSession::on_request(const ReadHoldingRegistersRequest& request)
 {
+    ReadHoldingRegistersResponse response{};
+    for(size_t i = 0; i < request.qty_of_registers; ++i)
+    {
+        response.values.push_back(RegisterValue{static_cast<uint16_t>(request.starting_address + i), static_cast<uint16_t>(std::rand() % 0xFFFF)});
+    }
 
-class IConnectionListener;
-class Ipv4Endpoint;
-
-class ITcpConnection : public std::enable_shared_from_this<ITcpConnection>
-{
-public:
-    virtual ~ITcpConnection() = default;
-
-    virtual void set_listener(std::shared_ptr<IConnectionListener> listener) = 0;
-    virtual void send(const ser4cpp::rseq_t& data) = 0;
-    virtual void close() = 0;
-    virtual void shutdown() = 0;
-};
-
-} // namespace modbus
-
-#endif //MODBUS_ITCPCONNECTION_H
+    return Expected<ReadHoldingRegistersResponse>{response};
+}

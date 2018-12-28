@@ -126,8 +126,8 @@ TEST_CASE("ScheduledRequest")
         SECTION("When stop, then stop sending requests.")
         {
             scheduled_req->stop();
-            executor->advance_time(frequency);
             executor->run_one();
+            executor->advance_time(frequency);
 
             REQUIRE(scheduled_req->is_running() == false);
             REQUIRE(session->get_num_read_holding_registers_request_sent() == 1);
@@ -135,8 +135,8 @@ TEST_CASE("ScheduledRequest")
             SECTION("When stop called twice, then ignore second call.")
             {
                 scheduled_req->stop();
-                executor->advance_time(frequency);
                 executor->run_one();
+                executor->advance_time(frequency);
 
                 REQUIRE(scheduled_req->is_running() == false);
                 REQUIRE(session->get_num_read_holding_registers_request_sent() == 1);
@@ -145,8 +145,8 @@ TEST_CASE("ScheduledRequest")
             SECTION("When receive response of old request, don't start the timer.")
             {
                 session_handler(Expected<ReadHoldingRegistersResponse>{ReadHoldingRegistersResponse{}});
-                executor->advance_time(frequency);
                 executor->run_one();
+                executor->advance_time(frequency);
 
                 REQUIRE(session->get_num_read_holding_registers_request_sent() == 1);
             }

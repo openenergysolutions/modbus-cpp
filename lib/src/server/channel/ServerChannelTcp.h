@@ -34,7 +34,6 @@ public:
     ServerChannelTcp(std::shared_ptr<Logger> logger,
                      std::shared_ptr<exe4cpp::IExecutor> executor,
                      std::shared_ptr<IServer> server);
-    ~ServerChannelTcp();
 
     void start() final;
     void shutdown() final;
@@ -56,6 +55,7 @@ private:
     std::shared_ptr<exe4cpp::IExecutor> m_executor;
     std::shared_ptr<IServer> m_server;
 
+    bool m_is_shutdown;
     bool m_is_started;
     std::unordered_map<UnitIdentifier, std::shared_ptr<IServerSession>> m_sessions;
 };

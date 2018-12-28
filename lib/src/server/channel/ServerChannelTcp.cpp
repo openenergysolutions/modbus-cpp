@@ -47,19 +47,19 @@ ServerChannelTcp::ServerChannelTcp(std::shared_ptr<Logger> logger,
     : m_logger{std::move(logger)},
       m_executor{std::move(executor)},
       m_server{std::move(server)},
+      m_is_shutdown{false},
       m_is_started{false}
 {
 
 }
 
-ServerChannelTcp::~ServerChannelTcp()
-{
-    shutdown();
-}
-
 void ServerChannelTcp::start()
 {
+    if(m_is_shutdown) return;
+
     m_executor->post([=, self=shared_from_this()] {
+        if(m_is_shutdown) return;
+
         m_server->start(std::make_shared<ServerConnectionListenerBuilder>(std::dynamic_pointer_cast<ServerChannelTcp>(shared_from_this())));
         m_is_started = true;
     });
@@ -67,28 +67,39 @@ void ServerChannelTcp::start()
 
 void ServerChannelTcp::shutdown()
 {
-    if(m_is_started)
-    {
-        m_server->shutdown();
-        m_is_started = false;
-    }
-    
-    for(auto session : m_sessions)
-    {
-        session.second->shutdown();
-    }
-    m_sessions.clear();
+    m_executor->post([this, self=shared_from_this()] {
+        m_logger->info("Shutting down.");
+        m_is_shutdown = true;
+
+        if(m_is_started)
+        {
+            m_server->shutdown();
+            m_is_started = false;
+        }
+        
+        for(auto session : m_sessions)
+        {
+            session.second->shutdown();
+        }
+        m_sessions.clear();
+    });
 }
 
 void ServerChannelTcp::add_session(const UnitIdentifier& unit_identifier, std::shared_ptr<IServerSession> session)
 {
+    if(m_is_shutdown) return;
+
     m_executor->post([=, self=shared_from_this()]() {
+        if(m_is_shutdown) return;
+
         m_sessions.insert({unit_identifier, session});
     });
 }
 
 void ServerChannelTcp::on_mbap(const MbapMessage& message, ITcpConnection& connection)
 {
+    if(m_is_shutdown) return;
+    
     auto it = m_sessions.find(message.unit_id);
     if(it != m_sessions.end())
     {

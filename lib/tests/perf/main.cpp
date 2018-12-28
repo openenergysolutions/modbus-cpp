@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 #include <iostream>
+#include <random>
 #include <memory>
+#include <vector>
 
 #include "spdlog/spdlog.h"
 
@@ -22,35 +24,56 @@
 #include "modbus/exceptions/IException.h"
 #include "modbus/logging/LoggerFactory.h"
 
+#include "ServerSession.h"
+
 using namespace modbus;
 
 int main(int argc, char* argv[])
 {
-    auto logger = spdlog::stdout_color_mt("Perf tests");
-    auto lib_logger = LoggerFactory::create_null_logger("Lib logger");
+    // Random generators
+    std::random_device rd{};
+    std::default_random_engine gen{ rd() };
 
-    std::unique_ptr<IModbusManager> modbusManager = IModbusManager::create(lib_logger, 16);
+    // Loggers
+    auto logger = spdlog::stdout_color_mt("Debug logger");
+    auto lib_logger = spdlog::basic_logger_mt("Lib logger", "test.log", true);
 
-    for(size_t i = 0; i < 1000; ++i)
+    std::unique_ptr<IModbusManager> modbus_manager = IModbusManager::create(LoggerFactory::create_custom_logger(lib_logger), 16);
+
+    for(size_t i = 0; i < 100; ++i)
     {
         unsigned int port = i + 8000;
-        std::string name = "Channel " + std::to_string(port);
-        auto channel = modbusManager->create_client_tcp_channel(name, Ipv4Endpoint{ "127.0.0.1", port });
+        std::string server_name = "Server channel " + std::to_string(port);
 
-        auto session = channel->create_session(UnitIdentifier::default_unit_identifier(),
-                                               std::chrono::seconds(3));
+        // Create server
+        auto server_session = std::make_shared<ServerSession>();
+        auto server_channel = modbus_manager->create_server_tcp_channel(server_name, Ipv4Endpoint{"127.0.0.1", port}, LoggingLevel::Debug);
+        server_channel->add_session(UnitIdentifier::default_unit_identifier(), server_session);
+        server_channel->start();
+        
+        // Create clients
+        for(unsigned int j = 0; j < 20; ++j)
+        {
+            std::string client_name = "Client channel " + std::to_string(port) + "-" + std::to_string(j);
+            auto client_channel = modbus_manager->create_client_tcp_channel(client_name, Ipv4Endpoint{"127.0.0.1", port}, LoggingLevel::Debug);
+            auto client_session = client_channel->create_session(UnitIdentifier::default_unit_identifier(),
+                                                                    std::chrono::seconds(5));
 
-        ReadHoldingRegistersRequest req{ 0x0000, 16 };
-        session->schedule_request(req, std::chrono::seconds(2), [=](Expected<ReadHoldingRegistersResponse> response) {
-            if (!response.is_valid())
-            {
-                auto exception_msg = response.get_exception<IException>().get_message();
-                logger->error("Exception from instance {}: {}", i, exception_msg);
-                return;
-            }
+            ReadHoldingRegistersRequest req{
+                static_cast<uint16_t>(std::uniform_int_distribution<>(0,2000)(gen)), // Starting address
+                static_cast<uint16_t>(std::uniform_int_distribution<>(1,123)(gen)) // Quantity of registers
+            };
+            client_session->schedule_request(req, std::chrono::seconds(std::uniform_int_distribution<>(1,10)(gen)), [=](Expected<ReadHoldingRegistersResponse> response) {
+                if(!response.is_valid())
+                {
+                    auto exception_msg = response.get_exception<IException>().get_message();
+                    logger->error("Exception from instance {}-{}: {}", i, j, exception_msg);
+                    return;
+                }
 
-            logger->trace("Instance {} received response", i);
-        });
+                logger->trace("Instance {}-{} received response", i, j);
+            });
+        }
     }
 
     while (true)

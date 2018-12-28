@@ -49,8 +49,8 @@ void ScheduledRequest<TRequest, TResponse>::start()
     m_executor->post([=, self = shared_from_this()]() {
         if(!m_running)
         {
-            execute();
             m_running = true;
+            execute();
         }
     });
 }
@@ -61,8 +61,8 @@ void ScheduledRequest<TRequest, TResponse>::stop()
     m_executor->post([=, self = shared_from_this()]() {
         if(m_running)
         {
-            m_timer.cancel();
             m_running = false;
+            m_timer.cancel();
         }
     });
 }

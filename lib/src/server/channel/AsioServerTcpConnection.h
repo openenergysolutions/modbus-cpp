@@ -39,6 +39,7 @@ public:
     void set_listener(std::shared_ptr<IConnectionListener> listener) override;
     void send(const ser4cpp::rseq_t& data) override;
     void close() override;
+    void shutdown() override;
 
     void start();
     asio::ip::tcp::socket& get_socket();
@@ -58,6 +59,7 @@ private:
     std::weak_ptr<AsioServer> m_server;
     asio::ip::tcp::socket m_tcp_socket;
 
+    bool m_is_shutdown;
     bool m_is_connected;
     std::array<uint8_t, 4096> m_read_buffer;
     std::unique_ptr<ser4cpp::Buffer> m_write_buffer;

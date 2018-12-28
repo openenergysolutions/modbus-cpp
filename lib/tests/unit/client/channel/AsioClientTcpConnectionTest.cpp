@@ -139,4 +139,14 @@ TEST_CASE("AsioClientTcpConnection")
 
         REQUIRE(connection_listener->wait_for_data() == true);
     }
+
+    SECTION("When shutdown, then connection is closed and nothing is sent.")
+    {
+        test_server.start();
+
+        asio_tcp_connection->shutdown();
+        send_test_data(executor, asio_tcp_connection, test_data.as_seq());
+        
+        REQUIRE(test_server.wait_for_connection() == false);
+    }
 }

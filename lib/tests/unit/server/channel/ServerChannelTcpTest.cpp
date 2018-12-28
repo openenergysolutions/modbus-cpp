@@ -112,10 +112,11 @@ TEST_CASE("ServerChannelTcp")
         REQUIRE_CALL(*server, start(_));
         executor->run_one();
 
-        SECTION("When shutdown, then shutdown the server")
+        SECTION("When shutdown, then shutdown the server in the server thread")
         {
-            REQUIRE_CALL(*server, shutdown());
             channel->shutdown();
+            REQUIRE_CALL(*server, shutdown());
+            executor->run_one();
         }
 
         SECTION("With session")

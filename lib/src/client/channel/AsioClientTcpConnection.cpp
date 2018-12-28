@@ -31,6 +31,7 @@ AsioClientTcpConnection::AsioClientTcpConnection(std::shared_ptr<Logger> logger,
           m_executor{executor},
           m_resolver{*executor->get_service()},
           m_tcp_socket{*executor->get_service()},
+          m_is_shutdown{false},
           m_current_connection_status{ConnectionStatus::NotConnected}
 {
 
@@ -43,6 +44,8 @@ void AsioClientTcpConnection::set_listener(std::shared_ptr<IConnectionListener> 
 
 void AsioClientTcpConnection::send(const ser4cpp::rseq_t& data)
 {
+    if(m_is_shutdown) return;
+    
     m_write_buffer = std::make_unique<ser4cpp::Buffer>(data);
 
     if(m_current_connection_status == ConnectionStatus::NotConnected)
@@ -65,7 +68,11 @@ void AsioClientTcpConnection::send(const ser4cpp::rseq_t& data)
 
 void AsioClientTcpConnection::close()
 {
+    if(m_is_shutdown) return;
+
     m_executor->post([=, self = shared_from_this()] () {
+        if(m_is_shutdown) return;
+
         m_current_connection_status = ConnectionStatus::NotConnected;
 
         if(m_tcp_socket.is_open())
@@ -79,8 +86,20 @@ void AsioClientTcpConnection::close()
     });
 }
 
+void AsioClientTcpConnection::shutdown()
+{
+    m_executor->post([=, self = shared_from_this()] () {
+        m_is_shutdown = true;
+
+        std::error_code ec;
+        m_tcp_socket.cancel(ec);
+    });
+}
+
 void AsioClientTcpConnection::resolve_handler(const asio::error_code& ec, asio::ip::tcp::resolver::iterator endpoints)
 {
+    if(m_is_shutdown) return;
+
     if(ec)
     {
         m_logger->error("IP resolver error: {}", ec.message());
@@ -98,6 +117,8 @@ void AsioClientTcpConnection::resolve_handler(const asio::error_code& ec, asio::
 
 void AsioClientTcpConnection::connect_handler(const asio::error_code& ec)
 {
+    if(m_is_shutdown) return;
+
     if(ec)
     {
         m_logger->error("Connection error: {}", ec.message());
@@ -115,11 +136,21 @@ void AsioClientTcpConnection::connect_handler(const asio::error_code& ec)
 
 void AsioClientTcpConnection::read_handler(const asio::error_code& ec, std::size_t bytes_transferred)
 {
+    if(m_is_shutdown) return;
+
     if(ec)
     {
-        m_logger->error("Read error: {}", ec.message());
-        close();
-        send_error(ec.message());
+        if(ec == asio::error::misc_errors::eof)
+        {
+            m_logger->info("Connection gracefully closed by peer.");
+            close();
+        }
+        else
+        {
+            m_logger->error("Read error: {}", ec.message());
+            close();
+            send_error(ec.message());
+        }
         return;
     }
 
@@ -136,6 +167,8 @@ void AsioClientTcpConnection::read_handler(const asio::error_code& ec, std::size
 
 void AsioClientTcpConnection::write_handler(const std::error_code& ec, std::size_t bytes_transferred)
 {
+    if(m_is_shutdown) return;
+
     if(ec)
     {
         m_logger->error("Write error: {}", ec.message());
@@ -157,6 +190,8 @@ void AsioClientTcpConnection::write_handler(const std::error_code& ec, std::size
 
 void AsioClientTcpConnection::begin_read()
 {
+    if(m_is_shutdown) return;
+
     m_tcp_socket.async_read_some(asio::buffer(m_read_buffer, m_read_buffer.size()),
                                  m_executor->wrap(std::bind(&AsioClientTcpConnection::read_handler,
                                                          std::dynamic_pointer_cast<AsioClientTcpConnection>(shared_from_this()),
@@ -165,6 +200,8 @@ void AsioClientTcpConnection::begin_read()
 
 void AsioClientTcpConnection::send_buffer()
 {
+    if(m_is_shutdown) return;
+
     if(m_write_buffer)
     {
         m_tcp_socket.async_send(asio::buffer(m_write_buffer->as_rslice(), m_write_buffer->length()),
@@ -176,6 +213,8 @@ void AsioClientTcpConnection::send_buffer()
 
 void AsioClientTcpConnection::send_error(const std::string& message)
 {
+    if(m_is_shutdown) return;
+
     auto connection_listener = m_connection_listener.lock();
     if(connection_listener)
     {
