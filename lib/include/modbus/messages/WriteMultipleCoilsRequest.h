@@ -40,9 +40,9 @@ struct WriteMultipleCoilsRequest
     /**
      * @brief Maximum number of coils that can be written to
      *
-     * Its value is 2000.
+     * Its value is 1968.
      */
-    constexpr static uint16_t max_coils = 2000;
+    constexpr static uint16_t max_coils = 1968;
 
     /**
      * @brief Starting address to write to

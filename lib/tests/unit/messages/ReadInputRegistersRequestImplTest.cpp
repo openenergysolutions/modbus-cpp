@@ -18,6 +18,7 @@
 #include <array>
 #include "ser4cpp/container/Buffer.h"
 #include "modbus/exceptions/MalformedModbusRequestException.h"
+#include "modbus/exceptions/ModbusException.h"
 #include "messages/ReadInputRegistersRequestImpl.h"
 
 using namespace modbus;
@@ -83,7 +84,7 @@ TEST_CASE("ReadInputRegistersRequestImpl")
             std::array<uint8_t, 5> proper_request{{
                 0x04,       // Function code
                 0x12, 0x34, // Starting address
-                0x01, 0x23, // Quantity of registers
+                0x00, 0x23, // Quantity of registers
             }};
             ser4cpp::rseq_t buffer{proper_request.data(), proper_request.size()};
 
@@ -92,7 +93,35 @@ TEST_CASE("ReadInputRegistersRequestImpl")
             REQUIRE(result.is_valid() == true);
             auto request = result.get();
             REQUIRE(request.starting_address == 0x1234);
-            REQUIRE(request.qty_of_registers == 0x0123);
+            REQUIRE(request.qty_of_registers == 0x0023);
+        }
+
+        SECTION("When quantity of registers is 0, then parse return ModbusException 0x03") {
+            std::array<uint8_t, 5> qty_of_registers_0_request{{
+                0x04,       // Function code
+                0x12, 0x34, // Starting address
+                0x00, 0x00, // Quantity of registers (0)
+            }};
+            ser4cpp::rseq_t buffer{qty_of_registers_0_request.data(), qty_of_registers_0_request.size()};
+
+            auto result = ReadInputRegistersRequestImpl::parse(buffer);
+
+            REQUIRE(result.has_exception<ModbusException>() == true);
+            REQUIRE(result.get_exception<ModbusException>().get_exception_type() == ExceptionType::IllegalDataValue);
+        }
+
+        SECTION("When quantity of registers is greater than maximum, then parse return ModbusException 0x03") {
+            std::array<uint8_t, 5> qty_of_registers_max_plus_one_request{{
+                0x04,       // Function code
+                0x12, 0x34, // Starting address
+                0x00, 0x7E, // Quantity of registers (126)
+            }};
+            ser4cpp::rseq_t buffer{qty_of_registers_max_plus_one_request.data(), qty_of_registers_max_plus_one_request.size()};
+
+            auto result = ReadInputRegistersRequestImpl::parse(buffer);
+
+            REQUIRE(result.has_exception<ModbusException>() == true);
+            REQUIRE(result.get_exception<ModbusException>().get_exception_type() == ExceptionType::IllegalDataValue);
         }
 
         SECTION("When wrong size request, then return malformed exception")

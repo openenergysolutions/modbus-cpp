@@ -161,11 +161,22 @@ TEST_CASE("ServerChannelTcp")
 
                 send_message(unit_id,
                              transaction_id,
-                             ReadCoilsRequestImpl{ReadCoilsRequest{}},
+                             ReadCoilsRequestImpl{ReadCoilsRequest{0x1234, 0x0020}},
                              channel,
                              connection);
 
                 check_response_and_function_code(connection, unit_id, transaction_id, 0x01);
+            }
+
+            SECTION("When receive an invalid ReadCoilsRequest, then send Modbus exception")
+            {
+                send_message(unit_id,
+                             transaction_id,
+                             ReadCoilsRequestImpl{ReadCoilsRequest{0x1234, 0x07D1}},
+                             channel,
+                             connection);
+
+                check_response_and_exception_code(connection, unit_id, transaction_id, 0x81, 0x03);
             }
 
             SECTION("When receive a ReadCoilsRequest and session returns exception, then send Modbus exception")
@@ -175,7 +186,7 @@ TEST_CASE("ServerChannelTcp")
 
                 send_message(unit_id,
                              transaction_id,
-                             ReadCoilsRequestImpl{ReadCoilsRequest{}},
+                             ReadCoilsRequestImpl{ReadCoilsRequest{0x1234, 0x0020}},
                              channel,
                              connection);
 
@@ -189,11 +200,22 @@ TEST_CASE("ServerChannelTcp")
 
                 send_message(unit_id,
                              transaction_id,
-                             ReadDiscreteInputsRequestImpl{ReadDiscreteInputsRequest{}},
+                             ReadDiscreteInputsRequestImpl{ReadDiscreteInputsRequest{0x1234, 0x0020}},
                              channel,
                              connection);
 
                 check_response_and_function_code(connection, unit_id, transaction_id, 0x02);
+            }
+
+            SECTION("When receive an invalid ReadDiscreteInputsRequest, then send Modbus exception")
+            {
+                send_message(unit_id,
+                             transaction_id,
+                             ReadDiscreteInputsRequestImpl{ReadDiscreteInputsRequest{0x1234, 0x07D1}},
+                             channel,
+                             connection);
+
+                check_response_and_exception_code(connection, unit_id, transaction_id, 0x82, 0x03);
             }
 
             SECTION("When receive a ReadDiscreteInputsRequest and session returns exception, then send Modbus exception")
@@ -203,7 +225,7 @@ TEST_CASE("ServerChannelTcp")
 
                 send_message(unit_id,
                              transaction_id,
-                             ReadDiscreteInputsRequestImpl{ReadDiscreteInputsRequest{}},
+                             ReadDiscreteInputsRequestImpl{ReadDiscreteInputsRequest{0x1234, 0x0020}},
                              channel,
                              connection);
 
@@ -217,11 +239,22 @@ TEST_CASE("ServerChannelTcp")
 
                 send_message(unit_id,
                              transaction_id,
-                             ReadHoldingRegistersRequestImpl{ReadHoldingRegistersRequest{}},
+                             ReadHoldingRegistersRequestImpl{ReadHoldingRegistersRequest{0x1234, 0x0020}},
                              channel,
                              connection);
 
                 check_response_and_function_code(connection, unit_id, transaction_id, 0x03);
+            }
+
+            SECTION("When receive an invalid ReadHoldingRegistersRequest, then send Modbus exception")
+            {
+                send_message(unit_id,
+                             transaction_id,
+                             ReadHoldingRegistersRequestImpl{ReadHoldingRegistersRequest{0x1234, 0x007E}},
+                             channel,
+                             connection);
+
+                check_response_and_exception_code(connection, unit_id, transaction_id, 0x83, 0x03);
             }
 
             SECTION("When receive a ReadHoldingRegistersRequest and session returns exception, then send Modbus exception")
@@ -231,7 +264,7 @@ TEST_CASE("ServerChannelTcp")
 
                 send_message(unit_id,
                              transaction_id,
-                             ReadHoldingRegistersRequestImpl{ReadHoldingRegistersRequest{}},
+                             ReadHoldingRegistersRequestImpl{ReadHoldingRegistersRequest{0x1234, 0x0020}},
                              channel,
                              connection);
 
@@ -245,11 +278,22 @@ TEST_CASE("ServerChannelTcp")
 
                 send_message(unit_id,
                              transaction_id,
-                             ReadInputRegistersRequestImpl{ReadInputRegistersRequest{}},
+                             ReadInputRegistersRequestImpl{ReadInputRegistersRequest{0x1234, 0x0020}},
                              channel,
                              connection);
 
                 check_response_and_function_code(connection, unit_id, transaction_id, 0x04);
+            }
+
+            SECTION("When receive an invalid ReadInputRegistersRequest, then send Modbus exception")
+            {
+                send_message(unit_id,
+                             transaction_id,
+                             ReadInputRegistersRequestImpl{ReadInputRegistersRequest{0x1234, 0x007E}},
+                             channel,
+                             connection);
+
+                check_response_and_exception_code(connection, unit_id, transaction_id, 0x84, 0x03);
             }
 
             SECTION("When receive a ReadInputRegistersRequest and session returns exception, then send Modbus exception")
@@ -259,7 +303,7 @@ TEST_CASE("ServerChannelTcp")
 
                 send_message(unit_id,
                              transaction_id,
-                             ReadInputRegistersRequestImpl{ReadInputRegistersRequest{}},
+                             ReadInputRegistersRequestImpl{ReadInputRegistersRequest{0x1234, 0x0020}},
                              channel,
                              connection);
 
@@ -336,6 +380,17 @@ TEST_CASE("ServerChannelTcp")
                 check_response_and_function_code(connection, unit_id, transaction_id, 0x0F);
             }
 
+            SECTION("When receive an invalid WriteMultipleCoilsRequest, then send Modbus exception")
+            {
+                send_message(unit_id,
+                             transaction_id,
+                             WriteMultipleCoilsRequestImpl{WriteMultipleCoilsRequest{0x1234, {}}},
+                             channel,
+                             connection);
+
+                check_response_and_exception_code(connection, unit_id, transaction_id, 0x8F, 0x03);
+            }
+
             SECTION("When receive a WriteMultipleCoilsRequest and session returns exception, then send Modbus exception")
             {
                 REQUIRE_CALL(*session, on_request(ANY(WriteMultipleCoilsRequest)))
@@ -362,6 +417,17 @@ TEST_CASE("ServerChannelTcp")
                              connection);
 
                 check_response_and_function_code(connection, unit_id, transaction_id, 0x10);
+            }
+
+            SECTION("When receive an invalid WriteMultipleRegistersRequest, then send Modbus exception")
+            {
+                send_message(unit_id,
+                             transaction_id,
+                             WriteMultipleRegistersRequestImpl{WriteMultipleRegistersRequest{0x1234, {}}},
+                             channel,
+                             connection);
+
+                check_response_and_exception_code(connection, unit_id, transaction_id, 0x90, 0x03);
             }
 
             SECTION("When receive a WriteMultipleRegistersRequest and session returns exception, then send Modbus exception")

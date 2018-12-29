@@ -39,6 +39,7 @@ public:
     const request_t& get_request() const;
 
 public:
+    constexpr static uint16_t max_bits = 2000;
     static Expected<request_t> parse(const ser4cpp::rseq_t& data);
 
 private:

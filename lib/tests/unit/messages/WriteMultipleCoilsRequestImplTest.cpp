@@ -19,6 +19,7 @@
 #include <memory>
 #include "ser4cpp/container/Buffer.h"
 #include "modbus/exceptions/MalformedModbusRequestException.h"
+#include "modbus/exceptions/ModbusException.h"
 #include "messages/WriteMultipleCoilsRequestImpl.h"
 
 using namespace modbus;
@@ -110,7 +111,7 @@ TEST_CASE("WriteMultipleCoilsRequestImpl")
     SECTION("When request too large, then is invalid")
     {
         std::vector<bool> values;
-        for(unsigned int i = 0; i < 2001; ++i)
+        for(unsigned int i = 0; i < 1969; ++i)
         {
             values.emplace_back(i % 2 != 0);
         }
@@ -192,7 +193,11 @@ TEST_CASE("WriteMultipleCoilsRequestImpl")
             REQUIRE(values[15] == true);
         }
 
-        SECTION("When mismatch between quantity of outputs and byte count, then parse report exception") {
+        SECTION("When mismatch between quantity of outputs and byte count, then parse return Modbus exception 0x03") {
+            // Note: the spec is not really clear if the exception 0x03 should be thrown if the byte count
+            // **value** does not match the quantity of outputs, or if it should be thrown when the actual number
+            // of bytes doesn't fit.
+
             std::array<uint8_t, 10> mismatch_request{{
                 0x0F,       // Function code
                 0x12, 0x34, // Starting address
@@ -205,7 +210,8 @@ TEST_CASE("WriteMultipleCoilsRequestImpl")
 
             auto result = WriteMultipleCoilsRequestImpl::parse(buffer);
 
-            REQUIRE(result.has_exception<MalformedModbusRequestException>() == true);
+            REQUIRE(result.has_exception<ModbusException>() == true);
+            REQUIRE(result.get_exception<ModbusException>().get_exception_type() == ExceptionType::IllegalDataValue);
         }
 
         SECTION("When mismatch between byte count and actual byte count, then parse report exception") {
@@ -224,18 +230,34 @@ TEST_CASE("WriteMultipleCoilsRequestImpl")
             REQUIRE(result.has_exception<MalformedModbusRequestException>() == true);
         }
 
-        SECTION("When invalid quantity of outputs, then parse report exception") {
-            std::array<uint8_t, 257> invalid_quantity_of_outputs_request{{
+        SECTION("When quantity of outputs is 0, then parse return Modbus exception 0x03") {
+            std::array<uint8_t, 6> quantity_of_outputs_0_request{{
                 0x0F,       // Function code
                 0x12, 0x34, // Starting address
-                0x07, 0xB1, // Invalid quantity of outputs (2001)
-                0xFB,       // Byte count (251)
+                0x00, 0x00, // Invalid quantity of outputs (0)
+                0x00,       // Byte count (0)
             }};
-            ser4cpp::rseq_t buffer{invalid_quantity_of_outputs_request.data(), invalid_quantity_of_outputs_request.size()};
+            ser4cpp::rseq_t buffer{quantity_of_outputs_0_request.data(), quantity_of_outputs_0_request.size()};
 
             auto result = WriteMultipleCoilsRequestImpl::parse(buffer);
 
-            REQUIRE(result.has_exception<MalformedModbusRequestException>() == true);
+            REQUIRE(result.has_exception<ModbusException>() == true);
+            REQUIRE(result.get_exception<ModbusException>().get_exception_type() == ExceptionType::IllegalDataValue);
+        }
+
+        SECTION("When quantity of outputs is greater than maximum, then parse return Modbus exception 0x03") {
+            std::array<uint8_t, 253> quantity_of_output_max_plus_one_request{{
+                0x0F,       // Function code
+                0x12, 0x34, // Starting address
+                0x07, 0xB1, // Invalid quantity of outputs (1969)
+                0xF7,       // Byte count (247)
+            }};
+            ser4cpp::rseq_t buffer{quantity_of_output_max_plus_one_request.data(), quantity_of_output_max_plus_one_request.size()};
+
+            auto result = WriteMultipleCoilsRequestImpl::parse(buffer);
+
+            REQUIRE(result.has_exception<ModbusException>() == true);
+            REQUIRE(result.get_exception<ModbusException>().get_exception_type() == ExceptionType::IllegalDataValue);
         }
 
         SECTION("When invalid function code, then parse report exception") {

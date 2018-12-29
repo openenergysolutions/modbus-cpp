@@ -18,6 +18,7 @@
 #include <array>
 #include "ser4cpp/container/Buffer.h"
 #include "modbus/exceptions/MalformedModbusRequestException.h"
+#include "modbus/exceptions/ModbusException.h"
 #include "messages/ReadCoilsRequestImpl.h"
 
 using namespace modbus;
@@ -93,6 +94,34 @@ TEST_CASE("ReadCoilsRequestImpl")
             auto request = result.get();
             REQUIRE(request.starting_address == 0x1234);
             REQUIRE(request.qty_of_bits == 0x0123);
+        }
+
+        SECTION("When quantity of outputs is 0, then parse return ModbusException 0x03") {
+            std::array<uint8_t, 5> qty_of_outputs_0_request{{
+                0x01,       // Function code
+                0x12, 0x34, // Starting address
+                0x00, 0x00, // Quantity of outputs (0)
+            }};
+            ser4cpp::rseq_t buffer{qty_of_outputs_0_request.data(), qty_of_outputs_0_request.size()};
+
+            auto result = ReadCoilsRequestImpl::parse(buffer);
+
+            REQUIRE(result.has_exception<ModbusException>() == true);
+            REQUIRE(result.get_exception<ModbusException>().get_exception_type() == ExceptionType::IllegalDataValue);
+        }
+
+        SECTION("When quantity of outputs is greater than maximum, then parse return ModbusException 0x03") {
+            std::array<uint8_t, 5> qty_of_outputs_max_plus_one_request{{
+                0x01,       // Function code
+                0x12, 0x34, // Starting address
+                0x07, 0xD1, // Quantity of outputs (2001)
+            }};
+            ser4cpp::rseq_t buffer{qty_of_outputs_max_plus_one_request.data(), qty_of_outputs_max_plus_one_request.size()};
+
+            auto result = ReadCoilsRequestImpl::parse(buffer);
+
+            REQUIRE(result.has_exception<ModbusException>() == true);
+            REQUIRE(result.get_exception<ModbusException>().get_exception_type() == ExceptionType::IllegalDataValue);
         }
 
         SECTION("When wrong size request, then return malformed exception")

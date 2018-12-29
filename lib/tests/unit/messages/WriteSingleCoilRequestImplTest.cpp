@@ -18,6 +18,7 @@
 #include <array>
 #include "ser4cpp/container/Buffer.h"
 #include "modbus/exceptions/MalformedModbusRequestException.h"
+#include "modbus/exceptions/ModbusException.h"
 #include "messages/WriteSingleCoilRequestImpl.h"
 
 using namespace modbus;
@@ -106,7 +107,7 @@ TEST_CASE("WriteSingleCoilRequestImpl")
             REQUIRE(request.value.value == false);
         }
 
-        SECTION("When wrong output value, then return malformed exception")
+        SECTION("When wrong output value, then return Modbus exception 0x03")
         {
             std::array<uint8_t, 5> wrong_output_value_request{{
                 0x05,       // Function code
@@ -117,7 +118,8 @@ TEST_CASE("WriteSingleCoilRequestImpl")
 
             auto result = WriteSingleCoilRequestImpl::parse(buffer);
 
-            REQUIRE(result.has_exception<MalformedModbusRequestException>() == true);
+            REQUIRE(result.has_exception<ModbusException>() == true);
+            REQUIRE(result.get_exception<ModbusException>().get_exception_type() == ExceptionType::IllegalDataValue);
         }
 
         SECTION("When wrong size request, then return malformed exception")

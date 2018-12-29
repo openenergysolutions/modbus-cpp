@@ -17,6 +17,7 @@
 
 #include "ser4cpp/serialization/BigEndian.h"
 #include "modbus/exceptions/MalformedModbusRequestException.h"
+#include "modbus/exceptions/ModbusException.h"
 
 namespace modbus
 {
@@ -89,7 +90,7 @@ Expected<WriteMultipleRegistersRequest> WriteMultipleRegistersRequestImpl::parse
     ser4cpp::UInt16::read_from(view, qty_of_registers);
     if(qty_of_registers < 0x0001 || qty_of_registers > WriteMultipleRegistersRequest::max_registers)
     {
-        return Expected<WriteMultipleRegistersRequest>::from_exception(MalformedModbusRequestException{"Invalid quantity of outputs."});
+        return Expected<WriteMultipleRegistersRequest>::from_exception(ModbusException{ExceptionType::IllegalDataValue});
     }
 
     // Read byte count
@@ -97,7 +98,7 @@ Expected<WriteMultipleRegistersRequest> WriteMultipleRegistersRequestImpl::parse
     ser4cpp::UInt8::read_from(view, byte_count);
     if(2 * qty_of_registers != byte_count)
     {
-        return Expected<WriteMultipleRegistersRequest>::from_exception(MalformedModbusRequestException{"Request byte count does not fit with the quantity of outputs."});
+        return Expected<WriteMultipleRegistersRequest>::from_exception(ModbusException{ExceptionType::IllegalDataValue});
     }
     if(byte_count != view.length())
     {

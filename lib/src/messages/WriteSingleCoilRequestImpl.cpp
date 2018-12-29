@@ -17,6 +17,7 @@
 
 #include "ser4cpp/serialization/BigEndian.h"
 #include "modbus/exceptions/MalformedModbusRequestException.h"
+#include "modbus/exceptions/ModbusException.h"
 
 namespace modbus
 {
@@ -99,7 +100,7 @@ Expected<WriteSingleCoilRequest> WriteSingleCoilRequestImpl::parse(const ser4cpp
             break;
 
         default:
-            return Expected<WriteSingleCoilRequest>::from_exception(MalformedModbusRequestException{"Invalid coil state."});
+            return Expected<WriteSingleCoilRequest>::from_exception(ModbusException{ExceptionType::IllegalDataValue});
     }
 
     // Return result

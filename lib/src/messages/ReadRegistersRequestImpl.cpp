@@ -17,6 +17,7 @@
 
 #include "ser4cpp/serialization/BigEndian.h"
 #include "modbus/exceptions/MalformedModbusRequestException.h"
+#include "modbus/exceptions/ModbusException.h"
 
 namespace modbus
 {
@@ -87,6 +88,12 @@ Expected<request_t> ReadRegistersRequestImpl<function_code, request_t>::parse(co
     // Read quantity of registers
     uint16_t qty_of_registers;
     ser4cpp::UInt16::read_from(view, qty_of_registers);
+
+    // Validate quantity of registers
+    if(qty_of_registers < 1 || qty_of_registers > ReadRegistersRequestImpl<function_code, request_t>::max_registers)
+    {
+        return Expected<request_t>::from_exception(ModbusException{ExceptionType::IllegalDataValue});
+    }
     
     request_t request;
     request.starting_address = starting_address;

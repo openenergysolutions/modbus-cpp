@@ -160,6 +160,16 @@ void ServerChannelTcp::process_message(std::shared_ptr<IServerSession> session,
     if(!parse_result.is_valid())
     {
         m_logger->warn("Received invalid message.");
+
+        // If the parser returned a Modbus exception, we send it to the client.
+        if(parse_result.has_exception<ModbusException>())
+        {
+            auto exception = parse_result.get_exception<ModbusException>();
+            ExceptionResponse response{function_code, exception.get_exception_type()};
+            send_message(connection, message.unit_id, message.transaction_id, response);
+        }
+
+        // Otherwise, we send nothing
         return;
     }
     auto request = parse_result.get();

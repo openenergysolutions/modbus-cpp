@@ -17,6 +17,7 @@
 
 #include "ser4cpp/serialization/BigEndian.h"
 #include "modbus/exceptions/MalformedModbusRequestException.h"
+#include "modbus/exceptions/ModbusException.h"
 
 namespace modbus
 {
@@ -104,7 +105,7 @@ Expected<WriteMultipleCoilsRequest> WriteMultipleCoilsRequestImpl::parse(const s
     ser4cpp::UInt16::read_from(view, qty_of_outputs);
     if(qty_of_outputs < 0x0001 || qty_of_outputs > WriteMultipleCoilsRequest::max_coils)
     {
-        return Expected<WriteMultipleCoilsRequest>::from_exception(MalformedModbusRequestException{"Invalid quantity of outputs."});
+        return Expected<WriteMultipleCoilsRequest>::from_exception(ModbusException{ExceptionType::IllegalDataValue});
     }
 
     // Read byte count
@@ -112,7 +113,7 @@ Expected<WriteMultipleCoilsRequest> WriteMultipleCoilsRequestImpl::parse(const s
     ser4cpp::UInt8::read_from(view, byte_count);
     if(get_byte_count_from_qty_of_outputs(qty_of_outputs) != byte_count)
     {
-        return Expected<WriteMultipleCoilsRequest>::from_exception(MalformedModbusRequestException{"Request byte count does not fit with the quantity of outputs."});
+        return Expected<WriteMultipleCoilsRequest>::from_exception(ModbusException{ExceptionType::IllegalDataValue});
     }
     if(byte_count != view.length())
     {
