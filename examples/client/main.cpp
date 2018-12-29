@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
     // Create a TCP client channel
     // Each channel has its own strand of execution
     auto channel = modbusManager->create_client_tcp_channel("Example channel",
-                                                            Ipv4Endpoint{ "127.0.0.1", 502 });
+                                                            Ipv4Endpoint{ "127.0.0.1", 8000 });
 
     // Create a session with a specific unit identifier
     // Users will mainly play with the session to obtain what they want

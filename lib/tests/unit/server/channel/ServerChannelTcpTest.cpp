@@ -52,8 +52,9 @@ void send_message(UnitIdentifier unit_id,
                   std::shared_ptr<ServerChannelTcp> channel,
                   ITcpConnection& connection)
 {
-    ser4cpp::Buffer buffer{message.get_message_length()};
-    message.build_message(buffer.as_wslice());
+    ser4cpp::Buffer buffer{static_cast<uint32_t>(message.get_message_length())};
+    auto wslice = buffer.as_wslice();
+    message.build_message(wslice);
 
     channel->on_mbap(MbapMessage{unit_id, transaction_id, buffer.as_rslice()}, connection);
 }
@@ -147,7 +148,8 @@ TEST_CASE("ServerChannelTcp")
             SECTION("When receive a message with unknown function code, then send Modbus exception")
             {
                 ser4cpp::Buffer buf{1};
-                ser4cpp::UInt8::write_to(buf.as_wslice(), 0x42);
+                auto wslice = buf.as_wslice();
+                ser4cpp::UInt8::write_to(wslice, 0x42);
                 MbapMessage message{unit_id, transaction_id, buf.as_rslice()};
                 channel->on_mbap(message, connection);
 

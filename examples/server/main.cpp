@@ -51,7 +51,7 @@ int main(int argc, char* argv[])
         // Create a TCP server channel
         // Each channel has its own strand of execution
         auto channel = modbusManager->create_server_tcp_channel("Example channel",
-            Ipv4Endpoint{ "127.0.0.1", 502 });
+            Ipv4Endpoint{ "127.0.0.1", 8000 });
 
         // Create a custom session and add it to the channel
         auto session = std::make_shared<CustomSession>();

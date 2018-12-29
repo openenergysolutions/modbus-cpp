@@ -24,7 +24,7 @@
 
 using namespace modbus;
 
-ReadDiscreteInputsResponse generate_response(size_t num_bits)
+static ReadDiscreteInputsResponse generate_response(size_t num_bits)
 {
     ReadDiscreteInputsResponse response{};
     for(size_t i = 0; i < num_bits; ++i)

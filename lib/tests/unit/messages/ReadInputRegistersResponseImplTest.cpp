@@ -24,7 +24,7 @@
 
 using namespace modbus;
 
-ReadInputRegistersResponse generate_response(size_t num_registers)
+static ReadInputRegistersResponse generate_response(size_t num_registers)
 {
     ReadInputRegistersResponse response{};
     for(size_t i = 0; i < num_registers; ++i)
