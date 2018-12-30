@@ -46,7 +46,7 @@ TEST_CASE("MbapParser")
 
     SECTION("When receive complete message, then report received message")
     {
-        ser4cpp::rseq_t buffer{complete_message.data(), complete_message.size()};
+        ser4cpp::rseq_t buffer{complete_message.data(), static_cast<uint32_t>(complete_message.size())};
 
         parser.parse(buffer);
 
@@ -71,7 +71,7 @@ TEST_CASE("MbapParser")
         std::array<uint8_t, 18> two_messages;
         auto end = std::copy(complete_message.begin(), complete_message.end(), two_messages.begin());
         std::copy(complete_message.begin(), complete_message.end(), end);
-        ser4cpp::rseq_t buffer{two_messages.data(), two_messages.size()};
+        ser4cpp::rseq_t buffer{two_messages.data(), static_cast<uint32_t>(two_messages.size())};
 
         parser.parse(buffer);
 
@@ -82,7 +82,7 @@ TEST_CASE("MbapParser")
 
     SECTION("When receive incomplete message, then don't report received message")
     {
-        ser4cpp::rseq_t buffer{complete_message.data(), complete_message.size() - 1};
+        ser4cpp::rseq_t buffer{complete_message.data(), static_cast<uint32_t>(complete_message.size() - 1)};
 
         parser.parse(buffer);
 
@@ -106,12 +106,12 @@ TEST_CASE("MbapParser")
                 0x00, 0x00, // Protocol Identifier
                 0x00, 0x03, // Length
         }};
-        ser4cpp::rseq_t buffer{incomplete_message.data(), incomplete_message.size()};
+        ser4cpp::rseq_t buffer{incomplete_message.data(), static_cast<uint32_t>(incomplete_message.size())};
         parser.parse(buffer);
 
         parser.reset();
 
-        buffer = ser4cpp::rseq_t{complete_message.data(), complete_message.size()};
+        buffer = ser4cpp::rseq_t{complete_message.data(), static_cast<uint32_t>(complete_message.size())};
         parser.parse(buffer);
         REQUIRE(sink.get_num_messages() == 1);
         check_complete_message(sink.get_messages()[0]);
@@ -126,7 +126,7 @@ TEST_CASE("MbapParser")
                 0x42,       // Unit identifier
                 0x98, 0x76  // Data
         }};
-        ser4cpp::rseq_t buffer{wrong_protocol_id_message.data(), wrong_protocol_id_message.size()};
+        ser4cpp::rseq_t buffer{wrong_protocol_id_message.data(), static_cast<uint32_t>(wrong_protocol_id_message.size())};
 
         parser.parse(buffer);
 
@@ -134,7 +134,7 @@ TEST_CASE("MbapParser")
 
         SECTION("Then keep parsing as usual")
         {
-            buffer = ser4cpp::rseq_t{complete_message.data(), complete_message.size()};
+            buffer = ser4cpp::rseq_t{complete_message.data(), static_cast<uint32_t>(complete_message.size())};
 
             parser.parse(buffer);
 
@@ -151,7 +151,7 @@ TEST_CASE("MbapParser")
                 0x00, 0x00, // Length
                 0x42,       // Unit identifier
         }};
-        ser4cpp::rseq_t buffer{length_zero_message.data(), length_zero_message.size()};
+        ser4cpp::rseq_t buffer{length_zero_message.data(), static_cast<uint32_t>(length_zero_message.size())};
 
         parser.parse(buffer);
 
@@ -159,7 +159,7 @@ TEST_CASE("MbapParser")
 
         SECTION("Then keep parsing as usual")
         {
-            buffer = ser4cpp::rseq_t{complete_message.data(), complete_message.size()};
+            buffer = ser4cpp::rseq_t{complete_message.data(), static_cast<uint32_t>(complete_message.size())};
 
             parser.parse(buffer);
 
@@ -177,7 +177,7 @@ TEST_CASE("MbapParser")
                 0x42,       // Unit identifier
                 0x76        // Data (length = 65535 bytes)
         }};
-        ser4cpp::rseq_t buffer{length_max_message.data(), length_max_message.size()};
+        ser4cpp::rseq_t buffer{length_max_message.data(), static_cast<uint32_t>(length_max_message.size())};
 
         parser.parse(buffer);
 
@@ -187,7 +187,7 @@ TEST_CASE("MbapParser")
 
         SECTION("Then keep parsing as usual")
         {
-            buffer = ser4cpp::rseq_t{complete_message.data(), complete_message.size()};
+            buffer = ser4cpp::rseq_t{complete_message.data(), static_cast<uint32_t>(complete_message.size())};
 
             parser.parse(buffer);
 

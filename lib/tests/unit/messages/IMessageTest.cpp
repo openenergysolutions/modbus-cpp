@@ -32,7 +32,7 @@ TEST_CASE("IMessage")
             0x03,       // Good function code
             0x42, 0x43 // Data
         }};
-        ser4cpp::rseq_t buffer{good_function_code.data(), good_function_code.size()};
+        ser4cpp::rseq_t buffer{good_function_code.data(), static_cast<uint32_t>(good_function_code.size())};
 
         auto result = IMessageMock::parse_function_code(function_code, buffer);
 
@@ -55,7 +55,7 @@ TEST_CASE("IMessage")
             0x01,       // Wrong function code
             0x00, 0x00 // Data
         }};
-        ser4cpp::rseq_t buffer{wrong_function_code.data(), wrong_function_code.size()};
+        ser4cpp::rseq_t buffer{wrong_function_code.data(), static_cast<uint32_t>(wrong_function_code.size())};
 
         auto result = IMessageMock::parse_function_code(function_code, buffer);
 
@@ -68,7 +68,7 @@ TEST_CASE("IMessage")
             0x81,      // Wrong exception function code
             0x00, 0x00 // Data
         }};
-        ser4cpp::rseq_t buffer{wrong_exception_function_code.data(), wrong_exception_function_code.size()};
+        ser4cpp::rseq_t buffer{wrong_exception_function_code.data(), static_cast<uint32_t>(wrong_exception_function_code.size())};
 
         auto result = IMessageMock::parse_function_code(function_code, buffer);
 
@@ -81,7 +81,7 @@ TEST_CASE("IMessage")
             0x83,      // Exception function code
             0x02, 0x03 // Data of invalid length
         }};
-        ser4cpp::rseq_t buffer{exception_function_code_invalid_length.data(), exception_function_code_invalid_length.size()};
+        ser4cpp::rseq_t buffer{exception_function_code_invalid_length.data(), static_cast<uint32_t>(exception_function_code_invalid_length.size())};
 
         auto result = IMessageMock::parse_function_code(function_code, buffer);
 
@@ -93,7 +93,7 @@ TEST_CASE("IMessage")
         std::array<uint8_t, 1> exception_function_without_code{{
             0x83,      // Exception function code
         }};
-        ser4cpp::rseq_t buffer{exception_function_without_code.data(), exception_function_without_code.size()};
+        ser4cpp::rseq_t buffer{exception_function_without_code.data(), static_cast<uint32_t>(exception_function_without_code.size())};
 
         auto result = IMessageMock::parse_function_code(function_code, buffer);
 
@@ -106,7 +106,7 @@ TEST_CASE("IMessage")
             0x83,      // Exception function code
             0x02       // Illegal data address
         }};
-        ser4cpp::rseq_t buffer{exception_function_code.data(), exception_function_code.size()};
+        ser4cpp::rseq_t buffer{exception_function_code.data(), static_cast<uint32_t>(exception_function_code.size())};
 
         auto result = IMessageMock::parse_function_code(function_code, buffer);
 

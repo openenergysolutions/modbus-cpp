@@ -69,7 +69,7 @@ TEST_CASE("WriteSingleRegisterRequestImpl")
                 0x12, 0x34, // Address
                 0x67, 0x89  // Value
             }};
-            ser4cpp::rseq_t buffer{proper_request.data(), proper_request.size()};
+            ser4cpp::rseq_t buffer{proper_request.data(), static_cast<uint32_t>(proper_request.size())};
 
             auto result = WriteSingleRegisterRequestImpl::parse(buffer);
 
@@ -86,7 +86,7 @@ TEST_CASE("WriteSingleRegisterRequestImpl")
                 0x12, 0x34, // Address
                 0x67, 0x89  // Value
             }};
-            ser4cpp::rseq_t buffer{proper_request.data(), proper_request.size()};
+            ser4cpp::rseq_t buffer{proper_request.data(), static_cast<uint32_t>(proper_request.size())};
 
             auto result = WriteSingleRegisterRequestImpl::parse(buffer);
 
@@ -98,7 +98,7 @@ TEST_CASE("WriteSingleRegisterRequestImpl")
             std::array<uint8_t, 1> too_small_request{ {
                 0x06 // Function code
             }};
-            ser4cpp::rseq_t buffer{ too_small_request.data(), too_small_request.size() };
+            ser4cpp::rseq_t buffer{too_small_request.data(), static_cast<uint32_t>(too_small_request.size())};
 
             auto result = WriteSingleRegisterRequestImpl::parse(buffer);
 
@@ -113,7 +113,7 @@ TEST_CASE("WriteSingleRegisterRequestImpl")
                 0x67, 0x89, // Value
                 0x42, 0x42  // Junk
             }};
-            ser4cpp::rseq_t buffer{ too_big_request.data(), too_big_request.size() };
+            ser4cpp::rseq_t buffer{too_big_request.data(), static_cast<uint32_t>(too_big_request.size())};
 
             auto result = WriteSingleRegisterRequestImpl::parse(buffer);
 

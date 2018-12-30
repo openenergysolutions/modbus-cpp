@@ -83,7 +83,7 @@ TEST_CASE("WriteSingleCoilResponse")
                 0x12, 0x34, // Address
                 0xFF, 0x00  // ON value
             }};
-            ser4cpp::rseq_t buffer{proper_response.data(), proper_response.size()};
+            ser4cpp::rseq_t buffer{proper_response.data(), static_cast<uint32_t>(proper_response.size())};
 
             auto result = WriteSingleCoilResponseImpl::parse(request_impl, buffer);
 
@@ -102,7 +102,7 @@ TEST_CASE("WriteSingleCoilResponse")
                 0x12, 0x34, // Address
                 0x00, 0x00  // OFF value
             }};
-            ser4cpp::rseq_t buffer{proper_response.data(), proper_response.size()};
+            ser4cpp::rseq_t buffer{proper_response.data(), static_cast<uint32_t>(proper_response.size())};
 
             auto result = WriteSingleCoilResponseImpl::parse(off_request_impl, buffer);
 
@@ -118,7 +118,7 @@ TEST_CASE("WriteSingleCoilResponse")
                 0x85,       // Exception function code
                 0x02        // Illegal data address
             }};
-            ser4cpp::rseq_t buffer{exception_response.data(), exception_response.size()};
+            ser4cpp::rseq_t buffer{exception_response.data(), static_cast<uint32_t>(exception_response.size())};
 
             auto result = WriteSingleCoilResponseImpl::parse(request_impl, buffer);
 
@@ -131,7 +131,7 @@ TEST_CASE("WriteSingleCoilResponse")
             std::array<uint8_t, 1> too_small_response{ {
                 0x05 // Function code
             }};
-            ser4cpp::rseq_t buffer{ too_small_response.data(), too_small_response.size() };
+            ser4cpp::rseq_t buffer{too_small_response.data(), static_cast<uint32_t>(too_small_response.size())};
 
             auto result = WriteSingleCoilResponseImpl::parse(request_impl, buffer);
 
@@ -146,7 +146,7 @@ TEST_CASE("WriteSingleCoilResponse")
                 0x67, 0x89, // Value
                 0x42, 0x42  // Junk
             }};
-            ser4cpp::rseq_t buffer{ too_big_response.data(), too_big_response.size() };
+            ser4cpp::rseq_t buffer{too_big_response.data(), static_cast<uint32_t>(too_big_response.size())};
 
             auto result = WriteSingleCoilResponseImpl::parse(request_impl, buffer);
 
@@ -160,7 +160,7 @@ TEST_CASE("WriteSingleCoilResponse")
                 0x12, 0x34, // Address
                 0x42, 0x42  // Wrong value
             }};
-            ser4cpp::rseq_t buffer{wrong_value_response.data(), wrong_value_response.size()};
+            ser4cpp::rseq_t buffer{wrong_value_response.data(), static_cast<uint32_t>(wrong_value_response.size())};
 
             auto result = WriteSingleCoilResponseImpl::parse(request_impl, buffer);
 

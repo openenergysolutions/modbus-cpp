@@ -39,7 +39,7 @@ TEST_CASE("ServerConnectionListener")
             0x42,       // Unit identifier
             0x98, 0x76  // Data
         }};
-        ser4cpp::rseq_t buffer{complete_mbap_message.data(), complete_mbap_message.size()};
+        ser4cpp::rseq_t buffer{complete_mbap_message.data(), static_cast<uint32_t>(complete_mbap_message.size())};
 
         connection_listener.on_receive(buffer);
         

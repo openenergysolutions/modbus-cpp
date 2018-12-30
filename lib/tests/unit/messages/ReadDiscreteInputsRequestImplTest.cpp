@@ -86,7 +86,7 @@ TEST_CASE("ReadDiscreteInputsRequestImpl")
                 0x12, 0x34, // Starting address
                 0x01, 0x23, // Quantity of outputs
             }};
-            ser4cpp::rseq_t buffer{proper_request.data(), proper_request.size()};
+            ser4cpp::rseq_t buffer{proper_request.data(), static_cast<uint32_t>(proper_request.size())};
 
             auto result = ReadDiscreteInputsRequestImpl::parse(buffer);
 
@@ -102,7 +102,7 @@ TEST_CASE("ReadDiscreteInputsRequestImpl")
                 0x12, 0x34, // Starting address
                 0x00, 0x00, // Quantity of outputs (0)
             }};
-            ser4cpp::rseq_t buffer{qty_of_outputs_0_request.data(), qty_of_outputs_0_request.size()};
+            ser4cpp::rseq_t buffer{qty_of_outputs_0_request.data(), static_cast<uint32_t>(qty_of_outputs_0_request.size())};
 
             auto result = ReadDiscreteInputsRequestImpl::parse(buffer);
 
@@ -116,7 +116,7 @@ TEST_CASE("ReadDiscreteInputsRequestImpl")
                 0x12, 0x34, // Starting address
                 0x07, 0xD1, // Quantity of outputs (2001)
             }};
-            ser4cpp::rseq_t buffer{qty_of_outputs_0_request.data(), qty_of_outputs_0_request.size()};
+            ser4cpp::rseq_t buffer{qty_of_outputs_0_request.data(), static_cast<uint32_t>(qty_of_outputs_0_request.size())};
 
             auto result = ReadDiscreteInputsRequestImpl::parse(buffer);
 
@@ -130,7 +130,7 @@ TEST_CASE("ReadDiscreteInputsRequestImpl")
                 0x02, // Function code
                 0x42, 0x42 // Random data
             }};
-            ser4cpp::rseq_t buffer{wrong_size_request.data(), wrong_size_request.size()};
+            ser4cpp::rseq_t buffer{wrong_size_request.data(), static_cast<uint32_t>(wrong_size_request.size())};
 
             auto result = ReadDiscreteInputsRequestImpl::parse(buffer);
 
@@ -144,7 +144,7 @@ TEST_CASE("ReadDiscreteInputsRequestImpl")
                 0x12, 0x34, // Starting address
                 0x01, 0x23, // Quantity of outputs
             }};
-            ser4cpp::rseq_t buffer{wrong_function_code_request.data(), wrong_function_code_request.size()};
+            ser4cpp::rseq_t buffer{wrong_function_code_request.data(), static_cast<uint32_t>(wrong_function_code_request.size())};
 
             auto result = ReadDiscreteInputsRequestImpl::parse(buffer);
 

@@ -131,7 +131,7 @@ TEST_CASE("WriteMultipleCoilsRequestImpl")
                 0x02,       // Byte count
                 0b01010101, 0b11110101, // Outputs value
             }};
-            ser4cpp::rseq_t buffer{proper_request.data(), proper_request.size()};
+            ser4cpp::rseq_t buffer{proper_request.data(), static_cast<uint32_t>(proper_request.size())};
 
             auto result = WriteMultipleCoilsRequestImpl::parse(buffer);
 
@@ -164,7 +164,7 @@ TEST_CASE("WriteMultipleCoilsRequestImpl")
                 0x02,       // Byte count
                 0b01010101, 0b11110101, // Outputs value
             }};
-            ser4cpp::rseq_t buffer{proper_request.data(), proper_request.size()};
+            ser4cpp::rseq_t buffer{proper_request.data(), static_cast<uint32_t>(proper_request.size())};
 
             auto result = WriteMultipleCoilsRequestImpl::parse(buffer);
 
@@ -206,7 +206,7 @@ TEST_CASE("WriteMultipleCoilsRequestImpl")
                 0x42, 0x42,
                 0x42, 0x42  // Output values
             }};
-            ser4cpp::rseq_t buffer{mismatch_request.data(), mismatch_request.size()};
+            ser4cpp::rseq_t buffer{mismatch_request.data(), static_cast<uint32_t>(mismatch_request.size())};
 
             auto result = WriteMultipleCoilsRequestImpl::parse(buffer);
 
@@ -223,7 +223,7 @@ TEST_CASE("WriteMultipleCoilsRequestImpl")
                 0x42, 0x42,
                 0x42, 0x42  // Output values (should only be 2 bytes)
             }};
-            ser4cpp::rseq_t buffer{mismatch_request.data(), mismatch_request.size()};
+            ser4cpp::rseq_t buffer{mismatch_request.data(), static_cast<uint32_t>(mismatch_request.size())};
 
             auto result = WriteMultipleCoilsRequestImpl::parse(buffer);
 
@@ -237,7 +237,7 @@ TEST_CASE("WriteMultipleCoilsRequestImpl")
                 0x00, 0x00, // Invalid quantity of outputs (0)
                 0x00,       // Byte count (0)
             }};
-            ser4cpp::rseq_t buffer{quantity_of_outputs_0_request.data(), quantity_of_outputs_0_request.size()};
+            ser4cpp::rseq_t buffer{quantity_of_outputs_0_request.data(), static_cast<uint32_t>(quantity_of_outputs_0_request.size())};
 
             auto result = WriteMultipleCoilsRequestImpl::parse(buffer);
 
@@ -252,7 +252,7 @@ TEST_CASE("WriteMultipleCoilsRequestImpl")
                 0x07, 0xB1, // Invalid quantity of outputs (1969)
                 0xF7,       // Byte count (247)
             }};
-            ser4cpp::rseq_t buffer{quantity_of_output_max_plus_one_request.data(), quantity_of_output_max_plus_one_request.size()};
+            ser4cpp::rseq_t buffer{quantity_of_output_max_plus_one_request.data(), static_cast<uint32_t>(quantity_of_output_max_plus_one_request.size())};
 
             auto result = WriteMultipleCoilsRequestImpl::parse(buffer);
 
@@ -268,7 +268,7 @@ TEST_CASE("WriteMultipleCoilsRequestImpl")
                 0x02,       // Byte count
                 0b01010101, 0b11110101, // Outputs value
             }};
-            ser4cpp::rseq_t buffer{invalid_function_code_request.data(), invalid_function_code_request.size()};
+            ser4cpp::rseq_t buffer{invalid_function_code_request.data(), static_cast<uint32_t>(invalid_function_code_request.size())};
 
             auto result = WriteMultipleCoilsRequestImpl::parse(buffer);
 
@@ -281,7 +281,7 @@ TEST_CASE("WriteMultipleCoilsRequestImpl")
                 0x12, 0x34, // Starting address
                 0x00, 0x0C, // Quantity of outputs (12)
             }};
-            ser4cpp::rseq_t buffer{too_short_request.data(), too_short_request.size()};
+            ser4cpp::rseq_t buffer{too_short_request.data(), static_cast<uint32_t>(too_short_request.size())};
 
             auto result = WriteMultipleCoilsRequestImpl::parse(buffer);
 

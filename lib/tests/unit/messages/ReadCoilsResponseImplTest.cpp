@@ -109,7 +109,7 @@ TEST_CASE("ReadCoilsResponseImpl")
                 0x02,       // Number of bytes
                 0b01010101, 0b11110000, // Coil values
             }};
-            ser4cpp::rseq_t buffer{proper_response.data(), proper_response.size()};
+            ser4cpp::rseq_t buffer{proper_response.data(), static_cast<uint32_t>(proper_response.size())};
 
             auto result = ReadCoilsResponseImpl::parse(request_impl, buffer);
 
@@ -143,7 +143,7 @@ TEST_CASE("ReadCoilsResponseImpl")
                 0x03,       // Number of bytes
                 0b01010101, 0b11110000, 0b00000001 // Coil values
             }};
-            ser4cpp::rseq_t buffer{proper_response.data(), proper_response.size()};
+            ser4cpp::rseq_t buffer{proper_response.data(), static_cast<uint32_t>(proper_response.size())};
 
             auto result = ReadCoilsResponseImpl::parse(request_impl_not_multiple_of_8, buffer);
 
@@ -175,7 +175,7 @@ TEST_CASE("ReadCoilsResponseImpl")
                 0x81, // Exception function code
                 0x02  // Illegal data address
             }};
-            ser4cpp::rseq_t buffer{exception_response.data(), exception_response.size()};
+            ser4cpp::rseq_t buffer{exception_response.data(), static_cast<uint32_t>(exception_response.size())};
 
             auto result = ReadCoilsResponseImpl::parse(request_impl, buffer);
 
@@ -188,7 +188,7 @@ TEST_CASE("ReadCoilsResponseImpl")
             std::array<uint8_t, 1> wrong_size_response{ {
                 0x01 // Function code
             }};
-            ser4cpp::rseq_t buffer{ wrong_size_response.data(), wrong_size_response.size() };
+            ser4cpp::rseq_t buffer{wrong_size_response.data(), static_cast<uint32_t>(wrong_size_response.size())};
 
             auto result = ReadCoilsResponseImpl::parse(request_impl, buffer);
 
@@ -202,7 +202,7 @@ TEST_CASE("ReadCoilsResponseImpl")
                 0x02, // Length should be 2
                 0x42  // Only 1 byte is received
             }};
-            ser4cpp::rseq_t buffer{wrong_size_response.data(), wrong_size_response.size()};
+            ser4cpp::rseq_t buffer{wrong_size_response.data(), static_cast<uint32_t>(wrong_size_response.size())};
 
             auto result = ReadCoilsResponseImpl::parse(request_impl, buffer);
 
@@ -216,7 +216,7 @@ TEST_CASE("ReadCoilsResponseImpl")
                 0x03,            // Size should be 2, not 3
                 0x42, 0x43, 0x44 // Data
             }};
-            ser4cpp::rseq_t buffer{ wrong_size_response.data(), wrong_size_response.size() };
+            ser4cpp::rseq_t buffer{wrong_size_response.data(), static_cast<uint32_t>(wrong_size_response.size())};
 
             auto result = ReadCoilsResponseImpl::parse(request_impl, buffer);
 

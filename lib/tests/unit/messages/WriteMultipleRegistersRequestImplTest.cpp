@@ -108,7 +108,7 @@ TEST_CASE("WriteMultipleRegistersRequestImpl")
                 0x12, 0x34,
                 0x56, 0x78  // Register values
             }};
-            ser4cpp::rseq_t buffer{proper_request.data(), proper_request.size()};
+            ser4cpp::rseq_t buffer{proper_request.data(), static_cast<uint32_t>(proper_request.size())};
 
             auto result = WriteMultipleRegistersRequestImpl::parse(buffer);
 
@@ -136,7 +136,7 @@ TEST_CASE("WriteMultipleRegistersRequestImpl")
                 0x42, 0x42,
                 0x42, 0x42  // Register values
             }};
-            ser4cpp::rseq_t buffer{mismatch_request.data(), mismatch_request.size()};
+            ser4cpp::rseq_t buffer{mismatch_request.data(), static_cast<uint32_t>(mismatch_request.size())};
 
             auto result = WriteMultipleRegistersRequestImpl::parse(buffer);
 
@@ -154,7 +154,7 @@ TEST_CASE("WriteMultipleRegistersRequestImpl")
                 0x42, 0x42,
                 0x42         // Extra register values
             }};
-            ser4cpp::rseq_t buffer{mismatch_request.data(), mismatch_request.size()};
+            ser4cpp::rseq_t buffer{mismatch_request.data(), static_cast<uint32_t>(mismatch_request.size())};
 
             auto result = WriteMultipleRegistersRequestImpl::parse(buffer);
 
@@ -168,7 +168,7 @@ TEST_CASE("WriteMultipleRegistersRequestImpl")
                 0x00, 0x00, // Invalid quantity of registers (0)
                 0x00,       // Byte count (0)
             }};
-            ser4cpp::rseq_t buffer{quantity_of_registers_0_request.data(), quantity_of_registers_0_request.size()};
+            ser4cpp::rseq_t buffer{quantity_of_registers_0_request.data(), static_cast<uint32_t>(quantity_of_registers_0_request.size())};
 
             auto result = WriteMultipleRegistersRequestImpl::parse(buffer);
 
@@ -183,7 +183,7 @@ TEST_CASE("WriteMultipleRegistersRequestImpl")
                 0x00, 0x7C, // Invalid quantity of registers (124)
                 0xF8,       // Byte count (248)
             }};
-            ser4cpp::rseq_t buffer{quantity_of_registers_max_plus_one_request.data(), quantity_of_registers_max_plus_one_request.size()};
+            ser4cpp::rseq_t buffer{quantity_of_registers_max_plus_one_request.data(), static_cast<uint32_t>(quantity_of_registers_max_plus_one_request.size())};
 
             auto result = WriteMultipleRegistersRequestImpl::parse(buffer);
 
@@ -200,7 +200,7 @@ TEST_CASE("WriteMultipleRegistersRequestImpl")
                 0x42, 0x42,
                 0x42, 0x42  // Register values
             }};
-            ser4cpp::rseq_t buffer{invalid_function_code_request.data(), invalid_function_code_request.size()};
+            ser4cpp::rseq_t buffer{invalid_function_code_request.data(), static_cast<uint32_t>(invalid_function_code_request.size())};
 
             auto result = WriteMultipleRegistersRequestImpl::parse(buffer);
 
@@ -213,7 +213,7 @@ TEST_CASE("WriteMultipleRegistersRequestImpl")
                 0x12, 0x34, // Starting address
                 0x00, 0x02, // Quantity of registers (2)
             }};
-            ser4cpp::rseq_t buffer{too_short_request.data(), too_short_request.size()};
+            ser4cpp::rseq_t buffer{too_short_request.data(), static_cast<uint32_t>(too_short_request.size())};
 
             auto result = WriteMultipleRegistersRequestImpl::parse(buffer);
 

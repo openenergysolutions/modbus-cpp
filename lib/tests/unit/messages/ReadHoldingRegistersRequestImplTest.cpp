@@ -86,7 +86,7 @@ TEST_CASE("ReadHoldingRegistersRequestImpl")
                 0x12, 0x34, // Starting address
                 0x00, 0x23, // Quantity of registers
             }};
-            ser4cpp::rseq_t buffer{proper_request.data(), proper_request.size()};
+            ser4cpp::rseq_t buffer{proper_request.data(), static_cast<uint32_t>(proper_request.size())};
 
             auto result = ReadHoldingRegistersRequestImpl::parse(buffer);
 
@@ -102,7 +102,7 @@ TEST_CASE("ReadHoldingRegistersRequestImpl")
                 0x12, 0x34, // Starting address
                 0x00, 0x00, // Quantity of registers (0)
             }};
-            ser4cpp::rseq_t buffer{qty_of_registers_0_request.data(), qty_of_registers_0_request.size()};
+            ser4cpp::rseq_t buffer{qty_of_registers_0_request.data(), static_cast<uint32_t>(qty_of_registers_0_request.size())};
 
             auto result = ReadHoldingRegistersRequestImpl::parse(buffer);
 
@@ -116,7 +116,7 @@ TEST_CASE("ReadHoldingRegistersRequestImpl")
                 0x12, 0x34, // Starting address
                 0x00, 0x7E, // Quantity of registers (126)
             }};
-            ser4cpp::rseq_t buffer{qty_of_registers_max_plus_one_request.data(), qty_of_registers_max_plus_one_request.size()};
+            ser4cpp::rseq_t buffer{qty_of_registers_max_plus_one_request.data(), static_cast<uint32_t>(qty_of_registers_max_plus_one_request.size())};
 
             auto result = ReadHoldingRegistersRequestImpl::parse(buffer);
 
@@ -130,7 +130,7 @@ TEST_CASE("ReadHoldingRegistersRequestImpl")
                 0x03, // Function code
                 0x42, 0x42 // Random data
             }};
-            ser4cpp::rseq_t buffer{wrong_size_request.data(), wrong_size_request.size()};
+            ser4cpp::rseq_t buffer{wrong_size_request.data(), static_cast<uint32_t>(wrong_size_request.size())};
 
             auto result = ReadHoldingRegistersRequestImpl::parse(buffer);
 
@@ -144,7 +144,7 @@ TEST_CASE("ReadHoldingRegistersRequestImpl")
                 0x12, 0x34, // Starting address
                 0x01, 0x23, // Quantity of outputs
             }};
-            ser4cpp::rseq_t buffer{wrong_function_code_request.data(), wrong_function_code_request.size()};
+            ser4cpp::rseq_t buffer{wrong_function_code_request.data(), static_cast<uint32_t>(wrong_function_code_request.size())};
 
             auto result = ReadHoldingRegistersRequestImpl::parse(buffer);
 

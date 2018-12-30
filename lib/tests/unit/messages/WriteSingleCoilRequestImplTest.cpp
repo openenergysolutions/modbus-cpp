@@ -81,7 +81,7 @@ TEST_CASE("WriteSingleCoilRequestImpl")
                 0x12, 0x34, // Output address
                 0xFF, 0x00, // Output value (ON)
             }};
-            ser4cpp::rseq_t buffer{proper_request.data(), proper_request.size()};
+            ser4cpp::rseq_t buffer{proper_request.data(), static_cast<uint32_t>(proper_request.size())};
 
             auto result = WriteSingleCoilRequestImpl::parse(buffer);
 
@@ -97,7 +97,7 @@ TEST_CASE("WriteSingleCoilRequestImpl")
                 0x12, 0x34, // Output address
                 0x00, 0x00, // Output value (OFF)
             }};
-            ser4cpp::rseq_t buffer{proper_request.data(), proper_request.size()};
+            ser4cpp::rseq_t buffer{proper_request.data(), static_cast<uint32_t>(proper_request.size())};
 
             auto result = WriteSingleCoilRequestImpl::parse(buffer);
 
@@ -114,7 +114,7 @@ TEST_CASE("WriteSingleCoilRequestImpl")
                 0x12, 0x34, // Output address
                 0x42, 0x42, // Invalid output value
             }};
-            ser4cpp::rseq_t buffer{wrong_output_value_request.data(), wrong_output_value_request.size()};
+            ser4cpp::rseq_t buffer{wrong_output_value_request.data(), static_cast<uint32_t>(wrong_output_value_request.size())};
 
             auto result = WriteSingleCoilRequestImpl::parse(buffer);
 
@@ -128,7 +128,7 @@ TEST_CASE("WriteSingleCoilRequestImpl")
                 0x05, // Function code
                 0x42, 0x42 // Random data
             }};
-            ser4cpp::rseq_t buffer{wrong_size_request.data(), wrong_size_request.size()};
+            ser4cpp::rseq_t buffer{wrong_size_request.data(), static_cast<uint32_t>(wrong_size_request.size())};
 
             auto result = WriteSingleCoilRequestImpl::parse(buffer);
 
@@ -142,7 +142,7 @@ TEST_CASE("WriteSingleCoilRequestImpl")
                 0x12, 0x34, // Output address
                 0xFF, 0x00, // Output value
             }};
-            ser4cpp::rseq_t buffer{wrong_function_code_request.data(), wrong_function_code_request.size()};
+            ser4cpp::rseq_t buffer{wrong_function_code_request.data(), static_cast<uint32_t>(wrong_function_code_request.size())};
 
             auto result = WriteSingleCoilRequestImpl::parse(buffer);
 

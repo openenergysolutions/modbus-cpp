@@ -84,7 +84,7 @@ TEST_CASE("WriteMultpileCoilsResponseImpl")
                 0x12, 0x34, // Starting address
                 0x00, 0x03  // Qty of registers
             }};
-            ser4cpp::rseq_t buffer{proper_response.data(), proper_response.size()};
+            ser4cpp::rseq_t buffer{proper_response.data(), static_cast<uint32_t>(proper_response.size())};
 
             auto result = WriteMultipleCoilsResponseImpl::parse(request, buffer);
 
@@ -100,7 +100,7 @@ TEST_CASE("WriteMultpileCoilsResponseImpl")
                 0x8F,       // Exception function code
                 0x02        // Illegal data address
             }};
-            ser4cpp::rseq_t buffer{exception_response.data(), exception_response.size()};
+            ser4cpp::rseq_t buffer{exception_response.data(), static_cast<uint32_t>(exception_response.size())};
 
             auto result = WriteMultipleCoilsResponseImpl::parse(request, buffer);
 
@@ -113,7 +113,7 @@ TEST_CASE("WriteMultpileCoilsResponseImpl")
             std::array<uint8_t, 1> too_small_response{{
                 0x0F // Function code
             }};
-            ser4cpp::rseq_t buffer{ too_small_response.data(), too_small_response.size() };
+            ser4cpp::rseq_t buffer{ too_small_response.data(), static_cast<uint32_t>(too_small_response.size())};
 
             auto result = WriteMultipleCoilsResponseImpl::parse(request, buffer);
 
@@ -128,7 +128,7 @@ TEST_CASE("WriteMultpileCoilsResponseImpl")
                 0x00, 0x03, // Qty of coils
                 0x42, 0x42  // Junk
             }};
-            ser4cpp::rseq_t buffer{ too_big_response.data(), too_big_response.size() };
+            ser4cpp::rseq_t buffer{ too_big_response.data(), static_cast<uint32_t>(too_big_response.size())};
 
             auto result = WriteMultipleCoilsResponseImpl::parse(request, buffer);
 

@@ -34,7 +34,7 @@ TEST_CASE("MbapMessage")
             0x42,       // Unit identifier
             0x76, 0x76  // Data
     }};
-    ser4cpp::rseq_t raw_request{raw_request_data.data(), raw_request_data.size()};
+    ser4cpp::rseq_t raw_request{raw_request_data.data(), static_cast<uint32_t>(raw_request_data.size())};
 
     SECTION("When constructor, then set the values appropriately")
     {
@@ -68,7 +68,7 @@ TEST_CASE("MbapMessage")
                 0x00, 0x01, // Length
                 0x42,       // Unit identifier
         }};
-        ser4cpp::rseq_t expected_message{expected_message_data.data(), expected_message_data.size()};
+        ser4cpp::rseq_t expected_message{expected_message_data.data(), static_cast<uint32_t>(expected_message_data.size())};
         REQUIRE(result.equals(expected_message));
     }
 
