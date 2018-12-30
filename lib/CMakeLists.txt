@@ -46,6 +46,11 @@ set(modbus_public_headers
 
     ./include/modbus/server/IServerChannel.h
     ./include/modbus/server/IServerSession.h
+
+    ./include/modbus/server/db/BitDatabase.h
+    ./include/modbus/server/db/InMemoryDatabase.h
+    ./include/modbus/server/db/RegisterDatabase.h
+    ./include/modbus/server/db/SingleTypeDatabase.h
 )
 
 set(modbus_private_headers
@@ -142,6 +147,9 @@ set(modbus_src
     ./src/server/channel/ServerChannelTcp.cpp
     ./src/server/channel/ServerConnectionListener.cpp
     ./src/server/channel/ServerConnectionListenerBuilder.cpp
+
+    ./src/server/db/InMemoryDatabase.cpp
+    ./src/server/db/SingleTypeDatabase.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${modbus_public_headers} ${modbus_private_headers} ${modbus_src})

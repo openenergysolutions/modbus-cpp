@@ -23,10 +23,11 @@ Modbus TCP master library in modern C++.
 ## Tests
 To run the tests, simply execute `ctest .` in your build directory.
 
-**Note**: `AsioTcpConnectionTest` requires that the port 8888 is available. If
-for any reason this port is not available, either skip the tests by appending
-`~AsioTcpConnection` to the command line arguments, or change the `test_port`
-variable in `AsioTcpConnectionTest`.
+**Note**: `AsioClientTcpConnectionTest` and `AsioServerTest` requires that the
+port 8888 is available. If for any reason this port is not available, either
+skip the tests by appending `~AsioClientTcpConnection ~AsioServer` to the
+command line arguments, or change the `test_port` variable in
+`AsioClientTcpConnectionTest` and `AsioServerTest`.
 
 To run performance tests, simply build and run target `modbus_perf_tests`. It
 will create 100 servers (from port 8000 to 8199), with 20 clients connected to

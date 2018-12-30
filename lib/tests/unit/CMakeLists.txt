@@ -65,6 +65,8 @@ set(modbus_tests_src
     ./server/channel/ServerChannelTcpTest.cpp
     ./server/channel/ServerConnectionListenerBuilderTest.cpp
     ./server/channel/ServerConnectionListenerTest.cpp
+
+    ./server/db/SingleTypeDatabaseTest.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${modbus_tests_headers} ${modbus_tests_src})

@@ -20,6 +20,7 @@
 #include "modbus/exceptions/IException.h"
 #include "modbus/exceptions/TimeoutException.h"
 #include "modbus/logging/LoggerFactory.h"
+#include "modbus/server/db/InMemoryDatabase.h"
 
 using namespace modbus;
 
@@ -57,6 +58,17 @@ int main(int argc, char* argv[])
         auto session = std::make_shared<CustomSession>();
         channel->add_session(UnitIdentifier{ 0x01 }, session);
 
+        // Create an in-memory database session and add it to the channel
+        auto db_session = std::make_shared<InMemoryDatabase>();
+        for(uint16_t i = 0; i < 100; ++i)
+        {
+            db_session->add_coil(i, i % 2 != 0);
+            db_session->add_discrete_input(i, i % 2 != 0);
+            db_session->add_holding_register(i, i);
+            db_session->add_input_register(i, i);
+        }
+        channel->add_session(UnitIdentifier{ 0x02 }, db_session);
+
         // Start the server
         channel->start();
 
@@ -67,6 +79,14 @@ int main(int argc, char* argv[])
 
             switch (cmd)
             {
+            case 'f':
+            {
+                // Flip a coil
+                bool value;
+                db_session->get_coil(0x0000, value);
+                db_session->set_coil(0x0000, !value);
+                break;
+            }
             case 'q':
                 // Quit
                 goto exit;
