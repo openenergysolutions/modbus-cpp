@@ -66,6 +66,7 @@ set(modbus_tests_src
     ./server/channel/ServerConnectionListenerBuilderTest.cpp
     ./server/channel/ServerConnectionListenerTest.cpp
 
+    ./server/db/InMemoryDatabaseTest.cpp
     ./server/db/SingleTypeDatabaseTest.cpp
 )
 
