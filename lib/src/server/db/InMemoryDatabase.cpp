@@ -27,39 +27,11 @@ bool InMemoryDatabase::add_coil(Address address, bool value)
     return m_coil_db.add_value(address, value);
 }
 
-bool InMemoryDatabase::get_coil(Address address, bool& output)
-{
-    std::lock_guard<std::mutex> lock{m_mutex};
-
-    return m_coil_db.get_value(address, output);
-}
-
-bool InMemoryDatabase::set_coil(Address address, bool value)
-{
-    std::lock_guard<std::mutex> lock{m_mutex};
-
-    return m_coil_db.set_value(address, value);
-}
-
 bool InMemoryDatabase::add_discrete_input(Address address, bool value)
 {
     std::lock_guard<std::mutex> lock{m_mutex};
 
     return m_discrete_input_db.add_value(address, value);
-}
-
-bool InMemoryDatabase::get_discrete_input(Address address, bool& output)
-{
-    std::lock_guard<std::mutex> lock{m_mutex};
-
-    return m_discrete_input_db.get_value(address, output);
-}
-
-bool InMemoryDatabase::set_discrete_input(Address address, bool value)
-{
-    std::lock_guard<std::mutex> lock{m_mutex};
-    
-    return m_discrete_input_db.set_value(address, value);
 }
 
 bool InMemoryDatabase::add_holding_register(Address address, uint16_t value)
@@ -69,20 +41,6 @@ bool InMemoryDatabase::add_holding_register(Address address, uint16_t value)
     return m_holding_register_db.add_value(address, value);
 }
 
-bool InMemoryDatabase::get_holding_register(Address address, uint16_t& output)
-{
-    std::lock_guard<std::mutex> lock{m_mutex};
-
-    return m_holding_register_db.get_value(address, output);
-}
-
-bool InMemoryDatabase::set_holding_register(Address address, uint16_t value)
-{
-    std::lock_guard<std::mutex> lock{m_mutex};
-    
-    return m_holding_register_db.set_value(address, value);
-}
-
 bool InMemoryDatabase::add_input_register(Address address, uint16_t value)
 {
     std::lock_guard<std::mutex> lock{m_mutex};
@@ -90,18 +48,11 @@ bool InMemoryDatabase::add_input_register(Address address, uint16_t value)
     return m_input_register_db.add_value(address, value);
 }
 
-bool InMemoryDatabase::get_input_register(Address address, uint16_t& output)
+void InMemoryDatabase::execute_transaction(std::function<void(IDatabase& db)> transaction)
 {
     std::lock_guard<std::mutex> lock{m_mutex};
 
-    return m_input_register_db.get_value(address, output);
-}
-
-bool InMemoryDatabase::set_input_register(Address address, uint16_t value)
-{
-    std::lock_guard<std::mutex> lock{m_mutex};
-    
-    return m_input_register_db.set_value(address, value);
+    transaction(*this);
 }
 
 Expected<ReadCoilsResponse> InMemoryDatabase::on_request(const ReadCoilsRequest& request)
@@ -234,6 +185,46 @@ Expected<WriteMultipleRegistersResponse> InMemoryDatabase::on_request(const Writ
 
     WriteMultipleRegistersResponse response{request.starting_address, static_cast<uint16_t>(request.values.size())};
     return Expected<WriteMultipleRegistersResponse>{response};
+}
+
+bool InMemoryDatabase::get_coil(Address address, bool& output) const
+{
+    return m_coil_db.get_value(address, output);
+}
+
+bool InMemoryDatabase::set_coil(Address address, bool value)
+{
+    return m_coil_db.set_value(address, value);
+}
+
+bool InMemoryDatabase::get_discrete_input(Address address, bool& output) const
+{
+    return m_discrete_input_db.get_value(address, output);
+}
+
+bool InMemoryDatabase::set_discrete_input(Address address, bool value)
+{
+    return m_discrete_input_db.set_value(address, value);
+}
+
+bool InMemoryDatabase::get_holding_register(Address address, uint16_t& output) const
+{
+    return m_holding_register_db.get_value(address, output);
+}
+
+bool InMemoryDatabase::set_holding_register(Address address, uint16_t value)
+{
+    return m_holding_register_db.set_value(address, value);
+}
+
+bool InMemoryDatabase::get_input_register(Address address, uint16_t& output) const
+{
+    return m_input_register_db.get_value(address, output);
+}
+
+bool InMemoryDatabase::set_input_register(Address address, uint16_t value)
+{
+    return m_input_register_db.set_value(address, value);
 }
 
 } // namespace modbus

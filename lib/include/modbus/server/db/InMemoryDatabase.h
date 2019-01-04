@@ -21,31 +21,23 @@
 
 #include "modbus/server/IServerSession.h"
 #include "modbus/server/db/BitDatabase.h"
+#include "modbus/server/db/IDatabase.h"
 #include "modbus/server/db/RegisterDatabase.h"
 
 namespace modbus
 {
 
-class InMemoryDatabase : public IServerSession
+class InMemoryDatabase : public IServerSession, public IDatabase
 {
 public:
     virtual ~InMemoryDatabase() = default;
 
     bool add_coil(Address address, bool value);
-    bool get_coil(Address address, bool& output);
-    bool set_coil(Address address, bool value);
-
     bool add_discrete_input(Address address, bool value);
-    bool get_discrete_input(Address address, bool& output);
-    bool set_discrete_input(Address address, bool value);
-
     bool add_holding_register(Address address, uint16_t value);
-    bool get_holding_register(Address address, uint16_t& output);
-    bool set_holding_register(Address address, uint16_t value);
-
     bool add_input_register(Address address, uint16_t value);
-    bool get_input_register(Address address, uint16_t& output);
-    bool set_input_register(Address address, uint16_t value);
+
+    void execute_transaction(std::function<void(IDatabase& db)> transaction);
 
 protected:
     // IServerSession
@@ -57,6 +49,19 @@ protected:
     Expected<WriteSingleRegisterResponse> on_request(const WriteSingleRegisterRequest& request) override;
     Expected<WriteMultipleCoilsResponse> on_request(const WriteMultipleCoilsRequest& request) override;
     Expected<WriteMultipleRegistersResponse> on_request(const WriteMultipleRegistersRequest& request) override;
+
+    // IDatabase
+    bool get_coil(Address address, bool& output) const override;
+    bool set_coil(Address address, bool value) override;
+
+    bool get_discrete_input(Address address, bool& output) const override;
+    bool set_discrete_input(Address address, bool value) override;
+
+    bool get_holding_register(Address address, uint16_t& output) const override;
+    bool set_holding_register(Address address, uint16_t value) override;
+
+    bool get_input_register(Address address, uint16_t& output) const override;
+    bool set_input_register(Address address, uint16_t value) override;
 
 private:
     std::mutex m_mutex;

@@ -48,6 +48,7 @@ set(modbus_public_headers
     ./include/modbus/server/IServerSession.h
 
     ./include/modbus/server/db/BitDatabase.h
+    ./include/modbus/server/db/IDatabase.h
     ./include/modbus/server/db/InMemoryDatabase.h
     ./include/modbus/server/db/RegisterDatabase.h
     ./include/modbus/server/db/SingleTypeDatabase.h

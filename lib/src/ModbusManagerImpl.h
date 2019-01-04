@@ -34,6 +34,7 @@ public:
                                                               const LoggingLevel level) override;
     std::shared_ptr<IServerChannel> create_server_tcp_channel(const std::string& name,
                                                               const Ipv4Endpoint& endpoint,
+                                                              unsigned int max_num_connections,
                                                               const LoggingLevel level) override;
     void shutdown() override;
 
