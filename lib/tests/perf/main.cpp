@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
 
         // Create server
         auto server_session = std::make_shared<ServerSession>();
-        auto server_channel = modbus_manager->create_server_tcp_channel(server_name, Ipv4Endpoint{"127.0.0.1", port}, LoggingLevel::Debug);
+        auto server_channel = modbus_manager->create_server_tcp_channel(server_name, Ipv4Endpoint{"127.0.0.1", port}, 16, LoggingLevel::Debug);
         server_channel->add_session(UnitIdentifier::default_unit_identifier(), server_session);
         server_channel->start();
         

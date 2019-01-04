@@ -82,9 +82,11 @@ int main(int argc, char* argv[])
             case 'f':
             {
                 // Flip a coil
-                bool value;
-                db_session->get_coil(0x0000, value);
-                db_session->set_coil(0x0000, !value);
+                db_session->execute_transaction([](IDatabase& database) {
+                    bool value;
+                    database.get_coil(0x0000, value);
+                    database.set_coil(0x0000, !value);
+                });
                 break;
             }
             case 'q':

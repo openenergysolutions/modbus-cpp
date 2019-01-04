@@ -62,6 +62,7 @@ std::shared_ptr<IClientChannel> ModbusManagerImpl::create_client_tcp_channel(con
 
 std::shared_ptr<IServerChannel> ModbusManagerImpl::create_server_tcp_channel(const std::string& name,
                                                                              const Ipv4Endpoint& endpoint,
+                                                                             unsigned int max_num_connections,
                                                                              const LoggingLevel level)
 {
     auto executor = std::make_shared<exe4cpp::StrandExecutor>(m_io_service);
@@ -70,7 +71,7 @@ std::shared_ptr<IServerChannel> ModbusManagerImpl::create_server_tcp_channel(con
     auto server = std::make_shared<AsioServer>(connection_logger,
                                                        executor,
                                                        endpoint,
-                                                       16); // TODO: take max connexions as a parameter
+                                                       max_num_connections);
 
     auto channel = std::make_shared<ServerChannelTcp>(connection_logger, executor, server);
 

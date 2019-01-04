@@ -110,9 +110,10 @@ public:
 
     /**
      * @brief Create a server (slave) TCP channel.
-     * @param name      Name associated with the channel. This name will appear in the logs.
-     * @param endpoint  IPv4 endpoint to which the channel will be listening.
-     * @param level     Logging level of the channel.
+     * @param name                Name associated with the channel. This name will appear in the logs.
+     * @param endpoint            IPv4 endpoint to which the channel will be listening.
+     * @param max_num_connections Maximum number of concurrent connections to the server
+     * @param level               Logging level of the channel.
      * @returns Shared pointer of a @ref IServerChannel instance.
      *
      * @note The returned channel instance is shared with the internal of the library. If you
@@ -121,6 +122,7 @@ public:
      */
     virtual std::shared_ptr<IServerChannel> create_server_tcp_channel(const std::string& name,
                                                                       const Ipv4Endpoint& endpoint,
+                                                                      unsigned int max_num_connections = 16,
                                                                       const LoggingLevel level = LoggingLevel::Info) = 0;
 
     /**
