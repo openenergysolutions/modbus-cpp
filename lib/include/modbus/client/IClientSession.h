@@ -17,7 +17,7 @@
 #define MODBUS_ICLIENTSESSION_H
 
 /** @file
- * @brief Interface @ref modbus::ISession
+ * @brief Interface @ref modbus::IClientSession
  */
 
 #include <memory>
@@ -52,15 +52,15 @@ namespace modbus
  * This class represents a session for communicatiing with a Modbus device. This is the class you'll be using
  * to send requests to the device and schedule them for periodic polling.
  *
- * An instance of this class can be obtained via @ref IChannel::create_session().
+ * An instance of this class can be obtained via @ref IClientChannel::create_session().
  *
  * It is possible to have multiple sessions on a single channel. For example, if you are communicating
  * with a gateway, you can have a single channel to the gateway and multiple sessions for each slave devices
- * connected to the gateway. The unit identifier for each device is set in @ref IChannel::create_session().
+ * connected to the gateway. The unit identifier for each device is set in @ref IClientChannel::create_session().
  *
  * For details on the polling behavior, see @ref IScheduledRequest.
  *
- * The default timeout is configured in @ref IChannel::create_session().
+ * The default timeout is configured in @ref IClientChannel::create_session().
  *
  * This class provides access to timer in order to implement custom polling strategies. See
  * @ref start(const duration_t& duration, const action_t& action) and
@@ -74,7 +74,7 @@ namespace modbus
  * to eliminate the risks of race conditions in the user code. See @ref IModbusManager and
  * @ref ResponseHandler for more details.
  *
- * @see @ref IModbusManager, @ref IChannel
+ * @see @ref IModbusManager, @ref IClientChannel
  */
 class IClientSession : public std::enable_shared_from_this<IClientSession>
 {
@@ -82,26 +82,26 @@ public:
     /**
      * @brief Destructor
      *
-     * @warning This destructor should never be called from user code. @ref IChannel
+     * @warning This destructor should never be called from user code. @ref IClientChannel
      * will hold a shared pointer to every sessions it has created and will release them in
-     * @ref IChannel::shutdown(), which is probably called by @ref IModbusManager::shutdown().
+     * @ref IClientChannel::shutdown(), which is probably called by @ref IModbusManager::shutdown().
      *
-     * @see @ref IModbusManager::shutdown(), @ref IChannel::shutdown(), @ref shutdown()
+     * @see @ref IModbusManager::shutdown(), @ref IClientChannel::shutdown(), @ref shutdown()
      */
     virtual ~IClientSession() = default;
 
     /**
      * @brief Cancels all pending requests and all scheduled requests.
      *
-     * @note This method is not usually called by user code, but by @ref IChannel::shutdown(), which is normally
+     * @note This method is not usually called by user code, but by @ref IClientChannel::shutdown(), which is normally
      * called by @ref IModbusManager::shutdown(). It is
      * still possible to shutdown a session manually using this method, however please note that the
-     * @ref IChannel will keep holding a shared pointer to it.
+     * @ref IClientChannel will keep holding a shared pointer to it.
      *
      * @warning Once a session is shutdown, sending requests through it is not permitted. Sessions cannot
-     * be restarted, but you can safely create a new one via @ref IChannel.
+     * be restarted, but you can safely create a new one via @ref IClientChannel.
      *
-     * @see @ref IModbusManager::shutdown(), @ref IChannel::shutdown()
+     * @see @ref IModbusManager::shutdown(), @ref IClientChannel::shutdown()
      */
     virtual void shutdown() = 0;
 
@@ -111,7 +111,7 @@ public:
     * @param request Request to send
     * @param handler Handler called when the response is received
     *
-    * @note This method uses the default timout value set in @ref IChannel::create_session.
+    * @note This method uses the default timout value set in @ref IClientChannel::create_session.
     */
     virtual void send_request(const ReadCoilsRequest& request,
                               ResponseHandler<ReadCoilsResponse> handler) = 0;
@@ -130,7 +130,7 @@ public:
      * @param request Request to send
      * @param handler Handler called when the response is received
      *
-     * @note This method uses the default timout value set in @ref IChannel::create_session.
+     * @note This method uses the default timout value set in @ref IClientChannel::create_session.
      */
     virtual void send_request(const ReadDiscreteInputsRequest& request,
                               ResponseHandler<ReadDiscreteInputsResponse> handler) = 0;
@@ -149,7 +149,7 @@ public:
      * @param request Request to send
      * @param handler Handler called when the response is received
      *
-     * @note This method uses the default timout value set in @ref IChannel::create_session.
+     * @note This method uses the default timout value set in @ref IClientChannel::create_session.
      */
     virtual void send_request(const ReadHoldingRegistersRequest& request,
                               ResponseHandler<ReadHoldingRegistersResponse> handler) = 0;
@@ -168,7 +168,7 @@ public:
      * @param request Request to send
      * @param handler Handler called when the response is received
      *
-     * @note This method uses the default timout value set in @ref IChannel::create_session.
+     * @note This method uses the default timout value set in @ref IClientChannel::create_session.
      */
     virtual void send_request(const ReadInputRegistersRequest& request,
                               ResponseHandler<ReadInputRegistersResponse> handler) = 0;
@@ -187,7 +187,7 @@ public:
     * @param request Request to send
     * @param handler Handler called when the response is received
     *
-    * @note This method uses the default timout value set in @ref IChannel::create_session.
+    * @note This method uses the default timout value set in @ref IClientChannel::create_session.
     */
     virtual void send_request(const WriteSingleCoilRequest& request,
                               ResponseHandler<WriteSingleCoilResponse> handler) = 0;
@@ -206,7 +206,7 @@ public:
      * @param request Request to send
      * @param handler Handler called when the response is received
      *
-     * @note This method uses the default timout value set in @ref IChannel::create_session.
+     * @note This method uses the default timout value set in @ref IClientChannel::create_session.
      */
     virtual void send_request(const WriteSingleRegisterRequest& request,
                               ResponseHandler<WriteSingleRegisterResponse> handler) = 0;
@@ -225,7 +225,7 @@ public:
      * @param request Request to send
      * @param handler Handler called when the response is received
      *
-     * @note This method uses the default timout value set in @ref IChannel::create_session.
+     * @note This method uses the default timout value set in @ref IClientChannel::create_session.
      */
     virtual void send_request(const WriteMultipleCoilsRequest& request,
                               ResponseHandler<WriteMultipleCoilsResponse> handler) = 0;
@@ -244,7 +244,7 @@ public:
      * @param request Request to send
      * @param handler Handler called when the response is received
      *
-     * @note This method uses the default timout value set in @ref IChannel::create_session.
+     * @note This method uses the default timout value set in @ref IClientChannel::create_session.
      */
     virtual void send_request(const WriteMultipleRegistersRequest& request,
                               ResponseHandler<WriteMultipleRegistersResponse> handler) = 0;
@@ -265,7 +265,7 @@ public:
     * @param frequency Frequency to send the request
     * @param handler Handler called when the response is received
     *
-    * @note This method uses the default timout value set in @ref IChannel::create_session.
+    * @note This method uses the default timout value set in @ref IClientChannel::create_session.
     */
     virtual std::shared_ptr<IScheduledRequest> schedule_request(const ReadCoilsRequest& request,
                                                                 const duration_t& frequency,
@@ -288,7 +288,7 @@ public:
      * @param frequency Frequency to send the request
      * @param handler Handler called when the response is received
      *
-     * @note This method uses the default timout value set in @ref IChannel::create_session.
+     * @note This method uses the default timout value set in @ref IClientChannel::create_session.
      */
     virtual std::shared_ptr<IScheduledRequest> schedule_request(const ReadDiscreteInputsRequest& request,
                                                                 const duration_t& frequency,
@@ -311,7 +311,7 @@ public:
      * @param frequency Frequency to send the request
      * @param handler Handler called when the response is received
      *
-     * @note This method uses the default timout value set in @ref IChannel::create_session.
+     * @note This method uses the default timout value set in @ref IClientChannel::create_session.
      */
     virtual std::shared_ptr<IScheduledRequest> schedule_request(const ReadHoldingRegistersRequest& request,
                                                                 const duration_t& frequency,
@@ -334,7 +334,7 @@ public:
      * @param frequency Frequency to send the request
      * @param handler Handler called when the response is received
      *
-     * @note This method uses the default timout value set in @ref IChannel::create_session.
+     * @note This method uses the default timout value set in @ref IClientChannel::create_session.
      */
     virtual std::shared_ptr<IScheduledRequest> schedule_request(const ReadInputRegistersRequest& request,
                                                                 const duration_t& frequency,

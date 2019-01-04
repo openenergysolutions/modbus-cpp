@@ -35,15 +35,15 @@ namespace modbus
  * holding the physical connection, serializing the PDU in ADU and sequencing the outstanding requests.
  *
  * You cannot send requests directly from this class. You must create a session with the @ref create_session()
- * methods and send the requests from the returned @ref ISession.
+ * methods and send the requests from the returned @ref IClientSession.
  *
- * An instance of this class can be obtained via @ref IModbusManager::create_tcp_channel().
+ * An instance of this class can be obtained via @ref IModbusManager::create_client_tcp_channel().
  *
  * @note Currently, the TCP channel supports only one outstanding request, meaning that the requests
  * are always sent sequentially. Therefore, before sending a new request, the channel waits for the response
  * of the previous request or its timeout.
  *
- * @see @ref IModbusManager, @ref ISession
+ * @see @ref IModbusManager, @ref IClientSession
  */
 class IClientChannel : public std::enable_shared_from_this<IClientChannel>
 {
@@ -64,7 +64,7 @@ public:
      * @param unit_identifier           Modbus unit identifier of the device. In TCP, this identifier is useless,
      *                                  but it must fit the slave unit identifier.
      * @param default_timeout           Default timeout of requests sent on the wire
-     * @return Shared pointer to an instance of @ref ISession
+     * @return Shared pointer to an instance of @ref IClientSession
      */
     virtual std::shared_ptr<IClientSession> create_session(const UnitIdentifier& unit_identifier,
                                                            const duration_t& default_timeout) = 0;

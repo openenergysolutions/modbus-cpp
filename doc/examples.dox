@@ -22,9 +22,9 @@ Then comes the heart of the library, @ref IModbusManager. This class will manage
 thread pool where all the I/O operations will occur. It is created via its static
 method @ref IModbusManager::create().
 
-Then, from the @ref IModbusManager, a @ref IChannel is created. A channel will hold the
+Then, from the @ref IModbusManager, a @ref IClientChannel is created. A channel will hold the
 TCP socket used to communicate with devices. Users cannot directly send requests with
-@ref IChannel, they need to create a @ref ISession. That's exactly what this example does.
+@ref IClientChannel, they need to create a @ref IClientSession. That's exactly what this example does.
 It creates a session by specifying the @ref UnitIdentifier of the device it communicates
 with and the default timeout value.
 
@@ -34,7 +34,7 @@ care of sending the request when necessary and will call the handler passed in w
 responses or errors are received.
 
 The example proceeds with the user interaction. The `r` key will send a @ref ReadCoilsRequest
-to the device. A lambda function is passed to the @ref ISession::send_request() to act as
+to the device. A lambda function is passed to the @ref IClientSession::send_request() to act as
 a response handler. Note the parameter of the lambda, a @ref Expected. It is necessary
 to check whether the response is valid or not before manipulating it. The code shows
 a basic example for logging whether or not the response is valid. The `w` key is similar

@@ -26,7 +26,7 @@ namespace modbus
 {
 
 class IMessage;
-class ISession;
+class IClientSession;
 
 class IClientChannelImpl : public IClientChannel
 {

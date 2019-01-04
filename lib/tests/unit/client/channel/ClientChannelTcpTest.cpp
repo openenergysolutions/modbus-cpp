@@ -260,7 +260,7 @@ TEST_CASE("ClientChannelTcp")
             REQUIRE(tcp_connection->get_num_requests() == 0);
         }
 
-        SECTION("All IChannel interface methods are executed through the Executor")
+        SECTION("All IClientChannel interface methods are executed through the Executor")
         {
             channel->send_request(unit_id, request, timeout, test_handler);
             REQUIRE(executor->num_active() == 1);

@@ -42,9 +42,9 @@ class Logger;
  * Once you get an instance of this class, one or multiple background threads will be running to execute all
  * the Modbus I/O.
  *
- * From this class, you can create a channel using
- * @ref create_tcp_channel(const std::string& name, const Ipv4Endpoint& endpoint) from which you will be
- * able to create sessions.
+ * From this class, you can create a client channel using @ref create_client_tcp_channel() from which you will be
+ * able to create sessions. Similarly, you can create server channel using @ref create_server_tcp_channel() to which
+ * you will be able to attach sessions.
  */
 class IModbusManager
 {
@@ -115,6 +115,8 @@ public:
      * @param level     Logging level of the channel.
      * @returns Shared pointer of a @ref IServerChannel instance.
      *
+     * Once the channel is created, don't forget to start listening for connections with @ref IServerChannel::start().
+     * 
      * @note The returned channel instance is shared with the internal of the library. If you
      * release the shared pointer, it will be kept alive by the internal of the library. The channel
      * will be effectively destroyed when @ref shutdown is called.

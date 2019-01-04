@@ -29,7 +29,7 @@ namespace modbus
 /**
  * @brief IPv4 endpoint representation
  *
- * Used when creating a TCP channel in @ref IModbusManager::create_tcp_channel().
+ * Used when creating a TCP channel in @ref IModbusManager::create_client_tcp_channel().
  */
 class Ipv4Endpoint
 {

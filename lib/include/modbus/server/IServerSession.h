@@ -17,7 +17,7 @@
 #define MODBUS_ISERVERSESSION_H
 
 /** @file
- * @brief Interface @ref modbus::ISession
+ * @brief Interface @ref modbus::IClientSession
  */
 
 #include <memory>

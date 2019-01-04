@@ -26,7 +26,7 @@ namespace modbus
 /**
  * @brief Logging level used in the library.
  *
- * @see @ref LoggerFactory, @ref IModbusmanager
+ * @see @ref LoggerFactory, @ref IModbusManager
  */
 enum class LoggingLevel
 {

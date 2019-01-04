@@ -39,7 +39,7 @@ namespace modbus
  * the thread is blocked or even deadlocks. Also, be sure to use the appropriate mechanisms
  * to eliminate the risks of race conditions in the user code.
  *
- * @see @ref ISession
+ * @see @ref IClientSession
  */
 template<typename TResponse>
 using ResponseHandler = std::function<void(const Expected<TResponse>&)>;

@@ -33,7 +33,7 @@ namespace modbus
  * must fit with the one reported by the slave. This feature is mainly used in Modbus+ and Modbus serial lines.
  * However, it must be set properly on TCP/IP only sessions too.
  *
- * @see @ref IChannel::create_session()
+ * @see @ref IClientChannel::create_session()
  */
 class UnitIdentifier
 {

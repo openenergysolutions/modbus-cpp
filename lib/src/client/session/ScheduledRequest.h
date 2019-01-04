@@ -27,7 +27,7 @@
 namespace modbus
 {
 
-class ISession;
+class IClientSession;
 
 template<typename TRequest, typename TResponse>
 class ScheduledRequest : public IScheduledRequest

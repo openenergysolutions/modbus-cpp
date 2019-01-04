@@ -31,7 +31,7 @@ namespace modbus
  * @brief Scheduled request
  *
  * An instance implementing this interface is returned by every scheduling
- * methods of @ref ISession. You can use to it to start the scheduled request,
+ * methods of @ref IClientSession. You can use to it to start the scheduled request,
  * to stop it or to change its polling frequency.
  *
  * The polling behavior is as follow. When the polling is started, a request is immediately
@@ -44,7 +44,7 @@ namespace modbus
  * This design decision was made to eliminate the risks of clogging the channel with numerous
  * requests when a device is polled at small intervals but does not respond.
  *
- * @see ISession
+ * @see IClientSession
  */
 class IScheduledRequest : public std::enable_shared_from_this<IScheduledRequest>
 {

@@ -30,7 +30,7 @@ the functionalities of the library.
 After reading the example and playing with it, a quick scan trough the documentation can help
 gain understanding of the library. It is recommended to start with the @ref modbus::IModbusManager class
 documentation, since it represents the main entrypoint of the library. The reader can proceed with
-@ref modbus::IChannel and @ref modbus::ISession to learn how to create a session with a Modbus device and
+@ref modbus::IClientChannel and @ref modbus::IClientSession to learn how to create a session with a Modbus device and
 send requests to it.
 
 @subsection mainpage-usage-threading-model Note about the threading model
@@ -48,9 +48,9 @@ and @ref modbus::ResponseHandler for more details.
 @subsection mainpage-usage-resource-releasing Resource releasing
 
 Because of the asynchronous model used in this library, resource releasing may seem odd to certain users.
-@ref modbus::IModbusManager, @ref modbus::IChannel and @ref modbus::ISession usually returns
+@ref modbus::IModbusManager, @ref modbus::IClientChannel and @ref modbus::IClientSession usually returns
 @cpp std::shared_ptr @ce. These shared pointers are always owned by the parent that created it. For
-example, @ref modbus::IModbusManager owns all the @ref modbus::IChannel pointers it has created. Therefore,
+example, @ref modbus::IModbusManager owns all the @ref modbus::IClientChannel pointers it has created. Therefore,
 even if the client code releases all the pointer, the channel will stay alive until
 @ref modbus::IModbusManager::shutdown() is called (or its destructor).
 
