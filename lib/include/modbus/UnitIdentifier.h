@@ -31,9 +31,9 @@ namespace modbus
  *
  * Represents the 8-bit unit identifier used in the MBAP messages. When sending a request, this identifier
  * must fit with the one reported by the slave. This feature is mainly used in Modbus+ and Modbus serial lines.
- * However, it must be set properly on TCP/IP only sessions too.
+ * However, it must be set properly on TCP/IP sessions too.
  *
- * @see @ref IClientChannel::create_session()
+ * @see @ref IClientChannel::create_session(), @ref IServerChannel::add_session()
  */
 class UnitIdentifier
 {

@@ -16,11 +16,18 @@
 #ifndef MODBUS_BITDATABASE_H
 #define MODBUS_BITDATABASE_H
 
+/** @file
+ * @brief Class @ref modbus::BitDatabase
+ */
+
 #include "modbus/server/db/SingleTypeDatabase.h"
 
 namespace modbus
 {
 
+/**
+ * @brief Instanciation of @ref SingleTypeDatabase for coils and discrete inputs.
+ */
 using BitDatabase = SingleTypeDatabase<bool>;
 
 } // namespace modbus

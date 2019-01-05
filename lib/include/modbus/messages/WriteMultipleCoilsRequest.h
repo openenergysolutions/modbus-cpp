@@ -55,7 +55,7 @@ struct WriteMultipleCoilsRequest
      * @brief Values to write to the coils
      *
      * Note that the Modbus protocol limits the number of registers you can write in a
-     * single request to 2000. Therefore, the vector should have a length of 1 to 2000 inclusively.
+     * single request to 1968. Therefore, the vector should have a length of 1 to 1968 inclusively.
      */
     std::vector<bool> values;
 };

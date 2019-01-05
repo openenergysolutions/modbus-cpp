@@ -16,11 +16,18 @@
 #ifndef MODBUS_REGISTERDATABASE_H
 #define MODBUS_REGISTERDATABASE_H
 
+/** @file
+ * @brief Class @ref modbus::RegisterDatabase
+ */
+
 #include "modbus/server/db/SingleTypeDatabase.h"
 
 namespace modbus
 {
 
+/**
+ * @brief Instanciation of @ref SingleTypeDatabase for holding registers and input registers.
+ */
 using RegisterDatabase = SingleTypeDatabase<uint16_t>;
 
 } // namespace modbus

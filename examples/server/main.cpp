@@ -41,64 +41,59 @@ class CustomSession : public IServerSession
 
 int main(int argc, char* argv[])
 {
+    // Create a console logger
+    auto logger = modbus::LoggerFactory::create_console_logger("Hello");
+
+    // Create the modbus manager
+    // This will create the necessary background threads
+    std::unique_ptr<IModbusManager> modbusManager = IModbusManager::create(logger);
+
+    // Create a TCP server channel
+    // Each channel has its own strand of execution
+    auto channel = modbusManager->create_server_tcp_channel("Example channel",
+        Ipv4Endpoint{ "127.0.0.1", 8000 });
+
+    // Create a custom session and add it to the channel
+    auto session = std::make_shared<CustomSession>();
+    channel->add_session(UnitIdentifier{ 0x01 }, session);
+
+    // Create an in-memory database session and add it to the channel
+    auto db_session = std::make_shared<InMemoryDatabase>();
+    for(uint16_t i = 0; i < 100; ++i)
     {
-        // Create a console logger
-        auto logger = modbus::LoggerFactory::create_console_logger("Hello");
+        db_session->add_coil(i, i % 2 != 0);
+        db_session->add_discrete_input(i, i % 2 != 0);
+        db_session->add_holding_register(i, i);
+        db_session->add_input_register(i, i);
+    }
+    channel->add_session(UnitIdentifier{ 0x02 }, db_session);
 
-        // Create the modbus manager
-        // This will create the necessary background threads
-        std::unique_ptr<IModbusManager> modbusManager = IModbusManager::create(logger);
+    // Start the server
+    channel->start();
 
-        // Create a TCP server channel
-        // Each channel has its own strand of execution
-        auto channel = modbusManager->create_server_tcp_channel("Example channel",
-            Ipv4Endpoint{ "127.0.0.1", 8000 });
+    while (true)
+    {
+        char cmd;
+        std::cin >> cmd;
 
-        // Create a custom session and add it to the channel
-        auto session = std::make_shared<CustomSession>();
-        channel->add_session(UnitIdentifier{ 0x01 }, session);
-
-        // Create an in-memory database session and add it to the channel
-        auto db_session = std::make_shared<InMemoryDatabase>();
-        for(uint16_t i = 0; i < 100; ++i)
+        switch (cmd)
         {
-            db_session->add_coil(i, i % 2 != 0);
-            db_session->add_discrete_input(i, i % 2 != 0);
-            db_session->add_holding_register(i, i);
-            db_session->add_input_register(i, i);
+        case 'f':
+        {
+            // Flip a coil
+            db_session->execute_transaction([](IDatabase& database) {
+                bool value;
+                database.get_coil(0x0000, value);
+                database.set_coil(0x0000, !value);
+            });
+            break;
         }
-        channel->add_session(UnitIdentifier{ 0x02 }, db_session);
+        case 'q':
+            // Quit
+            return 0;
 
-        // Start the server
-        channel->start();
-
-        while (true)
-        {
-            char cmd;
-            std::cin >> cmd;
-
-            switch (cmd)
-            {
-            case 'f':
-            {
-                // Flip a coil
-                db_session->execute_transaction([](IDatabase& database) {
-                    bool value;
-                    database.get_coil(0x0000, value);
-                    database.set_coil(0x0000, !value);
-                });
-                break;
-            }
-            case 'q':
-                // Quit
-                goto exit;
-
-            default:
-                break;
-            }
+        default:
+            break;
         }
     }
-
-exit:
-    return 0;
 }
