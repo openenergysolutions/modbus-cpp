@@ -16,13 +16,6 @@
 #ifndef MODBUS_IDATABASE_H
 #define MODBUS_IDATABASE_H
 
-#include <memory>
-#include <mutex>
-
-#include "modbus/server/IServerSession.h"
-#include "modbus/server/db/BitDatabase.h"
-#include "modbus/server/db/RegisterDatabase.h"
-
 namespace modbus
 {
 
