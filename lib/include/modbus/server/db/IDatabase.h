@@ -20,13 +20,6 @@
  * @brief Class @ref modbus::IDatabase
  */
 
-#include <memory>
-#include <mutex>
-
-#include "modbus/server/IServerSession.h"
-#include "modbus/server/db/BitDatabase.h"
-#include "modbus/server/db/RegisterDatabase.h"
-
 namespace modbus
 {
 
