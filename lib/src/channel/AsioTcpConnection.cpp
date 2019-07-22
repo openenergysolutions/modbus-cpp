@@ -29,8 +29,8 @@ AsioTcpConnection::AsioTcpConnection(std::shared_ptr<Logger> logger,
         : m_logger{logger},
           m_ip_endpoint{endpoint},
           m_executor{executor},
-          m_resolver{*executor->get_service()},
-          m_tcp_socket{*executor->get_service()},
+          m_resolver{*executor->get_context()},
+          m_tcp_socket{*executor->get_context()},
           m_current_connection_status{ConnectionStatus::NotConnected}
 {
 

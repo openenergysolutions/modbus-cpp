@@ -41,7 +41,7 @@ private:
     static const std::size_t ModbusProtocolId = 0x0000;
 
     IMbapSink* m_sink;
-    ser4cpp::StaticBuffer<uint32_t, MaxMbapSize> m_buffer;
+    ser4cpp::StaticBuffer<MaxMbapSize> m_buffer;
     ser4cpp::wseq_t m_buffer_view;
     size_t m_num_bytes_to_read;
     bool m_reading_body;
