@@ -17,6 +17,7 @@
 #include <memory>
 
 #include "spdlog/spdlog.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
 
 #include "modbus/IModbusManager.h"
 #include "modbus/exceptions/IException.h"
@@ -31,7 +32,7 @@ int main(int argc, char* argv[])
 
     std::unique_ptr<IModbusManager> modbusManager = IModbusManager::create(lib_logger, 16);
 
-    for(size_t i = 0; i < 1000; ++i)
+    for(unsigned int i = 0; i < 1000; ++i)
     {
         unsigned int port = i + 8000;
         std::string name = "Channel " + std::to_string(port);

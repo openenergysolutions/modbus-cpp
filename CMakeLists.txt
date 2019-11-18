@@ -21,21 +21,12 @@ endif()
 set(MODBUS_BUILD_EXAMPLE ${is_root} CACHE BOOL "Build example")
 
 # Import dependencies
-if(NOT TARGET asio)
-    add_subdirectory(./deps/asio EXCLUDE_FROM_ALL)
-endif()
-if(NOT TARGET catch2)
-add_subdirectory(./deps/catch2 EXCLUDE_FROM_ALL)
-endif()
-if(NOT TARGET ser4cpp)
-add_subdirectory(./deps/ser4cpp EXCLUDE_FROM_ALL)
-endif()
-if(NOT TARGET exe4cpp)
-add_subdirectory(./deps/exe4cpp EXCLUDE_FROM_ALL)
-endif()
-if(NOT TARGET spdlog)
-add_subdirectory(./deps/spdlog EXCLUDE_FROM_ALL)
-endif()
+
+include(./deps/asio.cmake)
+include(./deps/catch.cmake)
+include(./deps/ser4cpp.cmake)
+include(./deps/exe4cpp.cmake)
+include(./deps/spdlog.cmake)
 
 # Add projects
 add_subdirectory(./lib)

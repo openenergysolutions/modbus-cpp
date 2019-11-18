@@ -1,18 +1,3 @@
-[submodule "deps/asio/asio"]
-	path = deps/asio/asio
-	url = https://github.com/chriskohlhoff/asio
-[submodule "deps/catch2/catch2"]
-	path = deps/catch2/catch2
-	url = https://github.com/catchorg/Catch2
-[submodule "deps/spdlog/spdlog"]
-	path = deps/spdlog/spdlog
-	url = https://github.com/gabime/spdlog
-[submodule "deps/exe4cpp"]
-	path = deps/exe4cpp
-	url = https://github.com/automatak/exe4cpp.git
-[submodule "deps/ser4cpp"]
-	path = deps/ser4cpp
-	url = https://github.com/automatak/ser4cpp.git
 [submodule "deps/m.css"]
 	path = deps/m.css
 	url = https://github.com/mosra/m.css

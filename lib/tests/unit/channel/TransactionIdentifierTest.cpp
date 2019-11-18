@@ -15,6 +15,7 @@
  */
 #include "catch.hpp"
 
+#include <sstream>
 #include "channel/TransactionIdentifier.h"
 
 using namespace modbus;
