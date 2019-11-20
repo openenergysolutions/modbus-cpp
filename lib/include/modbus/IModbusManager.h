@@ -96,6 +96,7 @@ public:
      * @brief Create a TCP channel.
      * @param name      Name associated with the channel. This name will appear in the logs.
      * @param endpoint  IPv4 endpoint to which the channel will be connected.
+     * @param adapter   Network adapter to use for establishing the connection.
      * @param level     Logging level of the channel.
      * @returns Shared pointer of a @ref IChannel instance.
      *
@@ -105,6 +106,7 @@ public:
      */
     virtual std::shared_ptr<IChannel> create_tcp_channel(const std::string& name,
                                                          const Ipv4Endpoint& endpoint,
+                                                         const std::string& adapter = "",
                                                          const LoggingLevel level = LoggingLevel::Info) = 0;
 
     /**
