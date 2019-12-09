@@ -15,7 +15,7 @@
  */
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
-#include "trompeloeil.hpp"
+#include "trompeloeil/trompeloeil.hpp"
 
 namespace trompeloeil
 {

@@ -25,7 +25,7 @@ using namespace modbus;
 void check_complete_message(const MbapMessage& msg)
 {
     REQUIRE(msg.unit_id == 0x42);
-    REQUIRE(msg.transaction_id == 0x1234);
+    REQUIRE(msg.transaction_id == TransactionIdentifier{0x1234});
     REQUIRE(msg.data.length() == 2);
     REQUIRE(msg.data[0] == 0x98);
     REQUIRE(msg.data[1] == 0x76);

@@ -25,12 +25,14 @@ namespace modbus
 
 AsioClientTcpConnection::AsioClientTcpConnection(std::shared_ptr<Logger> logger,
                                                  std::shared_ptr<exe4cpp::StrandExecutor> executor,
-                                                 const Ipv4Endpoint& endpoint)
+                                                 const Ipv4Endpoint& endpoint,
+                                                 const std::string& adapter)
         : m_logger{logger},
           m_ip_endpoint{endpoint},
           m_executor{executor},
-          m_resolver{*executor->get_service()},
-          m_tcp_socket{*executor->get_service()},
+          m_adapter{adapter},
+          m_resolver{*executor->get_context()},
+          m_tcp_socket{*executor->get_context()},
           m_is_shutdown{false},
           m_current_connection_status{ConnectionStatus::NotConnected}
 {
@@ -52,12 +54,27 @@ void AsioClientTcpConnection::send(const ser4cpp::rseq_t& data)
     {
         m_logger->info("Establishing connection to {}:{}", m_ip_endpoint.get_hostname(), m_ip_endpoint.get_port());
 
+        // Connect to the proper adapter
+        asio::error_code ec{};
+        const auto address = asio::ip::address::from_string(m_adapter.empty() ? "0.0.0.0" : m_adapter, ec);
+        if(ec) { m_logger->error("from_address error: {}", ec.message()); return; }
+
+        asio::ip::tcp::endpoint endpoint{};
+        endpoint.address(address);
+        endpoint.port(0);
+        m_tcp_socket.open(asio::ip::tcp::v4(), ec);
+        if(ec) { m_logger->error("socket open error: {}", ec.message()); return; }
+
+        m_tcp_socket.bind(endpoint, ec);
+        if(ec) { m_logger->error("socket bind error: {}", ec.message()); return; }
+
+        // Start connecting
         m_current_connection_status = ConnectionStatus::Connecting;
         asio::ip::tcp::resolver::query query{m_ip_endpoint.get_hostname(), std::to_string(m_ip_endpoint.get_port())};
         m_resolver.async_resolve(query,
                                  m_executor->wrap(std::bind(&AsioClientTcpConnection::resolve_handler,
-                                                         std::dynamic_pointer_cast<AsioClientTcpConnection>(shared_from_this()),
-                                                         _1, _2)));
+                                                            std::dynamic_pointer_cast<AsioClientTcpConnection>(shared_from_this()),
+                                                            _1, _2)));
     }
 
     if(m_current_connection_status == ConnectionStatus::Connected)

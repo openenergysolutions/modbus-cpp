@@ -54,7 +54,7 @@ TEST_CASE("AsioClientTcpConnection")
 {
     constexpr unsigned short test_port = 8888;
     constexpr duration_t timeout = std::chrono::seconds(5);
-    ser4cpp::StaticBuffer<unsigned int, 6> test_data;
+    ser4cpp::StaticBuffer<6> test_data;
     {
         auto dest = test_data.as_wseq();
         dest[0] = 'h';

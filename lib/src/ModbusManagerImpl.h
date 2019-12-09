@@ -31,6 +31,7 @@ public:
 
     std::shared_ptr<IClientChannel> create_client_tcp_channel(const std::string& name,
                                                               const Ipv4Endpoint& endpoint,
+                                                              const std::string& adapter,
                                                               const LoggingLevel level) override;
     std::shared_ptr<IServerChannel> create_server_tcp_channel(const std::string& name,
                                                               const Ipv4Endpoint& endpoint,

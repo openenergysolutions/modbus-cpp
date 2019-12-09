@@ -17,6 +17,7 @@
 #define MODBUS_ASIOCLIENTTCPCONNECTION_H
 
 #include <array>
+#include <string>
 #include "exe4cpp/asio/StrandExecutor.h"
 #include "ser4cpp/container/Buffer.h"
 
@@ -32,7 +33,8 @@ class AsioClientTcpConnection : public ITcpConnection
 public:
     AsioClientTcpConnection(std::shared_ptr<Logger> logger,
                             std::shared_ptr<exe4cpp::StrandExecutor> executor,
-                            const Ipv4Endpoint& endpoint);
+                            const Ipv4Endpoint& endpoint,
+                            const std::string& adapter = "");
     ~AsioClientTcpConnection() = default;
 
     void set_listener(std::shared_ptr<IConnectionListener> listener) override;
@@ -60,6 +62,7 @@ private:
     std::shared_ptr<Logger> m_logger;
     Ipv4Endpoint m_ip_endpoint;
     std::shared_ptr<exe4cpp::StrandExecutor> m_executor;
+    std::string m_adapter;
     asio::ip::tcp::resolver m_resolver;
     asio::ip::tcp::socket m_tcp_socket;
 

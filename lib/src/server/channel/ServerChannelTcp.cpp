@@ -203,7 +203,7 @@ void ServerChannelTcp::send_message(ITcpConnection& connection,
                                     const TransactionIdentifier& transaction_id,
                                     const IMessage& message)
 {
-    ser4cpp::StaticBuffer<uint32_t, 260> buffer;
+    ser4cpp::StaticBuffer<260> buffer;
     auto response_view = buffer.as_wseq();
     auto serialized_request = MbapMessage::build_message(unit_id,
                                                          transaction_id,

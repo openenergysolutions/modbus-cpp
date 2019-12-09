@@ -25,7 +25,7 @@ namespace modbus
 class TransactionIdentifier
 {
 public:
-    TransactionIdentifier(uint16_t value);
+    explicit TransactionIdentifier(uint16_t value);
 
     uint16_t get_value() const;
     bool operator==(const TransactionIdentifier& other) const;

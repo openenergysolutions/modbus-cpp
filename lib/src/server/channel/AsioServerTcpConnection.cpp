@@ -30,7 +30,7 @@ AsioServerTcpConnection::AsioServerTcpConnection(std::shared_ptr<Logger> logger,
         : m_logger{logger},
           m_executor{executor},
           m_server{server},
-          m_tcp_socket{*executor->get_service()},
+          m_tcp_socket{*executor->get_context()},
           m_is_shutdown{false},
           m_is_connected{false}
 {

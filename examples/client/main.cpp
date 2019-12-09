@@ -49,7 +49,6 @@ int main(int argc, char* argv[])
                                                    [](Expected<ReadHoldingRegistersResponse> response) {
         std::cout << "Scheduled request received response." << std::endl;
     });
-    scheduled_req->stop();
 
     while (true)
     {

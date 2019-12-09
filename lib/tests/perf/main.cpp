@@ -19,6 +19,8 @@
 #include <vector>
 
 #include "spdlog/spdlog.h"
+#include "spdlog/sinks/basic_file_sink.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
 
 #include "modbus/IModbusManager.h"
 #include "modbus/exceptions/IException.h"
@@ -40,7 +42,7 @@ int main(int argc, char* argv[])
 
     std::unique_ptr<IModbusManager> modbus_manager = IModbusManager::create(LoggerFactory::create_custom_logger(lib_logger), 16);
 
-    for(size_t i = 0; i < 100; ++i)
+    for(unsigned int i = 0; i < 100; ++i)
     {
         unsigned int port = i + 8000;
         std::string server_name = "Server channel " + std::to_string(port);
@@ -55,7 +57,7 @@ int main(int argc, char* argv[])
         for(unsigned int j = 0; j < 20; ++j)
         {
             std::string client_name = "Client channel " + std::to_string(port) + "-" + std::to_string(j);
-            auto client_channel = modbus_manager->create_client_tcp_channel(client_name, Ipv4Endpoint{"127.0.0.1", port}, LoggingLevel::Debug);
+            auto client_channel = modbus_manager->create_client_tcp_channel(client_name, Ipv4Endpoint{"127.0.0.1", port}, "0.0.0.0", LoggingLevel::Debug);
             auto client_session = client_channel->create_session(UnitIdentifier::default_unit_identifier(),
                                                                     std::chrono::seconds(5));
 

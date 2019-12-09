@@ -16,7 +16,7 @@
 #ifndef MODBUS_ISERVERSESSOPMMOCK_H
 #define MODBUS_ISERVERSESSOPMMOCK_H
 
-#include "trompeloeil.hpp"
+#include "trompeloeil/trompeloeil.hpp"
 
 #include "modbus/server/IServerSession.h"
 

@@ -16,7 +16,7 @@
 #ifndef MODBUS_ISERVERMOCK_H
 #define MODBUS_ISERVERMOCK_H
 
-#include "trompeloeil.hpp"
+#include "trompeloeil/trompeloeil.hpp"
 
 #include "server/channel/IServer.h"
 

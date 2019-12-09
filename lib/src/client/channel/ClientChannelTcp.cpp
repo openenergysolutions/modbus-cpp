@@ -182,7 +182,7 @@ void ClientChannelTcp::check_pending_requests()
                        std::chrono::duration_cast<std::chrono::milliseconds>(m_current_request->timeout).count(),
                        m_current_request->request->get_message_length());
 
-        ser4cpp::StaticBuffer<uint32_t, 260> buffer;
+        ser4cpp::StaticBuffer<260> buffer;
         auto view = buffer.as_wseq();
         auto serialized_request = MbapMessage::build_message(m_current_request->unit_id,
                                                              m_current_request->transaction_id,

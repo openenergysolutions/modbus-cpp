@@ -14,7 +14,7 @@ AsioServer::AsioServer(std::shared_ptr<Logger> logger,
     : m_logger{logger},
       m_executor{executor},
       m_max_connections{max_connections},
-      m_tcp_acceptor{*m_executor->get_service(),
+      m_tcp_acceptor{*m_executor->get_context(),
         asio::ip::tcp::endpoint{asio::ip::address::from_string(endpoint.get_hostname()), static_cast<unsigned short>(endpoint.get_port())}},
       m_is_shutdown{false},
       m_num_connections{0}
