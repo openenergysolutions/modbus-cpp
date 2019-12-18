@@ -28,7 +28,8 @@
               <a href="pages.html">Pages</a>
               <ol>
                 <li><a href="Building.html">Building</a></li>
-                <li><a href="Example.html">Example</a></li>
+                <li><a href="client-example.html">Client example</a></li>
+                <li><a href="server-example.html">Server example</a></li>
               </ol>
             </li>
             <li><a href="namespaces.html">Namespaces</a></li>
@@ -38,11 +39,11 @@
             <li>
               <a href="files.html">Files</a>
               <ol>
-                <li><a href="dir_ca58a6e1d1ad7199b06ec1997943b0e2.html">modbus/channel</a></li>
-                <li><a href="dir_f0b4abc89894b7a59cdcc1b56ad2fa78.html">modbus/exceptions</a></li>
-                <li><a href="dir_5039506f8dbbf25081fc49328f198ec6.html">modbus/logging</a></li>
-                <li><a href="dir_4dd40bef6cea24abf09d91015e01f4b5.html">modbus/messages</a></li>
-                <li><a href="dir_5e0ccf84f1afa1ec87f338ca918e19f4.html">modbus/session</a></li>
+                <li><a href="dir_d3b26331f3c74bf807ead862471b52da.html">modbus/client</a></li>
+                <li><a href="dir_43ea1460863501ba9bc88eee3de80f0a.html">modbus/exceptions</a></li>
+                <li><a href="dir_c90990131e56b6669ad5910b9b368979.html">modbus/logging</a></li>
+                <li><a href="dir_29d51bc57f64f6e07a17b398711726a8.html">modbus/messages</a></li>
+                <li><a href="dir_ad3261de9f59683b75b07c9413a06e70.html">modbus/server</a></li>
               </ol>
             </li>
             <li class="m-show-m"><a href="#search" class="m-dox-search-icon" title="Search" onclick="return showSearch()"><svg viewBox="0 0 16 16">
@@ -68,12 +69,20 @@
             <li>
               Reference
               <ul>
+                <li><a href="#pub-static-attribs">Public static variables</a></li>
                 <li><a href="#pub-attribs">Public variables</a></li>
               </ul>
             </li>
           </ul>
         </div>
 <p>Read the content of contiguous block of input registers.</p><p>This is the function code <code class="m-code"><span class="mh">0x04</span></code> of the Modbus protocol.</p><aside class="m-note m-default"><h4>See also</h4><p><a href="structmodbus_1_1ReadInputRegistersResponse.html" class="m-dox">ReadInputRegistersResponse</a>, <a href="structmodbus_1_1ReadHoldingRegistersRequest.html" class="m-dox">ReadHoldingRegistersRequest</a></p></aside>
+        <section id="pub-static-attribs">
+          <h2><a href="#pub-static-attribs">Public static variables</a></h2>
+          <dl class="m-dox">
+            <dt>static static uint16_t <a href="#af9a5de5f807ead94990826dca4ff2746" class="m-dox">max_registers</a> <span class="m-label m-flat m-primary">constexpr</span></dt>
+            <dd>Maximum number of input registers that can be requested.</dd>
+          </dl>
+        </section>
         <section id="pub-attribs">
           <h2><a href="#pub-attribs">Public variables</a></h2>
           <dl class="m-dox">
@@ -85,6 +94,13 @@
         </section>
         <section>
           <h2>Variable documentation</h2>
+          <section class="m-dox-details" id="af9a5de5f807ead94990826dca4ff2746"><div>
+            <h3>
+              static static uint16_t modbus::<wbr />ReadInputRegistersRequest::<wbr /><a href="#af9a5de5f807ead94990826dca4ff2746" class="m-dox-self">max_registers</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Maximum number of input registers that can be requested.</p>
+<p>Its value is 125.</p>
+          </div></section>
           <section class="m-dox-details" id="ae7a9b94c07d430b6edf5fcb2f19406b1"><div>
             <h3>
               <a href="namespacemodbus.html#a7364f7cc8148937aaf5b230ef23192cb" class="m-dox">Address</a> modbus::<wbr />ReadInputRegistersRequest::<wbr /><a href="#ae7a9b94c07d430b6edf5fcb2f19406b1" class="m-dox-self">starting_address</a>
@@ -137,7 +153,7 @@
   <div class="m-container">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <p>modbus-cpp. Created by <a href="http://doxygen.org/">Doxygen</a> 1.8.14 and <a href="http://mcss.mosra.cz/">m.css</a>.</p>
+        <p>modbus-cpp. Created by <a href="http://doxygen.org/">Doxygen</a> 1.8.16 and <a href="http://mcss.mosra.cz/">m.css</a>.</p>
       </div>
     </div>
   </div>

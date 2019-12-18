@@ -28,7 +28,8 @@
               <a href="pages.html">Pages</a>
               <ol>
                 <li><a href="Building.html">Building</a></li>
-                <li><a href="Example.html">Example</a></li>
+                <li><a href="client-example.html">Client example</a></li>
+                <li><a href="server-example.html">Server example</a></li>
               </ol>
             </li>
             <li><a href="namespaces.html">Namespaces</a></li>
@@ -38,11 +39,11 @@
             <li>
               <a href="files.html">Files</a>
               <ol>
-                <li><a href="dir_ca58a6e1d1ad7199b06ec1997943b0e2.html">modbus/channel</a></li>
-                <li><a href="dir_f0b4abc89894b7a59cdcc1b56ad2fa78.html">modbus/exceptions</a></li>
-                <li><a href="dir_5039506f8dbbf25081fc49328f198ec6.html">modbus/logging</a></li>
-                <li><a href="dir_4dd40bef6cea24abf09d91015e01f4b5.html">modbus/messages</a></li>
-                <li><a href="dir_5e0ccf84f1afa1ec87f338ca918e19f4.html">modbus/session</a></li>
+                <li><a href="dir_d3b26331f3c74bf807ead862471b52da.html">modbus/client</a></li>
+                <li><a href="dir_43ea1460863501ba9bc88eee3de80f0a.html">modbus/exceptions</a></li>
+                <li><a href="dir_c90990131e56b6669ad5910b9b368979.html">modbus/logging</a></li>
+                <li><a href="dir_29d51bc57f64f6e07a17b398711726a8.html">modbus/messages</a></li>
+                <li><a href="dir_ad3261de9f59683b75b07c9413a06e70.html">modbus/server</a></li>
               </ol>
             </li>
             <li class="m-show-m"><a href="#search" class="m-dox-search-icon" title="Search" onclick="return showSearch()"><svg viewBox="0 0 16 16">
@@ -65,14 +66,19 @@
             <ul class="m-dox">
               <li>class <a href="classmodbus_1_1ConnectionException.html" class="m-dox">ConnectionException</a> <span class="m-dox">Connection error.</span></li>
               <li>class <a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a> <span class="m-dox">Expected type often used in return values and callbacks.</span></li>
-              <li>class <a href="classmodbus_1_1IChannel.html" class="m-dox">IChannel</a> <span class="m-dox">Communication channel to a Modbus device.</span></li>
+              <li>class <a href="classmodbus_1_1IClientChannel.html" class="m-dox">IClientChannel</a> <span class="m-dox">Client communication channel to a Modbus device.</span></li>
+              <li>class <a href="classmodbus_1_1IClientSession.html" class="m-dox">IClientSession</a> <span class="m-dox">Client communication session with a Modbus device.</span></li>
+              <li>class <a href="classmodbus_1_1IDatabase.html" class="m-dox">IDatabase</a> <span class="m-dox">Interface to interact with <a href="classmodbus_1_1InMemoryDatabase.html" class="m-dox">InMemoryDatabase</a>.</span></li>
               <li>class <a href="classmodbus_1_1IException.html" class="m-dox">IException</a> <span class="m-dox">Interface for all the exception types.</span></li>
               <li>class <a href="classmodbus_1_1IModbusManager.html" class="m-dox">IModbusManager</a> <span class="m-dox">Main entry point of modbus-cpp.</span></li>
+              <li>class <a href="classmodbus_1_1InMemoryDatabase.html" class="m-dox">InMemoryDatabase</a> <span class="m-dox">In-memory database session.</span></li>
               <li>class <a href="classmodbus_1_1Ipv4Endpoint.html" class="m-dox">Ipv4Endpoint</a> <span class="m-dox">IPv4 endpoint representation.</span></li>
               <li>class <a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">IScheduledRequest</a> <span class="m-dox">Scheduled request.</span></li>
-              <li>class <a href="classmodbus_1_1ISession.html" class="m-dox">ISession</a> <span class="m-dox">Communication session with a Modbus device.</span></li>
+              <li>class <a href="classmodbus_1_1IServerChannel.html" class="m-dox">IServerChannel</a> <span class="m-dox">Server communication channel for a Modbus slave.</span></li>
+              <li>class <a href="classmodbus_1_1IServerSession.html" class="m-dox">IServerSession</a> <span class="m-dox">Server communication session with a Modbus device.</span></li>
               <li>class <a href="classmodbus_1_1ITimer.html" class="m-dox">ITimer</a> <span class="m-dox">Timer interface for custom polling.</span></li>
               <li>class <a href="classmodbus_1_1LoggerFactory.html" class="m-dox">LoggerFactory</a> <span class="m-dox">Factory of loggers.</span></li>
+              <li>class <a href="classmodbus_1_1MalformedModbusRequestException.html" class="m-dox">MalformedModbusRequestException</a> <span class="m-dox">Malformed Modbus request error.</span></li>
               <li>class <a href="classmodbus_1_1MalformedModbusResponseException.html" class="m-dox">MalformedModbusResponseException</a> <span class="m-dox">Malformed Modbus response error.</span></li>
               <li>class <a href="classmodbus_1_1ModbusException.html" class="m-dox">ModbusException</a> <span class="m-dox">Modbus exception error.</span></li>
               <li>struct <a href="structmodbus_1_1ReadCoilsRequest.html" class="m-dox">ReadCoilsRequest</a> <span class="m-dox">Read Coils request message.</span></li>
@@ -85,6 +91,7 @@
               <li>struct <a href="structmodbus_1_1ReadInputRegistersResponse.html" class="m-dox">ReadInputRegistersResponse</a> <span class="m-dox">Read Input Registers response message.</span></li>
               <li>struct <a href="structmodbus_1_1RegisterValue.html" class="m-dox">RegisterValue</a> <span class="m-dox">Represent a register address and its value.</span></li>
               <li>struct <a href="structmodbus_1_1SingleBitValue.html" class="m-dox">SingleBitValue</a> <span class="m-dox">Represent a coil or a discrete input address and its value.</span></li>
+              <li>class <a href="classmodbus_1_1SingleTypeDatabase.html" class="m-dox">SingleTypeDatabase</a> <span class="m-dox">In-memory database containing a single type of data.</span></li>
               <li>class <a href="classmodbus_1_1TimeoutException.html" class="m-dox">TimeoutException</a> <span class="m-dox">Timeout error.</span></li>
               <li>class <a href="classmodbus_1_1UnitIdentifier.html" class="m-dox">UnitIdentifier</a> <span class="m-dox">Modbus unit identifier.</span></li>
               <li>struct <a href="structmodbus_1_1WriteMultipleCoilsRequest.html" class="m-dox">WriteMultipleCoilsRequest</a> <span class="m-dox">Write multiple coils request message.</span></li>
@@ -152,7 +159,7 @@
   <div class="m-container">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <p>modbus-cpp. Created by <a href="http://doxygen.org/">Doxygen</a> 1.8.14 and <a href="http://mcss.mosra.cz/">m.css</a>.</p>
+        <p>modbus-cpp. Created by <a href="http://doxygen.org/">Doxygen</a> 1.8.16 and <a href="http://mcss.mosra.cz/">m.css</a>.</p>
       </div>
     </div>
   </div>

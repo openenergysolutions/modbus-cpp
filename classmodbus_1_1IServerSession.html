@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>modbus::IServerSession class | modbus-cpp</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
+  <link rel="stylesheet" href="m-dark+doxygen.compiled.css" />
+  <link rel="icon" href="favicon-dark.png" type="image/png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#22272e" />
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <a href="index.html" id="m-navbar-brand" class="m-col-t-8 m-col-m-none m-left-m">modbus-cpp</a>
+      <div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
+        <a href="#search" class="m-dox-search-icon" title="Search" onclick="return showSearch()"><svg viewBox="0 0 16 16">
+          <path d="m6 0c-3.3144 0-6 2.6856-6 6 0 3.3144 2.6856 6 6 6 1.4858 0 2.8463-0.54083 3.8945-1.4355-0.0164 0.33797 0.14734 0.75854 0.5 1.1504l3.2227 3.7891c0.55185 0.6139 1.4517 0.66544 2.002 0.11524 0.55022-0.55022 0.49866-1.4501-0.11524-2.002l-3.7891-3.2246c-0.39184-0.35266-0.81242-0.51469-1.1504-0.5 0.89472-1.0482 1.4355-2.4088 1.4355-3.8945 0-3.3128-2.6856-5.998-6-5.998zm0 1.5625a4.4375 4.4375 0 0 1 4.4375 4.4375 4.4375 4.4375 0 0 1-4.4375 4.4375 4.4375 4.4375 0 0 1-4.4375-4.4375 4.4375 4.4375 0 0 1 4.4375-4.4375z"/>
+        </svg></a>
+        <a id="m-navbar-show" href="#navigation" title="Show navigation"></a>
+        <a id="m-navbar-hide" href="#" title="Hide navigation"></a>
+      </div>
+      <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
+        <div class="m-row">
+          <ol class="m-col-t-6 m-col-m-none">
+            <li>
+              <a href="pages.html">Pages</a>
+              <ol>
+                <li><a href="Building.html">Building</a></li>
+                <li><a href="client-example.html">Client example</a></li>
+                <li><a href="server-example.html">Server example</a></li>
+              </ol>
+            </li>
+            <li><a href="namespaces.html">Namespaces</a></li>
+          </ol>
+          <ol class="m-col-t-6 m-col-m-none" start="3">
+            <li><a href="annotated.html">Classes</a></li>
+            <li>
+              <a href="files.html">Files</a>
+              <ol>
+                <li><a href="dir_d3b26331f3c74bf807ead862471b52da.html">modbus/client</a></li>
+                <li><a href="dir_43ea1460863501ba9bc88eee3de80f0a.html">modbus/exceptions</a></li>
+                <li><a href="dir_c90990131e56b6669ad5910b9b368979.html">modbus/logging</a></li>
+                <li><a href="dir_29d51bc57f64f6e07a17b398711726a8.html">modbus/messages</a></li>
+                <li><a href="dir_ad3261de9f59683b75b07c9413a06e70.html">modbus/server</a></li>
+              </ol>
+            </li>
+            <li class="m-show-m"><a href="#search" class="m-dox-search-icon" title="Search" onclick="return showSearch()"><svg viewBox="0 0 16 16">
+              <path d="m6 0c-3.3144 0-6 2.6856-6 6 0 3.3144 2.6856 6 6 6 1.4858 0 2.8463-0.54083 3.8945-1.4355-0.0164 0.33797 0.14734 0.75854 0.5 1.1504l3.2227 3.7891c0.55185 0.6139 1.4517 0.66544 2.002 0.11524 0.55022-0.55022 0.49866-1.4501-0.11524-2.002l-3.7891-3.2246c-0.39184-0.35266-0.81242-0.51469-1.1504-0.5 0.89472-1.0482 1.4355-2.4088 1.4355-3.8945 0-3.3128-2.6856-5.998-6-5.998zm0 1.5625a4.4375 4.4375 0 0 1 4.4375 4.4375 4.4375 4.4375 0 0 1-4.4375 4.4375 4.4375 4.4375 0 0 1-4.4375-4.4375 4.4375 4.4375 0 0 1 4.4375-4.4375z"/>
+            </svg></a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main><article>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <h1>
+          <span class="m-breadcrumb"><a href="namespacemodbus.html">modbus</a>::</span>IServerSession <span class="m-thin">class</span>
+        </h1>
+        <p>Server communication session with a Modbus device.</p>
+        <div class="m-block m-default">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#derived-classes">Derived classes</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+<p>This class represents a session for communicatiing with a Modbus device. This is the class you&#x27;ll be using to send requests to the device and schedule them for periodic polling.</p><p>An instance of this class can be registered to a channel with <a href="classmodbus_1_1IServerChannel.html#aed5ffb59ea00d4bc79050d71390ba384" class="m-dox">IServerChannel::<wbr />add_session()</a>.</p><p>It is possible to have multiple sessions on a single channel. For example, if the server you are implementing is a gateway, you can have a single channel to the gateway and multiple sessions for each slave devices connected to the gateway. The unit identifier for each device is set in <a href="classmodbus_1_1IServerChannel.html#aed5ffb59ea00d4bc79050d71390ba384" class="m-dox">IServerChannel::<wbr />add_session()</a>.</p><p>Each <code class="m-code"><span class="n">on_request</span><span class="p">(...)</span></code> methods should return either the appropriate response, or a <a href="classmodbus_1_1ModbusException.html" class="m-dox">ModbusException</a> with the appropriate <a href="namespacemodbus.html#adf87eec37b2090ed0de1c9b28eb747a6" class="m-dox">ExceptionType</a>. By default, all the request handlers return a <a href="namespacemodbus.html#adf87eec37b2090ed0de1c9b28eb747a6a96e6b9462fdd161d848d2a1714261b62" class="m-dox">ExceptionType::<wbr />IllegalFunction</a> to represent that the particular function code is not supported. The library already validates that the data is valid. However, the library cannot validate the address range and it&#x27;s therefore the responsibility of the session implementation to return a <a href="namespacemodbus.html#adf87eec37b2090ed0de1c9b28eb747a6af711c751bc9816ca88fb335db483b363" class="m-dox">ExceptionType::<wbr />IllegalDataAddress</a> when necessary.</p><p><a href="classmodbus_1_1InMemoryDatabase.html" class="m-dox">InMemoryDatabase</a> is an already made server session with basic functionality that should fit the majority of basic use cases. It can also be used as a template for custom session implementations.</p><aside class="m-note m-danger"><h4>Warning</h4><p>All the request handlers are called from background threads created by the <a href="classmodbus_1_1IModbusManager.html" class="m-dox">IModbusManager</a>. Therefore, all request handlers <em>should not block</em> in any way. Otherwise, you risk having other channels not performing their tasks because the thread is blocked or even deadlocks. Also, be sure to use the appropriate mechanisms to eliminate the risks of race conditions in the user code. See <a href="classmodbus_1_1IModbusManager.html" class="m-dox">IModbusManager</a> for more details.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a href="classmodbus_1_1IModbusManager.html" class="m-dox">IModbusManager</a>, <a href="classmodbus_1_1IServerChannel.html" class="m-dox">IServerChannel</a></p></aside>
+        <section id="derived-classes">
+          <h2><a href="#derived-classes">Derived classes</a></h2>
+          <dl class="m-dox">
+            <dt>
+              class <a href="classmodbus_1_1InMemoryDatabase.html" class="m-dox">InMemoryDatabase</a>
+            </dt>
+            <dd>In-memory database session.</dd>
+          </dl>
+        </section>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+          <dl class="m-dox">
+            <dt>
+              <span class="m-dox-wrap-bumper"><a href="#a8ca3b9171b173fa2a3ccfd2e2254ce8e" class="m-dox">~IServerSession</a>(</span><span class="m-dox-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-warning">virtual</span></span>
+            </dt>
+            <dd>Destructor.</dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-dox">
+            <dt>
+              <span class="m-dox-wrap-bumper">void <a href="#a28eb1f0c339e8d92d2aeca87463d5786" class="m-dox">shutdown</a>(</span><span class="m-dox-wrap">) <span class="m-label m-flat m-warning">virtual</span></span>
+            </dt>
+            <dd>Release all resources associated with the session.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper">auto <a href="#aaafb3ec8d80f9163d20794ae9b8cb12a" class="m-dox">on_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadCoilsRequest.html" class="m-dox">ReadCoilsRequest</a>&amp; request) -&gt; <a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a>&lt;<a href="structmodbus_1_1ReadCoilsResponse.html" class="m-dox">ReadCoilsResponse</a>&gt; <span class="m-label m-flat m-warning">virtual</span></span>
+            </dt>
+            <dd>Callback upon reception of a <a href="structmodbus_1_1ReadCoilsRequest.html" class="m-dox">ReadCoilsRequest</a>.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper">auto <a href="#a04e6828101797fa123e2c092632245cd" class="m-dox">on_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadDiscreteInputsRequest.html" class="m-dox">ReadDiscreteInputsRequest</a>&amp; request) -&gt; <a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a>&lt;<a href="structmodbus_1_1ReadDiscreteInputsResponse.html" class="m-dox">ReadDiscreteInputsResponse</a>&gt; <span class="m-label m-flat m-warning">virtual</span></span>
+            </dt>
+            <dd>Callback upon reception of a <a href="structmodbus_1_1ReadDiscreteInputsRequest.html" class="m-dox">ReadDiscreteInputsRequest</a>.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper">auto <a href="#a1231b17e1c3cd156b616dbdc0b6c683a" class="m-dox">on_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadHoldingRegistersRequest.html" class="m-dox">ReadHoldingRegistersRequest</a>&amp; request) -&gt; <a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a>&lt;<a href="structmodbus_1_1ReadHoldingRegistersResponse.html" class="m-dox">ReadHoldingRegistersResponse</a>&gt; <span class="m-label m-flat m-warning">virtual</span></span>
+            </dt>
+            <dd>Callback upon reception of a <a href="structmodbus_1_1ReadHoldingRegistersRequest.html" class="m-dox">ReadHoldingRegistersRequest</a>.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper">auto <a href="#a91b7b347a5ec39fb84ee1dca2a67474f" class="m-dox">on_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadInputRegistersRequest.html" class="m-dox">ReadInputRegistersRequest</a>&amp; request) -&gt; <a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a>&lt;<a href="structmodbus_1_1ReadInputRegistersResponse.html" class="m-dox">ReadInputRegistersResponse</a>&gt; <span class="m-label m-flat m-warning">virtual</span></span>
+            </dt>
+            <dd>Callback upon reception of a <a href="structmodbus_1_1ReadInputRegistersRequest.html" class="m-dox">ReadInputRegistersRequest</a>.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper">auto <a href="#ac9b906dfdd3c50ef9136eb6008e4dcb6" class="m-dox">on_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1WriteSingleCoilRequest.html" class="m-dox">WriteSingleCoilRequest</a>&amp; request) -&gt; <a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a>&lt;<a href="structmodbus_1_1WriteSingleCoilResponse.html" class="m-dox">WriteSingleCoilResponse</a>&gt; <span class="m-label m-flat m-warning">virtual</span></span>
+            </dt>
+            <dd>Callback upon reception of a <a href="structmodbus_1_1WriteSingleCoilRequest.html" class="m-dox">WriteSingleCoilRequest</a>.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper">auto <a href="#aff17a5c860dc704f9da6da774e37befc" class="m-dox">on_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1WriteSingleRegisterRequest.html" class="m-dox">WriteSingleRegisterRequest</a>&amp; request) -&gt; <a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a>&lt;<a href="structmodbus_1_1WriteSingleRegisterResponse.html" class="m-dox">WriteSingleRegisterResponse</a>&gt; <span class="m-label m-flat m-warning">virtual</span></span>
+            </dt>
+            <dd>Callback upon reception of a <a href="structmodbus_1_1WriteSingleRegisterRequest.html" class="m-dox">WriteSingleRegisterRequest</a>.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper">auto <a href="#a46509d189295292d3918d5fdfe9333b3" class="m-dox">on_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1WriteMultipleCoilsRequest.html" class="m-dox">WriteMultipleCoilsRequest</a>&amp; request) -&gt; <a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a>&lt;<a href="structmodbus_1_1WriteMultipleCoilsResponse.html" class="m-dox">WriteMultipleCoilsResponse</a>&gt; <span class="m-label m-flat m-warning">virtual</span></span>
+            </dt>
+            <dd>Callback upon reception of a <a href="structmodbus_1_1WriteMultipleCoilsRequest.html" class="m-dox">WriteMultipleCoilsRequest</a>.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper">auto <a href="#a62a06d1e621ad9b8ba755723c2ef099f" class="m-dox">on_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1WriteMultipleRegistersRequest.html" class="m-dox">WriteMultipleRegistersRequest</a>&amp; request) -&gt; <a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a>&lt;<a href="structmodbus_1_1WriteMultipleRegistersResponse.html" class="m-dox">WriteMultipleRegistersResponse</a>&gt; <span class="m-label m-flat m-warning">virtual</span></span>
+            </dt>
+            <dd>Callback upon reception of a <a href="structmodbus_1_1WriteMultipleRegistersRequest.html" class="m-dox">WriteMultipleRegistersRequest</a>.</dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-dox-details" id="a8ca3b9171b173fa2a3ccfd2e2254ce8e"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper"> modbus::<wbr />IServerSession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a8ca3b9171b173fa2a3ccfd2e2254ce8e" class="m-dox-self">~IServerSession</a>(</span><span class="m-dox-wrap">) <span class="m-label m-warning">virtual</span> <span class="m-label m-info">defaulted</span></span></span>
+            </h3>
+            <p>Destructor.</p>
+<aside class="m-note m-danger"><h4>Warning</h4><p>This destructor should never be called from user code. <a href="classmodbus_1_1IServerChannel.html" class="m-dox">IServerChannel</a> will hold a shared pointer to every sessions it has created and will release them in <a href="classmodbus_1_1IServerChannel.html#a843738827db99e96ba5e4071d4d43725" class="m-dox">IServerChannel::<wbr />shutdown()</a>, which is probably called by <a href="classmodbus_1_1IModbusManager.html#ae57c5cb74f6f170be0d5c014af3d96fa" class="m-dox">IModbusManager::<wbr />shutdown()</a>.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a href="classmodbus_1_1IModbusManager.html#ae57c5cb74f6f170be0d5c014af3d96fa" class="m-dox">IModbusManager::<wbr />shutdown()</a>, <a href="classmodbus_1_1IServerChannel.html#a843738827db99e96ba5e4071d4d43725" class="m-dox">IServerChannel::<wbr />shutdown()</a>, <a href="classmodbus_1_1IServerSession.html#a28eb1f0c339e8d92d2aeca87463d5786" class="m-dox">shutdown()</a></p></aside>
+          </div></section>
+          <section class="m-dox-details" id="a28eb1f0c339e8d92d2aeca87463d5786"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper">void modbus::<wbr />IServerSession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a28eb1f0c339e8d92d2aeca87463d5786" class="m-dox-self">shutdown</a>(</span><span class="m-dox-wrap">) <span class="m-label m-warning">virtual</span></span></span>
+            </h3>
+            <p>Release all resources associated with the session.</p>
+<aside class="m-note m-info"><h4>Note</h4><p>This method is usually <strong>not</strong> called by user code, but by <a href="classmodbus_1_1IServerChannel.html#a843738827db99e96ba5e4071d4d43725" class="m-dox">IServerChannel::<wbr />shutdown()</a>, which is normally called by <a href="classmodbus_1_1IModbusManager.html#ae57c5cb74f6f170be0d5c014af3d96fa" class="m-dox">IModbusManager::<wbr />shutdown()</a>. It is still possible to shutdown a session manually using this method, however please note that the <a href="classmodbus_1_1IServerChannel.html" class="m-dox">IServerChannel</a> will keep holding a shared pointer to it.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>Sessions cannot be restarted, but you can safely create and attach a new one via <a href="classmodbus_1_1IServerChannel.html" class="m-dox">IServerChannel</a>.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a href="classmodbus_1_1IModbusManager.html#ae57c5cb74f6f170be0d5c014af3d96fa" class="m-dox">IModbusManager::<wbr />shutdown()</a>, <a href="classmodbus_1_1IServerChannel.html#a843738827db99e96ba5e4071d4d43725" class="m-dox">IServerChannel::<wbr />shutdown()</a></p></aside>
+          </div></section>
+          <section class="m-dox-details" id="aaafb3ec8d80f9163d20794ae9b8cb12a"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper"><a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a>&lt;<a href="structmodbus_1_1ReadCoilsResponse.html" class="m-dox">ReadCoilsResponse</a>&gt; modbus::<wbr />IServerSession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#aaafb3ec8d80f9163d20794ae9b8cb12a" class="m-dox-self">on_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadCoilsRequest.html" class="m-dox">ReadCoilsRequest</a>&amp; request) <span class="m-label m-warning">virtual</span></span></span>
+            </h3>
+            <p>Callback upon reception of a <a href="structmodbus_1_1ReadCoilsRequest.html" class="m-dox">ReadCoilsRequest</a>.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">request</td>
+                  <td>Received request</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td><a href="structmodbus_1_1ReadCoilsResponse.html" class="m-dox">ReadCoilsResponse</a> or a <a href="classmodbus_1_1ModbusException.html" class="m-dox">ModbusException</a> wrapped in <a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a></td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>By default, this method returns a <a href="namespacemodbus.html#adf87eec37b2090ed0de1c9b28eb747a6a96e6b9462fdd161d848d2a1714261b62" class="m-dox">ExceptionType::<wbr />IllegalFunction</a>.</p></aside>
+          </div></section>
+          <section class="m-dox-details" id="a04e6828101797fa123e2c092632245cd"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper"><a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a>&lt;<a href="structmodbus_1_1ReadDiscreteInputsResponse.html" class="m-dox">ReadDiscreteInputsResponse</a>&gt; modbus::<wbr />IServerSession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a04e6828101797fa123e2c092632245cd" class="m-dox-self">on_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadDiscreteInputsRequest.html" class="m-dox">ReadDiscreteInputsRequest</a>&amp; request) <span class="m-label m-warning">virtual</span></span></span>
+            </h3>
+            <p>Callback upon reception of a <a href="structmodbus_1_1ReadDiscreteInputsRequest.html" class="m-dox">ReadDiscreteInputsRequest</a>.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">request</td>
+                  <td>Received request</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td><a href="structmodbus_1_1ReadDiscreteInputsResponse.html" class="m-dox">ReadDiscreteInputsResponse</a> or a <a href="classmodbus_1_1ModbusException.html" class="m-dox">ModbusException</a> wrapped in <a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a></td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>By default, this method returns a <a href="namespacemodbus.html#adf87eec37b2090ed0de1c9b28eb747a6a96e6b9462fdd161d848d2a1714261b62" class="m-dox">ExceptionType::<wbr />IllegalFunction</a>.</p></aside>
+          </div></section>
+          <section class="m-dox-details" id="a1231b17e1c3cd156b616dbdc0b6c683a"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper"><a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a>&lt;<a href="structmodbus_1_1ReadHoldingRegistersResponse.html" class="m-dox">ReadHoldingRegistersResponse</a>&gt; modbus::<wbr />IServerSession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a1231b17e1c3cd156b616dbdc0b6c683a" class="m-dox-self">on_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadHoldingRegistersRequest.html" class="m-dox">ReadHoldingRegistersRequest</a>&amp; request) <span class="m-label m-warning">virtual</span></span></span>
+            </h3>
+            <p>Callback upon reception of a <a href="structmodbus_1_1ReadHoldingRegistersRequest.html" class="m-dox">ReadHoldingRegistersRequest</a>.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">request</td>
+                  <td>Received request</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td><a href="structmodbus_1_1ReadHoldingRegistersResponse.html" class="m-dox">ReadHoldingRegistersResponse</a> or a <a href="classmodbus_1_1ModbusException.html" class="m-dox">ModbusException</a> wrapped in <a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a></td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>By default, this method returns a <a href="namespacemodbus.html#adf87eec37b2090ed0de1c9b28eb747a6a96e6b9462fdd161d848d2a1714261b62" class="m-dox">ExceptionType::<wbr />IllegalFunction</a>.</p></aside>
+          </div></section>
+          <section class="m-dox-details" id="a91b7b347a5ec39fb84ee1dca2a67474f"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper"><a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a>&lt;<a href="structmodbus_1_1ReadInputRegistersResponse.html" class="m-dox">ReadInputRegistersResponse</a>&gt; modbus::<wbr />IServerSession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a91b7b347a5ec39fb84ee1dca2a67474f" class="m-dox-self">on_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1ReadInputRegistersRequest.html" class="m-dox">ReadInputRegistersRequest</a>&amp; request) <span class="m-label m-warning">virtual</span></span></span>
+            </h3>
+            <p>Callback upon reception of a <a href="structmodbus_1_1ReadInputRegistersRequest.html" class="m-dox">ReadInputRegistersRequest</a>.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">request</td>
+                  <td>Received request</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td><a href="structmodbus_1_1ReadInputRegistersResponse.html" class="m-dox">ReadInputRegistersResponse</a> or a <a href="classmodbus_1_1ModbusException.html" class="m-dox">ModbusException</a> wrapped in <a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a></td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>By default, this method returns a <a href="namespacemodbus.html#adf87eec37b2090ed0de1c9b28eb747a6a96e6b9462fdd161d848d2a1714261b62" class="m-dox">ExceptionType::<wbr />IllegalFunction</a>.</p></aside>
+          </div></section>
+          <section class="m-dox-details" id="ac9b906dfdd3c50ef9136eb6008e4dcb6"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper"><a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a>&lt;<a href="structmodbus_1_1WriteSingleCoilResponse.html" class="m-dox">WriteSingleCoilResponse</a>&gt; modbus::<wbr />IServerSession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#ac9b906dfdd3c50ef9136eb6008e4dcb6" class="m-dox-self">on_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1WriteSingleCoilRequest.html" class="m-dox">WriteSingleCoilRequest</a>&amp; request) <span class="m-label m-warning">virtual</span></span></span>
+            </h3>
+            <p>Callback upon reception of a <a href="structmodbus_1_1WriteSingleCoilRequest.html" class="m-dox">WriteSingleCoilRequest</a>.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">request</td>
+                  <td>Received request</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td><a href="structmodbus_1_1WriteSingleCoilResponse.html" class="m-dox">WriteSingleCoilResponse</a> or a <a href="classmodbus_1_1ModbusException.html" class="m-dox">ModbusException</a> wrapped in <a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a></td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>By default, this method returns a <a href="namespacemodbus.html#adf87eec37b2090ed0de1c9b28eb747a6a96e6b9462fdd161d848d2a1714261b62" class="m-dox">ExceptionType::<wbr />IllegalFunction</a>.</p></aside>
+          </div></section>
+          <section class="m-dox-details" id="aff17a5c860dc704f9da6da774e37befc"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper"><a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a>&lt;<a href="structmodbus_1_1WriteSingleRegisterResponse.html" class="m-dox">WriteSingleRegisterResponse</a>&gt; modbus::<wbr />IServerSession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#aff17a5c860dc704f9da6da774e37befc" class="m-dox-self">on_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1WriteSingleRegisterRequest.html" class="m-dox">WriteSingleRegisterRequest</a>&amp; request) <span class="m-label m-warning">virtual</span></span></span>
+            </h3>
+            <p>Callback upon reception of a <a href="structmodbus_1_1WriteSingleRegisterRequest.html" class="m-dox">WriteSingleRegisterRequest</a>.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">request</td>
+                  <td>Received request</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td><a href="structmodbus_1_1WriteSingleRegisterResponse.html" class="m-dox">WriteSingleRegisterResponse</a> or a <a href="classmodbus_1_1ModbusException.html" class="m-dox">ModbusException</a> wrapped in <a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a></td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>By default, this method returns a <a href="namespacemodbus.html#adf87eec37b2090ed0de1c9b28eb747a6a96e6b9462fdd161d848d2a1714261b62" class="m-dox">ExceptionType::<wbr />IllegalFunction</a>.</p></aside>
+          </div></section>
+          <section class="m-dox-details" id="a46509d189295292d3918d5fdfe9333b3"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper"><a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a>&lt;<a href="structmodbus_1_1WriteMultipleCoilsResponse.html" class="m-dox">WriteMultipleCoilsResponse</a>&gt; modbus::<wbr />IServerSession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a46509d189295292d3918d5fdfe9333b3" class="m-dox-self">on_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1WriteMultipleCoilsRequest.html" class="m-dox">WriteMultipleCoilsRequest</a>&amp; request) <span class="m-label m-warning">virtual</span></span></span>
+            </h3>
+            <p>Callback upon reception of a <a href="structmodbus_1_1WriteMultipleCoilsRequest.html" class="m-dox">WriteMultipleCoilsRequest</a>.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">request</td>
+                  <td>Received request</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td><a href="structmodbus_1_1WriteMultipleCoilsResponse.html" class="m-dox">WriteMultipleCoilsResponse</a> or a <a href="classmodbus_1_1ModbusException.html" class="m-dox">ModbusException</a> wrapped in <a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a></td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>By default, this method returns a <a href="namespacemodbus.html#adf87eec37b2090ed0de1c9b28eb747a6a96e6b9462fdd161d848d2a1714261b62" class="m-dox">ExceptionType::<wbr />IllegalFunction</a>.</p></aside>
+          </div></section>
+          <section class="m-dox-details" id="a62a06d1e621ad9b8ba755723c2ef099f"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper"><a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a>&lt;<a href="structmodbus_1_1WriteMultipleRegistersResponse.html" class="m-dox">WriteMultipleRegistersResponse</a>&gt; modbus::<wbr />IServerSession::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a62a06d1e621ad9b8ba755723c2ef099f" class="m-dox-self">on_request</a>(</span><span class="m-dox-wrap">const <a href="structmodbus_1_1WriteMultipleRegistersRequest.html" class="m-dox">WriteMultipleRegistersRequest</a>&amp; request) <span class="m-label m-warning">virtual</span></span></span>
+            </h3>
+            <p>Callback upon reception of a <a href="structmodbus_1_1WriteMultipleRegistersRequest.html" class="m-dox">WriteMultipleRegistersRequest</a>.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">request</td>
+                  <td>Received request</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td><a href="structmodbus_1_1WriteMultipleRegistersResponse.html" class="m-dox">WriteMultipleRegistersResponse</a> or a <a href="classmodbus_1_1ModbusException.html" class="m-dox">ModbusException</a> wrapped in <a href="classmodbus_1_1Expected.html" class="m-dox">Expected</a></td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>By default, this method returns a <a href="namespacemodbus.html#adf87eec37b2090ed0de1c9b28eb747a6a96e6b9462fdd161d848d2a1714261b62" class="m-dox">ExceptionType::<wbr />IllegalFunction</a>.</p></aside>
+          </div></section>
+        </section>
+      </div>
+    </div>
+  </div>
+</article></main>
+<div class="m-dox-search" id="search">
+  <a href="#!" onclick="return hideSearch()"></a>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-m-8 m-push-m-2">
+        <div class="m-dox-search-header m-text m-small">
+          <div><span class="m-label m-default">Tab</span> / <span class="m-label m-default">T</span> to search, <span class="m-label m-default">Esc</span> to close</div>
+          <div id="search-symbolcount">&hellip;</div>
+        </div>
+        <div class="m-dox-search-content">
+          <input type="search" id="search-input" placeholder="Loading &hellip;" disabled="disabled" autofocus="autofocus" />
+          <noscript class="m-text m-danger m-text-center">Unlike everything else in the docs, the search functionality <em>requires</em> JavaScript.</noscript>
+          <div id="search-help" class="m-text m-dim m-text-center">
+            Search for symbols, directories, files, pages or modules. You can omit any
+            prefix from the symbol or file path; adding a <code>:</code> or <code>/</code>
+            suffix lists all members of given symbol or directory. Navigate through the
+            list using <span class="m-label m-dim">&darr;</span> and
+            <span class="m-label m-dim">&uarr;</span>, press
+            <span class="m-label m-dim">Enter</span> to go.
+          </div>
+          <div id="search-notfound" class="m-text m-warning m-text-center">Sorry, nothing was found.</div>
+          <ul id="search-results"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="search.js"></script>
+<script src="searchdata.js" async="async"></script>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <p>modbus-cpp. Created by <a href="http://doxygen.org/">Doxygen</a> 1.8.16 and <a href="http://mcss.mosra.cz/">m.css</a>.</p>
+      </div>
+    </div>
+  </div>
+</nav></footer>
+</body>
+</html>

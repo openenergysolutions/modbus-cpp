@@ -28,7 +28,8 @@
               <a href="pages.html">Pages</a>
               <ol>
                 <li><a href="Building.html">Building</a></li>
-                <li><a href="Example.html">Example</a></li>
+                <li><a href="client-example.html">Client example</a></li>
+                <li><a href="server-example.html">Server example</a></li>
               </ol>
             </li>
             <li><a href="namespaces.html">Namespaces</a></li>
@@ -38,11 +39,11 @@
             <li>
               <a href="files.html" id="m-navbar-current">Files</a>
               <ol>
-                <li><a href="dir_ca58a6e1d1ad7199b06ec1997943b0e2.html">modbus/channel</a></li>
-                <li><a href="dir_f0b4abc89894b7a59cdcc1b56ad2fa78.html">modbus/exceptions</a></li>
-                <li><a href="dir_5039506f8dbbf25081fc49328f198ec6.html">modbus/logging</a></li>
-                <li><a href="dir_4dd40bef6cea24abf09d91015e01f4b5.html">modbus/messages</a></li>
-                <li><a href="dir_5e0ccf84f1afa1ec87f338ca918e19f4.html">modbus/session</a></li>
+                <li><a href="dir_d3b26331f3c74bf807ead862471b52da.html">modbus/client</a></li>
+                <li><a href="dir_43ea1460863501ba9bc88eee3de80f0a.html">modbus/exceptions</a></li>
+                <li><a href="dir_c90990131e56b6669ad5910b9b368979.html">modbus/logging</a></li>
+                <li><a href="dir_29d51bc57f64f6e07a17b398711726a8.html">modbus/messages</a></li>
+                <li><a href="dir_ad3261de9f59683b75b07c9413a06e70.html">modbus/server</a></li>
               </ol>
             </li>
             <li class="m-show-m"><a href="#search" class="m-dox-search-icon" title="Search" onclick="return showSearch()"><svg viewBox="0 0 16 16">
@@ -61,22 +62,24 @@
         <h1>Files</h2>
         <ul class="m-dox">
           <li class="m-dox-collapsible">
-            <a href="#" onclick="return toggle(this)">dir</a> <a href="dir_1d7f61a2333bdd8cffe1da0eb623d0f9.html" class="m-dox">modbus</a> <span class="m-dox">Contains all the modbus-cpp library public API.</span>
+            <a href="#" onclick="return toggle(this)">dir</a> <a href="dir_6cfbc1b52a76a312baca15cd5600af36.html" class="m-dox">modbus</a> <span class="m-dox">Contains all the modbus-cpp library public API.</span>
             <ul class="m-dox">
               <li class="m-dox-collapsible collapsed">
-                <a href="#" onclick="return toggle(this)">dir</a> <a href="dir_ca58a6e1d1ad7199b06ec1997943b0e2.html" class="m-dox">channel</a> <span class="m-dox">Contains everything related to channel handling.</span>
+                <a href="#" onclick="return toggle(this)">dir</a> <a href="dir_d3b26331f3c74bf807ead862471b52da.html" class="m-dox">client</a> <span class="m-dox">Contains client-side (master) related code.</span>
                 <ul class="m-dox">
-                  <li>file <a href="IChannel_8h.html" class="m-dox">IChannel.h</a> <span class="m-dox">Interface <a href="classmodbus_1_1IChannel.html" class="m-dox">modbus::<wbr />IChannel</a>.</span></li>
-                  <li>file <a href="Ipv4Endpoint_8h.html" class="m-dox">Ipv4Endpoint.h</a> <span class="m-dox">Class <a href="classmodbus_1_1Ipv4Endpoint.html" class="m-dox">modbus::<wbr />Ipv4Endpoint</a>.</span></li>
-                  <li>file <a href="UnitIdentifier_8h.html" class="m-dox">UnitIdentifier.h</a> <span class="m-dox">Class <a href="classmodbus_1_1UnitIdentifier.html" class="m-dox">modbus::<wbr />UnitIdentifier</a>.</span></li>
+                  <li>file <a href="IClientChannel_8h.html" class="m-dox">IClientChannel.h</a> <span class="m-dox">Interface <a href="classmodbus_1_1IClientChannel.html" class="m-dox">modbus::<wbr />IClientChannel</a>.</span></li>
+                  <li>file <a href="IClientSession_8h.html" class="m-dox">IClientSession.h</a> <span class="m-dox">Interface <a href="classmodbus_1_1IClientSession.html" class="m-dox">modbus::<wbr />IClientSession</a>.</span></li>
+                  <li>file <a href="IScheduledRequest_8h.html" class="m-dox">IScheduledRequest.h</a> <span class="m-dox">Interface <a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">modbus::<wbr />IScheduledRequest</a>.</span></li>
+                  <li>file <a href="ResponseHandler_8h.html" class="m-dox">ResponseHandler.h</a> <span class="m-dox">Typedef <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">modbus::<wbr />ResponseHandler</a>.</span></li>
 
                 </ul>
               </li>
               <li class="m-dox-collapsible collapsed">
-                <a href="#" onclick="return toggle(this)">dir</a> <a href="dir_f0b4abc89894b7a59cdcc1b56ad2fa78.html" class="m-dox">exceptions</a> <span class="m-dox">Contains all the exceptions that can be passed by <a href="classmodbus_1_1Expected.html" class="m-dox">modbus::<wbr />Expected</a>.</span>
+                <a href="#" onclick="return toggle(this)">dir</a> <a href="dir_43ea1460863501ba9bc88eee3de80f0a.html" class="m-dox">exceptions</a> <span class="m-dox">Contains all the exceptions that can be passed by <a href="classmodbus_1_1Expected.html" class="m-dox">modbus::<wbr />Expected</a>.</span>
                 <ul class="m-dox">
                   <li>file <a href="ConnectionException_8h.html" class="m-dox">ConnectionException.h</a> <span class="m-dox">Class <a href="classmodbus_1_1ConnectionException.html" class="m-dox">modbus::<wbr />ConnectionException</a>.</span></li>
                   <li>file <a href="IException_8h.html" class="m-dox">IException.h</a> <span class="m-dox">Class <a href="classmodbus_1_1IException.html" class="m-dox">modbus::<wbr />IException</a>.</span></li>
+                  <li>file <a href="MalformedModbusRequestException_8h.html" class="m-dox">MalformedModbusRequestException.h</a> <span class="m-dox">Class <a href="classmodbus_1_1MalformedModbusRequestException.html" class="m-dox">modbus::<wbr />MalformedModbusRequestException</a>.</span></li>
                   <li>file <a href="MalformedModbusResponseException_8h.html" class="m-dox">MalformedModbusResponseException.h</a> <span class="m-dox">Class <a href="classmodbus_1_1MalformedModbusResponseException.html" class="m-dox">modbus::<wbr />MalformedModbusResponseException</a>.</span></li>
                   <li>file <a href="ModbusException_8h.html" class="m-dox">ModbusException.h</a> <span class="m-dox">Class <a href="classmodbus_1_1ModbusException.html" class="m-dox">modbus::<wbr />ModbusException</a>.</span></li>
                   <li>file <a href="TimeoutException_8h.html" class="m-dox">TimeoutException.h</a> <span class="m-dox">Class <a href="classmodbus_1_1TimeoutException.html" class="m-dox">modbus::<wbr />TimeoutException</a>.</span></li>
@@ -84,14 +87,15 @@
                 </ul>
               </li>
               <li class="m-dox-collapsible collapsed">
-                <a href="#" onclick="return toggle(this)">dir</a> <a href="dir_5039506f8dbbf25081fc49328f198ec6.html" class="m-dox">logging</a> <span class="m-dox">Contains everything related to logging.</span>
+                <a href="#" onclick="return toggle(this)">dir</a> <a href="dir_c90990131e56b6669ad5910b9b368979.html" class="m-dox">logging</a> <span class="m-dox">Contains everything related to logging.</span>
                 <ul class="m-dox">
                   <li>file <a href="LoggerFactory_8h.html" class="m-dox">LoggerFactory.h</a> <span class="m-dox">Class <a href="classmodbus_1_1LoggerFactory.html" class="m-dox">modbus::<wbr />LoggerFactory</a>.</span></li>
+                  <li>file <a href="LoggingLevel_8h.html" class="m-dox">LoggingLevel.h</a> <span class="m-dox">Enum <a href="namespacemodbus.html#a41d09ba4255ab80cc833e576bd3b5b9c" class="m-dox">modbus::<wbr />LoggingLevel</a>.</span></li>
 
                 </ul>
               </li>
               <li class="m-dox-collapsible collapsed">
-                <a href="#" onclick="return toggle(this)">dir</a> <a href="dir_4dd40bef6cea24abf09d91015e01f4b5.html" class="m-dox">messages</a> <span class="m-dox">Contains all the messages that can be sent by the library.</span>
+                <a href="#" onclick="return toggle(this)">dir</a> <a href="dir_29d51bc57f64f6e07a17b398711726a8.html" class="m-dox">messages</a> <span class="m-dox">Contains all the messages that can be sent by the library.</span>
                 <ul class="m-dox">
                   <li>file <a href="Address_8h.html" class="m-dox">Address.h</a> <span class="m-dox">Typedef <a href="namespacemodbus.html#a7364f7cc8148937aaf5b230ef23192cb" class="m-dox">modbus::<wbr />Address</a>.</span></li>
                   <li>file <a href="ExceptionType_8h.html" class="m-dox">ExceptionType.h</a> <span class="m-dox">Enum <a href="namespacemodbus.html#adf87eec37b2090ed0de1c9b28eb747a6" class="m-dox">modbus::<wbr />ExceptionType</a> and function <a href="namespacemodbus.html#a59f3c10334756c93d09d1610f8943af1" class="m-dox">modbus::<wbr />parse_exception_type()</a></span></li>
@@ -117,18 +121,30 @@
                 </ul>
               </li>
               <li class="m-dox-collapsible collapsed">
-                <a href="#" onclick="return toggle(this)">dir</a> <a href="dir_5e0ccf84f1afa1ec87f338ca918e19f4.html" class="m-dox">session</a> <span class="m-dox">Contains everything related to session handling and scheduled requests.</span>
+                <a href="#" onclick="return toggle(this)">dir</a> <a href="dir_ad3261de9f59683b75b07c9413a06e70.html" class="m-dox">server</a> <span class="m-dox">Contains server-side (slave) related code.</span>
                 <ul class="m-dox">
-                  <li>file <a href="IScheduledRequest_8h.html" class="m-dox">IScheduledRequest.h</a> <span class="m-dox">Interface <a href="classmodbus_1_1IScheduledRequest.html" class="m-dox">modbus::<wbr />IScheduledRequest</a>.</span></li>
-                  <li>file <a href="ISession_8h.html" class="m-dox">ISession.h</a> <span class="m-dox">Interface <a href="classmodbus_1_1ISession.html" class="m-dox">modbus::<wbr />ISession</a>.</span></li>
+                  <li class="m-dox-collapsible collapsed">
+                    <a href="#" onclick="return toggle(this)">dir</a> <a href="dir_d5b01d05ce772b0f40122ed0b7aa1899.html" class="m-dox">db</a> <span class="m-dox">Already made in-memory database implementing the <a href="classmodbus_1_1IServerSession.html" class="m-dox">modbus::<wbr />IServerSession</a> interface.</span>
+                    <ul class="m-dox">
+                      <li>file <a href="BitDatabase_8h.html" class="m-dox">BitDatabase.h</a> <span class="m-dox">Class <a href="namespacemodbus.html#a27108f794dc3cbc3244994996c741d90" class="m-dox">modbus::<wbr />BitDatabase</a>.</span></li>
+                      <li>file <a href="IDatabase_8h.html" class="m-dox">IDatabase.h</a> <span class="m-dox">Class <a href="classmodbus_1_1IDatabase.html" class="m-dox">modbus::<wbr />IDatabase</a>.</span></li>
+                      <li>file <a href="InMemoryDatabase_8h.html" class="m-dox">InMemoryDatabase.h</a> <span class="m-dox">Class <a href="classmodbus_1_1InMemoryDatabase.html" class="m-dox">modbus::<wbr />InMemoryDatabase</a>.</span></li>
+                      <li>file <a href="RegisterDatabase_8h.html" class="m-dox">RegisterDatabase.h</a> <span class="m-dox">Class <a href="namespacemodbus.html#ad6e91e4c67e52e2d33ae562945b8ac24" class="m-dox">modbus::<wbr />RegisterDatabase</a>.</span></li>
+                      <li>file <a href="SingleTypeDatabase_8h.html" class="m-dox">SingleTypeDatabase.h</a> <span class="m-dox">Class <a href="classmodbus_1_1SingleTypeDatabase.html" class="m-dox">modbus::<wbr />SingleTypeDatabase</a>.</span></li>
+
+                    </ul>
+                  </li>
+                  <li>file <a href="IServerChannel_8h.html" class="m-dox">IServerChannel.h</a> <span class="m-dox">Interface <a href="classmodbus_1_1IServerChannel.html" class="m-dox">modbus::<wbr />IServerChannel</a>.</span></li>
+                  <li>file <a href="IServerSession_8h.html" class="m-dox">IServerSession.h</a> <span class="m-dox">Interface <a href="classmodbus_1_1IServerSession.html" class="m-dox">modbus::<wbr />IServerSession</a>.</span></li>
 
                 </ul>
               </li>
               <li>file <a href="Expected_8h.html" class="m-dox">Expected.h</a> <span class="m-dox">Class <a href="classmodbus_1_1Expected.html" class="m-dox">modbus::<wbr />Expected</a>.</span></li>
               <li>file <a href="IModbusManager_8h.html" class="m-dox">IModbusManager.h</a> <span class="m-dox">Interface <a href="classmodbus_1_1IModbusManager.html" class="m-dox">modbus::<wbr />IModbusManager</a>.</span></li>
+              <li>file <a href="Ipv4Endpoint_8h.html" class="m-dox">Ipv4Endpoint.h</a> <span class="m-dox">Class <a href="classmodbus_1_1Ipv4Endpoint.html" class="m-dox">modbus::<wbr />Ipv4Endpoint</a>.</span></li>
               <li>file <a href="ITimer_8h.html" class="m-dox">ITimer.h</a> <span class="m-dox">Interface <a href="classmodbus_1_1ITimer.html" class="m-dox">modbus::<wbr />ITimer</a>.</span></li>
-              <li>file <a href="ResponseHandler_8h.html" class="m-dox">ResponseHandler.h</a> <span class="m-dox">Typedef <a href="namespacemodbus.html#ae26a7c8960d3836689c36527823b249c" class="m-dox">modbus::<wbr />ResponseHandler</a>.</span></li>
               <li>file <a href="Typedefs_8h.html" class="m-dox">Typedefs.h</a> <span class="m-dox">Typedef <a href="namespacemodbus.html#add248d995c4d55585688a47e72df44f6" class="m-dox">modbus::<wbr />action_t</a> and <a href="namespacemodbus.html#a852e7cbb8fc0cdce0b28599d55379066" class="m-dox">modbus::<wbr />duration_t</a>.</span></li>
+              <li>file <a href="UnitIdentifier_8h.html" class="m-dox">UnitIdentifier.h</a> <span class="m-dox">Class <a href="classmodbus_1_1UnitIdentifier.html" class="m-dox">modbus::<wbr />UnitIdentifier</a>.</span></li>
 
             </ul>
           </li>
@@ -185,7 +201,7 @@
   <div class="m-container">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <p>modbus-cpp. Created by <a href="http://doxygen.org/">Doxygen</a> 1.8.14 and <a href="http://mcss.mosra.cz/">m.css</a>.</p>
+        <p>modbus-cpp. Created by <a href="http://doxygen.org/">Doxygen</a> 1.8.16 and <a href="http://mcss.mosra.cz/">m.css</a>.</p>
       </div>
     </div>
   </div>

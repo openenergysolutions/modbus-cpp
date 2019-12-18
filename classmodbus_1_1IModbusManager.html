@@ -28,7 +28,8 @@
               <a href="pages.html">Pages</a>
               <ol>
                 <li><a href="Building.html">Building</a></li>
-                <li><a href="Example.html">Example</a></li>
+                <li><a href="client-example.html">Client example</a></li>
+                <li><a href="server-example.html">Server example</a></li>
               </ol>
             </li>
             <li><a href="namespaces.html">Namespaces</a></li>
@@ -38,11 +39,11 @@
             <li>
               <a href="files.html">Files</a>
               <ol>
-                <li><a href="dir_ca58a6e1d1ad7199b06ec1997943b0e2.html">modbus/channel</a></li>
-                <li><a href="dir_f0b4abc89894b7a59cdcc1b56ad2fa78.html">modbus/exceptions</a></li>
-                <li><a href="dir_5039506f8dbbf25081fc49328f198ec6.html">modbus/logging</a></li>
-                <li><a href="dir_4dd40bef6cea24abf09d91015e01f4b5.html">modbus/messages</a></li>
-                <li><a href="dir_5e0ccf84f1afa1ec87f338ca918e19f4.html">modbus/session</a></li>
+                <li><a href="dir_d3b26331f3c74bf807ead862471b52da.html">modbus/client</a></li>
+                <li><a href="dir_43ea1460863501ba9bc88eee3de80f0a.html">modbus/exceptions</a></li>
+                <li><a href="dir_c90990131e56b6669ad5910b9b368979.html">modbus/logging</a></li>
+                <li><a href="dir_29d51bc57f64f6e07a17b398711726a8.html">modbus/messages</a></li>
+                <li><a href="dir_ad3261de9f59683b75b07c9413a06e70.html">modbus/server</a></li>
               </ol>
             </li>
             <li class="m-show-m"><a href="#search" class="m-dox-search-icon" title="Search" onclick="return showSearch()"><svg viewBox="0 0 16 16">
@@ -75,7 +76,7 @@
             </li>
           </ul>
         </div>
-<p>Use <a href="classmodbus_1_1IModbusManager.html#a864a8c8ad600238633b53cca82ec4c20" class="m-dox">create(std::<wbr />shared_ptr&lt;Logger&gt; logger)</a> or <a href="classmodbus_1_1IModbusManager.html#a1f40a032244ad2741355322872cc2442" class="m-dox">create(std::<wbr />shared_ptr&lt;Logger&gt; logger, unsigned int number_of_threads)</a> to effectively create an instance of this class.</p><p>Once you get an instance of this class, one or multiple background threads will be running to execute all the Modbus I/O.</p><p>From this class, you can create a channel using <a href="classmodbus_1_1IModbusManager.html#a45535fc7201915b5955e9ddac3db5717" class="m-dox">create_tcp_channel(const std::<wbr />string&amp; name, const Ipv4Endpoint&amp; endpoint)</a> from which you will be able to create sessions.</p>
+<p>Use <a href="classmodbus_1_1IModbusManager.html#a864a8c8ad600238633b53cca82ec4c20" class="m-dox">create(std::<wbr />shared_ptr&lt;Logger&gt; logger)</a> or <a href="classmodbus_1_1IModbusManager.html#a1f40a032244ad2741355322872cc2442" class="m-dox">create(std::<wbr />shared_ptr&lt;Logger&gt; logger, unsigned int number_of_threads)</a> to effectively create an instance of this class.</p><p>Once you get an instance of this class, one or multiple background threads will be running to execute all the Modbus I/O.</p><p>From this class, you can create a client channel using <a href="classmodbus_1_1IModbusManager.html#acda72d2e4a8d49d3972dd4187fded6e5" class="m-dox">create_<wbr />client_<wbr />tcp_<wbr />channel()</a> from which you will be able to create sessions. Similarly, you can create server channel using <a href="classmodbus_1_1IModbusManager.html#a8aba1fe51f95940e22f49e3af9b116e2" class="m-dox">create_<wbr />server_<wbr />tcp_<wbr />channel()</a> to which you will be able to attach sessions.</p>
         <section id="pub-static-methods">
           <h2><a href="#pub-static-methods">Public static functions</a></h2>
           <dl class="m-dox">
@@ -103,10 +104,19 @@
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-dox">
             <dt>
-              <span class="m-dox-wrap-bumper">auto <a href="#a45535fc7201915b5955e9ddac3db5717" class="m-dox">create_tcp_channel</a>(</span><span class="m-dox-wrap">const std::string&amp; name,
-              const <a href="classmodbus_1_1Ipv4Endpoint.html" class="m-dox">Ipv4Endpoint</a>&amp; endpoint) -&gt; std::shared_ptr&lt;<a href="classmodbus_1_1IChannel.html" class="m-dox">IChannel</a>&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
+              <span class="m-dox-wrap-bumper">auto <a href="#acda72d2e4a8d49d3972dd4187fded6e5" class="m-dox">create_client_tcp_channel</a>(</span><span class="m-dox-wrap">const std::string&amp; name,
+              const <a href="classmodbus_1_1Ipv4Endpoint.html" class="m-dox">Ipv4Endpoint</a>&amp; endpoint,
+              const std::string&amp; adapter = &quot;&quot;,
+              const <a href="namespacemodbus.html#a41d09ba4255ab80cc833e576bd3b5b9c" class="m-dox">LoggingLevel</a> level = LoggingLevel::Info) -&gt; std::shared_ptr&lt;<a href="classmodbus_1_1IClientChannel.html" class="m-dox">IClientChannel</a>&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
-            <dd>Create a TCP channel.</dd>
+            <dd>Create a client (master) TCP channel.</dd>
+            <dt>
+              <span class="m-dox-wrap-bumper">auto <a href="#a8aba1fe51f95940e22f49e3af9b116e2" class="m-dox">create_server_tcp_channel</a>(</span><span class="m-dox-wrap">const std::string&amp; name,
+              const <a href="classmodbus_1_1Ipv4Endpoint.html" class="m-dox">Ipv4Endpoint</a>&amp; endpoint,
+              unsigned int max_num_connections = 16,
+              const <a href="namespacemodbus.html#a41d09ba4255ab80cc833e576bd3b5b9c" class="m-dox">LoggingLevel</a> level = LoggingLevel::Info) -&gt; std::shared_ptr&lt;<a href="classmodbus_1_1IServerChannel.html" class="m-dox">IServerChannel</a>&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd>Create a server (slave) TCP channel.</dd>
             <dt>
               <span class="m-dox-wrap-bumper">void <a href="#ae57c5cb74f6f170be0d5c014af3d96fa" class="m-dox">shutdown</a>(</span><span class="m-dox-wrap">) <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
@@ -175,12 +185,14 @@
             <p>Destructor.</p>
 <p>When destroyed, it will effectively call <a href="classmodbus_1_1IModbusManager.html#ae57c5cb74f6f170be0d5c014af3d96fa" class="m-dox">shutdown()</a>.</p><aside class="m-note m-danger"><h4>Warning</h4><p>When this destructor is called, it will effectively close all the channels and their associated sessions. However, since operations may still be queued in other threads and that all the threads are gracefully ended, it may take some time to completely join all the threads.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a href="classmodbus_1_1IModbusManager.html#ae57c5cb74f6f170be0d5c014af3d96fa" class="m-dox">shutdown()</a></p></aside>
           </div></section>
-          <section class="m-dox-details" id="a45535fc7201915b5955e9ddac3db5717"><div>
+          <section class="m-dox-details" id="acda72d2e4a8d49d3972dd4187fded6e5"><div>
             <h3>
-              <span class="m-dox-wrap-bumper">std::shared_ptr&lt;<a href="classmodbus_1_1IChannel.html" class="m-dox">IChannel</a>&gt; modbus::<wbr />IModbusManager::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a45535fc7201915b5955e9ddac3db5717" class="m-dox-self">create_tcp_channel</a>(</span><span class="m-dox-wrap">const std::string&amp; name,
-              const <a href="classmodbus_1_1Ipv4Endpoint.html" class="m-dox">Ipv4Endpoint</a>&amp; endpoint) <span class="m-label m-warning">pure virtual</span></span></span>
+              <span class="m-dox-wrap-bumper">std::shared_ptr&lt;<a href="classmodbus_1_1IClientChannel.html" class="m-dox">IClientChannel</a>&gt; modbus::<wbr />IModbusManager::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#acda72d2e4a8d49d3972dd4187fded6e5" class="m-dox-self">create_client_tcp_channel</a>(</span><span class="m-dox-wrap">const std::string&amp; name,
+              const <a href="classmodbus_1_1Ipv4Endpoint.html" class="m-dox">Ipv4Endpoint</a>&amp; endpoint,
+              const std::string&amp; adapter = &quot;&quot;,
+              const <a href="namespacemodbus.html#a41d09ba4255ab80cc833e576bd3b5b9c" class="m-dox">LoggingLevel</a> level = LoggingLevel::Info) <span class="m-label m-warning">pure virtual</span></span></span>
             </h3>
-            <p>Create a TCP channel.</p>
+            <p>Create a client (master) TCP channel.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
@@ -194,15 +206,62 @@
                   <td>endpoint</td>
                   <td>IPv4 endpoint to which the channel will be connected.</td>
                 </tr>
+                <tr>
+                  <td>adapter</td>
+                  <td>Network adapter to use for establishing the connection.</td>
+                </tr>
+                <tr>
+                  <td>level</td>
+                  <td>Logging level of the channel.</td>
+                </tr>
               </tbody>
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>Shared pointer of a <a href="classmodbus_1_1IChannel.html" class="m-dox">IChannel</a> instance.</td>
+                  <td>Shared pointer of a <a href="classmodbus_1_1IClientChannel.html" class="m-dox">IClientChannel</a> instance.</td>
                 </tr>
               </tfoot>
             </table>
 <aside class="m-note m-info"><h4>Note</h4><p>The returned channel instance is shared with the internal of the library. If you release the shared pointer, it will be kept alive by the internal of the library. The channel will be effectively destroyed when <a href="classmodbus_1_1IModbusManager.html#ae57c5cb74f6f170be0d5c014af3d96fa" class="m-dox">shutdown</a> is called.</p></aside>
+          </div></section>
+          <section class="m-dox-details" id="a8aba1fe51f95940e22f49e3af9b116e2"><div>
+            <h3>
+              <span class="m-dox-wrap-bumper">std::shared_ptr&lt;<a href="classmodbus_1_1IServerChannel.html" class="m-dox">IServerChannel</a>&gt; modbus::<wbr />IModbusManager::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a8aba1fe51f95940e22f49e3af9b116e2" class="m-dox-self">create_server_tcp_channel</a>(</span><span class="m-dox-wrap">const std::string&amp; name,
+              const <a href="classmodbus_1_1Ipv4Endpoint.html" class="m-dox">Ipv4Endpoint</a>&amp; endpoint,
+              unsigned int max_num_connections = 16,
+              const <a href="namespacemodbus.html#a41d09ba4255ab80cc833e576bd3b5b9c" class="m-dox">LoggingLevel</a> level = LoggingLevel::Info) <span class="m-label m-warning">pure virtual</span></span></span>
+            </h3>
+            <p>Create a server (slave) TCP channel.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">name</td>
+                  <td>Name associated with the channel. This name will appear in the logs.</td>
+                </tr>
+                <tr>
+                  <td>endpoint</td>
+                  <td>IPv4 endpoint to which the channel will be listening.</td>
+                </tr>
+                <tr>
+                  <td>max_num_connections</td>
+                  <td>Maximum number of concurrent connections to the server</td>
+                </tr>
+                <tr>
+                  <td>level</td>
+                  <td>Logging level of the channel.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>Shared pointer of a <a href="classmodbus_1_1IServerChannel.html" class="m-dox">IServerChannel</a> instance.</td>
+                </tr>
+              </tfoot>
+            </table>
+<p>Once the channel is created, don&#x27;t forget to start listening for connections with <a href="classmodbus_1_1IServerChannel.html#a8e74f8764ec6ec1696809171757badf3" class="m-dox">IServerChannel::<wbr />start()</a>.</p><aside class="m-note m-info"><h4>Note</h4><p>The returned channel instance is shared with the internal of the library. If you release the shared pointer, it will be kept alive by the internal of the library. The channel will be effectively destroyed when <a href="classmodbus_1_1IModbusManager.html#ae57c5cb74f6f170be0d5c014af3d96fa" class="m-dox">shutdown</a> is called.</p></aside>
           </div></section>
           <section class="m-dox-details" id="ae57c5cb74f6f170be0d5c014af3d96fa"><div>
             <h3>
@@ -249,7 +308,7 @@
   <div class="m-container">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <p>modbus-cpp. Created by <a href="http://doxygen.org/">Doxygen</a> 1.8.14 and <a href="http://mcss.mosra.cz/">m.css</a>.</p>
+        <p>modbus-cpp. Created by <a href="http://doxygen.org/">Doxygen</a> 1.8.16 and <a href="http://mcss.mosra.cz/">m.css</a>.</p>
       </div>
     </div>
   </div>

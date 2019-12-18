@@ -28,7 +28,8 @@
               <a href="pages.html">Pages</a>
               <ol>
                 <li><a href="Building.html">Building</a></li>
-                <li><a href="Example.html">Example</a></li>
+                <li><a href="client-example.html">Client example</a></li>
+                <li><a href="server-example.html">Server example</a></li>
               </ol>
             </li>
             <li><a href="namespaces.html">Namespaces</a></li>
@@ -38,11 +39,11 @@
             <li>
               <a href="files.html">Files</a>
               <ol>
-                <li><a href="dir_ca58a6e1d1ad7199b06ec1997943b0e2.html">modbus/channel</a></li>
-                <li><a href="dir_f0b4abc89894b7a59cdcc1b56ad2fa78.html">modbus/exceptions</a></li>
-                <li><a href="dir_5039506f8dbbf25081fc49328f198ec6.html">modbus/logging</a></li>
-                <li><a href="dir_4dd40bef6cea24abf09d91015e01f4b5.html">modbus/messages</a></li>
-                <li><a href="dir_5e0ccf84f1afa1ec87f338ca918e19f4.html">modbus/session</a></li>
+                <li><a href="dir_d3b26331f3c74bf807ead862471b52da.html">modbus/client</a></li>
+                <li><a href="dir_43ea1460863501ba9bc88eee3de80f0a.html">modbus/exceptions</a></li>
+                <li><a href="dir_c90990131e56b6669ad5910b9b368979.html">modbus/logging</a></li>
+                <li><a href="dir_29d51bc57f64f6e07a17b398711726a8.html">modbus/messages</a></li>
+                <li><a href="dir_ad3261de9f59683b75b07c9413a06e70.html">modbus/server</a></li>
               </ol>
             </li>
             <li class="m-show-m"><a href="#search" class="m-dox-search-icon" title="Search" onclick="return showSearch()"><svg viewBox="0 0 16 16">
@@ -73,12 +74,13 @@
             </li>
           </ul>
         </div>
-<p>Creates loggers using <a href="https://github.com/gabime/spdlog">spdlog</a>. Note that the spdlog is completely private dependency and you don&#x27;t need it, except if you compile from the sources.</p><p>If you are already using spdlog in your application, you can use <a href="classmodbus_1_1LoggerFactory.html#a64d7a82d654471713fcf1a5ba8ef04fc" class="m-dox">create_custom_logger(std::<wbr />shared_ptr&lt;spdlog::<wbr />logger&gt; custom_logger)</a> to use an existing logger.</p><aside class="m-note m-default"><h4>See also</h4><p><a href="classmodbus_1_1IModbusManager.html" class="m-dox">IModbusManager</a></p></aside>
+<p>Creates loggers using <a href="https://github.com/gabime/spdlog">spdlog</a>. Note that the spdlog is completely private dependency and you don&#x27;t need it, except if you compile from the sources.</p><p>If you are already using spdlog in your application, you can use <a href="classmodbus_1_1LoggerFactory.html#acf78606f15fa0d0d901f549ae6f77d60" class="m-dox">create_<wbr />custom_<wbr />logger()</a> to use an existing logger.</p><aside class="m-note m-default"><h4>See also</h4><p><a href="classmodbus_1_1IModbusManager.html" class="m-dox">IModbusManager</a></p></aside>
         <section id="pub-static-methods">
           <h2><a href="#pub-static-methods">Public static functions</a></h2>
           <dl class="m-dox">
             <dt>
-              <span class="m-dox-wrap-bumper">static auto <a href="#aea726478e6797341d6e1cabe6c0c8cec" class="m-dox">create_console_logger</a>(</span><span class="m-dox-wrap">const std::string&amp; name) -&gt; std::shared_ptr&lt;Logger&gt;</span>
+              <span class="m-dox-wrap-bumper">static auto <a href="#aa2ac3bd3d56b5e9d9b4686d1f4bbb59e" class="m-dox">create_console_logger</a>(</span><span class="m-dox-wrap">const std::string&amp; name,
+              <a href="namespacemodbus.html#a41d09ba4255ab80cc833e576bd3b5b9c" class="m-dox">LoggingLevel</a> level = LoggingLevel::Info) -&gt; std::shared_ptr&lt;Logger&gt;</span>
             </dt>
             <dd>Creates a console logger.</dd>
             <dt>
@@ -86,16 +88,18 @@
             </dt>
             <dd>Creates a logger that simply drops all the messages.</dd>
             <dt>
-              <span class="m-dox-wrap-bumper">static auto <a href="#a64d7a82d654471713fcf1a5ba8ef04fc" class="m-dox">create_custom_logger</a>(</span><span class="m-dox-wrap">std::shared_ptr&lt;spdlog::logger&gt; custom_logger) -&gt; std::shared_ptr&lt;Logger&gt;</span>
+              <span class="m-dox-wrap-bumper">static auto <a href="#acf78606f15fa0d0d901f549ae6f77d60" class="m-dox">create_custom_logger</a>(</span><span class="m-dox-wrap">std::shared_ptr&lt;spdlog::logger&gt; custom_logger,
+              const <a href="namespacemodbus.html#a41d09ba4255ab80cc833e576bd3b5b9c" class="m-dox">LoggingLevel</a> level = LoggingLevel::Info) -&gt; std::shared_ptr&lt;Logger&gt;</span>
             </dt>
             <dd>Creates a logger from a custom logger.</dd>
           </dl>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-dox-details" id="aea726478e6797341d6e1cabe6c0c8cec"><div>
+          <section class="m-dox-details" id="aa2ac3bd3d56b5e9d9b4686d1f4bbb59e"><div>
             <h3>
-              <span class="m-dox-wrap-bumper">static std::shared_ptr&lt;Logger&gt; modbus::<wbr />LoggerFactory::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#aea726478e6797341d6e1cabe6c0c8cec" class="m-dox-self">create_console_logger</a>(</span><span class="m-dox-wrap">const std::string&amp; name)</span></span>
+              <span class="m-dox-wrap-bumper">static std::shared_ptr&lt;Logger&gt; modbus::<wbr />LoggerFactory::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#aa2ac3bd3d56b5e9d9b4686d1f4bbb59e" class="m-dox-self">create_console_logger</a>(</span><span class="m-dox-wrap">const std::string&amp; name,
+              <a href="namespacemodbus.html#a41d09ba4255ab80cc833e576bd3b5b9c" class="m-dox">LoggingLevel</a> level = LoggingLevel::Info)</span></span>
             </h3>
             <p>Creates a console logger.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -106,6 +110,10 @@
                 <tr>
                   <td style="width: 1%">name</td>
                   <td>Name associated with the logger</td>
+                </tr>
+                <tr>
+                  <td>level</td>
+                  <td>Logging level of this logger</td>
                 </tr>
               </tbody>
               <tfoot>
@@ -141,9 +149,10 @@
             </table>
 <p>This logger is useful if you don&#x27;t want to provide logging (e.g. in tests). It simply ignores all the messages passed to it. It uses a <code class="m-code"><span class="n">spdlog</span><span class="o">::</span><span class="n">sinks</span><span class="o">::</span><span class="n">null_sink_st</span></code> under the hood.</p>
           </div></section>
-          <section class="m-dox-details" id="a64d7a82d654471713fcf1a5ba8ef04fc"><div>
+          <section class="m-dox-details" id="acf78606f15fa0d0d901f549ae6f77d60"><div>
             <h3>
-              <span class="m-dox-wrap-bumper">static std::shared_ptr&lt;Logger&gt; modbus::<wbr />LoggerFactory::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#a64d7a82d654471713fcf1a5ba8ef04fc" class="m-dox-self">create_custom_logger</a>(</span><span class="m-dox-wrap">std::shared_ptr&lt;spdlog::logger&gt; custom_logger)</span></span>
+              <span class="m-dox-wrap-bumper">static std::shared_ptr&lt;Logger&gt; modbus::<wbr />LoggerFactory::<wbr /></span><span class="m-dox-wrap"><span class="m-dox-wrap-bumper"><a href="#acf78606f15fa0d0d901f549ae6f77d60" class="m-dox-self">create_custom_logger</a>(</span><span class="m-dox-wrap">std::shared_ptr&lt;spdlog::logger&gt; custom_logger,
+              const <a href="namespacemodbus.html#a41d09ba4255ab80cc833e576bd3b5b9c" class="m-dox">LoggingLevel</a> level = LoggingLevel::Info)</span></span>
             </h3>
             <p>Creates a logger from a custom logger.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -154,6 +163,10 @@
                 <tr>
                   <td style="width: 1%">custom_logger</td>
                   <td>Shared pointer to a <code class="m-code"><span class="n">spdlog</span><span class="o">::</span><span class="n">logger</span></code> logger</td>
+                </tr>
+                <tr>
+                  <td>level</td>
+                  <td>Logging level of this logger</td>
                 </tr>
               </tbody>
               <tfoot>
@@ -203,7 +216,7 @@
   <div class="m-container">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <p>modbus-cpp. Created by <a href="http://doxygen.org/">Doxygen</a> 1.8.14 and <a href="http://mcss.mosra.cz/">m.css</a>.</p>
+        <p>modbus-cpp. Created by <a href="http://doxygen.org/">Doxygen</a> 1.8.16 and <a href="http://mcss.mosra.cz/">m.css</a>.</p>
       </div>
     </div>
   </div>
