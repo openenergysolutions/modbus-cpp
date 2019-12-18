@@ -21,6 +21,34 @@
 namespace modbus
 {
 
+WriteSingleRegisterResponseImpl::WriteSingleRegisterResponseImpl(const WriteSingleRegisterResponse& response)
+    : m_response{response}
+{
+
+}
+
+std::unique_ptr<IMessage> WriteSingleRegisterResponseImpl::clone() const
+{
+    return std::make_unique<WriteSingleRegisterResponseImpl>(m_response);
+}
+
+bool WriteSingleRegisterResponseImpl::is_valid() const
+{
+    return true;
+}
+
+size_t WriteSingleRegisterResponseImpl::get_message_length() const
+{
+    return 5;
+}
+
+void WriteSingleRegisterResponseImpl::build_message(ser4cpp::wseq_t& buffer) const
+{
+    ser4cpp::UInt8::write_to(buffer, 0x06); // Function code
+    ser4cpp::UInt16::write_to(buffer, m_response.value.address); // Address
+    ser4cpp::UInt16::write_to(buffer, m_response.value.value); // Value
+}
+
 Expected<WriteSingleRegisterResponse> WriteSingleRegisterResponseImpl::parse(const WriteSingleRegisterRequestImpl& req,
                                                                              const ser4cpp::rseq_t& data)
 {

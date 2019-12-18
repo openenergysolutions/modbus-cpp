@@ -8,8 +8,8 @@
  * @brief Contains all the modbus-cpp library public API
  */
 
-/** @dir modbus/channel
-* @brief Contains everything related to channel handling
+/** @dir modbus/client
+* @brief Contains client-side (master) related code.
 */
 
 /** @dir modbus/exceptions
@@ -24,6 +24,10 @@
 * @brief Contains all the messages that can be sent by the library
 */
 
-/** @dir modbus/session
-* @brief Contains everything related to session handling and scheduled requests
+/** @dir modbus/server
+* @brief Contains server-side (slave) related code.
+*/
+
+/** @dir modbus/server/db
+* @brief Already made in-memory database implementing the @ref modbus::IServerSession interface.
 */

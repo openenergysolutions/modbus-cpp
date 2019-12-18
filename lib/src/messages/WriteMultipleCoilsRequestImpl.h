@@ -18,25 +18,30 @@
 
 #include <vector>
 #include "modbus/messages/WriteMultipleCoilsRequest.h"
-#include "messages/IRequest.h"
+#include "messages/IMessage.h"
 
 namespace modbus
 {
 
-class WriteMultipleCoilsRequestImpl : public IRequest
+class WriteMultipleCoilsRequestImpl : public IMessage
 {
 public:
     WriteMultipleCoilsRequestImpl(const WriteMultipleCoilsRequest& request);
 
-    std::unique_ptr<IRequest> clone() const override;
+    std::unique_ptr<IMessage> clone() const override;
 
     bool is_valid() const override;
-    size_t get_request_length() const override;
-    void build_request(ser4cpp::wseq_t& buffer) const override;
+    size_t get_message_length() const override;
+    void build_message(ser4cpp::wseq_t& buffer) const override;
 
     const WriteMultipleCoilsRequest& get_request() const;
 
+public:
+    static Expected<WriteMultipleCoilsRequest> parse(const ser4cpp::rseq_t& data);
+
 private:
+    static size_t get_byte_count_from_qty_of_outputs(size_t qty_of_outputs);
+
     WriteMultipleCoilsRequest m_request;
 };
 

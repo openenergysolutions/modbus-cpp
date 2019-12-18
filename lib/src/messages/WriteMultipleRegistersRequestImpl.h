@@ -18,23 +18,26 @@
 
 #include <vector>
 #include "modbus/messages/WriteMultipleRegistersRequest.h"
-#include "messages/IRequest.h"
+#include "messages/IMessage.h"
 
 namespace modbus
 {
 
-class WriteMultipleRegistersRequestImpl : public IRequest
+class WriteMultipleRegistersRequestImpl : public IMessage
 {
 public:
     WriteMultipleRegistersRequestImpl(const WriteMultipleRegistersRequest& request);
 
-    std::unique_ptr<IRequest> clone() const override;
+    std::unique_ptr<IMessage> clone() const override;
 
     bool is_valid() const override;
-    size_t get_request_length() const override;
-    void build_request(ser4cpp::wseq_t& buffer) const override;
+    size_t get_message_length() const override;
+    void build_message(ser4cpp::wseq_t& buffer) const override;
 
     const WriteMultipleRegistersRequest& get_request() const;
+
+public:
+    static Expected<WriteMultipleRegistersRequest> parse(const ser4cpp::rseq_t& data);
 
 private:
     WriteMultipleRegistersRequest m_request;

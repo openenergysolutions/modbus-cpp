@@ -16,26 +16,31 @@
 #ifndef MODBUS_READBITSREQUESTIMPL_H
 #define MODBUS_READBITSREQUESTIMPL_H
 
+#include "modbus/Expected.h"
 #include "modbus/messages/ReadCoilsRequest.h"
 #include "modbus/messages/ReadDiscreteInputsRequest.h"
-#include "messages/IRequest.h"
+#include "messages/IMessage.h"
 
 namespace modbus
 {
 
 template <uint8_t function_code, typename request_t>
-class ReadBitsRequestImpl : public IRequest
+class ReadBitsRequestImpl : public IMessage
 {
 public:
     explicit ReadBitsRequestImpl(const request_t& request);
 
-    std::unique_ptr<IRequest> clone() const override;
+    std::unique_ptr<IMessage> clone() const override;
 
     bool is_valid() const override;
-    size_t get_request_length() const override;
-    void build_request(ser4cpp::wseq_t& buffer) const override;
+    size_t get_message_length() const override;
+    void build_message(ser4cpp::wseq_t& buffer) const override;
 
     const request_t& get_request() const;
+
+public:
+    constexpr static uint16_t max_bits = 2000;
+    static Expected<request_t> parse(const ser4cpp::rseq_t& data);
 
 private:
     request_t m_request;

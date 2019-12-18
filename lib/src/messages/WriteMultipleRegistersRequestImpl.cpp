@@ -16,6 +16,8 @@
 #include "messages/WriteMultipleRegistersRequestImpl.h"
 
 #include "ser4cpp/serialization/BigEndian.h"
+#include "modbus/exceptions/MalformedModbusRequestException.h"
+#include "modbus/exceptions/ModbusException.h"
 
 namespace modbus
 {
@@ -26,7 +28,7 @@ WriteMultipleRegistersRequestImpl::WriteMultipleRegistersRequestImpl(const Write
 
 }
 
-std::unique_ptr<IRequest> WriteMultipleRegistersRequestImpl::clone() const
+std::unique_ptr<IMessage> WriteMultipleRegistersRequestImpl::clone() const
 {
     return std::make_unique<WriteMultipleRegistersRequestImpl>(*this);
 }
@@ -37,12 +39,12 @@ bool WriteMultipleRegistersRequestImpl::is_valid() const
            m_request.values.size() <= m_request.max_registers;
 }
 
-size_t WriteMultipleRegistersRequestImpl::get_request_length() const
+size_t WriteMultipleRegistersRequestImpl::get_message_length() const
 {
     return 6 + 2 * m_request.values.size();
 }
 
-void WriteMultipleRegistersRequestImpl::build_request(ser4cpp::wseq_t& buffer) const
+void WriteMultipleRegistersRequestImpl::build_message(ser4cpp::wseq_t& buffer) const
 {
     ser4cpp::UInt8::write_to(buffer, 0x10); // Function code
     ser4cpp::UInt16::write_to(buffer, m_request.starting_address); // Starting address
@@ -59,6 +61,60 @@ void WriteMultipleRegistersRequestImpl::build_request(ser4cpp::wseq_t& buffer) c
 const WriteMultipleRegistersRequest& WriteMultipleRegistersRequestImpl::get_request() const
 {
     return m_request;
+}
+
+Expected<WriteMultipleRegistersRequest> WriteMultipleRegistersRequestImpl::parse(const ser4cpp::rseq_t& data)
+{
+    auto view = data;
+
+    // Check number of bytes
+    if(view.length() < 6)
+    {
+        return Expected<WriteMultipleRegistersRequest>::from_exception(MalformedModbusRequestException{"Request is too short."});
+    }
+
+    // Check function code
+    uint8_t function_code;
+    ser4cpp::UInt8::read_from(view, function_code);
+    if(function_code != 0x10)
+    {
+        return Expected<WriteMultipleRegistersRequest>::from_exception(MalformedModbusRequestException{"Invalid function code."});
+    }
+
+    // Read starting address
+    uint16_t starting_address;
+    ser4cpp::UInt16::read_from(view, starting_address);
+
+    // Read quantity of outputs
+    uint16_t qty_of_registers;
+    ser4cpp::UInt16::read_from(view, qty_of_registers);
+    if(qty_of_registers < 0x0001 || qty_of_registers > WriteMultipleRegistersRequest::max_registers)
+    {
+        return Expected<WriteMultipleRegistersRequest>::from_exception(ModbusException{ExceptionType::IllegalDataValue});
+    }
+
+    // Read byte count
+    uint8_t byte_count;
+    ser4cpp::UInt8::read_from(view, byte_count);
+    if(2 * qty_of_registers != byte_count)
+    {
+        return Expected<WriteMultipleRegistersRequest>::from_exception(ModbusException{ExceptionType::IllegalDataValue});
+    }
+    if(byte_count != view.length())
+    {
+        return Expected<WriteMultipleRegistersRequest>::from_exception(MalformedModbusRequestException{"Request does not have the expected length."});
+    }
+
+    // Extract the values
+    WriteMultipleRegistersRequest request;
+    request.starting_address = starting_address;
+    uint16_t current_value;
+    while(ser4cpp::UInt16::read_from(view, current_value))
+    {
+        request.values.emplace_back(current_value);
+    }
+
+    return Expected<WriteMultipleRegistersRequest>(request);
 }
 
 } // namespace modbus

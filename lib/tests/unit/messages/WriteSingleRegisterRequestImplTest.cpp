@@ -15,8 +15,10 @@
  */
 #include "catch.hpp"
 
+#include <array>
 #include <memory>
 #include "ser4cpp/container/Buffer.h"
+#include "modbus/exceptions/MalformedModbusRequestException.h"
 #include "messages/WriteSingleRegisterRequestImpl.h"
 
 using namespace modbus;
@@ -29,14 +31,14 @@ TEST_CASE("WriteSingleRegisterRequestImpl")
     WriteSingleRegisterRequestImpl request_impl{request};
 
     REQUIRE(request_impl.is_valid() == true);
-    REQUIRE(request_impl.get_request_length() == 5);
+    REQUIRE(request_impl.get_message_length() == 5);
 
     SECTION("When build request, then write appropriate values to the buffer")
     {
-        ser4cpp::Buffer buffer{(uint32_t)request_impl.get_request_length()};
+        ser4cpp::Buffer buffer{(uint32_t)request_impl.get_message_length()};
         auto slice = buffer.as_wslice();
 
-        request_impl.build_request(slice);
+        request_impl.build_message(slice);
 
         REQUIRE(buffer.as_wslice()[0] == 0x06); // Function code
         REQUIRE(buffer.as_wslice()[1] == 0x12); // Address MSB
@@ -53,5 +55,69 @@ TEST_CASE("WriteSingleRegisterRequestImpl")
         REQUIRE(other_request->get_request().value.address == address);
         REQUIRE(other_request->get_request().value.value == value);
         REQUIRE(&other_request->get_request() != &request);
+    }
+
+    SECTION("Parse")
+    {
+        const uint16_t address = 0x1234;
+        const uint16_t value = 0x6789;
+
+        SECTION("When proper request, then parse it properly")
+        {
+            std::array<uint8_t, 5> proper_request{{
+                0x06,       // Function code
+                0x12, 0x34, // Address
+                0x67, 0x89  // Value
+            }};
+            ser4cpp::rseq_t buffer{proper_request.data(), static_cast<uint32_t>(proper_request.size())};
+
+            auto result = WriteSingleRegisterRequestImpl::parse(buffer);
+
+            REQUIRE(result.is_valid() == true);
+            auto request = result.get();
+            REQUIRE(request.value.address == address);
+            REQUIRE(request.value.value == value);
+        }
+
+        SECTION("When wrong function code, then parse report exception")
+        {
+            std::array<uint8_t, 5> proper_request{{
+                0x42,       // Wrong function code
+                0x12, 0x34, // Address
+                0x67, 0x89  // Value
+            }};
+            ser4cpp::rseq_t buffer{proper_request.data(), static_cast<uint32_t>(proper_request.size())};
+
+            auto result = WriteSingleRegisterRequestImpl::parse(buffer);
+
+            REQUIRE(result.has_exception<MalformedModbusRequestException>() == true);
+        }
+
+        SECTION("When too small, then return malformed exception")
+        {
+            std::array<uint8_t, 1> too_small_request{ {
+                0x06 // Function code
+            }};
+            ser4cpp::rseq_t buffer{too_small_request.data(), static_cast<uint32_t>(too_small_request.size())};
+
+            auto result = WriteSingleRegisterRequestImpl::parse(buffer);
+
+            REQUIRE(result.has_exception<MalformedModbusRequestException>() == true);
+        }
+
+        SECTION("When too big, then return malformed exception")
+        {
+            std::array<uint8_t, 7> too_big_request{{
+                0x06,       // Function code
+                0x12, 0x34, // Address
+                0x67, 0x89, // Value
+                0x42, 0x42  // Junk
+            }};
+            ser4cpp::rseq_t buffer{too_big_request.data(), static_cast<uint32_t>(too_big_request.size())};
+
+            auto result = WriteSingleRegisterRequestImpl::parse(buffer);
+
+            REQUIRE(result.has_exception<MalformedModbusRequestException>() == true);
+        }
     }
 }

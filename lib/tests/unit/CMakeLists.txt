@@ -1,12 +1,16 @@
 cmake_minimum_required (VERSION 3.8)
 
 set(modbus_tests_headers
-    ./mocks/AsioTcpConnectionWrapper.h
+    ./mocks/AsioClientTcpConnectionWrapper.h
+    ./mocks/AsioServerWrapper.h
     ./mocks/ConnectionListenerMock.h
-    ./mocks/IResponseMock.h
-    ./mocks/ISessionMock.h
+    ./mocks/IClientSessionMock.h
+    ./mocks/IMessageMock.h
+    ./mocks/IServerChannelImplMock.h
+    ./mocks/IServerConnectionListenerBuilderMock.h
+    ./mocks/IServerMock.h
+    ./mocks/IServerSessionMock.h
     ./mocks/MbapSinkMock.h
-    ./mocks/RequestMock.h
     ./mocks/TcpConnectionMock.h
     ./mocks/TestServer.h
 )
@@ -14,16 +18,18 @@ set(modbus_tests_headers
 set(modbus_tests_src
     ./main.cpp
 
-    ./channel/AsioTcpConnectionTest.cpp
-    ./channel/ChannelTcpTest.cpp
-    ./channel/Ipv4EndpointTest.cpp
-    ./channel/MbapMessageTest.cpp
-    ./channel/MbapParserTest.cpp
-    ./channel/TransactionIdentifierTest.cpp
-    ./channel/UnitIdentifierTest.cpp
+    ./Ipv4EndpointTest.cpp
+    ./TransactionIdentifierTest.cpp
+    ./UnitIdentifierTest.cpp
 
+    ./client/channel/AsioClientTcpConnectionTest.cpp
+    ./client/channel/ClientChannelTcpTest.cpp
+
+    ./client/session/ScheduledRequestTest.cpp
+
+    ./messages/ExceptionResponseTest.cpp
     ./messages/ExceptionTypeTest.cpp
-    ./messages/IResponseTest.cpp
+    ./messages/IMessageTest.cpp
     ./messages/ReadCoilsRequestImplTest.cpp
     ./messages/ReadCoilsResponseImplTest.cpp
     ./messages/ReadDiscreteInputsRequestImplTest.cpp
@@ -41,22 +47,33 @@ set(modbus_tests_src
     ./messages/WriteSingleRegisterRequestImplTest.cpp
     ./messages/WriteSingleRegisterResponseImplTest.cpp
 
-    ./mocks/AsioTcpConnectionWrapper.cpp
+    ./messages/mbap/MbapMessageTest.cpp
+    ./messages/mbap/MbapParserTest.cpp
+
+    ./mocks/AsioClientTcpConnectionWrapper.cpp
+    ./mocks/AsioServerWrapper.cpp
     ./mocks/ConnectionListenerMock.cpp
-    ./mocks/IResponseMock.cpp
-    ./mocks/ISessionMock.cpp
+    ./mocks/IMessageMock.cpp
+    ./mocks/IClientSessionMock.cpp
+    ./mocks/IServerChannelImplMock.cpp
+    ./mocks/IServerConnectionListenerBuilderMock.cpp
     ./mocks/MbapSinkMock.cpp
-    ./mocks/RequestMock.cpp
     ./mocks/TcpConnectionMock.cpp
     ./mocks/TestServer.cpp
 
-    ./session/ScheduledRequestTest.cpp
+    ./server/channel/AsioServerTest.cpp
+    ./server/channel/ServerChannelTcpTest.cpp
+    ./server/channel/ServerConnectionListenerBuilderTest.cpp
+    ./server/channel/ServerConnectionListenerTest.cpp
+
+    ./server/db/InMemoryDatabaseTest.cpp
+    ./server/db/SingleTypeDatabaseTest.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${modbus_tests_headers} ${modbus_tests_src})
 
 add_executable(modbus_tests ${modbus_tests_headers} ${modbus_tests_src})
-target_link_libraries(modbus_tests PRIVATE modbus-cpp catch spdlog exe4cpp ser4cpp asio)
+target_link_libraries(modbus_tests PRIVATE modbus-cpp catch trompeloeil spdlog exe4cpp ser4cpp asio)
 
 target_include_directories(modbus_tests
     PRIVATE ./ ../../src

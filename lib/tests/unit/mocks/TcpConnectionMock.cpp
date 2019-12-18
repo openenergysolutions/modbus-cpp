@@ -17,12 +17,13 @@
 
 TcpConnectionMock::TcpConnectionMock()
     : m_parser{this},
-      m_num_close{0}
+      m_num_close{0},
+      m_shutdown_called{false}
 {
 
 }
 
-void TcpConnectionMock::set_listener(std::weak_ptr<modbus::IConnectionListener> listener)
+void TcpConnectionMock::set_listener(std::shared_ptr<modbus::IConnectionListener> listener)
 {
 
 }
@@ -35,6 +36,11 @@ void TcpConnectionMock::send(const ser4cpp::rseq_t& data)
 void TcpConnectionMock::close()
 {
     ++m_num_close;
+}
+
+void TcpConnectionMock::shutdown()
+{
+    m_shutdown_called = true;
 }
 
 void TcpConnectionMock::on_mbap_message(const modbus::MbapMessage& message)
@@ -56,4 +62,9 @@ const std::vector<modbus::MbapMessage>& TcpConnectionMock::get_requests() const
 unsigned int TcpConnectionMock::get_num_close() const
 {
     return m_num_close;
+}
+
+bool TcpConnectionMock::is_shutdown_called() const
+{
+    return m_shutdown_called;
 }

@@ -49,7 +49,7 @@ class Logger;
  * the spdlog is completely private dependency and you don't need it, except if you compile from the sources.
  *
  * If you are already using spdlog in your application, you can use
- * @ref create_custom_logger(std::shared_ptr<spdlog::logger> custom_logger) to use an existing
+ * @ref create_custom_logger() to use an existing
  * logger.
  *
  * @see @ref IModbusManager

@@ -22,6 +22,44 @@ namespace modbus
 {
 
 template <uint8_t function_code, typename request_t, typename response_t>
+ReadRegistersResponseImpl<function_code, request_t, response_t>::ReadRegistersResponseImpl(const response_t& request)
+    : m_response{request}
+{
+
+}
+
+template <uint8_t function_code, typename request_t, typename response_t>
+std::unique_ptr<IMessage> ReadRegistersResponseImpl<function_code, request_t, response_t>::clone() const
+{
+    return std::make_unique<ReadRegistersResponseImpl>(m_response);
+}
+
+template <uint8_t function_code, typename request_t, typename response_t>
+bool ReadRegistersResponseImpl<function_code, request_t, response_t>::is_valid() const
+{
+    return true;
+}
+
+template <uint8_t function_code, typename request_t, typename response_t>
+size_t ReadRegistersResponseImpl<function_code, request_t, response_t>::get_message_length() const
+{
+    return 2 + m_response.values.size() * 2;
+}
+
+template <uint8_t function_code, typename request_t, typename response_t>
+void ReadRegistersResponseImpl<function_code, request_t, response_t>::build_message(ser4cpp::wseq_t& buffer) const
+{
+    ser4cpp::UInt8::write_to(buffer, function_code); // Function code
+    ser4cpp::UInt8::write_to(buffer, static_cast<uint8_t>(get_message_length() - 2)); // Byte count
+
+    // Write the bytes of data
+    for(auto& value : m_response.values)
+    {
+        ser4cpp::UInt16::write_to(buffer, value.value);
+    }
+}
+
+template <uint8_t function_code, typename request_t, typename response_t>
 Expected<response_t>
 ReadRegistersResponseImpl<function_code, request_t, response_t>::parse(const ReadRegistersRequestImpl<function_code, request_t>& req,
                                                                        const ser4cpp::rseq_t& data)
@@ -44,7 +82,7 @@ ReadRegistersResponseImpl<function_code, request_t, response_t>::parse(const Rea
     ser4cpp::UInt8::read_from(view, length);
     if(length % 2 != 0)
     {
-        return Expected<response_t>::from_exception(MalformedModbusResponseException{ "Response should contain an even number of register bytes." });
+        return Expected<response_t>::from_exception(MalformedModbusResponseException{"Response should contain an even number of register bytes."});
     }
 
     // Check that each number of registers match

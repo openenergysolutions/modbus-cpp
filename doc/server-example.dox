@@ -1,0 +1,56 @@
+namespace modbus {
+
+/** @page server-example Server example
+
+@brief This page presents a usage example for a server-side (slave)
+application.
+
+It creates a simple program that listens for connections on the localhost,
+and updates a coil when pressing a key.
+
+@section server-example-walkthrough Walkthrough
+
+The program includes @ref IModbusManager.h and @ref LoggerFactory.h and the
+exception types that will be used by the program. It also includes @ref InMemoryDatabase.h
+that contains a basic session implementation. Then, since all the operations
+of the library are in the @ref modbus namespace, it uses the namespace.
+
+In the main function, it first creates a logger using the @ref LoggerFactory.
+The logger pointer will be passed later on.
+
+Then comes the heart of the library, @ref IModbusManager. This class will manage
+a thread pool where all the I/O operations will occur. It is created via its
+static method @ref IModbusManager::create().
+
+Then, from the @ref IModbusManager, a @ref IServerChannel is created. A channel
+will hold the TCP acceptor used to accept incoming connections. The logging level
+and the number of concurrent connections can also be configured in this call.
+
+A custom session implementing @ref IServerSession is first created and registered
+to the channel with its associated @ref UnitIdentifier. The custom session will
+only support @ref ReadCoilsRequest. Please note that the presented implementation
+does not check what the request really was. In a real application, the starting address
+and the number of coils must be examined in order to return an appropriate response.
+
+A second session is added with a different unit identifier. This session uses
+@ref InMemoryDatabase, an already made @ref IServerSession that fits most use cases.
+The example fills the database with a few values before proceeding.
+
+Then, the channel is started with @ref IServerChannel::start(). This calls does not
+block since all the operations are done in the background threads created by
+the @ref IModbusManager.
+
+The example proceeds with the user interaction. The `f` key executes a
+transaction on the in-memory database. It simply flips the first coil. The `q`
+key stops the application. Notice that no cleanup code is
+necessary. Once the @ref IModbusManager will go out of scope, its destructor
+will be called and all the operations will be gracefully canceled. The
+background threads will be joined and the application will exit.
+
+@section server-example-code Code
+
+@include server/main.cpp
+
+*/
+
+}

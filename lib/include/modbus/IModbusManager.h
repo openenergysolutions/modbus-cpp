@@ -22,9 +22,10 @@
 
 #include <string>
 #include <memory>
-#include "modbus/channel/IChannel.h"
-#include "modbus/channel/Ipv4Endpoint.h"
+#include "modbus/Ipv4Endpoint.h"
+#include "modbus/client/IClientChannel.h"
 #include "modbus/logging/LoggingLevel.h"
+#include "modbus/server/IServerChannel.h"
 
 namespace modbus
 {
@@ -41,9 +42,9 @@ class Logger;
  * Once you get an instance of this class, one or multiple background threads will be running to execute all
  * the Modbus I/O.
  *
- * From this class, you can create a channel using
- * @ref create_tcp_channel(const std::string& name, const Ipv4Endpoint& endpoint) from which you will be
- * able to create sessions.
+ * From this class, you can create a client channel using @ref create_client_tcp_channel() from which you will be
+ * able to create sessions. Similarly, you can create server channel using @ref create_server_tcp_channel() to which
+ * you will be able to attach sessions.
  */
 class IModbusManager
 {
@@ -93,21 +94,40 @@ public:
     virtual ~IModbusManager() = default;
 
     /**
-     * @brief Create a TCP channel.
+     * @brief Create a client (master) TCP channel.
      * @param name      Name associated with the channel. This name will appear in the logs.
      * @param endpoint  IPv4 endpoint to which the channel will be connected.
      * @param adapter   Network adapter to use for establishing the connection.
      * @param level     Logging level of the channel.
-     * @returns Shared pointer of a @ref IChannel instance.
+     * @returns Shared pointer of a @ref IClientChannel instance.
      *
      * @note The returned channel instance is shared with the internal of the library. If you
      * release the shared pointer, it will be kept alive by the internal of the library. The channel
      * will be effectively destroyed when @ref shutdown is called.
      */
-    virtual std::shared_ptr<IChannel> create_tcp_channel(const std::string& name,
-                                                         const Ipv4Endpoint& endpoint,
-                                                         const std::string& adapter = "",
-                                                         const LoggingLevel level = LoggingLevel::Info) = 0;
+    virtual std::shared_ptr<IClientChannel> create_client_tcp_channel(const std::string& name,
+                                                                      const Ipv4Endpoint& endpoint,
+                                                                      const std::string& adapter = "",
+                                                                      const LoggingLevel level = LoggingLevel::Info) = 0;
+
+    /**
+     * @brief Create a server (slave) TCP channel.
+     * @param name                Name associated with the channel. This name will appear in the logs.
+     * @param endpoint            IPv4 endpoint to which the channel will be listening.
+     * @param max_num_connections Maximum number of concurrent connections to the server
+     * @param level               Logging level of the channel.
+     * @returns Shared pointer of a @ref IServerChannel instance.
+     *
+     * Once the channel is created, don't forget to start listening for connections with @ref IServerChannel::start().
+     * 
+     * @note The returned channel instance is shared with the internal of the library. If you
+     * release the shared pointer, it will be kept alive by the internal of the library. The channel
+     * will be effectively destroyed when @ref shutdown is called.
+     */
+    virtual std::shared_ptr<IServerChannel> create_server_tcp_channel(const std::string& name,
+                                                                      const Ipv4Endpoint& endpoint,
+                                                                      unsigned int max_num_connections = 16,
+                                                                      const LoggingLevel level = LoggingLevel::Info) = 0;
 
     /**
      * @brief Closes all the associated channels and sessions and join all the background threads.

@@ -28,7 +28,7 @@ namespace modbus
 /**
  * @brief Timer interface for custom polling
  *
- * This class is returned by @ref ISession::start() method in order to offer the user
+ * This class is returned by @ref IClientSession::start() method in order to offer the user
  * the ability to implement custom polling behaviors.
  */
 class ITimer

@@ -15,7 +15,10 @@
  */
 #include "catch.hpp"
 
+#include <array>
 #include "ser4cpp/container/Buffer.h"
+#include "modbus/exceptions/MalformedModbusRequestException.h"
+#include "modbus/exceptions/ModbusException.h"
 #include "messages/WriteSingleCoilRequestImpl.h"
 
 using namespace modbus;
@@ -27,14 +30,14 @@ TEST_CASE("WriteSingleCoilRequestImpl")
     WriteSingleCoilRequestImpl request_impl{request};
 
     REQUIRE(request_impl.is_valid() == true);
-    REQUIRE(request_impl.get_request_length() == 5);
+    REQUIRE(request_impl.get_message_length() == 5);
 
     SECTION("When build ON request, then write appropriate values to the buffer")
     {
-        ser4cpp::Buffer buffer{(uint32_t)request_impl.get_request_length()};
+        ser4cpp::Buffer buffer{(uint32_t)request_impl.get_message_length()};
         auto slice = buffer.as_wslice();
 
-        request_impl.build_request(slice);
+        request_impl.build_message(slice);
 
         REQUIRE(buffer.as_wslice()[0] == 0x05); // Function code
         REQUIRE(buffer.as_wslice()[1] == 0x12); // Address MSB
@@ -48,10 +51,10 @@ TEST_CASE("WriteSingleCoilRequestImpl")
         WriteSingleCoilRequest off_request{{address, false}};
         WriteSingleCoilRequestImpl off_request_impl{off_request};
 
-        ser4cpp::Buffer buffer{(uint32_t)off_request_impl.get_request_length()};
+        ser4cpp::Buffer buffer{(uint32_t)off_request_impl.get_message_length()};
         auto slice = buffer.as_wslice();
 
-        off_request_impl.build_request(slice);
+        off_request_impl.build_message(slice);
 
         REQUIRE(buffer.as_wslice()[0] == 0x05); // Function code
         REQUIRE(buffer.as_wslice()[1] == 0x12); // Address MSB
@@ -68,5 +71,82 @@ TEST_CASE("WriteSingleCoilRequestImpl")
         REQUIRE(other_request->get_request().value.address == address);
         REQUIRE(other_request->get_request().value.value == true);
         REQUIRE(&other_request->get_request() != &request);
+    }
+
+    SECTION("Parse")
+    {
+        SECTION("When proper request with output value ON, then parse it properly") {
+            std::array<uint8_t, 5> proper_request{{
+                0x05,       // Function code
+                0x12, 0x34, // Output address
+                0xFF, 0x00, // Output value (ON)
+            }};
+            ser4cpp::rseq_t buffer{proper_request.data(), static_cast<uint32_t>(proper_request.size())};
+
+            auto result = WriteSingleCoilRequestImpl::parse(buffer);
+
+            REQUIRE(result.is_valid() == true);
+            auto request = result.get();
+            REQUIRE(request.value.address == 0x1234);
+            REQUIRE(request.value.value == true);
+        }
+
+        SECTION("When proper request with output value OFF, then parse it properly") {
+            std::array<uint8_t, 5> proper_request{{
+                0x05,       // Function code
+                0x12, 0x34, // Output address
+                0x00, 0x00, // Output value (OFF)
+            }};
+            ser4cpp::rseq_t buffer{proper_request.data(), static_cast<uint32_t>(proper_request.size())};
+
+            auto result = WriteSingleCoilRequestImpl::parse(buffer);
+
+            REQUIRE(result.is_valid() == true);
+            auto request = result.get();
+            REQUIRE(request.value.address == 0x1234);
+            REQUIRE(request.value.value == false);
+        }
+
+        SECTION("When wrong output value, then return Modbus exception 0x03")
+        {
+            std::array<uint8_t, 5> wrong_output_value_request{{
+                0x05,       // Function code
+                0x12, 0x34, // Output address
+                0x42, 0x42, // Invalid output value
+            }};
+            ser4cpp::rseq_t buffer{wrong_output_value_request.data(), static_cast<uint32_t>(wrong_output_value_request.size())};
+
+            auto result = WriteSingleCoilRequestImpl::parse(buffer);
+
+            REQUIRE(result.has_exception<ModbusException>() == true);
+            REQUIRE(result.get_exception<ModbusException>().get_exception_type() == ExceptionType::IllegalDataValue);
+        }
+
+        SECTION("When wrong size request, then return malformed exception")
+        {
+            std::array<uint8_t, 3> wrong_size_request{{
+                0x05, // Function code
+                0x42, 0x42 // Random data
+            }};
+            ser4cpp::rseq_t buffer{wrong_size_request.data(), static_cast<uint32_t>(wrong_size_request.size())};
+
+            auto result = WriteSingleCoilRequestImpl::parse(buffer);
+
+            REQUIRE(result.has_exception<MalformedModbusRequestException>() == true);
+        }
+
+        SECTION("When wrong function code, then return malformed exception")
+        {
+            std::array<uint8_t, 5> wrong_function_code_request{{
+                0x42,       // Wrong function code
+                0x12, 0x34, // Output address
+                0xFF, 0x00, // Output value
+            }};
+            ser4cpp::rseq_t buffer{wrong_function_code_request.data(), static_cast<uint32_t>(wrong_function_code_request.size())};
+
+            auto result = WriteSingleCoilRequestImpl::parse(buffer);
+
+            REQUIRE(result.has_exception<MalformedModbusRequestException>() == true);
+        }
     }
 }

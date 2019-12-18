@@ -21,18 +21,30 @@
 #include "modbus/messages/ReadHoldingRegistersResponse.h"
 #include "modbus/messages/ReadInputRegistersRequest.h"
 #include "modbus/messages/ReadInputRegistersResponse.h"
-#include "messages/IResponse.h"
+#include "messages/IMessage.h"
 #include "messages/ReadRegistersRequestImpl.h"
 
 namespace modbus
 {
 
 template <uint8_t function_code, typename request_t, typename response_t>
-class ReadRegistersResponseImpl : public IResponse
+class ReadRegistersResponseImpl : public IMessage
 {
+public:
+    explicit ReadRegistersResponseImpl(const response_t& request);
+
+    std::unique_ptr<IMessage> clone() const override;
+
+    bool is_valid() const override;
+    size_t get_message_length() const override;
+    void build_message(ser4cpp::wseq_t& buffer) const override;
+
 public:
     static Expected<response_t> parse(const ReadRegistersRequestImpl<function_code, request_t>& req,
                                       const ser4cpp::rseq_t& data);
+
+private:
+    response_t m_response;
 };
 
 extern template class ReadRegistersResponseImpl<0x03, ReadHoldingRegistersRequest, ReadHoldingRegistersResponse>;

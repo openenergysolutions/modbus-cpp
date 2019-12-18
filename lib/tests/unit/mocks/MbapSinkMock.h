@@ -17,7 +17,7 @@
 #define MODBUS_MBAPSINKMOCK_H
 
 #include <vector>
-#include "channel/IMbapSink.h"
+#include "messages/mbap/IMbapSink.h"
 
 class MbapSinkMock : public modbus::IMbapSink
 {

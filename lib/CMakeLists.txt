@@ -3,13 +3,15 @@ cmake_minimum_required (VERSION 3.8)
 set(modbus_public_headers
     ./include/modbus/Expected.h
     ./include/modbus/IModbusManager.h
+    ./include/modbus/Ipv4Endpoint.h
     ./include/modbus/ITimer.h
-    ./include/modbus/ResponseHandler.h
     ./include/modbus/Typedefs.h
+    ./include/modbus/UnitIdentifier.h
 
-    ./include/modbus/channel/IChannel.h
-    ./include/modbus/channel/Ipv4Endpoint.h
-    ./include/modbus/channel/UnitIdentifier.h
+    ./include/modbus/client/IClientChannel.h
+    ./include/modbus/client/IClientSession.h
+    ./include/modbus/client/IScheduledRequest.h
+    ./include/modbus/client/ResponseHandler.h
 
     ./include/modbus/exceptions/ConnectionException.h
     ./include/modbus/exceptions/IException.h
@@ -42,30 +44,36 @@ set(modbus_public_headers
     ./include/modbus/messages/WriteSingleRegisterRequest.h
     ./include/modbus/messages/WriteSingleRegisterResponse.h
 
-    ./include/modbus/session/IScheduledRequest.h
-    ./include/modbus/session/ISession.h
+    ./include/modbus/server/IServerChannel.h
+    ./include/modbus/server/IServerSession.h
+
+    ./include/modbus/server/db/BitDatabase.h
+    ./include/modbus/server/db/IDatabase.h
+    ./include/modbus/server/db/InMemoryDatabase.h
+    ./include/modbus/server/db/RegisterDatabase.h
+    ./include/modbus/server/db/SingleTypeDatabase.h
 )
 
 set(modbus_private_headers
+    ./src/IConnectionListener.h
+    ./src/ITcpConnection.h
     ./src/ModbusManagerImpl.h
     ./src/TimerWrapper.h
+    ./src/TransactionIdentifier.h
 
-    ./src/channel/AsioTcpConnection.h
-    ./src/channel/ChannelTcp.h
-    ./src/channel/IChannelImpl.h
-    ./src/channel/IConnectionListener.h
-    ./src/channel/IMbapSink.h
-    ./src/channel/ITcpConnection.h
-    ./src/channel/MbapMessage.h
-    ./src/channel/MbapParser.h
-    ./src/channel/PendingRequest.h
-    ./src/channel/TransactionIdentifier.h
+    ./src/client/channel/AsioClientTcpConnection.h
+    ./src/client/channel/ClientChannelTcp.h
+    ./src/client/channel/IClientChannelImpl.h
+    ./src/client/channel/PendingRequest.h
+
+    ./src/client/session/ClientSessionImpl.h
+    ./src/client/session/ScheduledRequest.h
 
     ./src/logging/Logger.h
     ./src/logging/LoggingLevelConversion.h
 
-    ./src/messages/IRequest.h
-    ./src/messages/IResponse.h
+    ./src/messages/ExceptionResponse.h
+    ./src/messages/IMessage.h
     ./src/messages/ReadBitsRequestImpl.h
     ./src/messages/ReadBitsResponseImpl.h
     ./src/messages/ReadCoilsRequestImpl.h
@@ -87,27 +95,38 @@ set(modbus_private_headers
     ./src/messages/WriteSingleRegisterRequestImpl.h
     ./src/messages/WriteSingleRegisterResponseImpl.h
 
-    ./src/session/ScheduledRequest.h
-    ./src/session/SessionImpl.h
+    ./src/messages/mbap/IMbapSink.h
+    ./src/messages/mbap/MbapMessage.h
+    ./src/messages/mbap/MbapParser.h
+
+    ./src/server/channel/AsioServer.h
+    ./src/server/channel/AsioServerTcpConnection.h
+    ./src/server/channel/IServer.h
+    ./src/server/channel/IServerChannelImpl.h
+    ./src/server/channel/ServerChannelTcp.h
+    ./src/server/channel/ServerConnectionListener.h
+    ./src/server/channel/ServerConnectionListenerBuilder.h
 )
 
 set(modbus_src
     ./src/IModbusManager.cpp
+    ./src/Ipv4Endpoint.cpp
     ./src/ModbusManagerImpl.cpp
     ./src/TimerWrapper.cpp
+    ./src/TransactionIdentifier.cpp
+    ./src/UnitIdentifier.cpp
 
-    ./src/channel/AsioTcpConnection.cpp
-    ./src/channel/ChannelTcp.cpp
-    ./src/channel/Ipv4Endpoint.cpp
-    ./src/channel/MbapMessage.cpp
-    ./src/channel/MbapParser.cpp
-    ./src/channel/TransactionIdentifier.cpp
-    ./src/channel/UnitIdentifier.cpp
+    ./src/client/channel/AsioClientTcpConnection.cpp
+    ./src/client/channel/ClientChannelTcp.cpp
+
+    ./src/client/session/ClientSessionImpl.cpp
+    ./src/client/session/ScheduledRequest.hpp
 
     ./src/logging/LoggerFactory.cpp
 
     ./src/messages/ExceptionType.cpp
-    ./src/messages/IResponse.cpp
+    ./src/messages/ExceptionResponse.cpp
+    ./src/messages/IMessage.cpp
     ./src/messages/ReadBitsRequestImpl.cpp
     ./src/messages/ReadBitsResponseImpl.cpp
     ./src/messages/ReadRegistersRequestImpl.cpp
@@ -121,8 +140,17 @@ set(modbus_src
     ./src/messages/WriteSingleRegisterRequestImpl.cpp
     ./src/messages/WriteSingleRegisterResponseImpl.cpp
 
-    ./src/session/ScheduledRequest.hpp
-    ./src/session/SessionImpl.cpp
+    ./src/messages/mbap/MbapMessage.cpp
+    ./src/messages/mbap/MbapParser.cpp
+
+    ./src/server/channel/AsioServer.cpp
+    ./src/server/channel/AsioServerTcpConnection.cpp
+    ./src/server/channel/ServerChannelTcp.cpp
+    ./src/server/channel/ServerConnectionListener.cpp
+    ./src/server/channel/ServerConnectionListenerBuilder.cpp
+
+    ./src/server/db/InMemoryDatabase.cpp
+    ./src/server/db/SingleTypeDatabase.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${modbus_public_headers} ${modbus_private_headers} ${modbus_src})

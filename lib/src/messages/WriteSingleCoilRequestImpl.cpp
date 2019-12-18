@@ -16,6 +16,8 @@
 #include "messages/WriteSingleCoilRequestImpl.h"
 
 #include "ser4cpp/serialization/BigEndian.h"
+#include "modbus/exceptions/MalformedModbusRequestException.h"
+#include "modbus/exceptions/ModbusException.h"
 
 namespace modbus
 {
@@ -26,7 +28,7 @@ WriteSingleCoilRequestImpl::WriteSingleCoilRequestImpl(const WriteSingleCoilRequ
 
 }
 
-std::unique_ptr<IRequest> WriteSingleCoilRequestImpl::clone() const
+std::unique_ptr<IMessage> WriteSingleCoilRequestImpl::clone() const
 {
     return std::make_unique<WriteSingleCoilRequestImpl>(m_request);
 }
@@ -36,12 +38,12 @@ bool WriteSingleCoilRequestImpl::is_valid() const
     return true;
 }
 
-size_t WriteSingleCoilRequestImpl::get_request_length() const
+size_t WriteSingleCoilRequestImpl::get_message_length() const
 {
     return 5;
 }
 
-void WriteSingleCoilRequestImpl::build_request(ser4cpp::wseq_t& buffer) const
+void WriteSingleCoilRequestImpl::build_message(ser4cpp::wseq_t& buffer) const
 {
     ser4cpp::UInt8::write_to(buffer, 0x05); // Function code
     ser4cpp::UInt16::write_to(buffer, m_request.value.address); // Address
@@ -57,6 +59,53 @@ void WriteSingleCoilRequestImpl::build_request(ser4cpp::wseq_t& buffer) const
 const WriteSingleCoilRequest& WriteSingleCoilRequestImpl::get_request() const
 {
     return m_request;
+}
+
+Expected<WriteSingleCoilRequest> WriteSingleCoilRequestImpl::parse(const ser4cpp::rseq_t& data)
+{
+    auto view = data;
+
+    // Check length
+    if(view.length() != 5)
+    {
+        return Expected<WriteSingleCoilRequest>::from_exception(MalformedModbusRequestException{"Invalid request size."});
+    }
+
+    // Check function code and Modbus exceptions
+    uint8_t function_code;
+    ser4cpp::UInt8::read_from(view, function_code);
+    if(function_code != 0x05)
+    {
+        return Expected<WriteSingleCoilRequest>::from_exception(MalformedModbusRequestException{"Invalid function code size."});
+    }    
+
+    // Read address
+    uint16_t address;
+    ser4cpp::UInt16::read_from(view, address);
+
+    // Read value
+    uint16_t value;
+    ser4cpp::UInt16::read_from(view, value);
+
+    // Convert to boolean value
+    bool bool_value;
+    switch(value)
+    {
+        case WriteSingleCoilRequestImpl::ON:
+            bool_value = true;
+            break;
+
+        case WriteSingleCoilRequestImpl::OFF:
+            bool_value = false;
+            break;
+
+        default:
+            return Expected<WriteSingleCoilRequest>::from_exception(ModbusException{ExceptionType::IllegalDataValue});
+    }
+
+    // Return result
+    WriteSingleCoilRequest response{SingleBitValue{address, bool_value}};
+    return Expected<WriteSingleCoilRequest>(response);
 }
 
 } // namespace modbus

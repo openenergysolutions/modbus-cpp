@@ -15,8 +15,11 @@
  */
 #include "catch.hpp"
 
+#include <array>
 #include <memory>
 #include "ser4cpp/container/Buffer.h"
+#include "modbus/exceptions/MalformedModbusRequestException.h"
+#include "modbus/exceptions/ModbusException.h"
 #include "messages/WriteMultipleRegistersRequestImpl.h"
 
 using namespace modbus;
@@ -24,7 +27,7 @@ using namespace modbus;
 TEST_CASE("WriteMultipleRegistersRequestImpl")
 {
     const uint16_t starting_address = 0x1234;
-    WriteMultipleRegistersRequest request{starting_address};
+    WriteMultipleRegistersRequest request{starting_address, {}};
 
     SECTION("Normal request")
     {
@@ -36,17 +39,17 @@ TEST_CASE("WriteMultipleRegistersRequestImpl")
 
         SECTION("When get length, then return actual length.")
         {
-            auto length = request_impl.get_request_length();
+            auto length = request_impl.get_message_length();
 
             REQUIRE(length == 6 + 6);
         }
 
         SECTION("When build request, then write appropriate values to the buffer")
         {
-            ser4cpp::Buffer buffer{(uint32_t) request_impl.get_request_length()};
+            ser4cpp::Buffer buffer{(uint32_t) request_impl.get_message_length()};
             auto slice = buffer.as_wslice();
 
-            request_impl.build_request(slice);
+            request_impl.build_message(slice);
 
             REQUIRE(buffer.as_wslice()[0] == 0x10);  // Function code
             REQUIRE(buffer.as_wslice()[1] == 0x12);  // Starting address MSB
@@ -92,5 +95,129 @@ TEST_CASE("WriteMultipleRegistersRequestImpl")
         WriteMultipleRegistersRequestImpl large_request_impl{large_request};
 
         REQUIRE(large_request_impl.is_valid() == false);
+    }
+
+    SECTION("Parse")
+    {
+        SECTION("When proper request, then parse it properly") {
+            std::array<uint8_t, 10> proper_request{{
+                0x10,       // Function code
+                0x12, 0x34, // Starting address
+                0x00, 0x02, // Quantity of registers (2)
+                0x04,       // Byte count (4)
+                0x12, 0x34,
+                0x56, 0x78  // Register values
+            }};
+            ser4cpp::rseq_t buffer{proper_request.data(), static_cast<uint32_t>(proper_request.size())};
+
+            auto result = WriteMultipleRegistersRequestImpl::parse(buffer);
+
+            REQUIRE(result.is_valid() == true);
+
+            auto response = result.get();
+            REQUIRE(response.starting_address == 0x1234);
+
+            auto values = response.values;
+            REQUIRE(values.size() == 2);
+            REQUIRE(values[0] == 0x1234);
+            REQUIRE(values[1] == 0x5678);
+        }
+
+        SECTION("When mismatch between quantity of registers and byte count, then parse return Modbus exception 0x03") {
+            // Note: the spec is not really clear if the exception 0x03 should be thrown if the byte count
+            // **value** does not match the quantity of registers, or if it should be thrown when the actual number
+            // of bytes doesn't fit.
+
+            std::array<uint8_t, 10> mismatch_request{{
+                0x10,       // Function code
+                0x12, 0x34, // Starting address
+                0x00, 0x02, // Quantity of registers (2)
+                0x02,       // Byte count (2, should be 4)
+                0x42, 0x42,
+                0x42, 0x42  // Register values
+            }};
+            ser4cpp::rseq_t buffer{mismatch_request.data(), static_cast<uint32_t>(mismatch_request.size())};
+
+            auto result = WriteMultipleRegistersRequestImpl::parse(buffer);
+
+            REQUIRE(result.has_exception<ModbusException>() == true);
+            REQUIRE(result.get_exception<ModbusException>().get_exception_type() == ExceptionType::IllegalDataValue);
+        }
+
+        SECTION("When mismatch between byte count and actual byte count, then parse report exception") {
+            std::array<uint8_t, 11> mismatch_request{{
+                0x10,       // Function code
+                0x12, 0x34, // Starting address
+                0x00, 0x02, // Quantity of registers (2)
+                0x04,       // Byte count (4)
+                0x42, 0x42,
+                0x42, 0x42,
+                0x42         // Extra register values
+            }};
+            ser4cpp::rseq_t buffer{mismatch_request.data(), static_cast<uint32_t>(mismatch_request.size())};
+
+            auto result = WriteMultipleRegistersRequestImpl::parse(buffer);
+
+            REQUIRE(result.has_exception<MalformedModbusRequestException>() == true);
+        }
+
+        SECTION("When quantity of registers is 0, then parse return Modbus exception 0x03") {
+            std::array<uint8_t, 6> quantity_of_registers_0_request{{
+                0x10,       // Function code
+                0x12, 0x34, // Starting address
+                0x00, 0x00, // Invalid quantity of registers (0)
+                0x00,       // Byte count (0)
+            }};
+            ser4cpp::rseq_t buffer{quantity_of_registers_0_request.data(), static_cast<uint32_t>(quantity_of_registers_0_request.size())};
+
+            auto result = WriteMultipleRegistersRequestImpl::parse(buffer);
+
+            REQUIRE(result.has_exception<ModbusException>() == true);
+            REQUIRE(result.get_exception<ModbusException>().get_exception_type() == ExceptionType::IllegalDataValue);
+        }
+
+        SECTION("When invalid quantity of registers, then parse report exception") {
+            std::array<uint8_t, 254> quantity_of_registers_max_plus_one_request{{
+                0x10,       // Function code
+                0x12, 0x34, // Starting address
+                0x00, 0x7C, // Invalid quantity of registers (124)
+                0xF8,       // Byte count (248)
+            }};
+            ser4cpp::rseq_t buffer{quantity_of_registers_max_plus_one_request.data(), static_cast<uint32_t>(quantity_of_registers_max_plus_one_request.size())};
+
+            auto result = WriteMultipleRegistersRequestImpl::parse(buffer);
+
+            REQUIRE(result.has_exception<ModbusException>() == true);
+            REQUIRE(result.get_exception<ModbusException>().get_exception_type() == ExceptionType::IllegalDataValue);
+        }
+
+        SECTION("When invalid function code, then parse report exception") {
+            std::array<uint8_t, 10> invalid_function_code_request{{
+                0x42,       // Function code
+                0x12, 0x34, // Starting address
+                0x00, 0x02, // Quantity of registers (12)
+                0x04,       // Byte count (4)
+                0x42, 0x42,
+                0x42, 0x42  // Register values
+            }};
+            ser4cpp::rseq_t buffer{invalid_function_code_request.data(), static_cast<uint32_t>(invalid_function_code_request.size())};
+
+            auto result = WriteMultipleRegistersRequestImpl::parse(buffer);
+
+            REQUIRE(result.has_exception<MalformedModbusRequestException>() == true);
+        }
+
+        SECTION("When request is too short, then parse report exception") {
+            std::array<uint8_t, 5> too_short_request{{
+                0x10,       // Function code
+                0x12, 0x34, // Starting address
+                0x00, 0x02, // Quantity of registers (2)
+            }};
+            ser4cpp::rseq_t buffer{too_short_request.data(), static_cast<uint32_t>(too_short_request.size())};
+
+            auto result = WriteMultipleRegistersRequestImpl::parse(buffer);
+
+            REQUIRE(result.has_exception<MalformedModbusRequestException>() == true);
+        }
     }
 }

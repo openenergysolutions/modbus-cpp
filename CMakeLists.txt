@@ -18,21 +18,23 @@ if(${MODBUS_BUILD_TESTS})
 endif()
 
 # Cache variable to enable example
-set(MODBUS_BUILD_EXAMPLE ${is_root} CACHE BOOL "Build example")
+set(MODBUS_BUILD_EXAMPLES ${is_root} CACHE BOOL "Build examples")
 
 # Import dependencies
-
 include(./deps/asio.cmake)
-include(./deps/catch.cmake)
 include(./deps/ser4cpp.cmake)
 include(./deps/exe4cpp.cmake)
 include(./deps/spdlog.cmake)
+if(${MODBUS_BUILD_TESTS})
+    include(./deps/catch.cmake)
+    include(./deps/trompeloeil.cmake)
+endif()
 
 # Add projects
 add_subdirectory(./lib)
 
-if(${MODBUS_BUILD_EXAMPLE})
-    add_subdirectory(./example)
+if(${MODBUS_BUILD_EXAMPLES})
+    add_subdirectory(./examples)
 endif()
 
 # Custom target for documentation and license

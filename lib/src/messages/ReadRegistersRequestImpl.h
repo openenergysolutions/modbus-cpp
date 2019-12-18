@@ -18,24 +18,28 @@
 
 #include "modbus/messages/ReadHoldingRegistersRequest.h"
 #include "modbus/messages/ReadInputRegistersRequest.h"
-#include "messages/IRequest.h"
+#include "messages/IMessage.h"
 
 namespace modbus
 {
 
 template <uint8_t function_code, typename request_t>
-class ReadRegistersRequestImpl : public IRequest
+class ReadRegistersRequestImpl : public IMessage
 {
 public:
     explicit ReadRegistersRequestImpl(const request_t& request);
 
-    std::unique_ptr<IRequest> clone() const override;
+    std::unique_ptr<IMessage> clone() const override;
 
     bool is_valid() const override;
-    size_t get_request_length() const override;
-    void build_request(ser4cpp::wseq_t& buffer) const override;
+    size_t get_message_length() const override;
+    void build_message(ser4cpp::wseq_t& buffer) const override;
 
     const request_t& get_request() const;
+
+public:
+    constexpr static uint16_t max_registers = 125;
+    static Expected<request_t> parse(const ser4cpp::rseq_t& data);
 
 private:
     request_t m_request;
