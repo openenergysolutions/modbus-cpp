@@ -74,7 +74,7 @@ TEST_CASE("WriteMultpileRegistersResponseImpl")
     {
         const uint16_t starting_address = 0x1234;
         const uint16_t qty_of_registers = 3;
-        WriteMultipleRegistersRequest request{starting_address};
+        WriteMultipleRegistersRequest request{starting_address, {}};
         WriteMultipleRegistersRequestImpl request_impl{request};
 
         SECTION("When proper response, then parse it properly")

@@ -66,9 +66,9 @@ TEST_CASE("ReadCoilsResponseImpl")
         SECTION("When clone, then effectively creates a copy of the request")
         {
             auto copy = response_impl.clone();
-            auto other_request = static_cast<ReadCoilsRequestImpl*>(copy.get());
+            auto other_response = static_cast<ReadCoilsResponseImpl*>(copy.get());
 
-            REQUIRE(&response_impl != copy.get());
+            REQUIRE(&response_impl != other_response);
         }
     }
 

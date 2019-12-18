@@ -45,6 +45,6 @@ TEST_CASE("ExceptionResponse")
         auto copy = response.clone();
         auto other_response = static_cast<ExceptionResponse*>(copy.get());
 
-        REQUIRE(&response != copy.get());
+        REQUIRE(&response != other_response);
     }
 }

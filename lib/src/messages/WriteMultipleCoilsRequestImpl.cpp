@@ -54,7 +54,7 @@ void WriteMultipleCoilsRequestImpl::build_message(ser4cpp::wseq_t& buffer) const
     ser4cpp::UInt8::write_to(buffer, static_cast<uint8_t>(num_bytes)); // Byte count
 
     // Coil values
-    auto current_bit = 0;
+    unsigned int current_bit = 0;
     for(unsigned int i = 0; i < num_bytes; ++i)
     {
         uint8_t value = 0x00;

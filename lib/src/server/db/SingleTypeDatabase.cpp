@@ -115,7 +115,7 @@ bool SingleTypeDatabase<T>::is_valid_range(Address starting_address, size_t coun
 
     // Check that the range does not contain any hole
     Address current_address = starting_address;
-    while((current_address - starting_address + 1) < count && it != m_values.end())
+    while(static_cast<size_t>(current_address - starting_address + 1) < count && it != m_values.end())
     {
         if(it->first != current_address + 1)
         {
@@ -127,7 +127,7 @@ bool SingleTypeDatabase<T>::is_valid_range(Address starting_address, size_t coun
     }
 
     // Check that we have found the required number of values
-    return (current_address - starting_address + 1) == count;
+    return static_cast<size_t>(current_address - starting_address + 1) == count;
 }
 
 template class SingleTypeDatabase<bool>;

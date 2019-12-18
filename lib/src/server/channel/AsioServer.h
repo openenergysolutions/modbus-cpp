@@ -51,11 +51,11 @@ private:
     std::shared_ptr<Logger> m_logger;
     std::shared_ptr<exe4cpp::StrandExecutor> m_executor;
     unsigned int m_max_connections;
-    bool m_is_shutdown;
     asio::ip::tcp::acceptor m_tcp_acceptor;
+    bool m_is_shutdown;
+    unsigned int m_num_connections;
     std::shared_ptr<IServerConnectionListenerBuilder> m_connection_listener_builder;
     std::list<std::shared_ptr<AsioServerTcpConnection>> m_connections;
-    unsigned int m_num_connections;
 };
 
 } // namespace modbus

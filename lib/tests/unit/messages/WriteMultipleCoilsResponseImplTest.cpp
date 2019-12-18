@@ -74,7 +74,7 @@ TEST_CASE("WriteMultpileCoilsResponseImpl")
     {
         const uint16_t starting_address = 0x1234;
         const uint16_t qty_of_coils = 3;
-        WriteMultipleCoilsRequest request{starting_address};
+        WriteMultipleCoilsRequest request{starting_address, {}};
         WriteMultipleCoilsRequestImpl request_impl{request};
 
         SECTION("When proper response, then parse it properly")

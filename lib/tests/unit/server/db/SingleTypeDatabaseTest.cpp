@@ -95,6 +95,7 @@ TEST_CASE("SingleTypeDatabase")
         uint16_t get_value;
         auto get_result = database.get_value(address, get_value);
         REQUIRE(set_result == true);
+        REQUIRE(get_result == true);
         REQUIRE(get_value == other_value);
 
         auto other_set_result = database.set_value(other_address, 0x4242);

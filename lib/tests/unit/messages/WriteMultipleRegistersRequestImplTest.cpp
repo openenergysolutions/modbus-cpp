@@ -27,7 +27,7 @@ using namespace modbus;
 TEST_CASE("WriteMultipleRegistersRequestImpl")
 {
     const uint16_t starting_address = 0x1234;
-    WriteMultipleRegistersRequest request{starting_address};
+    WriteMultipleRegistersRequest request{starting_address, {}};
 
     SECTION("Normal request")
     {

@@ -1,85 +1,57 @@
-version: 2
+version: 2.1
+commands:
+  build_linux:
+    description: Build on Linux
+    parameters:
+      compiler:
+        description: The compiler to use
+        type: enum
+        enum: ["gcc", "clang"]
+      build_type:
+        description: Build type
+        type: enum
+        enum: ["Debug", "Release"]
+        default: Release
+    steps:
+      - run:
+          name: Install system dependencies
+          command: >
+            apt-get update && apt-get install -y build-essential git cmake &&
+            if [ "<< parameters.compiler >>" = "clang" ]; then apt-get install -y clang && echo "export CC=/usr/bin/clang" >> $BASH_ENV && echo "export CXX=/usr/bin/clang++" >> $BASH_ENV; fi
+      - checkout
+      - run:
+          name: CMake configure
+          working_directory: build
+          command: >
+            flags="-Wall -Wextra -Wno-unused-parameter" &&
+            cmake
+            -DCMAKE_BUILD_TYPE=<< parameters.build_type >>
+            -DCMAKE_C_FLAGS="${flags}"
+            -DCMAKE_CXX_FLAGS="${flags}"
+            ..
+      - run:
+          name: CMake build
+          working_directory: build
+          command: cmake --build . --parallel 2
+      - run:
+          name: CTest
+          working_directory: build
+          command: ctest -VV
 jobs:
-  build-gcc-debug:
+  build-gcc:
     docker:
-      - image: emgre/circleci-gcc:0.0.1
+      - image: debian:buster
     steps:
-      - checkout
-      - run:
-          name: Initialize submodules
-          command: git submodule update --init
-      - run:
-          name: Configure
-          command: cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_FLAGS="-Wall" -DCMAKE_CXX_FLAGS="-Wall" ..
-          working_directory: build
-      - run:
-          name: Build
-          command: cmake --build . -- -j2
-          working_directory: build
-      - run:
-          name: Test
-          command: ctest -VV .
-          working_directory: build
-  build-gcc-release:
+      - build_linux:
+          compiler: gcc
+          build_type: Release
+  build-clang:
     docker:
-      - image: emgre/circleci-gcc:0.0.1
+      - image: debian:buster
     steps:
-      - checkout
-      - run:
-          name: Initialize submodules
-          command: git submodule update --init
-      - run:
-          name: Configure
-          command: cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS="-Wall" -DCMAKE_CXX_FLAGS="-Wall" ..
-          working_directory: build
-      - run:
-          name: Build
-          command: cmake --build . -- -j2
-          working_directory: build
-      - run:
-          name: Test
-          command: ctest -VV .
-          working_directory: build
-  build-clang-debug:
-    docker:
-      - image: emgre/circleci-clang:0.0.1
-    steps:
-      - checkout
-      - run:
-          name: Initialize submodules
-          command: git submodule update --init
-      - run:
-          name: Configure
-          command: cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_FLAGS="-Wall" -DCMAKE_CXX_FLAGS="-Wall" ..
-          working_directory: build
-      - run:
-          name: Build
-          command: cmake --build . -- -j2
-          working_directory: build
-      - run:
-          name: Test
-          command: ctest -VV .
-          working_directory: build
-  build-clang-release:
-    docker:
-      - image: emgre/circleci-clang:0.0.1
-    steps:
-      - checkout
-      - run:
-          name: Initialize submodules
-          command: git submodule update --init
-      - run:
-          name: Configure
-          command: cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS="-Wall" -DCMAKE_CXX_FLAGS="-Wall" ..
-          working_directory: build
-      - run:
-          name: Build
-          command: cmake --build . -- -j2
-          working_directory: build
-      - run:
-          name: Test
-          command: ctest -VV .
-          working_directory: build
+      - build_linux:
+          compiler: clang
+          build_type: Release
   build-doc:
       docker:
         - image: emgre/circleci-doxygen:0.0.2
@@ -105,16 +77,12 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - build-gcc-debug
-      - build-gcc-release
-      - build-clang-debug
-      - build-clang-release
+      - build-gcc
+      - build-clang
       - build-doc:
           requires:
-            - build-gcc-debug
-            - build-gcc-release
-            - build-clang-debug
-            - build-clang-release
+            - build-gcc
+            - build-clang
           filters:
             branches:
               only: master

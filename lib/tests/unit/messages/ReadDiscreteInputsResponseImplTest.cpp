@@ -65,9 +65,9 @@ TEST_CASE("ReadDiscreteInputsResponseImpl")
         SECTION("When clone, then effectively creates a copy of the request")
         {
             auto copy = response_impl.clone();
-            auto other_request = static_cast<ReadDiscreteInputsRequestImpl*>(copy.get());
+            auto other_request = static_cast<ReadDiscreteInputsResponseImpl*>(copy.get());
 
-            REQUIRE(&response_impl != copy.get());
+            REQUIRE(&response_impl != other_request);
         }
     }
 
