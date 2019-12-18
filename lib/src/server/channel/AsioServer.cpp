@@ -95,7 +95,7 @@ void AsioServer::handle_accept(std::shared_ptr<AsioServerTcpConnection> connecti
         remove_connection(m_connections.front());
     }
 
-    connection->set_listener(std::shared_ptr<IConnectionListener>(std::move(m_connection_listener_builder->build(connection))));
+    connection->set_listener(std::shared_ptr<IConnectionListener>(m_connection_listener_builder->build(connection)));
     connection->start();
 
     // Loop to continue accepting connections

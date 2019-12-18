@@ -54,7 +54,7 @@ jobs:
           build_type: Release
   build-doc:
       docker:
-        - image: emgre/circleci-doxygen:0.0.2
+        - image: emgre/circleci-doxygen:0.0.3
       steps:
         - add_ssh_keys:
             fingerprints:
