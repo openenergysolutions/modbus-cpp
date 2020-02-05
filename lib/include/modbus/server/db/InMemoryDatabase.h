@@ -101,14 +101,14 @@ public:
 
 protected:
     // IServerSession
-    Expected<ReadCoilsResponse> on_request(const ReadCoilsRequest& request) override;
-    Expected<ReadDiscreteInputsResponse> on_request(const ReadDiscreteInputsRequest& request) override;
-    Expected<ReadHoldingRegistersResponse> on_request(const ReadHoldingRegistersRequest& request) override;
-    Expected<ReadInputRegistersResponse> on_request(const ReadInputRegistersRequest& request) override;
-    Expected<WriteSingleCoilResponse> on_request(const WriteSingleCoilRequest& request) override;
-    Expected<WriteSingleRegisterResponse> on_request(const WriteSingleRegisterRequest& request) override;
-    Expected<WriteMultipleCoilsResponse> on_request(const WriteMultipleCoilsRequest& request) override;
-    Expected<WriteMultipleRegistersResponse> on_request(const WriteMultipleRegistersRequest& request) override;
+    virtual Expected<ReadCoilsResponse> on_request(const ReadCoilsRequest& request) override;
+    virtual Expected<ReadDiscreteInputsResponse> on_request(const ReadDiscreteInputsRequest& request) override;
+    virtual Expected<ReadHoldingRegistersResponse> on_request(const ReadHoldingRegistersRequest& request) override;
+    virtual Expected<ReadInputRegistersResponse> on_request(const ReadInputRegistersRequest& request) override;
+    virtual Expected<WriteSingleCoilResponse> on_request(const WriteSingleCoilRequest& request) override;
+    virtual Expected<WriteSingleRegisterResponse> on_request(const WriteSingleRegisterRequest& request) override;
+    virtual Expected<WriteMultipleCoilsResponse> on_request(const WriteMultipleCoilsRequest& request) override;
+    virtual Expected<WriteMultipleRegistersResponse> on_request(const WriteMultipleRegistersRequest& request) override;
 
     // IDatabase
     bool get_coil(Address address, bool& output) const override;
@@ -123,7 +123,6 @@ protected:
     bool get_input_register(Address address, uint16_t& output) const override;
     bool set_input_register(Address address, uint16_t value) override;
 
-private:
     std::mutex m_mutex;
     BitDatabase m_coil_db;
     BitDatabase m_discrete_input_db;
