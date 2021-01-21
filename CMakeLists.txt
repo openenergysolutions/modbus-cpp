@@ -20,6 +20,8 @@ endif()
 # Cache variable to enable example
 set(MODBUS_BUILD_EXAMPLES ${is_root} CACHE BOOL "Build examples")
 
+set(MODBUS_VENDORED_DEPS false CACHE BOOL "Use CMake's FetchContent to fetch, build, and vendor deps")
+
 # Import dependencies
 include(./deps/asio.cmake)
 include(./deps/ser4cpp.cmake)
