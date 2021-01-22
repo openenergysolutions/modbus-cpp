@@ -15,16 +15,16 @@ if(MODBUS_VENDORED_DEPS)
 
         add_library(trompeloeil INTERFACE IMPORTED GLOBAL)
     endif()
+    set_property(
+        TARGET trompeloeil
+        PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR}/trompeloeil-src
+        )
+    set_property(
+        TARGET trompeloeil
+        PROPERTY INTERFACE_COMPILE_FEATURES cxx_std_14
+        )
 else()
     find_package(trompeloeil REQUIRED)
 endif()
 
-set_property(
-    TARGET trompeloeil
-    PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR}/trompeloeil-src
-    )
-set_property(
-    TARGET trompeloeil
-    PROPERTY INTERFACE_COMPILE_FEATURES cxx_std_14
-    )
 
