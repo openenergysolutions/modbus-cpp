@@ -13,7 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "catch.hpp"
+#include <catch2/catch.hpp>
+#include <catch2/trompeloeil.hpp>
 
 #include <memory>
 #include "exe4cpp/MockExecutor.h"

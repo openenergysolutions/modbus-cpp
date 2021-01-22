@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "catch.hpp"
+#include <catch2/catch.hpp>
 
 #include <array>
 #include "ser4cpp/container/Buffer.h"
