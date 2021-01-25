@@ -157,11 +157,46 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${modbus_public_headers} ${m
 
 add_library(modbus-cpp ${modbus_public_headers} ${modbus_private_headers} ${modbus_src})
 target_compile_features(modbus-cpp PRIVATE cxx_std_14)
-target_link_libraries(modbus-cpp PRIVATE asio spdlog exe4cpp ser4cpp)
-target_include_directories(modbus-cpp
-    PUBLIC ./include
-    PRIVATE ./src
+target_link_libraries(modbus-cpp PRIVATE 
+    $<BUILD_INTERFACE:asio>
+    $<BUILD_INTERFACE:spdlog>
+    $<BUILD_INTERFACE:exe4cpp>
+    $<BUILD_INTERFACE:ser4cpp>
 )
+target_include_directories(modbus-cpp
+    PUBLIC 
+        $<INSTALL_INTERFACE:include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+    "${PROJECT_BINARY_DIR}/modbuscppConfigVersion.cmake"
+    VERSION 3.1.0
+    COMPATIBILITY AnyNewerVersion
+)
+configure_package_config_file(
+    "${PROJECT_SOURCE_DIR}/cmake/modbuscppConfig.cmake.in"
+    "${PROJECT_BINARY_DIR}/modbuscppConfig.cmake"
+    INSTALL_DESTINATION lib/cmake/modbuscpp
+)
+install(TARGETS modbus-cpp
+    EXPORT modbuscpp-export
+    RUNTIME DESTINATION bin
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+)
+install(EXPORT modbuscpp-export
+    NAMESPACE modbuscpp::
+    DESTINATION lib/cmake/modbuscpp
+)
+install(FILES "${PROJECT_BINARY_DIR}/modbuscppConfigVersion.cmake"
+              "${PROJECT_BINARY_DIR}/modbuscppConfig.cmake"
+        DESTINATION lib/cmake/modbuscpp)
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/
+    DESTINATION include
+)
+
 
 if(${MODBUS_BUILD_TESTS})
     add_subdirectory(./tests)
