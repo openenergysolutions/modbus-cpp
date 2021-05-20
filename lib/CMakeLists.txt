@@ -159,7 +159,7 @@ add_library(modbus-cpp ${modbus_public_headers} ${modbus_private_headers} ${modb
 target_compile_features(modbus-cpp PRIVATE cxx_std_14)
 target_link_libraries(modbus-cpp PRIVATE 
     $<BUILD_INTERFACE:asio>
-    $<BUILD_INTERFACE:spdlog>
+    $<BUILD_INTERFACE:spdlog::spdlog>
     $<BUILD_INTERFACE:exe4cpp>
     $<BUILD_INTERFACE:ser4cpp>
 )
