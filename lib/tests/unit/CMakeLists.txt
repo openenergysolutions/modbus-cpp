@@ -73,7 +73,7 @@ set(modbus_tests_src
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${modbus_tests_headers} ${modbus_tests_src})
 
 add_executable(modbus_tests ${modbus_tests_headers} ${modbus_tests_src})
-target_link_libraries(modbus_tests PRIVATE modbus-cpp Catch2::Catch2 trompeloeil spdlog exe4cpp ser4cpp asio)
+target_link_libraries(modbus_tests PRIVATE modbus-cpp Catch2::Catch2 trompeloeil spdlog::spdlog exe4cpp ser4cpp asio)
 
 target_include_directories(modbus_tests
     PRIVATE ./ ../../src

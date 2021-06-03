@@ -13,7 +13,7 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${modbus_perf_tests_src})
 
 add_executable(modbus_perf_tests ${modbus_perf_tests_src})
 target_link_libraries(modbus_perf_tests
-    PRIVATE modbus-cpp spdlog
+    PRIVATE modbus-cpp spdlog::spdlog
 )
 target_include_directories(modbus_perf_tests
     PRIVATE ./
