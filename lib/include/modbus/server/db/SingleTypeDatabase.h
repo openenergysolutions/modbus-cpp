@@ -20,6 +20,7 @@
  * @brief Class @ref modbus::SingleTypeDatabase
  */
 
+#include <cstddef>
 #include <map>
 #include <vector>
 #include "modbus/messages/Address.h"
