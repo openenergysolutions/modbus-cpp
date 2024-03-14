@@ -21,6 +21,7 @@
  */
 
 #include <ostream>
+#include <cstdint>
 
 namespace modbus
 {
